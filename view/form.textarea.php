@@ -1,4 +1,4 @@
-<fieldset class="field <?= $type ?><? if ($classes): ?> <?= implode(' ', $classes) ?>"<? endif ?>">
+<fieldset class="field <?= $type ?><? if ($classes): ?> <?= implode(' ', $classes) ?><? endif ?>">
 <? if ($label): ?>
 <label for="<?= $id ?>">
 	<?= $label ?>
