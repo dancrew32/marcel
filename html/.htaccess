@@ -1,8 +1,6 @@
 RewriteEngine On 
 RewriteBase /
 
-RewriteRule ^dad$ dad.php [NC]
-
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !.(ico,css,js,jpg,png,gif)$
 RewriteCond %{REQUEST_FILENAME} !-d
