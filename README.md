@@ -5,7 +5,8 @@
 
 ## Requirements
 * PHP 5.4
-* MySQL
+* MySQL 5.5
+* Apache 2.2
 
 ## Install
 Clone and run the db init wizard:
@@ -14,6 +15,23 @@ Clone and run the db init wizard:
 git clone git@github.com:dancrew32/marcel.git site
 cd site
 php script/db_init.php
+```
+
+## VirtualHost Setup
+```htaccess
+<VirtualHost *:80>
+	ServerName site.com
+	DocumentRoot /var/www/site/html
+</VirtualHost>
+
+# SSL Version
+<VirtualHost *:443>
+	ServerName site.com
+	DocumentRoot /var/www/site/html
+	SSLEngine on
+	SSLCertificateFile /path/to/your.crt
+	SSLCertificateKeyFile /path/to/your.key
+</VirtualHost>
 ```
 
 ## Generate
