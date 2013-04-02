@@ -1,5 +1,6 @@
 # Marcel
-*The PHP 5.4 MVC with shoes on*
+*The MVC with Shoes On*
+![Marcel](http://i.danmasq.com/marcel.jpg)
 
 ## Requirements
 * PHP 5.4
