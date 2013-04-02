@@ -52,7 +52,7 @@ class Thing extends ActiveRecord\Model {
 
 # Create
 $t = new Thing;
-$t->stuff = "stuff";
+$t->stuff = "raisin";
 $t->save();
 
 # Read
