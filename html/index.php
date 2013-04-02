@@ -30,23 +30,23 @@ define('CLI', PHP_SAPI == 'cli');
 
 # Class
 define('CLASS_DIR', ROOT_DIR.'/class');
-define('CONTROLLER_DIR',  ROOT_DIR.'/controller');
-define('MODEL_DIR',  ROOT_DIR.'/model');
+define('CONTROLLER_DIR', ROOT_DIR.'/controller');
+define('MODEL_DIR', ROOT_DIR.'/model');
 
 # View
-define('VIEW_DIR',  ROOT_DIR.'/view');
-define('PARTIAL_DIR',  VIEW_DIR.'/partial');
-define('LAYOUT_DIR',  VIEW_DIR.'/layout');
+define('VIEW_DIR', ROOT_DIR.'/view');
+define('PARTIAL_DIR', VIEW_DIR.'/partial');
+define('LAYOUT_DIR', VIEW_DIR.'/layout');
 
 # Vendor
-define('VENDOR_DIR',  ROOT_DIR.'/vendor');
+define('VENDOR_DIR', ROOT_DIR.'/vendor');
 
 # Script
-define('SCRIPT_DIR',  ROOT_DIR.'/script');
+define('SCRIPT_DIR', ROOT_DIR.'/script');
 
 # Assets (Absolute)
 define('HTML_DIR', ROOT_DIR.'/html');
-define('IMAGE_DIR',   HTML_DIR.'/i');
+define('IMAGE_DIR', HTML_DIR.'/i');
 
 # Assets (Relative)
 define('CSS_DIR', '/css');

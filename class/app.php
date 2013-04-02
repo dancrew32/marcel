@@ -119,7 +119,6 @@ class app {
 			if ($is_ajax) {
 				echo $out;
 			} else {
-				Log::hit($matches[0]);
 				echo self::layout($o, $out);
 			}
 			break;

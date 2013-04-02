@@ -9,6 +9,9 @@ class controller_common extends controller_base {
 		$this->memcache_stats = cache::mc()->getStats();
 	}
 
+	function index() {
+	}
+
 	function not_found() {
 		$code   = 404;
 		$status = 'Not Found';
