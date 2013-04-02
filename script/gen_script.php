@@ -19,9 +19,9 @@ $data = gets("Enter Info:");
 
 $boilerplate .="
 if (\$ok)
-	green(\"OK\");
+	green(\"OK\\n\");
 else
-	red(\"FAIL\");
+	red(\"FAIL\\n\");
 ";
 
 $use_date = gets("Date? [y/N]");

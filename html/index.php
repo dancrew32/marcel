@@ -8,16 +8,17 @@ if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', realpath(dirname(dirname(__FILE__))));
 
 # App
+define('APP_NAME', 'Marcel');
 define('ENV', 'DEV');
 define('SALT', '<your salt>');
 define('SESSION_NAME', '<your session name>');
 
 # DB
-define('DB_USER', '<your user>');
-define('DB_PASS', '<your password>');
+define('DB_USER', '<user>');
+define('DB_PASS', '<pass>');
 define('DB_HOST', 'localhost');
-define('DB_DB', '<your db>');
-
+define('DB_DB', '<dbname>');
+define('SCHEMA_DIR', ROOT_DIR.'/schema');
 
 # System
 define('DEBUG', true);

@@ -1,4 +1,4 @@
-CREATE TABLE `sessions` (
+CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(255) NOT NULL,
   `data` mediumtext NOT NULL,
   `timestamp` int(255) NOT NULL,

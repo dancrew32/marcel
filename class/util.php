@@ -11,10 +11,16 @@ class util {
 		return move_uploaded_file($file['tmp_name'], $path);
 	}
 
-	static function explode_pop($arr, $split='/') {
-		$a = explode($split, $arr);
-		return end($a);
+	public static function explode_pop($delimiter, $str) {
+		$delimiter = '/.*'. preg_quote($delimiter, '/') .'/';
+		return preg_replace($delimiter, '', $str);
 	}
+
+	public static function explode_shift($delimiter, $str) {
+		$delimiter = "/". preg_quote($delimiter, '/') .".*/";
+		return preg_replace($delimiter, '', $str);
+	}
+
 
 	# recursive glob
 	static function rglob($pattern='*', $flags = 0, $path='') {
