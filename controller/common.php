@@ -6,7 +6,7 @@ class controller_common extends controller_base {
 		$this->memory = round(memory_get_usage(false) / 1000);
 		$this->unit = "Kb";
 		$this->runtime = (round(microtime(true) - START_TIME, 4)).'s';
-		$this->memcache_stats = Cache::mc()->getStats();
+		$this->memcache_stats = cache::mc()->getStats();
 	}
 
 	function not_found() {

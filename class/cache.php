@@ -1,5 +1,5 @@
 <?
-class Cache {
+class cache {
 
 	/*
 	 * MEMCACHED

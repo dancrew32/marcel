@@ -34,7 +34,7 @@ php script/db_init.php
 </VirtualHost>
 ```
 
-## Generate
+## Generator Scripts
 ```bash
 # Controller
 php script/gen_controller.php
@@ -165,3 +165,21 @@ app::$routes = [
 ];
 ```
 Layout rendering is automatically skipped by AJAX requests.
+
+## Interactive Prompt with PHPSH
+Using [PHPSH](https://github.com/facebook/phpsh), 
+you may interactively run the framework.
+Install PHPSH:
+```bash
+cd ~
+git@github.com:facebook/phpsh.git
+cd phpsh
+python setup.py build
+sudo python setup.py install
+```
+
+Then from the site root directory (`ROOT_DIR`) run:
+
+```bash
+phpsh script/inc.php
+```

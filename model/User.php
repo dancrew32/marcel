@@ -15,10 +15,10 @@ class User extends ActiveRecord\Model {
 		if (!self::$in) return false;
 		$id = (int) take($_SESSION, 'id');
 		$cache = "user:init:{$id}";
-		self::$user = Cache::get($cache, $found, true);
+		self::$user = cache::get($cache, $found, true);
 		if (!$found) {
 			self::$user = User::find($id);
-			Cache::set($cache, self::$user, time::ONE_HOUR, true);
+			cache::set($cache, self::$user, time::ONE_HOUR, true);
 		}
 	}
 
