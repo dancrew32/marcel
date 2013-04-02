@@ -67,20 +67,41 @@ $b->save();
 $b->delete();
 ```
 
+## Routes
+In `routes.php`, we send url `$_SERVER['REQUEST_URI']` matches to controllers and views.
+You may capture paramters using regular expressions.
+```php
+app::$routes = [
+
+	# Site base url leads to controller_yours::foo
+	'/' => ['c' => 'yours', 'm' => 'foo'],
+
+	# Capture page id, name capture "id" with (?P<capturename>regexp) syntax
+	'/page/(?P<id>[0-9]+)' => ['c' => 'yours', 'm' => 'test'],
+
+];
+```
+
 ## Controllers
 Simple business logic only please. This would be `controller/yours.php`
 `foo()` would pass variables to `view/yours.foo.php`
 `bar()` would pass variables to `view/yours.bar.php`
+`$o` contains parameters passed in the 3rd argument of `r()`
 ```php
 <?
 class controller_yours extends controller_base {
-	function foo() {
+	function foo($o) {
 		$not_in_view = "I'm not available to the view";	
 		$this->in_view = "I'm available to the view";
 	}
 
-	function bar() {
+	function bar($o) {
 		$this->other_stuff = "Stuff";	
+	}
+
+	function test($o) {
+		# Obtain captured page "id" from Routes example
+		$page_id = take($o['m'], 'id', 1);	
 	}
 }
 ```
