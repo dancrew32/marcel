@@ -1,5 +1,6 @@
 # Marcel
-*The MVC with Shoes On*
+**The MVC with Shoes On**
+
 ![Marcel](http://i.danmasq.com/marcel.jpg)
 
 ## Requirements
