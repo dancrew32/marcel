@@ -71,6 +71,7 @@ $b->delete();
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` matches to controllers and views.
 You may capture paramters using regular expressions.
 ```php
+<?
 app::$routes = [
 
 	# Site base url leads to controller_yours::foo
@@ -122,3 +123,16 @@ You can subrender `bar` in `foo` using `r(controller, view)`
 </div>
 ```
 
+## Layouts
+`views/layouts/a.php` is the default layout. 
+If you want to use an alternative, request the layout name in `routes.php`:
+```php
+<?
+app::$routes = [
+
+	# Uses views/layouts/mylayout.php
+	'/section' => ['c' => 'foo', 'm' => 'bar', 'l' => 'mylayout' ],
+
+];
+```
+Layout rendering is automatically skipped by AJAX requests.
