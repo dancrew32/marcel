@@ -125,6 +125,15 @@ You can subrender `bar` in `foo` using `r(controller, view)`
 </div>
 ```
 
+## Assets
+Assets are loaded per view and in order (duplicates ignored).
+Here's an example view (`view/foo.bar.php`) with its own JavaScript in `html/js/foo.bar.js` and CSS in `html/css/foo.bar.css`
+```php
+<? app::asset('foo.bar', 'css') ?>
+<? app::asset('foo.bar', 'js') ?>
+<div>...</div>
+```
+
 ## Layouts
 `views/layouts/a.php` is the default layout. 
 If you want to use an alternative, request the layout name in `routes.php`:
