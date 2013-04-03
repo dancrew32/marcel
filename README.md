@@ -206,6 +206,7 @@ if (!$found) {
 	cache::set('cachekey', $data, time::ONE_DAY);
 }
 echo $data;
+```
 
 ## Form Fields
 In `controller/form.php`, there are a few form methods available to make
