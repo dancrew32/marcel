@@ -206,3 +206,73 @@ if (!$found) {
 	cache::set('cachekey', $data, time::ONE_DAY);
 }
 echo $data;
+
+## Form Fields
+In `controller/form.php`, there are a few form methods available to make
+creating forms less of a hassle. `input`, `textarea`, `select` and `submit`.
+
+Here's an example:
+```php
+<form action="#" method="post">
+	<?= r('form', 'input', [
+		'name'  => 'name',
+		'type'  => 'text',
+		'label' => 'Your Name',
+	]) ?>
+	<?= r('form', 'textarea', [
+		'name'  => 'message',
+		'label' => 'Your Message',
+	]) ?>
+	<?= r('form', 'select', [
+		'name'    => 'service',
+		'label'   => 'Service Requested',
+		'value'   => 'help', # selected
+		'options' => [
+			'help'  => "Help Me!",
+			'call'  => "Call Me!",
+			'email' => "Email Me!",
+		],
+	]) ?>
+	<?= r('form', 'submit', [
+		'text' => 'Send',
+	]) ?>
+</form>
+```
+
+Generates:
+```html
+<form action="#" method="post">
+	<fieldset class="field text">
+		<label for="name">
+			Say Hello
+		</label>
+		<input type="text"
+			id="name"
+			name="name">
+	</fieldset>
+	<fieldset class="field textarea">
+		<label for="message">
+			Your Message
+		</label>
+		<textarea name="message"
+			id="message"></textarea>
+	</fieldset>
+	<fieldset class="field select">
+		<label for="service">
+			Service Requested	
+		</label>
+		<select name="service"
+			id="service">
+			<option value="help" selected>Help Me!</option>
+			<option value="call">Call Me!</option>
+			<option value="email">Email Me!</option>
+		</select>
+	</fieldset>
+	<fieldset class="field submit">
+		<button type="submit">
+			Send
+		</button>
+	</fieldset>
+</form>
+```
+
