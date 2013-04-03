@@ -277,3 +277,8 @@ Generates:
 </form>
 ```
 
+## Helpers, Utils and more
+In `class/helper.php`, `class/util.php`, `class/size.php`, and `class/time.php`
+you'll find many convenient methods to use from everything to obtaining
+time in seconds, human readable byte sizes, string manipulation, debuggers and 
+other shortcuts to use in this system.
