@@ -183,3 +183,16 @@ Then from the site root directory (`ROOT_DIR`) run:
 ```bash
 phpsh script/inc.php
 ```
+
+## Cookies (and Notes)
+Standard API for cookie CRUD and `note` is available for one-time use.
+```php
+# Cookies
+cookie::set('shoes', 'on', time::ONE_YEAR);
+echo cookie::get('shoes'); # "on"
+
+# Notes
+note::set('success_message', 'Message Sent');
+echo note::get('success_message'); # "Message Sent"
+echo note::get('success_message'); # ""
+```
