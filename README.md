@@ -196,3 +196,13 @@ note::set('success_message', 'Message Sent');
 echo note::get('success_message'); # "Message Sent"
 echo note::get('success_message'); # ""
 ```
+
+## Cache
+Designed to use Memcached on `11211`. Here's a typical get-if-set pattern:
+```php
+$data = cache::get('cachekey', $found);
+if (!$found) {
+	$data = getData(); # arbitrary method
+	cache::set('cachekey', $data, time::ONE_DAY);
+}
+echo $data;
