@@ -8,6 +8,17 @@
 * MySQL 5.5
 * Apache 2.2
 
+### I only have PHP 5.3
+C'mon! Upgrading is easy:
+```bash
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:ondrej/php5
+sudo apt-get update
+sudo apt-get upgrade
+# To update APC (if you use that instead of x-cache)
+# sudo pecl install apc
+```
+
 ## Install
 Clone and run the db init wizard:
 
@@ -282,3 +293,30 @@ In `class/helper.php`, `class/util.php`, `class/size.php`, and `class/time.php`
 you'll find many convenient methods to use from everything to obtaining
 time in seconds, human readable byte sizes, string manipulation, debuggers and 
 other shortcuts to use in this system.
+
+## Profiling with XHProf
+**TODO**: create the interface for running tests
+```bash
+wget https://github.com/facebook/xhprof/archive/master.zip
+unzip master.zip
+cd xhprof-master/extension/
+phpize
+./configure
+make
+sudo make install
+# update xhprof.ini
+# extension=xhprof.so
+# xhprof.output_dir="/home/<you>/www/xhprof"</you>
+```
+
+## XDebug
+```bash
+wget http://xdebug.org/files/xdebug-2.2.1.tgz
+tar -xvzf xdebug-2.2.1.tgz
+cd xdebug-2.2.1
+phpize
+./configure
+make
+sudo cp modules/xdebug.so /usr/lib/php5/20100525
+# zend_extension = /usr/lib/php5/20100525/xdebug.so
+```
