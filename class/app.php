@@ -98,6 +98,9 @@ class app {
 		self::$domain = end($domain_parts);
 		unset($domain_parts);
 
+		# HTTP Method
+		$req_type = strtolower(take($_SERVER, 'REQUEST_METHOD', 'get'));
+
 		# Route
 		$found = false;
 		foreach (self::$routes as $regex => $o) {
@@ -105,18 +108,25 @@ class app {
 			$found = preg_match("/^{$regex}\/?$/i", self::$path, $matches);
 			if (!$found) continue;
 
+			# HTTP Method Route (optional)
+			if (isset($o['http'])) {
+				if (!isset($o['http'][$req_type])) {
+					$found = false;	
+					break;
+				}
+				$o = $o['http'][$req_type];
+			}
+
 			# Session and User
 			self::session_begin();
 			User::init();
 
 			# Main render
-			$req = strtolower(take($_SERVER, 'REQUEST_METHOD', 'get'));
-			$is_ajax = util::is_ajax();
 			$out = render($o, [
-				'p' => $matches,
-				'm' => $req,
+				'params' => $matches,
 			]);
-			if ($is_ajax) {
+
+			if (util::is_ajax()) {
 				echo $out;
 			} else {
 				echo self::layout($o, $out);

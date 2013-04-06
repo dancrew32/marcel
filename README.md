@@ -111,6 +111,16 @@ app::$routes = [
 	# Capture page id, name capture "id" with (?P<capturename>regexp) syntax
 	'/page/(?P<id>[0-9]+)' => ['c' => 'yours', 'm' => 'test'],
 
+	# Optional HTTP Method routing
+	'/http' => [
+		'http' => [
+			'get'    => [ 'c' => 'http_test', 'm' => 'get' ],
+			'post'   => [ 'c' => 'http_test', 'm' => 'post' ],
+			'put'    => [ 'c' => 'http_test', 'm' => 'put' ],
+			'delete' => [ 'c' => 'http_test', 'm' => 'delete' ],
+		],
+	],
+
 ];
 ```
 
@@ -133,7 +143,7 @@ class controller_yours extends controller_base {
 
 	function test($o) {
 		# Obtain captured page "id" from Routes example
-		$page_id = take($o['m'], 'id', 1);	
+		$page_id = take($o['params'], 'id', 1);	
 	}
 }
 ```
