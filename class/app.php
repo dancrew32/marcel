@@ -10,7 +10,6 @@ class app {
 
 	# assets
 	const JQUERY_VERSION = '1.9.1';
-	const JQUERY_UI_VERSION = '1.10.0';
 	public static $assets = [
 		'js'  => [ ],
 		'css' => [
@@ -47,7 +46,7 @@ class app {
 		$out = '<script src="'.JS_DIR.'/loader.js"></script>';
 		$out .= '<script>
 			$LAB.script("'. $cdn .'/jquery/'.self::JQUERY_VERSION.'/jquery.min.js")
-			.script("'. $cdn .'/jqueryui/'.self::JQUERY_UI_VERSION.'/jquery-ui.min.js").wait()';
+			.script("/js/bootstrap.min.js").wait()';
 		foreach (self::$assets['js'] as $j) {
 			$delim = strpos($j, '?') ? '&' : '?';
 			$j = CACHE_BUST ? $j.$delim.'d='.date('U') : $j;

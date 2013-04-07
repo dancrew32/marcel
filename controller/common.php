@@ -30,23 +30,12 @@ class controller_common extends controller_base {
 	function login() {
 		$this->action = "/login";
 		$this->user = User::$user;
-		$u = take($_POST, 'user');
+		$this->u = take($_POST, 'user');
 		$p = take($_POST, 'pass');
-		$this->fields = [
-			'user' => [
-				'type' => 'text',
-				'placeholder' => 'Email',
-				'value' => $u,
-			],
-			'pass' => [
-				'type' => 'password',
-				'placeholder' => 'Password',
-			],
-		];
 
 		if (!$this->is_post) return;
 
-		$to = User::login($u, $p);
+		$to = User::login($this->u, $p);
 		app::redir($to ? '/' : '/login');
 	}
 

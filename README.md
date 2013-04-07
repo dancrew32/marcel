@@ -228,6 +228,7 @@ Write some [SCSS](http://sass-lang.com/) with [Compass](http://compass-style.org
 Changes in `scss` directory automatically reflect in `public/css` when you run:
 ```bash
 sudo gem install compass
+sudo gem install compass_twitter_bootstrap
 compass watch &
 ```
 
@@ -413,16 +414,14 @@ other shortcuts to use in this system.
 ## Workers
 [Gearman](http://gearman.org/getting_started)
 ```bash
-sudo apt-get install gearman-job-server
-cd
-curl http://pecl.php.net/get/gearman > gearman.tgz
-tar xzf gearman.tgz
-mv gearman* gearman
-cd gearman
-phpize
+# install gearman
+bzr branch lp:gearmand
+cd gearmand
+./config/autorun.sh
 ./configure
 make
 make install
+sudo pecl install gearman
 # add extension="gearman.so" to /etc/php5/apache2/php.ini
 ```
 
