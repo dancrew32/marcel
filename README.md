@@ -390,6 +390,26 @@ you'll find many convenient methods to use from everything to obtaining
 time in seconds, human readable byte sizes, string manipulation, debuggers and 
 other shortcuts to use in this system.
 
+## Workers
+[Gearman](http://gearman.org/getting_started)
+```bash
+sudo apt-get install gearman-job-server
+cd
+wget http://pecl.php.net/get/gearman
+tar xzf gearman-1.1.1.tgz
+cd gearman-1.1.1
+phpize
+./configure
+make
+make install
+# add extension="gearman.so" to /etc/php5/apache2/php.ini
+```
+
+## WebSocket Server
+TODO: script to launch and persist websocket server
+talk about using it to launch worker jobs and how it has access to 
+user sessions etc..
+
 ## Interactive Prompt with PHPSH
 Using [PHPSH](https://github.com/facebook/phpsh), 
 you may interactively run the framework.
