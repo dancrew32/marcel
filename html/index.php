@@ -51,8 +51,8 @@ define('TMP_DIR', ROOT_DIR.'/tmp');
 define('IMAGECACHE_DIR', TMP_DIR.'/imagecache');
 
 # Assets (Absolute)
-define('HTML_DIR', ROOT_DIR.'/html');
-define('IMAGE_DIR', HTML_DIR.'/img');
+define('PUBLIC_DIR', ROOT_DIR.'/public');
+define('IMAGE_DIR', PUBLIC_DIR.'/img');
 
 # Assets (Relative)
 define('CSS_DIR', '/css');

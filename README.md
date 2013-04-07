@@ -33,13 +33,13 @@ chmod 777 -R tmp
 ```htaccess
 <VirtualHost *:80>
 	ServerName site.com
-	DocumentRoot /var/www/site/html
+	DocumentRoot /var/www/site/public
 </VirtualHost>
 
 # SSL Version
 <VirtualHost *:443>
 	ServerName site.com
-	DocumentRoot /var/www/site/html
+	DocumentRoot /var/www/site/public
 	SSLEngine on
 	SSLCertificateFile /path/to/your.crt
 	SSLCertificateKeyFile /path/to/your.key
@@ -72,7 +72,7 @@ php script/create_user.php
 ```
 
 ## Watch SCSS
-Changes in `scss` directory reflect in `html/css`
+Changes in `scss` directory reflect in `public/css`
 ```bash
 sudo gem install compass
 compass watch &
@@ -203,7 +203,7 @@ You can subrender `bar` in `foo` using `r(controller, view)`
 
 ## Assets
 Assets are loaded per view and in order (duplicates ignored).
-Here's an example view (`view/foo.bar.php`) with its own JavaScript in `html/js/foo.bar.js` and CSS in `html/css/foo.bar.css`
+Here's an example view (`view/foo.bar.php`) with its own JavaScript in `public/js/foo.bar.js` and CSS in `public/css/foo.bar.css`
 ```php
 <? app::asset('foo.bar', 'css') ?>
 <? app::asset('foo.bar', 'js') ?>

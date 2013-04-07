@@ -68,7 +68,7 @@ class app {
 			return self::$assets[$type][]= $path;
 		$local = "{$path}.{$type}";
 		$test = $type == 'css' ? CSS_DIR : JS_DIR;
-		if (!file_exists(HTML_DIR.'/'.$test.'/'.$local)) return;
+		if (!file_exists(PUBLIC_DIR.'/'.$test.'/'.$local)) return;
 		self::$assets[$type][]= $test.'/'.$local;
 	}
 
