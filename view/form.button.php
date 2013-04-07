@@ -1,0 +1,1 @@
+<?= form::button($text, $attrs) ?>

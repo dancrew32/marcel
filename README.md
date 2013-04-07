@@ -27,6 +27,7 @@
 * PHP 5.4
 * MySQL 5.5
 * Apache 2.2
+* Ruby Gems
 
 ### I only have PHP 5.3
 C'mon! Upgrading is easy:
