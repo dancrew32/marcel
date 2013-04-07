@@ -415,9 +415,10 @@ other shortcuts to use in this system.
 ```bash
 sudo apt-get install gearman-job-server
 cd
-wget http://pecl.php.net/get/gearman
-tar xzf gearman-1.1.1.tgz
-cd gearman-1.1.1
+curl http://pecl.php.net/get/gearman > gearman.tgz
+tar xzf gearman.tgz
+mv gearman* gearman
+cd gearman
 phpize
 ./configure
 make
