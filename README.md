@@ -26,6 +26,7 @@ Clone and run the db init wizard:
 git clone git@github.com:dancrew32/marcel.git site
 cd site
 php script/db_init.php
+chmod 777 -R tmp
 ```
 
 ## VirtualHost Setup
@@ -297,6 +298,24 @@ Generates:
 	</fieldset>
 </form>
 ```
+
+## On-The-Fly Image Manipulation (and Caching)
+Using a modified version of TimThumb, we can maniuplate our images on the fly!
+```php
+app::$routes = [
+	'/i' => ['c' => 'image', 'm' => 'process' ],
+];
+```
+Now any view: 
+```php
+<?= image::get([
+	'src' => '/img/drwho.jpg',
+	'w'   => 100,
+	'h'   => 100,
+], true) ?>
+```
+Will generate: `http://l.danmasq.com/i?src=%2Fimg%2Fdrwho.jpg&q=85`.
+This new image will be cached and served from now on!
 
 ## Helpers, Utils and more
 In `class/helper.php`, `class/util.php`, `class/size.php`, and `class/time.php`

@@ -44,9 +44,13 @@ define('VENDOR_DIR', ROOT_DIR.'/vendor');
 # Script
 define('SCRIPT_DIR', ROOT_DIR.'/script');
 
+# Temporary and Cache
+define('TMP_DIR', ROOT_DIR.'/tmp');
+define('IMGCACHE_DIR', TMP_DIR.'/imagecache');
+
 # Assets (Absolute)
 define('HTML_DIR', ROOT_DIR.'/html');
-define('IMAGE_DIR', HTML_DIR.'/i');
+define('IMAGE_DIR', HTML_DIR.'/img');
 
 # Assets (Relative)
 define('CSS_DIR', '/css');

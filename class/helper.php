@@ -23,12 +23,6 @@ function r($c, $m, $p=[]) {
 function partial($part) {
 	return PARTIAL_DIR."/{$part}.php"; # Must "include" in view
 }
-function render_email($template, $data) {
-	ob_start();
-	extract((array)$data);
-	include EMAIL_DIR."/{$template}.php";
-	return ob_get_clean();
-}
 
 
 # Print
@@ -53,9 +47,6 @@ function echoif($condition, $true, $false = '') {
 }
 function h($str) {
 	return htmlentities($str);
-}
-function link_to($href, $text) {
-	return '<a href="'. $href .'">'. $text .'</a>';
 }
 
 

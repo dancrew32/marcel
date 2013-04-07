@@ -15,6 +15,9 @@ app::$routes = [
 		],
 	],
 
+	# On-the-fly Image Processing
+	'/i' => [ 'c' => 'image', 'm' => 'process' ],
+
 	# Error
 	'/404' => [ 'c' => 'common', 'm' => 'not_found' ],
 
