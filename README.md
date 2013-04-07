@@ -399,7 +399,7 @@ Now any view:
 	'h'   => 100,
 ], true) ?>
 ```
-Will generate: `http://l.danmasq.com/i?src=%2Fimg%2Fdrwho.jpg&q=85`.
+Will generate: `http://site.com/i?src=%2Fimg%2Fdrwho.jpg&q=85`.
 This new image will be cached and served from now on!
 
 ## Helpers, Utils and more
