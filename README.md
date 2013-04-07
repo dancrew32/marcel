@@ -3,6 +3,26 @@
 
 ![Marcel](http://i.danmasq.com/marcel.jpg)
 
+## Contents
+[Requirements](#requirements)
+[Install](#install)
+[VirtualHost Setup](#virtualhost-setup)
+[Generator Scripts](#generator-scripts)
+[Routing](#routing)
+[Models](#models-m)
+[Controllers](#controllers-c)
+[Views](#views-v)
+[Assets](#assets)
+[SCSS & Compass](#scss-compass)
+[Cookies & Notes](#cookies-and-notes)
+[Cache](#cache)
+[Form Fields](#form-fields)
+[Image Manipulation](#on-the-fly-image-manipulation-and-caching)
+[Helpers & Utils](#helpers-utils-and-more)
+[Interactive Prompt](#interactive-prompt-with-phpsh)
+[Profiling](#profiling-with-xhprof)
+[XDebug](#xdebug)
+
 ## Requirements
 * PHP 5.4
 * MySQL 5.5
@@ -71,7 +91,7 @@ php script/db_restore.php
 php script/create_user.php
 ```
 
-## Routes
+## Routing
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` matches to a specified method in a controller.
 By default, routing is simple, but you may increase the complexity if you would like
 HTTP method granularity and/or auth class permissions handled at the router 
