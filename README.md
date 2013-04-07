@@ -152,8 +152,8 @@ app::$routes = [
 				'c' => 'common', 'm' => 'auth_test',
 				'auth' => ['user'], # only users may POST
 			],
-			'auth' => ['manager'], # managers may GET and POST
 		],
+		'auth' => ['manager'], # managers may GET and POST
 	],
 
 ];
