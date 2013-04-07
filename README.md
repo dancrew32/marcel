@@ -270,7 +270,7 @@ class auth {
 ```
 Now you can test in the controller for `auth::email_send()`
 or even better, test in `routes.php` `auth => ['email_send']`
-to keep non-managers/admins from sending email.
+to keep non-managers/non-admins from sending email.
 
 
 ## Interactive Prompt with PHPSH
