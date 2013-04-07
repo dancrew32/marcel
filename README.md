@@ -322,6 +322,7 @@ echo $data;
 ## Form Fields
 In `controller/form.php`, there are a few form methods available to make
 creating forms less of a hassle. `input`, `textarea`, `select` and `submit`.
+**Currently in the process of converting this to bootstrap**
 
 Here's an example:
 ```php
@@ -345,46 +346,9 @@ Here's an example:
 			'email' => "Email Me!",
 		],
 	]) ?>
-	<?= r('form', 'submit', [
+	<?= r('form', 'button', [
 		'text' => 'Send',
 	]) ?>
-</form>
-```
-
-Generates:
-```html
-<form action="#" method="post">
-	<fieldset class="field text">
-		<label for="name">
-			Say Hello
-		</label>
-		<input type="text"
-			id="name"
-			name="name">
-	</fieldset>
-	<fieldset class="field textarea">
-		<label for="message">
-			Your Message
-		</label>
-		<textarea name="message"
-			id="message"></textarea>
-	</fieldset>
-	<fieldset class="field select">
-		<label for="service">
-			Service Requested	
-		</label>
-		<select name="service"
-			id="service">
-			<option value="help" selected>Help Me!</option>
-			<option value="call">Call Me!</option>
-			<option value="email">Email Me!</option>
-		</select>
-	</fieldset>
-	<fieldset class="field submit">
-		<button type="submit">
-			Send
-		</button>
-	</fieldset>
 </form>
 ```
 
