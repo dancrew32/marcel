@@ -19,7 +19,7 @@ class auth {
 	}
 
 	static function anon() {
-		return true;
+		return !User::$logged_in;
 	}	
 
 

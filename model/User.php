@@ -7,12 +7,12 @@ class User extends ActiveRecord\Model {
 		'user'    => 'User',
 	];
 
-	static $in   = false;
+	static $logged_in = false;
 	static $user = [];
 
 	static function init() {
-		self::$in = take($_SESSION, 'in', false);
-		if (!self::$in) return false;
+		self::$logged_in = take($_SESSION, 'in', false);
+		if (!self::$logged_in) return false;
 		$id = (int) take($_SESSION, 'id');
 		$cache = "user:init:{$id}";
 		self::$user = cache::get($cache, $found, true);
@@ -38,7 +38,7 @@ class User extends ActiveRecord\Model {
 		} else {
 			unset($_SESSION['in']);
 			unset($_SESSION['id']);
-			self::$in = false;
+			self::$logged_in = false;
 			self::$user = [];
 		}
 		return $match;
