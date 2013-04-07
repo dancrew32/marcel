@@ -67,7 +67,7 @@ php script/db_dump.php
 # DB Restore
 php script/db_restore.php
 
-# Create Users (Create your first admin user)
+# Create Users (e.g. Create your first admin user)
 php script/create_user.php
 ```
 
