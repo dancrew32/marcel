@@ -106,7 +106,10 @@ $b->delete();
 
 ## Routes
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` matches to controllers and views.
-You may capture paramters using regular expressions.
+By default, routing is simple, but you may increase the complexity if you would like
+HTTP method granularity and/or auth class permissions handled at the router 
+(instead of the controller).
+You may capture parameters using regular expressions.
 ```php
 <?
 app::$routes = [
@@ -220,6 +223,55 @@ app::$routes = [
 ];
 ```
 Layout rendering is automatically skipped by AJAX requests.
+
+## Auth
+In `class/auth.php`, you may optionally define user permissions for 
+use in controllers or routes.
+One way to test may be to use `model.User`'s `role` attribute 
+(like the example auth class) to gate controller method access.
+A scalable paradigm would be to write feature-named methods
+that contain user role testing.
+```php
+<?
+class auth {
+
+/*
+ * USERS
+ */
+	static function admin() {
+		return take(User::$user, 'role') == 'admin';
+	}	
+
+	static function manager() {
+		$role = take(User::$user, 'role');
+		return in_array($role, ['manager', 'admin']);
+	}
+
+	static function user() {
+		$role = take(User::$user, 'role');
+		return in_array($role, ['user', 'manager', 'admin']);
+	}
+
+	static function anon() {
+		return true;
+	}	
+
+
+/*
+ * FEATURES
+ */
+
+	// Users that may send email
+	static function email_send() {
+		// only admins and managers may send email
+		return self::manager();
+	}
+}
+```
+Now you can test in the controller for `auth::email_send()`
+or even better, test in `routes.php` `auth => ['email_send']`
+to keep non-managers/admins from sending email.
+
 
 ## Interactive Prompt with PHPSH
 Using [PHPSH](https://github.com/facebook/phpsh), 
