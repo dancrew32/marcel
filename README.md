@@ -105,7 +105,7 @@ $b->delete();
 ```
 
 ## Routes
-In `routes.php`, we send url `$_SERVER['REQUEST_URI']` matches to controllers and views.
+In `routes.php`, we send url `$_SERVER['REQUEST_URI']` matches to a specified method in a controller.
 By default, routing is simple, but you may increase the complexity if you would like
 HTTP method granularity and/or auth class permissions handled at the router 
 (instead of the controller).
