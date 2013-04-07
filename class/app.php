@@ -5,7 +5,6 @@ class app {
 
 	# routing
 	static $path;
-	static $domain;
 	static $routes = [];
 	static $cols = 'no-sidebars';
 
@@ -44,10 +43,11 @@ class app {
 	}
 
 	static function js() {
+		$cdn = '//ajax.googleapis.com/ajax/libs';
 		$out = '<script src="'.JS_DIR.'/loader.js"></script>';
 		$out .= '<script>
-			$LAB.script("//ajax.googleapis.com/ajax/libs/jquery/'.self::JQUERY_VERSION.'/jquery.min.js")
-			.script("//ajax.googleapis.com/ajax/libs/jqueryui/'.self::JQUERY_UI_VERSION.'/jquery-ui.min.js").wait()';
+			$LAB.script("'. $cdn .'/jquery/'.self::JQUERY_VERSION.'/jquery.min.js")
+			.script("'. $cdn .'/jqueryui/'.self::JQUERY_UI_VERSION.'/jquery-ui.min.js").wait()';
 		foreach (self::$assets['js'] as $j) {
 			$delim = strpos($j, '?') ? '&' : '?';
 			$j = CACHE_BUST ? $j.$delim.'d='.date('U') : $j;
@@ -78,7 +78,7 @@ class app {
 	}
 
 	static function run() {
-		if (DEBUG && auth::is_admin() && !util::is_ajax()) {
+		if (DEBUG && !util::is_ajax()) {
 			# JavaScript Console Errors	
 			# set_error_handler('app::errorlag');
 
@@ -92,12 +92,6 @@ class app {
 		self::$path = reset($path_parts);
 		unset($path_parts);
 
-		# Domain
-		$domain_parts = explode('.', take($_SERVER, 'SERVER_NAME'));
-		array_pop($domain_parts);
-		self::$domain = end($domain_parts);
-		unset($domain_parts);
-
 		# HTTP Method
 		$req_type = strtolower(take($_SERVER, 'REQUEST_METHOD', 'get'));
 
@@ -108,29 +102,44 @@ class app {
 			$found = preg_match("/^{$regex}\/?$/i", self::$path, $matches);
 			if (!$found) continue;
 
+			# Router Auth (Phase 1) (optional)
+			$global_auth = isset($o['auth']) ? $o['auth'] : false;
+
 			# HTTP Method Route (optional)
 			if (isset($o['http'])) {
 				if (!isset($o['http'][$req_type])) {
 					$found = false;	
 					break;
 				}
-				$o = $o['http'][$req_type];
+				$o = $o['http'][$req_type]; # override
 			}
 
 			# Session and User
 			self::session_begin();
 			User::init();
 
-			# Main render
-			$out = render($o, [
-				'params' => $matches,
-			]);
-
-			if (util::is_ajax()) {
-				echo $out;
-			} else {
-				echo self::layout($o, $out);
+			# Router Auth (Phase 2) (optional)
+			if ($global_auth || isset($o['auth'])) {
+				$allowed = false;
+				if (isset($o['auth']))
+					$global_auth = array_merge((
+						is_array($global_auth) ? $global_auth : []
+					), $o['auth']);
+				foreach($global_auth as $ga) {
+					if (auth::$ga()) {
+						$allowed = true;
+						break; 	  
+					}
+				}
+				if (!$allowed) {
+					$found = false;	
+					break;
+				}
 			}
+
+			# Main render
+			$out = render($o, ['params' => $matches]);
+			echo util::is_ajax() ? $out : self::layout($o, $out);
 			break;
 		}
 

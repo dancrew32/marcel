@@ -7,7 +7,7 @@ $name = strtolower(gets("Enter Controller name:"));
 $boilerplate ="<?
 class controller_{$name} extends controller_base {
 	function index() {
-		if (!auth::is_admin()) return app::redir('/');	
+		if (!auth::admin()) return app::redir('/');	
 	}
 }";
 

@@ -13,6 +13,10 @@ class controller_common extends controller_base {
 	function index() {
 	}
 
+	function auth_test() {
+		die('allowed');
+	}
+
 	function not_found() {
 		$code   = 404;
 		$status = 'Not Found';

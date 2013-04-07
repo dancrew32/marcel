@@ -3,7 +3,7 @@
 app::$routes = [
 	
 	# Root
-	'/' => [ 'c' => 'common', 'm' => 'index' ],
+	'/' => [ 'c' => 'common', 'm' => 'index'],
 
 	# Login/Logout
 	'/login'  => [ 'c' => 'common', 'm' => 'login' ],
@@ -21,6 +21,21 @@ app::$routes = [
 
 	# On-the-fly Image Processing
 	'/i' => [ 'c' => 'image', 'm' => 'process' ],
+
+	# Auth Example (anons not allowed)
+	'/auth-test-simple' => [ 
+		'c' => 'common', 'm' => 'auth_test',
+		'auth' => ['user'],
+	],
+	'/auth-test-complex' => [ 
+		'http' => [
+			'get' => [
+				'c' => 'common', 'm' => 'auth_test',
+				'auth' => ['user'],
+			],
+		],
+		'auth' => ['anon'],
+	],
 
 	# Error
 	'/404' => [ 'c' => 'common', 'm' => 'not_found' ],
