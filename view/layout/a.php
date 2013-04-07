@@ -22,7 +22,9 @@
 </div>
 <div id="footer-outer">
 	<div class="contain">
-
+		<div class="inner">
+			<?= r('common', 'debug') ?>
+		</div>
 	</div>
 </div>
 <?= $js ?>

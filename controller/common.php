@@ -2,11 +2,12 @@
 class controller_common extends controller_base {
 
 	function debug($o) {
-		if (!DEBUG || !auth::is_admin()) return $this->skip();
+		if (!DEBUG) return $this->skip();
 		$this->memory = round(memory_get_usage(false) / 1000);
 		$this->unit = "Kb";
 		$this->runtime = (round(microtime(true) - START_TIME, 4)).'s';
-		$this->memcache_stats = cache::mc()->getStats();
+		//$this->memcache_stats = cache::mc()->getStats();
+		//$this->queries = $GLOBALS['DEBUG_QUERIES'];
 	}
 
 	function index() {
@@ -15,11 +16,11 @@ class controller_common extends controller_base {
 	function not_found() {
 		$code   = 404;
 		$status = 'Not Found';
-		header("HTTP/1.0 {$code} {$status}");
-		die(json_encode([
+		header("HTTP/1.1 {$code} {$status}");
+		json([
 			'status' =>	$status,
 			'code'   => $code,
-		]));
+		]);
 	}	
 
 	function login() {
@@ -39,10 +40,10 @@ class controller_common extends controller_base {
 			],
 		];
 
-		if ($this->is_post) {
-			$to = User::login($u, $p);
-			app::redir($to ? '/' : '/login');
-		}
+		if (!$this->is_post) return;
+
+		$to = User::login($u, $p);
+		app::redir($to ? '/' : '/login');
 	}
 
 	function logout() {

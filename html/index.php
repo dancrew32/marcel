@@ -46,7 +46,7 @@ define('SCRIPT_DIR', ROOT_DIR.'/script');
 
 # Temporary and Cache
 define('TMP_DIR', ROOT_DIR.'/tmp');
-define('IMGCACHE_DIR', TMP_DIR.'/imagecache');
+define('IMAGECACHE_DIR', TMP_DIR.'/imagecache');
 
 # Assets (Absolute)
 define('HTML_DIR', ROOT_DIR.'/html');

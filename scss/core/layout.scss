@@ -94,6 +94,10 @@ $dir_op: right;
 	@include clearf;
 }
 
+.inner {
+	text-align: left;	
+}
+
 #main, #header, #sidebar-a, #sidebar-b, #footer {
 	@include clearf;
 	position:relative;

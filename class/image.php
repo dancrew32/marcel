@@ -55,7 +55,7 @@ class image {
 		// Directory where images are cached. 
 		// Left blank it will use the system temporary directory (which is better for security)
 		if (!defined('FILE_CACHE_DIRECTORY'))
-			define ('FILE_CACHE_DIRECTORY', IMGCACHE_DIR);	
+			define ('FILE_CACHE_DIRECTORY', IMAGECACHE_DIR);	
 
 		//Browser caching
 		// Time to cache in the browser

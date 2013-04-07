@@ -5,6 +5,11 @@ app::$routes = [
 	# Root
 	'/' => [ 'c' => 'common', 'm' => 'index' ],
 
+	# Login/Logout
+	'/login'  => [ 'c' => 'common', 'm' => 'login' ],
+	'/logout' => [ 'c' => 'common', 'm' => 'logout' ],
+
+
 	# HTTP Example
 	'/http' => [
 		'http' => [
