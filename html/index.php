@@ -18,7 +18,9 @@ define('DB_USER', '<user>');
 define('DB_PASS', '<pass>');
 define('DB_HOST', 'localhost');
 define('DB_DB', '<dbname>');
-define('SCHEMA_DIR', ROOT_DIR.'/schema');
+define('DB_DIR', ROOT_DIR.'/db');
+define('SCHEMA_DIR', DB_DIR.'/schema');
+define('DUMP_DIR', DB_DIR.'/dump');
 
 # System
 define('DEBUG', true);

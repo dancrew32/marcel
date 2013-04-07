@@ -47,6 +47,7 @@ chmod 777 -R tmp
 ```
 
 ## Generator Scripts
+Every script is an easy to use interactive wizard:
 ```bash
 # Controller
 php script/gen_controller.php
@@ -59,6 +60,15 @@ php script/gen_view.php
 
 # Script
 php script/gen_script.php  
+
+# DB Dump
+php script/db_dump.php
+
+# DB Restore
+php script/db_restore.php
+
+# Create Users (Create your first admin user)
+php script/create_user.php
 ```
 
 ## Watch SCSS
@@ -66,11 +76,6 @@ Changes in `scss` directory reflect in `html/css`
 ```bash
 sudo gem install compass
 compass watch &
-```
-
-## Create Users
-```bash
-php script/create_user.php
 ```
 
 ## Models
@@ -159,6 +164,7 @@ class controller_yours extends controller_base {
 ## Views
 Everything you declare in your controller with `$this->...` is available in your view.
 ```php
+# views/yours.foo.php
 <div>
 	<?= $in_view ?>
 </div>
@@ -166,6 +172,7 @@ Everything you declare in your controller with `$this->...` is available in your
 
 You can subrender `bar` in `foo` using `r(controller, view)`
 ```php
+# views/yours.foo.php
 <div>
 	<?= $in_view ?>
 	<?= r('yours', 'bar') ?>
