@@ -71,39 +71,6 @@ php script/db_restore.php
 php script/create_user.php
 ```
 
-## Watch SCSS
-Changes in `scss` directory reflect in `public/css`
-```bash
-sudo gem install compass
-compass watch &
-```
-
-## Models
-Uses [PHPActiveRecord](http://www.phpactiverecord.org)
-See [Basic CRUD](http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD) to get started
-```php
-<?
-class Thing extends ActiveRecord\Model {
-	static $table_name = 'things';
-}
-
-# Create
-$t = new Thing;
-$t->stuff = "raisin";
-$t->save();
-
-# Read
-$b = Thing::find(1);
-echo $b->stuff; # "raisin"
-
-# Update
-$b->stuff = "dorito";
-$b->save();
-
-# Destroy
-$b->delete();
-```
-
 ## Routes
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` matches to a specified method in a controller.
 By default, routing is simple, but you may increase the complexity if you would like
@@ -159,7 +126,33 @@ app::$routes = [
 ];
 ```
 
-## Controllers
+## Models (M)
+Uses [PHPActiveRecord](http://www.phpactiverecord.org)
+See [Basic CRUD](http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD) to get started
+```php
+<?
+class Thing extends ActiveRecord\Model {
+	static $table_name = 'things';
+}
+
+# Create
+$t = new Thing;
+$t->stuff = "raisin";
+$t->save();
+
+# Read
+$b = Thing::find(1);
+echo $b->stuff; # "raisin"
+
+# Update
+$b->stuff = "dorito";
+$b->save();
+
+# Destroy
+$b->delete();
+```
+
+## Controllers (C)
 Simple business logic only please. This would be `controller/yours.php`
 `foo()` would pass variables to `view/yours.foo.php`
 `bar()` would pass variables to `view/yours.bar.php`
@@ -183,7 +176,7 @@ class controller_yours extends controller_base {
 }
 ```
 
-## Views
+## Views (V)
 Everything you declare in your controller with `$this->...` is available in your view.
 ```php
 # views/yours.foo.php
@@ -208,6 +201,14 @@ Here's an example view (`view/foo.bar.php`) with its own JavaScript in `public/j
 <? app::asset('foo.bar', 'css') ?>
 <? app::asset('foo.bar', 'js') ?>
 <div>...</div>
+```
+
+## SCSS (Compass)
+Write some [SCSS](http://sass-lang.com/) with [Compass](http://compass-style.org).
+Changes in `scss` directory automatically reflect in `public/css` when you run:
+```bash
+sudo gem install compass
+compass watch &
 ```
 
 ## Layouts
@@ -271,25 +272,6 @@ class auth {
 Now you can test in the controller for `auth::email_send()`
 or even better, test in `routes.php` `auth => ['email_send']`
 to keep non-managers/non-admins from sending email.
-
-
-## Interactive Prompt with PHPSH
-Using [PHPSH](https://github.com/facebook/phpsh), 
-you may interactively run the framework.
-Install PHPSH:
-```bash
-cd ~
-git@github.com:facebook/phpsh.git
-cd phpsh
-python setup.py build
-sudo python setup.py install
-```
-
-Then from the site root directory (`ROOT_DIR`) run:
-
-```bash
-phpsh script/inc.php
-```
 
 ## Cookies (and Notes)
 Standard API for cookie CRUD and `note` is available for one-time use.
@@ -407,6 +389,24 @@ In `class/helper.php`, `class/util.php`, `class/size.php`, and `class/time.php`
 you'll find many convenient methods to use from everything to obtaining
 time in seconds, human readable byte sizes, string manipulation, debuggers and 
 other shortcuts to use in this system.
+
+## Interactive Prompt with PHPSH
+Using [PHPSH](https://github.com/facebook/phpsh), 
+you may interactively run the framework.
+Install PHPSH:
+```bash
+cd ~
+git@github.com:facebook/phpsh.git
+cd phpsh
+python setup.py build
+sudo python setup.py install
+```
+
+Then from the site root directory (`ROOT_DIR`) run:
+
+```bash
+phpsh script/inc.php
+```
 
 ## Profiling with XHProf
 **TODO**: create the interface for running tests
