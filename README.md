@@ -133,6 +133,25 @@ app::$routes = [
 	# Login/Logout
 	'/login'  => [ 'c' => 'common', 'm' => 'login' ],
 	'/logout' => [ 'c' => 'common', 'm' => 'logout' ],
+	
+	# Optional Auth
+	'/auth-test-simple' => [ 
+		'c' => 'common', 'm' => 'auth_test',
+		'auth' => ['user'], # users only
+	],
+	'/auth-test-complex' => [ 
+		'http' => [
+			'get' => [
+				'c' => 'common', 'm' => 'auth_test',
+				'auth' => ['anon'], # users and anons may GET
+			],
+			'post' => [
+				'c' => 'common', 'm' => 'auth_test',
+				'auth' => ['user'], # only users may POST
+			],
+			'auth' => ['manager'], # managers may GET and POST
+		],
+	],
 
 ];
 ```
