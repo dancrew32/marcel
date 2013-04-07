@@ -121,6 +121,13 @@ app::$routes = [
 			'delete' => [ 'c' => 'http_test', 'm' => 'delete' ],
 		],
 	],
+	
+	# On-the-fly Image Processing
+	'/i' => [ 'c' => 'image', 'm' => 'process' ],
+
+	# Login/Logout
+	'/login'  => [ 'c' => 'common', 'm' => 'login' ],
+	'/logout' => [ 'c' => 'common', 'm' => 'logout' ],
 
 ];
 ```
