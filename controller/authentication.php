@@ -14,8 +14,7 @@ class controller_authentication extends controller_base {
 		$this->form->open($action);
 
 		# Username
-		$this->field_username = new field('input', [
-			'type' => 'text',
+		$this->field_username = new field('text', [
 			'name' => 'user',
 			'value' => $user,
 			'placeholder' => 'Username',
@@ -26,29 +25,6 @@ class controller_authentication extends controller_base {
 			'type' => 'password',
 			'name' => 'pass',
 			'placeholder' => 'Password',
-		]);
-
-		# Select
-		$this->field_select = new field('select', [
-			'name' => 'foo', 
-			'value' => 'b',
-			'options' => [
-				'a' => 'A',
-				'b' => 'B', 
-				'c' => 'C' 
-			]
-		]);
-
-		# Multi Select
-		$this->field_multi_select = new field('select', [
-			'name' => 'foo', 
-			'value' => ['b', 'c'], 
-			'multiple' => 'multiple', 
-			'options' => [
-				'a' => 'A', 
-				'b' => 'B', 
-				'c' => 'C',
-			]
 		]);
 
 		if (!$this->is_post) return;

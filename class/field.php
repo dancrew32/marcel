@@ -1,7 +1,7 @@
 <?
 class field {
 	private $html;
-	private $attrs;
+	public $attrs;
 
 	function __construct($type, array $attrs=array()) {
 		$this->html = '';
@@ -9,12 +9,31 @@ class field {
 
 		switch ($type) {
 			case 'button':
+				return $this->button();
 			case 'submit':
+				$this->attrs['type'] = 'submit';
 				return $this->button();
 			case 'checkbox':
 				return $this->checkbox();
 			case 'select':
 				return $this->select();
+			case 'select_multiple':
+				$this->attrs['multiple'] = 'multiple';
+				return $this->select();
+			case 'date':
+			case 'datetime':
+			case 'datetime-local':
+			case 'email':
+			case 'month':
+			case 'number':
+			case 'range':
+			case 'search':
+			case 'tel':
+			case 'time':
+			case 'url':
+			case 'week':
+				$this->attrs['type'] = $type;
+				return $this->input();
 			default: 
 				return $this->input();
 		}

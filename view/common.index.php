@@ -30,6 +30,12 @@ view/common.index.php
 	</div>
 </div>
 
+
+<div class="row">
+	<div class="span6">
+		<?= r('form_test', 'index') ?>
+	</div>
+</div>
 <script>
 (function() {
 var ws = new WebSocket("ws://0.0.0.0:7334");

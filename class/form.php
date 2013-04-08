@@ -30,10 +30,19 @@ class form {
 	}
 
 	// add without group
-	function add() {
-		$inputs = func_get_args();
-		for ($i = 0, $len = count($inputs); $i < $len; $i++)
-			$this->html .= $inputs[$i]->render();
+	function add($label='', field $field) {
+
+		if ($label) {
+			$this->html .= '<label';	
+
+			if (take($field->attrs, 'id', false))
+				$this->html .= ' for="'. take($field->attrs, 'id') .'"';
+
+			$this->html .= ">{$label}</label>";
+		}
+
+		$this->html .= $field->render();
+
 		return $this;
 	}
 
@@ -75,13 +84,16 @@ class form {
 	}
 
 	function actions() {
-		$this->html .= '<div class="form-actions">';	
+
+		if ($this->control_groups)
+			$this->html .= '<div class="form-actions">';	
 
 		$inputs = func_get_args();
 		for ($i = 0, $size = count($inputs); $i < $size; $i++)
 			$this->html .= $inputs[$i]->render();
 
-		$this->html .= '</div>';
+		if ($this->control_groups)
+			$this->html .= '</div>';
 
 		return $this;
 	}
