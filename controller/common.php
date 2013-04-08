@@ -1,16 +1,8 @@
 <?
 class controller_common extends controller_base {
 
-	function debug($o) {
-		if (!DEBUG) return $this->skip();
-		$this->memory = round(memory_get_usage(false) / 1000);
-		$this->unit = "Kb";
-		$this->runtime = (round(microtime(true) - START_TIME, 4)).'s';
-		//$this->memcache_stats = cache::mc()->getStats();
-		//$this->queries = $GLOBALS['DEBUG_QUERIES'];
-	}
-
 	function index() {
+		// see views/common.index.php
 	}
 
 	function auth_test() {
@@ -27,20 +19,13 @@ class controller_common extends controller_base {
 		]);
 	}	
 
-	function login() {
-		$this->action = "/login";
-		$this->user = User::$user;
-		$this->u = take($_POST, 'user');
-		$p = take($_POST, 'pass');
-
-		if (!$this->is_post) return;
-
-		$to = User::login($this->u, $p);
-		app::redir($to ? '/' : '/login');
-	}
-
-	function logout() {
-		User::logout();
+	function debug($o) {
+		if (!DEBUG) return $this->skip();
+		$this->memory = round(memory_get_usage(false) / 1000);
+		$this->unit = "Kb";
+		$this->runtime = (round(microtime(true) - START_TIME, 4)).'s';
+		//$this->memcache_stats = cache::mc()->getStats();
+		//$this->queries = $GLOBALS['DEBUG_QUERIES'];
 	}
 
 	function pager($o) {

@@ -6,8 +6,8 @@ app::$routes = [
 	'/' => [ 'c' => 'common', 'm' => 'index'],
 
 	# Login/Logout
-	'/login'  => [ 'c' => 'common', 'm' => 'login' ],
-	'/logout' => [ 'c' => 'common', 'm' => 'logout' ],
+	'/login'  => [ 'c' => 'authentication', 'm' => 'login' ],
+	'/logout' => [ 'c' => 'authentication', 'm' => 'logout' ],
 
 	# HTTP Example
 	'/http' => [

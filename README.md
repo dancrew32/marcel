@@ -326,30 +326,18 @@ creating forms less of a hassle. `input`, `textarea`, `select` and `submit`.
 
 Here's an example:
 ```php
-<form action="#" method="post">
-	<?= r('form', 'input', [
-		'name'  => 'name',
-		'type'  => 'text',
-		'label' => 'Your Name',
-	]) ?>
-	<?= r('form', 'textarea', [
-		'name'  => 'message',
-		'label' => 'Your Message',
-	]) ?>
-	<?= r('form', 'select', [
-		'name'    => 'service',
-		'label'   => 'Service Requested',
-		'value'   => 'help', # selected
-		'options' => [
-			'help'  => "Help Me!",
-			'call'  => "Call Me!",
-			'email' => "Email Me!",
-		],
-	]) ?>
-	<?= r('form', 'button', [
-		'text' => 'Send',
-	]) ?>
-</form>
+<?
+$form = new form;
+$form->open('/login', 'post')
+->group('User Credentials',
+    new field('input', ['type' => 'text', 'name' => 'username', 'placeholder' => 'Username'],
+    new field('input', ['type' => 'password', 'name' => 'password', 'placeholder' => 'Password']
+)
+->action(
+	new field('submit', ['text' => 'Login'])
+);
+
+echo $form;
 ```
 
 ## On-The-Fly Image Manipulation (and Caching)

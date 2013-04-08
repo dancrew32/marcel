@@ -1,86 +1,96 @@
 <?
 class form {
 
-	static function build_attributes(array $attrs=array()) {
-		$html = '';
-		foreach($attrs as $k => $v){
-            switch ($k) {
-                case 'checked':
-					if ($v) $html .=' checked'; break;
-				case 'autocomplete': 
-					if (!$v) $html .=' autocomplete="off"'; break;
-                case 'required':
-                    if ($v) $html .=' required'; break;
-                case 'multiple':
-                    if ($v) $html .=' multiple'; break;
-				case 'readonly':
-					if ($v) $html .=' readonly'; break;
-				case 'autofocus':
-					if ($v) $html.=' autofocus'; break;
-                default:
-                    if ($k != 'prepend' && $k != 'append')
-                        $html .= " {$k}=\"{$v}\"";
-            }
-        }
-		return $html;
+	private $html;
+	private $control_groups; 
+	private $field_head;
+
+	function __construct() {
+		$this->html = '';	
+		$this->has_head = false;
+		$this->control_groups = true;
 	}
 
-	static function build_prepend(array $attrs=array()) {
-		$html = '';
-        $pre = take($attrs, 'prepend', null);
-        $app = take($attrs, 'append', null);
-
-        if ($pre || $app){
-            $html = '<div class="';
-
-            if ($pre) $html .= 'input-prepend';
-
-            if ($app) {
-                if ($pre) $html.=' ';
-                $html .= 'input-append';
-            }
-
-            $html .= '">';
-
-            if ($pre) $html .= "<span class=\"add-on\">{$pre}</span>";
-        }
-
-        return $html;
+	function __toString() {
+		return $this->render();	
 	}
 
-	static function build_append(array $attrs=array()) {
-		if (isset($attrs['append']))
-			return '<span class="add-on">'.$attrs['append'].'</span></div>';
-
-		if (isset($attrs['prepend']))
-			return '</div>';
+	function open($action='#', $method='post', array $attrs=array()) {
+		$this->html .= '<form action="'. $action .'" method="'. strtoupper($method) .'"';
+		$this->html .= field::build_attributes($attrs) .'>';
+		if (field::has_class('form-horizontal', $attrs))
+			$this->control_groups = false;
+		return $this;
 	}
 
-	static function open($action='#', $method='post', array $attrs=array()) {
-		$html = '<form action="'. $action .'" method="'. strtoupper($method) .'"';
-		$html .= self::build_attributes($attrs) .'>';
-		return $html;
+	function head($title) {
+		$this->field_head = true;
+		$this->html .= "<fieldset><legend>{$title}</legend>";
+		return $this;
 	}
 
-	static function input(array $attrs=array()) {
-		$html = self::build_prepend($attrs); 
-		$type = take($attrs, 'type', 'text');
-		$html .= '<input type="'. $type .'"'. self::build_attributes($attrs) .' />';
-		$html .= self::build_append($attrs);
-		return $html;
+	// add without group
+	function add() {
+		$inputs = func_get_args();
+		for ($i = 0, $len = count($inputs); $i < $len; $i++)
+			$this->html .= $inputs[$i]->render();
+		return $this;
 	}
 
-	static function button($label='submit', array $attrs=array()) {
-		if (!isset($attrs['class']))
-			$attrs['class'] = 'btn';
-		return '<button'. self::build_attributes($attrs) .'>'.$label.'</button>';
+	function group($label='') {
+		$args = func_get_args();		
+		$argpos = 1;
+
+		if ($this->control_groups) {
+			$this->html .= '<div class="control-group"';
+			if (is_string($args[$argpos]))
+				$this->html .= ' '.$args[$argpos++];
+			$this->html .= '">';
+		}
+
+		$inputs = count($args) - $argpos;
+
+		if ($label) {
+			$this->html .= '<label';	
+
+			if ($this->control_groups)
+				$this->html .= ' class="control-label"';
+
+			if ($inputs == 1 && take($args[$argpos], 'id', false))
+				$this->html .= ' for="'. take($args[$argpos], 'id') .'"';
+
+			$this->html .= ">{$label}</label>";
+		}
+
+		if ($this->control_groups)
+			$this->html .= '<div class="controls">';
+
+		for ($i = $argpos, $len = $inputs + $argpos; $i < $len; $i++)
+			$this->html .= $args[$i]->render();
+
+		if ($this->control_groups)
+			$this->html .= '</div></div>';
+
+		return $this;
 	}
 
-	static function checkbox($label='', array $attrs=array(), $inline=false) {
-		$html = '<label class="checkbox';
-		if ($inline) $html .= ' inline';
-		$html .= '"><input type="checkbox"'. self::build_attributes($attrs) .' />'. $label .'</label>';
-		return $html;
+	function actions() {
+		$this->html .= '<div class="form-actions">';	
+
+		$inputs = func_get_args();
+		for ($i = 0, $size = count($inputs); $i < $size; $i++)
+			$this->html .= $inputs[$i]->render();
+
+		$this->html .= '</div>';
+
+		return $this;
+	}
+
+	function render() {
+		if ($this->field_head)
+			$this->html .= '</fieldset>';
+		$this->html .= "</form>\n";
+		return $this->html;
 	}
 
 }

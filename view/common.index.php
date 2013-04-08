@@ -7,7 +7,7 @@
 </div>
 
 <div class="row">
-	<div class="span6">
+	<div class="span4">
 		<h2>This Page</h2>
 <pre>
 controller/common.php#index
@@ -15,7 +15,7 @@ view/common.index.php
 </pre>
 		<p><a class="btn" href="#">View details &raquo;</a></p>
 	</div>
-	<div class="span6">
+	<div class="span4">
 		<h2>Image Cache</h2>
 		<?= image::get([
 			'src' => '/img/drwho.jpg',
@@ -23,6 +23,10 @@ view/common.index.php
 			'h'   => 250,
 		], true) ?>
 		<p><a class="btn" href="#">View details &raquo;</a></p>
+	</div>
+	<div class="span4">
+		<h2>Login</h2>
+		<?= r('authentication', 'login') ?>
 	</div>
 </div>
 
