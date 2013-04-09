@@ -1,7 +1,7 @@
 <?
 class form {
 
-	private $html;
+	public $html;
 	private $control_groups; 
 	private $field_head;
 
@@ -23,26 +23,28 @@ class form {
 		return $this;
 	}
 
-	function head($title) {
+	function fieldset($title) {
 		$this->field_head = true;
 		$this->html .= "<fieldset><legend>{$title}</legend>";
 		return $this;
 	}
 
 	// add without group
-	function add($label='', field $field) {
+	function add() {
+		$args = func_get_args();		
+		$has_label = is_string($args[0]);
+		$field = $has_label ? $args[1] : $args[0]; 
+		$is_hidden = take($field->attrs, 'type') == 'hidden';
 
-		if ($label) {
+		if (!$is_hidden && $has_label) {
 			$this->html .= '<label';	
 
 			if (take($field->attrs, 'id', false))
 				$this->html .= ' for="'. take($field->attrs, 'id') .'"';
 
-			$this->html .= ">{$label}</label>";
+			$this->html .= ">{$args[0]}</label>";
 		}
-
 		$this->html .= $field->render();
-
 		return $this;
 	}
 

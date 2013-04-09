@@ -20,13 +20,22 @@ class field {
 			case 'select_multiple':
 				$this->attrs['multiple'] = 'multiple';
 				return $this->select();
+			case 'textarea':
+				return $this->textarea();
+			case 'radio':
+				return $this->radio();
 			case 'date':
 			case 'datetime':
 			case 'datetime-local':
+			case 'file':
+			case 'hidden':
+			case 'image':
+			case 'password':
 			case 'email':
 			case 'month':
 			case 'number':
 			case 'range':
+			case 'reset':
 			case 'search':
 			case 'tel':
 			case 'time':
@@ -37,8 +46,6 @@ class field {
 			default: 
 				return $this->input();
 		}
-
-		return $this->$type();
 	}
 
 	function __toString() {
@@ -50,23 +57,27 @@ class field {
 		$type = take($this->attrs, 'type', 'text');
 		$this->html .= '<input type="'. $type .'"'. self::build_attributes($this->attrs) .' />';
 		$this->html .= self::build_append($this->attrs);
+		return $this;
+	}
 
+
+	function textarea() {
+		$value = $this->pick('value');
+		$this->html .= '<textarea'. self::build_attributes($this->attrs) .">{$value}</textarea>";
 		return $this;
 	}
 
 	function button() {
 		if (!isset($this->attrs['class']))
 			$this->attrs['class'] = 'btn';
-		if (isset($this->attrs['text'])) {
-			$text = $this->attrs['text'];	
-			unset($this->attrs['text']);
-		}
-
+		$text = $this->pick('text');
 		$this->html .= '<button'. self::build_attributes($this->attrs) .'>'.$text.'</button>';
 		return $this;
 	}
 
-	function checkbox($label='', $inline=false) {
+	function checkbox() {
+		$label = $this->pick('label');
+		$inline = $this->pick('inline', 'boolean');
 		$this->html .= '<label class="checkbox';
 		if ($inline) $this->html .= ' inline';
 		$this->html .= '"><input type="checkbox"'. self::build_attributes($this->attrs) .' />'. $label .'</label>';
@@ -85,6 +96,18 @@ class field {
 			$this->html .= ">{$v}</option>";
 		}
 		$this->html .= '</select>';
+		return $this;
+	}
+
+	function radio() {
+		$label = $this->pick('label');
+		$inline = $this->pick('inline', 'boolean');
+		$this->html .= '<label class="radio';	
+		if ($inline)
+			$this->html .= ' inline';
+		$this->html .= '"><input type="radio"'. self::build_attributes($this->attrs);
+		$this->html .= " />{$label}</label>";
+		return $this;
 	}
 
 	function render() {
@@ -111,6 +134,8 @@ class field {
 		$html = '';
 		foreach($attrs as $k => $v){
             switch ($k) {
+				case 'class':
+					$html .= " {$k}=\"". (is_array($v) ? implode(' ', $v) : $v) .'"';
                 case 'checked':
 					if ($v) $html .=' checked'; break;
 				case 'autocomplete': 

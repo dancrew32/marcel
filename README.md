@@ -320,25 +320,22 @@ echo $data;
 ```
 
 ## Form Fields
-In `controller/form.php`, there are a few form methods available to make
-creating forms less of a hassle. `input`, `textarea`, `select` and `submit`.
-**Currently in the process of converting this to bootstrap**
-
-Here's an example:
+Building forms from scratch is tedious. Let's use a twitter bootstrap customized
+form builder! Here's an example:
 ```php
 <?
 $form = new form;
 $form->open('/login', 'post')
-->group('User Credentials',
-    new field('input', ['type' => 'text', 'name' => 'username', 'placeholder' => 'Username'],
-    new field('input', ['type' => 'password', 'name' => 'password', 'placeholder' => 'Password']
-)
+->add('Username', new field('text', ['name' => 'username', 'placeholder' => 'Username']))
+->add('Password', new field('password', ['name' => 'password', 'placeholder' => 'Password']))
 ->action(
 	new field('submit', ['text' => 'Login'])
 );
 
 echo $form;
 ```
+If you want to see everything `class/form.php` and `class/field.php` are capable of,
+check out `controller/form_test.php#index`.
 
 ## On-The-Fly Image Manipulation (and Caching)
 Using a modified version of TimThumb, we can maniuplate our images on the fly!
