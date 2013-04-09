@@ -35,6 +35,12 @@ view/common.index.php
 	<div class="span6">
 		<?= r('form_test', 'index') ?>
 	</div>
+	<div class="span3">
+		<?= r('form_test', 'modal') ?>
+	</div>
+	<div class="span3">
+		<?= r('form_test', 'popover') ?>
+	</div>
 </div>
 <script>
 (function() {

@@ -115,4 +115,7 @@ class controller_form_test extends controller_base {
 		);	
 
 	}
+
+	function modal() { }
+	function popover() { }
 }

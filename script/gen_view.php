@@ -5,15 +5,19 @@ $ok = true;
 $controller = strtolower(gets("Enter View's Controller:"));
 $method = strtolower(gets("Enter View's Method:"));
 
-$boilerplate ='<div id="main">
+$boilerplate ='
+<div class="row">
+	<div class="span4">
 
+	</div>
+	<div class="span4">
+
+	</div>
+	<div class="span4">
+
+	</div>
 </div>
-<div id="sidebar-a">
-
-</div>
-<div id="sidebar-b">
-
-</div>';
+';
 
 $script_name = "{$controller}.{$method}.php";
 $full_script_path = VIEW_DIR."/{$script_name}";
