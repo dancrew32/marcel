@@ -1,7 +1,12 @@
 <?
 class html {
-	static function a($href, $text) {
-		return '<a href="'. $href .'">'. $text .'</a>';
+	static function a($href, $text, $cls=false) {
+		$cls = $cls ? " class=\"{$cls}\"" : '';
+		return "<a href=\"{$href}\"{$cls}>{$text}</a>";
+	}
+
+	static function btn($href, $text) {
+		return self::a($href, $text, 'btn');	
 	}
 
 	static function ul(array $data) {

@@ -1,2 +1,10 @@
+$bodyBackground: #f8f8f8;
+/*http://twitter.github.io/bootstrap/customize.html*/
+$textColor: #666;
+$linkColor: green;
+$linkColorHover: darken(green, 20%);
+
 @import 'compass_twitter_bootstrap';
 @import 'compass_twitter_bootstrap_responsive';
+
+body { padding-top: 70px }

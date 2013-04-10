@@ -9,6 +9,10 @@ class controller_common extends controller_base {
 		die('allowed');
 	}
 
+	function media_rows() {
+	
+	}
+
 	function nav() {
 	
 	}

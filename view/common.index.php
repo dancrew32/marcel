@@ -19,10 +19,12 @@ view/common.index.php
 		<h2>Image Cache</h2>
 		<?= image::get([
 			'src' => '/img/drwho.jpg',
-			'w'   => 250,
-			'h'   => 250,
+			'w'   => 300,
+			'h'   => 200,
 		], true) ?>
-		<p><a class="btn" href="#">View details &raquo;</a></p>
+		<p style="margin-top: 10px;">
+			<?= html::btn('#', 'See more &raquo;') ?>
+		</p>
 	</div>
 	<div class="span4">
 		<h2>Login</h2>
@@ -32,16 +34,20 @@ view/common.index.php
 
 
 <div class="row">
-	<div class="span6">
+	<div class="span4">
 		<?= r('form_test', 'index') ?>
 	</div>
-	<div class="span3">
+	<div class="span4">
 		<?= r('form_test', 'modal') ?>
 	</div>
-	<div class="span3">
+	<div class="span4">
+		<? /*
 		<?= r('form_test', 'popover') ?>
+		*/ ?>
+		<?= r('common', 'media_rows') ?>
 	</div>
 </div>
+
 <script>
 (function() {
 var ws = new WebSocket("ws://0.0.0.0:7334");
