@@ -11,11 +11,8 @@ class app {
 	# assets
 	const JQUERY_VERSION = '1.9.1';
 	public static $assets = [
-		'js'  => [ ],
-		'css' => [
-			//'http://fonts.googleapis.com/css?family=Open+Sans:300,600',
-			'/css/core/screen.css',
-		],
+		'js'    => [],
+		'css'   => ['/css/core/screen.css'],
 		'error' => [],
 		'debug' => [],
 	];
@@ -53,11 +50,6 @@ class app {
 			$out .= '.script("'. $j .'")';
 		}
 		$out .= '</script>';
-		# Error Logs
-		if (DEBUG && count(self::$assets['debug']))
-			$out .= '<script>(function(){'. implode(';', self::$assets['debug']) .'}())</script>';
-		if (DEBUG && count(self::$assets['error']))
-			$out .= '<script>(function(){'. implode(';', self::$assets['error']) .'}())</script>';
 		return $out;
 	}
 
@@ -71,16 +63,8 @@ class app {
 		self::$assets[$type][]= $test.'/'.$local;
 	}
 
-	static function errorlag($num, $str, $file, $line) {
-		self::$assets['error'][] = "console.error({no:'{$num}',str:'{$str}',file:'{$file}',line:'{$line}'})";
-		return true;	
-	}
-
 	static function run() {
 		if (DEBUG && !util::is_ajax()) {
-			# JavaScript Console Errors	
-			# set_error_handler('app::errorlag');
-
 			# HTML Output Errors
 			ini_set('display_errors', 1);
 			ini_set('html_errors', 1);

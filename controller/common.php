@@ -9,6 +9,10 @@ class controller_common extends controller_base {
 		die('allowed');
 	}
 
+	function nav() {
+	
+	}
+
 	function not_found() {
 		$code   = 404;
 		$status = 'Not Found';
