@@ -17,7 +17,7 @@ class form {
 
 	function open($action='#', $method='post', array $attrs=array()) {
 		$this->html .= '<form action="'. $action .'" method="'. strtoupper($method) .'"';
-		$this->html .= field::build_attributes($attrs) .'>';
+		$this->html .= html::build_attributes($attrs) .'>';
 		if (field::has_class('form-horizontal', $attrs))
 			$this->control_groups = false;
 		return $this;

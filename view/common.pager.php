@@ -1,80 +1,102 @@
-<div class="pager">
-	<? if ($page != 1): ?>
-		<span class="prev">
-			<a href="<?= $base.$prev.$suffix ?>" class="in">
-				&#x2190; prev
-			</a>
-		</span>
-	<? else: ?>
-		<span class="prev">
-			<span class="in">
-				&#x2190; prev
+<div class="pagination"><ul>
+	<li>
+		<? if ($page != 1): ?>
+			<span class="prev">
+				<a href="<?= $base.$prev.$suffix ?>">
+					&#x2190; prev
+				</a>
 			</span>
-		</span>
-	<? endif ?>
+		<? else: ?>
+			<span class="prev">
+				<span>
+					&#x2190; prev
+				</span>
+			</span>
+		<? endif ?>
+	</li>
 	
-	<? if ($page != 1): ?>
-		<a href="<?= "{$base}1{$suffix}" ?>">1</a>
-	<? else: ?>
-		<span class="current">1</span>
-	<? endif ?>
+	<li>
+		<? if ($page != 1): ?>
+			<a href="<?= "{$base}1{$suffix}" ?>">1</a>
+		<? else: ?>
+			<span class="current">1</span>
+		<? endif ?>
+	</li>
 	
-	<? if ($start > 2): ?>
-		<span class="ellipses">
-			&hellip;
-		</span>
-	<? endif ?>
+	<li>
+		<? if ($start > 2): ?>
+			<span class="ellipses">
+				&hellip;
+			</span>
+		<? endif ?>
+	</li>
 	
 	<? $min = min($end, $num - 1) ?>
 	<? for ($p = ($start == 1 ? 2 : $start); $p <= $min; $p++): ?>
-		<? if ($p == $page): ?>
-			<span class="current">
-				<?= $p ?>
-			</span>
-		<? else: ?>
-			<a href="<?= $base.$p.$suffix ?>">
-				<?= $p ?>
-			</a>
-		<? endif ?>
+		<li>
+			<? if ($p == $page): ?>
+				<span class="current">
+					<?= $p ?>
+				</span>
+			<? else: ?>
+				<a href="<?= $base.$p.$suffix ?>">
+					<?= $p ?>
+				</a>
+			<? endif ?>
+		</li>
 	<? endfor ?>
 	
 	<? if ($num - $end > 1): ?>
-		<span class="ellipses">
-			&hellip;
-		</span>
+		<li>
+			<span class="ellipses">
+				&hellip;
+			</span>
+		</li>
 	<? endif ?>
 	
 	<? if ($page < $num): ?>
-		<a href="<?= $base.$num.$suffix ?>">
-			<?= $num ?>
-		</a>
-		<span class="next">
-			<a href="<?= $base.($page + 1).$suffix ?>" class="in">
-				next &#x2192;
-			</a>
-		</span>
-	<? elseif ($page > $num): ?>
-		<? if ($num != 1): ?>
+		<li>
 			<a href="<?= $base.$num.$suffix ?>">
 				<?= $num ?>
 			</a>
-		<? endif ?>
-		<span class="next">
-			<span class="in">
-				next &#x2192;
+		</li>
+		<li>
+			<span class="next">
+				<a href="<?= $base.($page + 1).$suffix ?>">
+					next &#x2192;
+				</a>
 			</span>
-		</span>
+		</li>
+	<? elseif ($page > $num): ?>
+		<? if ($num != 1): ?>
+			<li>
+				<a href="<?= $base.$num.$suffix ?>">
+					<?= $num ?>
+				</a>
+			</li>
+		<? endif ?>
+			<li>
+				<span class="next">
+					<span>
+						next &#x2192;
+					</span>
+				</span>
+			</li>
 	<? else: ?>
 		<? if ($num != 1): ?>
-			<span class="current">
-				<?= $num ?>
-			</span>
+			<li>
+				<span class="current">
+					<?= $num ?>
+				</span>
+			</li>
 		<? endif ?>
 		
-		<span class="next">
-			<span class="in">
-				next &#x2192;
+		</li>
+			<span class="next">
+				<span>
+					next &#x2192;
+				</span>
 			</span>
-		</span>
+		</li>
 	<? endif ?>
-</div>
+</ul></div>

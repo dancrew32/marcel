@@ -53,17 +53,17 @@ class field {
 	}
 
 	function input() {
-		$this->html .= self::build_prepend($this->attrs); 
+		$this->html .= html::build_prepend($this->attrs); 
 		$type = take($this->attrs, 'type', 'text');
-		$this->html .= '<input type="'. $type .'"'. self::build_attributes($this->attrs) .' />';
-		$this->html .= self::build_append($this->attrs);
+		$this->html .= '<input type="'. $type .'"'. html::build_attributes($this->attrs) .' />';
+		$this->html .= html::build_append($this->attrs);
 		return $this;
 	}
 
 
 	function textarea() {
 		$value = $this->pick('value');
-		$this->html .= '<textarea'. self::build_attributes($this->attrs) .">{$value}</textarea>";
+		$this->html .= '<textarea'. html::build_attributes($this->attrs) .">{$value}</textarea>";
 		return $this;
 	}
 
@@ -71,7 +71,7 @@ class field {
 		if (!isset($this->attrs['class']))
 			$this->attrs['class'] = 'btn';
 		$text = $this->pick('text');
-		$this->html .= '<button'. self::build_attributes($this->attrs) .'>'.$text.'</button>';
+		$this->html .= '<button'. html::build_attributes($this->attrs) .'>'.$text.'</button>';
 		return $this;
 	}
 
@@ -80,14 +80,14 @@ class field {
 		$inline = $this->pick('inline', 'boolean');
 		$this->html .= '<label class="checkbox';
 		if ($inline) $this->html .= ' inline';
-		$this->html .= '"><input type="checkbox"'. self::build_attributes($this->attrs) .' />'. $label .'</label>';
+		$this->html .= '"><input type="checkbox"'. html::build_attributes($this->attrs) .' />'. $label .'</label>';
 		return $this;
 	}
 
 	function select() {
 		$options = $this->pick('options', 'array');
 		$selected = $this->pick('value', 'array');
-		$this->html .= '<select'. self::build_attributes($this->attrs) .'>';
+		$this->html .= '<select'. html::build_attributes($this->attrs) .'>';
 
 		foreach ($options as $k => $v) {
 			$this->html .= "<option value=\"{$v}\"";
@@ -105,7 +105,7 @@ class field {
 		$this->html .= '<label class="radio';	
 		if ($inline)
 			$this->html .= ' inline';
-		$this->html .= '"><input type="radio"'. self::build_attributes($this->attrs);
+		$this->html .= '"><input type="radio"'. html::build_attributes($this->attrs);
 		$this->html .= " />{$label}</label>";
 		return $this;
 	}
@@ -128,62 +128,6 @@ class field {
 			return $attribute;
 		} catch (Exception $ex) { }
 		return false;
-	}
-
-	static function build_attributes(array $attrs=array()) {
-		$html = '';
-		foreach($attrs as $k => $v){
-            switch ($k) {
-				case 'class':
-					$html .= " {$k}=\"". (is_array($v) ? implode(' ', $v) : $v) .'"';
-                case 'checked':
-					if ($v) $html .=' checked'; break;
-				case 'autocomplete': 
-					if (!$v) $html .=' autocomplete="off"'; break;
-                case 'required':
-                    if ($v) $html .=' required'; break;
-                case 'multiple':
-                    if ($v) $html .=' multiple'; break;
-				case 'readonly':
-					if ($v) $html .=' readonly'; break;
-				case 'autofocus':
-					if ($v) $html.=' autofocus'; break;
-                default:
-                    if ($k != 'prepend' && $k != 'append')
-                        $html .= " {$k}=\"{$v}\"";
-            }
-        }
-		return $html;
-	}
-
-	static function build_prepend(array $attrs=array()) {
-		$html = '';
-        $pre = take($attrs, 'prepend', null);
-        $app = take($attrs, 'append', null);
-
-        if ($pre || $app){
-            $html = '<div class="';
-
-            if ($pre) $html .= 'input-prepend';
-
-            if ($app) {
-                if ($pre) $html .= ' ';
-                $html .= 'input-append';
-            }
-
-            $html .= '">';
-
-            if ($pre) $html .= "<span class=\"add-on\">{$pre}</span>";
-        }
-
-        return $html;
-	}
-
-	static function build_append(array $attrs=array()) {
-		if (isset($attrs['append']))
-			return '<span class="add-on">'.$attrs['append'].'</span></div>';
-
-		if (isset($attrs['prepend'])) return '</div>';
 	}
 
 

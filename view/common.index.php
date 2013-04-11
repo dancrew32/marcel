@@ -6,6 +6,7 @@
 	<p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
 </div>
 
+
 <div class="row">
 	<div class="span4">
 		<h2>This Page</h2>
@@ -46,6 +47,21 @@ view/common.index.php
 		*/ ?>
 		<?= r('common', 'media_rows') ?>
 	</div>
+</div>
+
+<div class="row">
+
+	<div class="span6">
+		<h3>
+		Pager!
+		</h3>
+		<?= r('common', 'pager', [
+			'total' => 50, 
+			'page' => 1, 
+			'rpp' => 5
+		]) ?>
+	</div>
+
 </div>
 
 <script>
