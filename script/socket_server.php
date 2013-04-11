@@ -1,9 +1,7 @@
-#! /usr/local/bin/php
 <?
+require_once(dirname(__FILE__).'/inc.php');
 
-require_once('./websockets.php');
-
-class echoServer extends WebSocketServer {
+class echoServer extends socket_server {
 	//protected $maxBufferSize = 1048576; //1MB... overkill for an echo server, but potentially plausible for other applications.
 	
 	protected function process($user, $message) {
