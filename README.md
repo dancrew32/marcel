@@ -19,6 +19,7 @@
 * [Form Fields](#form-fields)
 * [Image Manipulation](#on-the-fly-image-manipulation-and-caching)
 * [Helpers & Utils](#helpers-utils-and-more)
+* [WebSocket Server](#websocket-server)
 * [Interactive Prompt](#interactive-prompt-with-phpsh)
 * [Profiling](#profiling-with-xhprof)
 * [XDebug](#xdebug)
