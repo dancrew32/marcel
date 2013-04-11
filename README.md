@@ -376,9 +376,9 @@ sudo pecl install gearman
 ```
 
 ## WebSocket Server
-TODO: script to launch and persist websocket server
-talk about using it to launch worker jobs and how it has access to 
-user sessions etc..
+Running `php -q script/socket_server.php` will start up a websocket server
+that has access to all of the framework methods. 
+TODO: working on getting User sessions data in the `socket_user` constructor.
 
 ## Interactive Prompt with PHPSH
 Using [PHPSH](https://github.com/facebook/phpsh), 
