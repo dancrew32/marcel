@@ -7,7 +7,7 @@ class echoServer extends socket_server {
 	protected function process($user, $message) {
 		//$url = file_get_contents($message);
 		//preg_match('/<title>.+/', $url, $matches);
-		$this->send($user, $matches[0]);
+		$this->send($user, h($message));
 	}
 	
 	protected function connected($user) {

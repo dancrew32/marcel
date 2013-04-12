@@ -1,10 +1,12 @@
 <?
 class controller_base {
 	public $skip = false;
-	public $is_post = false;
 	function __construct($o) {
-		$this->is_post = take($o, 'm') == 'post';
    	}
+	function __get($prop) {
+		if (isset(app::$req_type) && "is_".app::$req_type == $prop)
+			return true;
+	}
 	function skip() {
 		$this->skip = true;	
 	}

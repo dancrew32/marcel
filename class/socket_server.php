@@ -13,6 +13,8 @@ abstract class socket_server {
 	protected $headerSecWebSocketProtocolRequired   = false;
 	protected $headerSecWebSocketExtensionsRequired = false;
 
+	const MAGIC_GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+
 	function __construct($addr, $port, $bufferLength = 2048) {
 		$this->maxBufferSize = $bufferLength;
 		$this->master = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)  or die("Failed: socket_create()");
@@ -23,50 +25,49 @@ abstract class socket_server {
 		$this->stdout("Server started\nListening on: $addr:$port\nMaster socket: ".$this->master);
 
 		while(true) {
-			if (empty($this->sockets)) {
+			if (empty($this->sockets))
 				$this->sockets[] = $master;
-			}
 			$read = $this->sockets;
 			$write = $except = null;
-			@socket_select($read,$write,$except,null);
+			@socket_select($read, $write, $except, null);
+
 			foreach ($read as $socket) {
 				if ($socket == $this->master) {
 					$client = socket_accept($socket);
 					if ($client < 0) {
 						$this->stderr("Failed: socket_accept()");
 						continue;
-					} else {
+					} else
 						$this->connect($client);
-					}
 				} else {
-					$numBytes = @socket_recv($socket,$buffer,$this->maxBufferSize,0); // todo: if($numBytes === false) { error handling } elseif ($numBytes === 0) { remote client disconected }
-					if ($numBytes == 0) {
-						$this->disconnect($socket);
-					} else {
+					$numBytes = @socket_recv($socket, $buffer, $this->maxBufferSize, 0); 
+					// todo: if($numBytes === false) { error handling } elseif ($numBytes === 0) { remote client disconected }
+					if ($numBytes != 0) {
 						$user = $this->getUserBySocket($socket);
-						if (!$user->handshake) {
-							$this->doHandshake($user,$buffer);
-						} else {
+						if ($user->handshake) {
 							if ($message = $this->deframe($buffer, $user)) {
 								$this->process($user, utf8_encode($message));
-								if($user->hasSentClose) {
+								if ($user->hasSentClose)
 									$this->disconnect($user->socket);
-								}
 							} else {
 								do {
 									$numByte = @socket_recv($socket,$buffer,$this->maxBufferSize,MSG_PEEK);
-									if ($numByte > 0) {
-										$numByte = @socket_recv($socket,$buffer,$this->maxBufferSize,0);
-										if ($message = $this->deframe($buffer,$user)) {
-											$this->process($user,$message);
-											if($user->hasSentClose) {
-												$this->disconnect($user->socket);
-											}
-										}
-									}
+									if (!$numByte) continue;
+
+									$numByte = @socket_recv($socket, $buffer, $this->maxBufferSize, 0);
+									$message = $this->deframe($buffer, $user);
+									if (!$message) continue;
+
+									$this->process($user,$message);
+									if ($user->hasSentClose)
+										$this->disconnect($user->socket);
 								} while($numByte > 0);
 							}
+						} else {
+							$this->doHandshake($user,$buffer);
 						}
+					} else {
+						$this->disconnect($socket);
 					}
 				}
 			}
@@ -89,9 +90,9 @@ abstract class socket_server {
 	}
 
 	protected function connect($socket) {
-		$user = new $this->userClass(uniqid(),$socket);
-		array_push($this->users,$user);
-		array_push($this->sockets,$socket);
+		$user = new $this->userClass(uniqid(), $socket);
+		$this->users[] = $user;
+		$this->sockets[] = $socket;
 		$this->connecting($user);
 	}
 
@@ -99,33 +100,29 @@ abstract class socket_server {
 		$foundUser = null;
 		$foundSocket = null;
 		foreach ($this->users as $key => $user) {
-			if ($user->socket == $socket) {
-				$foundUser = $key;
-				$disconnectedUser = $user;
-				break;
-			}
+			if ($user->socket != $socket) continue;
+			$foundUser = $key;
+			$disconnectedUser = $user;
+			break;
 		}
 		if ($foundUser !== null) {
 			unset($this->users[$foundUser]);
 			$this->users = array_values($this->users);
 		}
 		foreach ($this->sockets as $key => $sock) {
-			if ($sock == $socket) {
-				$foundSocket = $key;
-				break;
-			}
+			if ($sock != $socket) continue;
+			$foundSocket = $key;
+			break;
 		}
 		if ($foundSocket !== null) {
 			unset($this->sockets[$foundSocket]);
 			$this->sockets = array_values($this->sockets);
 		}
-		if ($triggerClosed) {
+		if ($triggerClosed)
 			$this->closed($disconnectedUser);
-		}
 	}
 
 	protected function doHandshake($user, $buffer) {
-		$magicGUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 		$headers = array();
 		$lines = explode("\n",$buffer);
 		foreach ($lines as $line) {
@@ -181,7 +178,7 @@ abstract class socket_server {
 		$user->headers = $headers;
 		$user->handshake = $buffer;
 
-		$webSocketKeyHash = sha1($headers['sec-websocket-key'] . $magicGUID);
+		$webSocketKeyHash = sha1($headers['sec-websocket-key'] . static::MAGIC_GUID);
 
 		$rawToken = "";
 		for ($i = 0; $i < 20; $i++) {
@@ -283,31 +280,27 @@ abstract class socket_server {
 			$b2 = 126;
 			$hexLength = dechex($length);
 			//$this->stdout("Hex Length: $hexLength");
-			if (strlen($hexLength)%2 == 1) {
+			if (strlen($hexLength)%2 == 1)
 				$hexLength = '0' . $hexLength;
-			} 
 			$n = strlen($hexLength) - 2;
 
-			for ($i = $n; $i >= 0; $i=$i-2) {
+			for ($i = $n; $i >= 0; $i=$i-2)
 				$lengthField = chr(hexdec(substr($hexLength, $i, 2))) . $lengthField;
-			}
-			while (strlen($lengthField) < 2) {
+
+			while (strlen($lengthField) < 2)
 				$lengthField = chr(0) . $lengthField;
-			}
 		} else {
 			$b2 = 127;
 			$hexLength = dechex($length);
-			if (strlen($hexLength)%2 == 1) {
+			if (strlen($hexLength)%2 == 1)
 				$hexLength = '0' . $hexLength;
-			} 
 			$n = strlen($hexLength) - 2;
 
-			for ($i = $n; $i >= 0; $i=$i-2) {
+			for ($i = $n; $i >= 0; $i=$i-2)
 				$lengthField = chr(hexdec(substr($hexLength, $i, 2))) . $lengthField;
-			}
-			while (strlen($lengthField) < 8) {
+
+			while (strlen($lengthField) < 8)
 				$lengthField = chr(0) . $lengthField;
-			}
 		}
 
 		return chr($b1) . chr($b2) . $lengthField . $message;
@@ -343,9 +336,8 @@ abstract class socket_server {
 			return $this->deframe($message, $user);
 		}
 
-		if ($this->checkRSVBits($headers,$user)) {
+		if ($this->checkRSVBits($headers,$user))
 			return false;
-		}
 
 		if ($willClose) {
 			// todo: fail the connection
@@ -422,31 +414,30 @@ abstract class socket_server {
 
 	protected function extractPayload($message,$headers) {
 		$offset = 2;
-		if ($headers['hasmask']) {
+		if ($headers['hasmask'])
 			$offset += 4;
-		}
-		if ($headers['length'] > 65535) {
+
+		if ($headers['length'] > 65535)
 			$offset += 8;
-		} elseif ($headers['length'] > 125) {
+		elseif ($headers['length'] > 125)
 			$offset += 2;
-		}
+
 		return substr($message,$offset);
 	}
 
 	protected function applyMask($headers,$payload) {
 		$effectiveMask = "";
-		if ($headers['hasmask']) {
+		if ($headers['hasmask'])
 			$mask = $headers['mask'];
-		} else {
+		else
 			return $payload;
-		}
 
-		while (strlen($effectiveMask) < strlen($payload)) {
+		while (strlen($effectiveMask) < strlen($payload))
 			$effectiveMask .= $mask;
-		}
-		while (strlen($effectiveMask) > strlen($payload)) {
+
+		while (strlen($effectiveMask) > strlen($payload))
 			$effectiveMask = substr($effectiveMask,0,-1);
-		}
+
 		return $effectiveMask ^ $payload;
 	}
 	protected function checkRSVBits($headers,$user) { // override this method if you are using an extension where the RSV bits are used.
@@ -462,18 +453,14 @@ abstract class socket_server {
 		for ($i = 0; $i < strlen($str); $i++) {
 			$strout .= (ord($str[$i])<16) ? "0" . dechex(ord($str[$i])) : dechex(ord($str[$i]));
 			$strout .= " ";
-			if ($i%32 == 7) {
+			if ($i%32 == 7)
 				$strout .= ": ";
-			}
-			if ($i%32 == 15) {
+			if ($i%32 == 15)
 				$strout .= ": ";
-			}
-			if ($i%32 == 23) {
+			if ($i%32 == 23)
 				$strout .= ": ";
-			}
-			if ($i%32 == 31) {
+			if ($i%32 == 31)
 				$strout .= "\n";
-			}
 		}
 		return $strout . "\n";
 	}
@@ -481,13 +468,10 @@ abstract class socket_server {
 	protected function printHeaders($headers) {
 		echo "Array\n(\n";
 		foreach ($headers as $key => $value) {
-			if ($key == 'length' || $key == 'opcode') {
+			if ($key == 'length' || $key == 'opcode')
 				echo "\t[$key] => $value\n\n";
-			} else {
+			else
 				echo "\t[$key] => ".$this->strtohex($value)."\n";
-
-			}
-
 		}
 		echo ")\n";
 	}

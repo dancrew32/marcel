@@ -1,3 +1,4 @@
+<? app::asset('socket_test', 'js') ?>
 <div class="hero-unit">
 	<h1>Marcel</h1>
 	<p>
@@ -62,24 +63,8 @@ view/common.index.php
 		]) ?>
 	</div>
 
-</div>
+	<div class="span6">
+		<video id="video"></video>
+	</div>
 
-<script>
-(function() {
-var ws = new WebSocket("ws://0.0.0.0:7334");
-window.ws = ws;
-ws.onclose = function() {
-	console.log('closed');
-};
-ws.onmessage = function(msg) {
-	console.log(msg.data);	
-};
-ws.error = function(e) {
-	console.log('error');
-	console.log(e);	
-};
-ws.onopen = function() {
-	console.log('socket opened');		
-};
-}());
-</script>
+</div>

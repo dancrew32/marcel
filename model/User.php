@@ -13,12 +13,13 @@ class User extends ActiveRecord\Model {
 	static function init() {
 		self::$logged_in = take($_SESSION, 'in', false);
 		if (!self::$logged_in) return false;
+
 		$id = (int) take($_SESSION, 'id');
-		$cache = "user:init:{$id}";
-		self::$user = cache::get($cache, $found, true);
+		$cache_key  = cache::keygen(__CLASS__, __FUNCTION__, $id);
+		self::$user = cache::get($cache_key, $found, true);
 		if (!$found) {
 			self::$user = User::find($id);
-			cache::set($cache, self::$user, time::ONE_HOUR, true);
+			cache::set($cache_key, self::$user, time::ONE_HOUR, true);
 		}
 	}
 
@@ -29,7 +30,7 @@ class User extends ActiveRecord\Model {
 		if ($match && $r->active) {
 			$_SESSION['in'] = 1;
 			$_SESSION['id'] = take($r, 'id');
-			self::$in = true;
+			self::$logged_in = true;
 			$r->last_login = db::dtnow();
 			$r->last_login_ip = take($_SERVER, 'REMOTE_ADDR', null);
 			$r->login_count++;

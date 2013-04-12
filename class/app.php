@@ -7,6 +7,7 @@ class app {
 	static $path;
 	static $routes = [];
 	static $cols = 'no-sidebars';
+	static $req_type;
 
 	# assets
 	const JQUERY_VERSION = '1.9.1';
@@ -76,7 +77,7 @@ class app {
 		unset($path_parts);
 
 		# HTTP Method
-		$req_type = strtolower(take($_SERVER, 'REQUEST_METHOD', 'get'));
+		self::$req_type = strtolower(take($_SERVER, 'REQUEST_METHOD', 'get'));
 
 		# Route
 		$found = false;
@@ -90,11 +91,11 @@ class app {
 
 			# HTTP Method Route (optional)
 			if (isset($o['http'])) {
-				if (!isset($o['http'][$req_type])) {
+				if (!isset($o['http'][self::$req_type])) {
 					$found = false;	
 					break;
 				}
-				$o = $o['http'][$req_type]; # override
+				$o = $o['http'][self::$req_type]; # override
 			}
 
 			# Session and User
