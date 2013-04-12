@@ -1,4 +1,5 @@
 <? app::asset('socket_test', 'js') ?>
+<? app::asset('getUserMedia', 'js') ?>
 <div class="hero-unit">
 	<h1>Marcel</h1>
 	<p>
@@ -64,7 +65,7 @@ view/common.index.php
 	</div>
 
 	<div class="span6">
-		<video id="video"></video>
+		<canvas id="video" width="200" height="150"></canvas>
 	</div>
 
 </div>
