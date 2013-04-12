@@ -91,10 +91,14 @@ class image {
 			'ct'  => null, # canvas transparency (ignores cc)
 		], $o);
 
-		if (!isset($o['src']{0})) return '';
-
+		if (!isset($o['src']{0}))
+			throw new Exception('Must have `src`');
+		
 		$params = http_build_query($o, '', '&amp;');
 		$path = self::PROCESS_PATH."?{$params}";
+
+		$path .= '&sig='.self::keygen($o);
+
 		if (!$html) return $path;
 		$attrs = '';
 		if ($alt)
@@ -104,5 +108,9 @@ class image {
 		if ($o['h'])
 			$attrs .= ' height="'. $o['h'] .'"';
 		return '<img src="'. $path .'"'. $attrs .'>';
+	}
+
+	static function keygen($o) {
+		return md5(SALT.implode('', $o));
 	}
 }

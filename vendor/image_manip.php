@@ -87,6 +87,13 @@ class image_manip {
 			if (!$allowed) return;
 		}
 
+		// sig match
+		$get_sans_sig = $_GET;
+		unset($get_sans_sig['sig']);
+		$keygen = image::keygen($get_sans_sig);
+		if ($keygen != $this->param('sig'))
+			return false;
+
 		$cachePrefix = ($this->isURL ? '_ext_' : '_int_');
 		if ($this->isURL){
 			$arr = explode('&', $_SERVER ['QUERY_STRING']);
