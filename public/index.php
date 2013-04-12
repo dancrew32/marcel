@@ -58,16 +58,6 @@ define('IMAGE_DIR', PUBLIC_DIR.'/img');
 define('CSS_DIR', '/css');
 define('JS_DIR',  '/js');
 
-# Active Record
-require_once VENDOR_DIR.'/activerecord/ActiveRecord.php';
-ActiveRecord\Config::initialize(function($cfg) {
-	$cfg->set_model_directory(MODEL_DIR);
-	$cfg->set_connections([
-		'default' => 'mysql://'. DB_USER .':'. DB_PASS .'@'. DB_HOST .'/'. DB_DB,
-	]);
-	$cfg->set_default_connection('default');
-});
-
 # App Autoload
 spl_autoload_register('clsload');
 function clsload($class_name) {

@@ -119,8 +119,8 @@ app::$routes = [
 		],
 	],
 	
-	# On-the-fly Image Processing
-	'/i' => [ 'c' => 'image', 'm' => 'process' ],
+	# Use `nodb` to avoid database and user session initialization
+	'/i' => [ 'c' => 'image', 'm' => 'process', 'nodb' => true ],
 
 	# Login/Logout
 	'/login'  => [ 'c' => 'common', 'm' => 'login' ],
@@ -342,7 +342,7 @@ check out `controller/form_test.php#index`.
 Using a modified version of TimThumb, we can maniuplate our images on the fly!
 ```php
 app::$routes = [
-	'/i' => ['c' => 'image', 'm' => 'process' ],
+	'/i' => ['c' => 'image', 'm' => 'process', 'nodb' => true ],
 ];
 ```
 Now any view: 
@@ -355,6 +355,8 @@ Now any view:
 ```
 Will generate: `http://site.com/i?src=%2Fimg%2Fdrwho.jpg&q=85`.
 This new image will be cached and served from now on!
+Using `nodb => true` in the route prevents unnecessary classes from loading
+(since these images won't need database interaction).
 
 ## Helpers, Utils and more
 In `class/helper.php`, `class/util.php`, `class/size.php`, and `class/time.php`

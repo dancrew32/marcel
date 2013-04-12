@@ -19,8 +19,8 @@ app::$routes = [
 		],
 	],
 
-	# On-the-fly Image Processing
-	'/i' => [ 'c' => 'image', 'm' => 'process' ],
+	# Skip database initialization with `nodb`
+	'/i' => [ 'c' => 'image', 'm' => 'process', 'nodb' => true ],
 
 	# Auth Example (anons not allowed)
 	'/auth-test-simple' => [ 

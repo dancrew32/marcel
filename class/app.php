@@ -98,9 +98,12 @@ class app {
 				$o = $o['http'][self::$req_type]; # override
 			}
 
-			# Session and User
-			self::session_begin();
-			User::init();
+			# DB Bypass? If not, init DB and User Sessions
+			if (!isset($o['nodb'])) {
+				self::db_init();
+				self::session_begin();
+				User::init();
+			}
 
 			# Router Auth (Phase 2) (optional)
 			if ($global_auth || isset($o['auth'])) {
@@ -130,6 +133,19 @@ class app {
 
 		if (!$found && !CLI) 
 			echo r('common', 'not_found');		
+	}
+
+
+	static function db_init() {
+		# Active Record
+		require_once VENDOR_DIR.'/activerecord/ActiveRecord.php';
+		ActiveRecord\Config::initialize(function($cfg) {
+			$cfg->set_model_directory(MODEL_DIR);
+			$cfg->set_connections([
+				'default' => 'mysql://'. DB_USER .':'. DB_PASS .'@'. DB_HOST .'/'. DB_DB,
+			]);
+			$cfg->set_default_connection('default');
+		});
 	}
 
 	static function session_begin() {
