@@ -481,10 +481,10 @@ view/common.index.php
 		<p>
 		This has to be initialized in JavaScript (no magic data-attribute binding)
 		<code>$('#my-tip').tooltip({ selector: 'a' });</code>
-			<script>
+		<script>
 			setTimeout(function() {
 				$('#my-tip').tooltip({ selector: 'a' });
-				}, 350);
+			}, 350);
 		</script>
 		</p>
 		<ul id="my-tip">
@@ -493,6 +493,53 @@ view/common.index.php
 			<li><a href="#" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom">Tooltip on bottom</a></li>
 			<li><a href="#" data-toggle="tooltip" data-placement="left" title="Tooltip on left">Tooltip on left</a></li>
 		</ul>
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="span4">	
+		<h2>Popovers</h2>
+		<p>
+		This has to be initialized in JavaScript (no magic data-attribute binding)
+		<code>$('#popit button').popover();</code>
+		This doesn't delegate like tooltip, so use it sparingly
+		<script>
+			setTimeout(function() {
+				$('#popit button').popover();
+			}, 350);
+		</script>
+		</p>
+		<ul id="popit">
+			<li><button class="btn" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on top">Popover on top</button></li>
+			<li><button class="btn" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on right">Popover on right</button></li>
+			<li><button class="btn" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on bottom">Popover on bottom</button></li>
+			<li><button class="btn" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on left">Popover on left</button></li>
+		</ul>
+	</div>
+
+	<div class="span4">
+		<h2>Accordion</h2>
+		<div class="accordion" id="accordion2">
+			<? for ($i = 0; $i < 3; $i++): ?>
+				<div class="accordion-group">
+					<div class="accordion-heading">
+						<a class="accordion-toggle" 
+							data-toggle="collapse" 
+							data-parent="#accordion2" 
+							href="#collapse<?= $i?>">
+							Group Item #<?= $i+1 ?>
+						</a>
+					</div>
+					<div id="collapse<?= $i ?>" class="accordion-body collapse<? echoif(!$i, ' in') ?>">
+						<div class="accordion-inner">
+							Your accordion content
+						</div>
+					</div>
+				</div>
+			<? endfor ?>
+		</div>
+
 	</div>
 </div>
 
