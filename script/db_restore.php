@@ -31,8 +31,8 @@ $restore = strtolower(gets("Are you sure you want to restore {$db_to_restore_nam
 if ($restore != 'y')
 	return yellow("Exiting. Database not restored.\n");
 
-green("Restoring ". DB_DB ." to {$db_to_restore_name}.\n");
+green("Restoring ". DB_NAME ." to {$db_to_restore_name}.\n");
 $cmd = "mysql --user=". DB_USER ." --password=". DB_PASS; 
-$cmd .= " --host=". DB_HOST ." ". DB_DB ." < '{$db_to_restore}'";
+$cmd .= " --host=". DB_HOST ." ". DB_NAME ." < '{$db_to_restore}'";
 shell_exec($cmd);
 green("Dump Restored: {$db_to_restore_name}\n");

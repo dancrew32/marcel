@@ -17,7 +17,7 @@ define('SESSION_NAME', '<your session name>');
 define('DB_USER', '<user>');
 define('DB_PASS', '<pass>');
 define('DB_HOST', 'localhost');
-define('DB_DB', '<dbname>');
+define('DB_NAME', '<dbname>');
 define('DB_DIR', ROOT_DIR.'/db');
 define('SCHEMA_DIR', DB_DIR.'/schema');
 define('DUMP_DIR', DB_DIR.'/dump');
