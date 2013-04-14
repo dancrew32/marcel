@@ -29,6 +29,14 @@ class controller_form_test extends controller_base {
 				'class' => ['input-medium']
 			])
 		)
+		->add('Typeahead', new field('text', [
+				'data-provide'   => "typeahead",
+				'data-source'    => '["one", "two", "three", "four", "five", "six", "seven", "eight"]',
+				'data-items'     => 5,
+				'placeholder'    => 'e.g. "one" or "three"',
+				'data-minLength' => 2,
+			])
+		)
 		->add('textarea', new field('textarea', []))
 
 		->fieldset('Groups')

@@ -48,6 +48,16 @@ class form {
 		return $this;
 	}
 
+	function br() {
+		$this->html .= "<br>";
+		return $this;
+	}
+	
+	function custom($text) {
+		$this->html .= $text;	
+		return $this;
+	}
+
 	function group($label='') {
 		$args = func_get_args();		
 		$argpos = 1;

@@ -10,4 +10,9 @@ $linkColorHover: darken(green, 20%);
 @import 'compass_twitter_bootstrap_responsive';
 
 // All yours!
-.common.index .hero-unit { margin-top: 70px }
+.row .inner {
+	border: 1px solid #ccc;	
+	padding:40px 0 20px;
+	background-color: #eee;
+	text-align: center;
+}

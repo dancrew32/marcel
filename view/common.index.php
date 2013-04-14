@@ -6,6 +6,15 @@
 	<p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
 </div>
 
+<div class="row">
+	<div class="span4 offset4">
+		<h2>Carousel</h2>
+		<div class="inner">
+			<?= r('common', 'carousel') ?>
+		</div>
+	</div>
+</div>
+
 
 <div class="row">
 	<div class="span4">
@@ -29,7 +38,7 @@ view/common.index.php
 	</div>
 	<div class="span4">
 		<h2>Login</h2>
-		<?= r('authentication', 'login') ?>
+		<?= r('authentication', 'login', ['simple_mode' => true]) ?>
 	</div>
 </div>
 

@@ -4,10 +4,13 @@ class controller_authentication extends controller_base {
 		User::logout();
 	}
 
-	function login() {
+	function login($o) {
 		$action = "/login";
 		$user = take($_POST, 'user');
 		$pass = take($_POST, 'pass');
+
+		# Toggle help links
+		$this->simple_mode = take($o, 'simple_mode', false);
 
 		# Form
 		$this->form = new form;

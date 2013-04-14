@@ -11,7 +11,9 @@
 </head>
 <body class="<?= implode(' ', $body_classes) ?>">
 
-<?= r('common', 'nav') ?>
+<div class="container">
+	<?= r('common', 'nav') ?>
+</div>
 
 <div class="container">
 	<?= $yield ?>

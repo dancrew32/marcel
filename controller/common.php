@@ -13,6 +13,10 @@ class controller_common extends controller_base {
 	
 	}
 
+	function carousel() {
+	
+	}
+
 	function nav() {
 		$this->logged_in = User::$logged_in;	
 	}

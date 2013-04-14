@@ -1,4 +1,4 @@
-<div class="navbar <? /*navbar-inverse */ ?>navbar-fixed-top">
+<div class="navbar<? /*navbar-inverse navbar-fixed-top */ ?>">
 	<div class="navbar-inner">
 		<div class="container">
 
@@ -8,14 +8,14 @@
 				<span class="icon-bar"></span>
 			</button>
 
-			<a class="brand" href="#">
+			<a class="brand" href="/">
 				<?= APP_NAME ?>
 			</a>
 
 			<div class="nav-collapse collapse">
 
 				<ul class="nav">
-					<li class="active"><a href="#">Home</a></li>
+					<li class="active"><a href="/">Home</a></li>
 					<li><a href="#about">About</a></li>
 					<li><a href="#contact">Contact</a></li>
 					<li class="dropdown">
@@ -33,24 +33,35 @@
 				</ul>
 
 				<ul class="nav pull-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle"
-							data-toggle="dropdown">
-							<i class="icon-user"></i>
-							<? if ($logged_in): ?>
-								Logged In
-							<? else: ?>
-								Logged Out	
-							<? endif ?>
-							<b class="caret"></b>
-							<ul class="dropdown-menu">
-								<li>
-								    <a href="#">Item</a>
-								    <a href="#">Item</a>
-								    <a href="#">Item</a>
-								</li>
-							</ul>
-						</a>
+						<? if ($logged_in): ?>
+							<li class="dropdown">
+								<a href="/login" 
+									class="dropdown-toggle"
+									data-toggle="dropdown">
+									<i class="icon-user"></i>
+									Logged In
+									<b class="caret"></b>
+									<ul class="dropdown-menu">
+										<li>
+										<a href="#">Item</a>
+										<a href="#">Item</a>
+										<a href="#">Item</a>
+										</li>
+									</ul>
+								</a>
+							</li>
+						<? else: ?>
+							<li>
+								<a href="/login">
+									Login
+								</a>
+							</li>
+							<li>
+								<a href="/login">
+									Join	
+								</a>
+							</li>
+						<? endif ?>
 					</li>
 				</ul>
 
