@@ -131,7 +131,7 @@ class app {
 
 
 		if (!$found && !CLI) 
-			echo r('common', 'not_found');		
+			echo r('status_code', 'not_found');		
 	}
 
 
