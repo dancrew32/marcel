@@ -14,28 +14,8 @@ class controller_common extends controller_base {
 	}
 
 	function nav() {
-	
+		$this->logged_in = User::$logged_in;	
 	}
-
-	function not_found() {
-		$code   = 404;
-		$status = 'Not Found';
-		header("HTTP/1.1 {$code} {$status}");
-		json([
-			'status' =>	$status,
-			'code'   => $code,
-		]);
-	}	
-
-	function fatal_error() {
-		$code   = 500;
-		$status = 'Internal Server Error';
-		header("HTTP/1.1 {$code} {$status}");
-		json([
-			'status' =>	$status,
-			'code'   => $code,
-		]);
-	}	
 
 	function debug($o) {
 		if (!DEBUG) return $this->skip();

@@ -8,9 +8,12 @@
 				<span class="icon-bar"></span>
 			</button>
 
-			<a class="brand" href="#">Project name</a>
+			<a class="brand" href="#">
+				<?= APP_NAME ?>
+			</a>
 
 			<div class="nav-collapse collapse">
+
 				<ul class="nav">
 					<li class="active"><a href="#">Home</a></li>
 					<li><a href="#about">About</a></li>
@@ -28,6 +31,29 @@
 					</ul>
 					</li>
 				</ul>
+
+				<ul class="nav pull-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">
+							<i class="icon-user"></i>
+							<? if ($logged_in): ?>
+								Logged In
+							<? else: ?>
+								Logged Out	
+							<? endif ?>
+							<b class="caret"></b>
+							<ul class="dropdown-menu">
+								<li>
+								    <a href="#">Item</a>
+								    <a href="#">Item</a>
+								    <a href="#">Item</a>
+								</li>
+							</ul>
+						</a>
+					</li>
+				</ul>
+
 				<? /*
 				<form class="navbar-form pull-right">
 					<input class="span2" type="text" placeholder="Email">
@@ -35,7 +61,9 @@
 					<button type="submit" class="btn">Sign in</button>
 				</form>
 				*/ ?>
-			</div><!--/.nav-collapse -->
+
+			</div>
+
 		</div>
 	</div>
 </div>

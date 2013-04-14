@@ -25,6 +25,7 @@ class app {
 			unset($lay);
 		$css = self::css();
 		$js = self::js();
+		$body_classes = [take($o, 'c'), take($o, 'm')];
 		ob_start();
 		include LAYOUT_DIR."/{$lay}.php";
 		return ob_get_clean();

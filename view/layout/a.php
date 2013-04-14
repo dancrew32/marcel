@@ -9,7 +9,7 @@
 <?= $css ?>
 <!--[if lt IE 9]><script src="/js/html.shiv.js"></script><![endif]-->
 </head>
-<body>
+<body class="<?= implode(' ', $body_classes) ?>">
 
 <?= r('common', 'nav') ?>
 
