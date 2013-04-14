@@ -21,7 +21,6 @@ class app {
 		$title = self::$title;
 		$desc = 'desc';
 		$lay = take($o, 'l', 'a');
-		$cols = self::$cols;
 		if ($lay == 'none')
 			unset($lay);
 		$css = self::css();
