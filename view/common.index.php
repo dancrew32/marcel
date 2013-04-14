@@ -14,6 +14,7 @@
 controller/common.php#index
 view/common.index.php	
 </pre>
+
 	</div>
 	<div class="span4">
 		<h2>Image Cache</h2>
@@ -290,10 +291,11 @@ view/common.index.php
 		</div>
 
 		<div class="row">
+
 			<div class="span8">
 				<h2>Icons</h2>
 				<style>
-					.the-icons li { float: left; width: 25%; list-style: none;  }	
+.the-icons li { float: left; width: 25%; list-style: none;  }	
 				</style>
 				<ul class="the-icons clearfix">
 					<li><i class="icon-glass"></i> icon-glass</li>
@@ -440,36 +442,57 @@ view/common.index.php
 					<li><i class="icon-filter"></i> icon-filter</li>
 					<li><i class="icon-briefcase"></i> icon-briefcase</li>
 					<li><i class="icon-fullscreen"></i> icon-fullscreen</li>
-				  </ul>
+				</ul>
 			</div>
+
 		</div>
 
-		<div class="span4">
-			<h2>Circles</h2>
-			<ul class="thumbnails">
-				<li class="span2">
-					<div>
-						<img src="<?= image::get([
-							'src' => '/img/drwho.jpg',
-							'w'   => 200,
-							'h'   => 200,
-							]) ?>" class="img-circle"/>
-					</div>
-				</li>
-				<? for ($i = 0; $i < 4; $i++): ?>
-					<li class="span1">
-						<div>
-							<img src="<?= image::get([
-								'src' => '/img/drwho.jpg',
-								'w'   => 200,
-								'h'   => 200,
-								]) ?>" class="img-circle"/>
-						</div>
-					</li>
-				<? endfor ?>
-			</ul>
-		</div>
 
+	</div>
+
+
+	<div class="span4">
+		<h2>Circles</h2>
+		<ul class="thumbnails">
+			<li class="span2">
+			<div>
+			<img src="<?= image::get([
+			'src' => '/img/drwho.jpg',
+			'w'   => 200,
+			'h'   => 200,
+			]) ?>" class="img-circle"/>
+			</div>
+			</li>
+			<? for ($i = 0; $i < 4; $i++): ?>
+			<li class="span1">
+			<div>
+			<img src="<?= image::get([
+			'src' => '/img/drwho.jpg',
+			'w'   => 200,
+			'h'   => 200,
+			]) ?>" class="img-circle"/>
+			</div>
+			</li>
+			<? endfor ?>
+		</ul>
+	</div>
+	<div class="span4">
+		<h2>Tooltips</h2>
+		<p>
+		This has to be initialized in JavaScript (no magic data-attribute binding)
+		<code>$('#my-tip').tooltip({ selector: 'a' });</code>
+			<script>
+			setTimeout(function() {
+				$('#my-tip').tooltip({ selector: 'a' });
+				}, 350);
+		</script>
+		</p>
+		<ul id="my-tip">
+			<li><a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">Tooltip on top</a></li>
+			<li><a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Tooltip on right">Tooltip on right</a></li>
+			<li><a href="#" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom">Tooltip on bottom</a></li>
+			<li><a href="#" data-toggle="tooltip" data-placement="left" title="Tooltip on left">Tooltip on left</a></li>
+		</ul>
 	</div>
 </div>
 
