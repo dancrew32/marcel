@@ -266,7 +266,13 @@ view/common.index.php
 				<td>5</td>
 				<td>TB - Monthly</td>
 				<td>04/04/2012</td>
-				<td>Call in to confirm</td>
+				<td>
+					<div>	
+						Call in to confirm
+						<br>
+						Tons of data in this one cell
+					</div>
+				</td>
 			</tr>
 			</tbody>
 		</table>
@@ -437,6 +443,33 @@ view/common.index.php
 				  </ul>
 			</div>
 		</div>
+
+		<div class="span4">
+			<h2>Circles</h2>
+			<ul class="thumbnails">
+				<li class="span2">
+					<div>
+						<img src="<?= image::get([
+							'src' => '/img/drwho.jpg',
+							'w'   => 200,
+							'h'   => 200,
+							]) ?>" class="img-circle"/>
+					</div>
+				</li>
+				<? for ($i = 0; $i < 4; $i++): ?>
+					<li class="span1">
+						<div>
+							<img src="<?= image::get([
+								'src' => '/img/drwho.jpg',
+								'w'   => 200,
+								'h'   => 200,
+								]) ?>" class="img-circle"/>
+						</div>
+					</li>
+				<? endfor ?>
+			</ul>
+		</div>
+
 	</div>
 </div>
 

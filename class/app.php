@@ -10,7 +10,7 @@ class app {
 
 	# assets
 	const JQUERY_VERSION = '1.9.1';
-	public static $assets = [
+	static $assets = [
 		'js'    => ['/js/class/app.js'],
 		'css'   => ['/css/core/screen.css'],
 		'error' => [],
