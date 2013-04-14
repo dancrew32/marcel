@@ -278,6 +278,31 @@ view/common.index.php
 			</tbody>
 		</table>
 
+		<h3>Using html::table</h3>
+		<?= html::table([
+			[
+				'id' => 1,
+				'name' => 'Dan',
+				'site' => 'danmasq.com',
+			],
+			[
+				'id' => 2,
+				'name' => 'Marcel',
+				'site' => 'google.com',
+			],
+			[
+				'id' => 3,
+				'name' => 'Foo',
+				'site' => 'bar.com',
+			],
+		], [
+			'delete_col'     => true,
+			'delete_url'     => '#',
+			'primary_key'    => 'id',
+			'hidden_columns' => ['id'],
+			'table_class'    => 'table table-condensed table-striped table-bordered',
+		]) ?>
+
 		<div class="row">
 			<div class="span4 offset4">
 				<h2>Carousel</h2>
@@ -498,26 +523,6 @@ view/common.index.php
 </div>
 
 <div class="row">
-	<div class="span4">	
-		<h2>Popovers</h2>
-		<p>
-		This has to be initialized in JavaScript (no magic data-attribute binding)
-		<code>$('#popit button').popover();</code>
-		This doesn't delegate like tooltip, so use it sparingly
-		<script>
-			setTimeout(function() {
-				$('#popit button').popover();
-			}, 350);
-		</script>
-		</p>
-		<ul id="popit">
-			<li><button class="btn" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on top">Popover on top</button></li>
-			<li><button class="btn" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on right">Popover on right</button></li>
-			<li><button class="btn" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on bottom">Popover on bottom</button></li>
-			<li><button class="btn" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on left">Popover on left</button></li>
-		</ul>
-	</div>
-
 	<div class="span4">
 		<h2>Accordion</h2>
 		<div class="accordion" id="accordion2">
@@ -539,7 +544,27 @@ view/common.index.php
 				</div>
 			<? endfor ?>
 		</div>
-
 	</div>
+
+	<div class="span4">	
+		<h2>Popovers</h2>
+		<p>
+		This has to be initialized in JavaScript (no magic data-attribute binding)
+		<code>$('#popit button').popover();</code>
+		This doesn't delegate like tooltip, so use it sparingly
+		<script>
+			setTimeout(function() {
+				$('#popit button').popover();
+			}, 350);
+		</script>
+		</p>
+		<ul id="popit">
+			<li><button class="btn" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on top">Popover on top</button></li>
+			<li><button class="btn" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on right">Popover on right</button></li>
+			<li><button class="btn" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on bottom">Popover on bottom</button></li>
+			<li><button class="btn" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on left">Popover on left</button></li>
+		</ul>
+	</div>
+
 </div>
 

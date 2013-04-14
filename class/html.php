@@ -20,7 +20,7 @@ class html {
 		return '<ol>'. _list($data, 'li') .'</ol>';
 	}
 
-	static function build_attributes(array $attrs=array()) {
+	static function build_attributes(array $attrs=[]) {
 		$html = '';
 		foreach($attrs as $k => $v){
             switch ($k) {
@@ -48,7 +48,7 @@ class html {
 		return $html;
 	}
 
-	static function build_prepend(array $attrs=array()) {
+	static function build_prepend(array $attrs=[]) {
 		$html = '';
         $pre = take($attrs, 'prepend', null);
         $app = take($attrs, 'append', null);
@@ -71,11 +71,24 @@ class html {
         return $html;
 	}
 
-	static function build_append(array $attrs=array()) {
+	static function build_append(array $attrs=[]) {
 		if (isset($attrs['append']))
 			return '<span class="add-on">'.$attrs['append'].'</span></div>';
 
 		if (isset($attrs['prepend'])) return '</div>';
+	}
+
+	static function table($data=[], array $options=[]) {
+		$options = array_merge([
+			'delete_col' => false,
+			'delete_url' => '#',
+			'primary_key' => 'id',
+			'hidden_columns' => [],
+		], $options);
+		$table = new table((array) $data);	
+		foreach ($options as $k => $v)
+			$table->{$k} = $v;
+		return $table;
 	}
 
 	private static function _list(array $data, string $type) {
