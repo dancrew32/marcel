@@ -41,40 +41,55 @@ abstract class socket_server {
 						$this->connect($client);
 				} else {
 					$numBytes = @socket_recv($socket, $buffer, $this->maxBufferSize, 0); 
+					$this->stdout($numBytes);
+					
 					// todo: if($numBytes === false) { error handling } elseif ($numBytes === 0) { remote client disconected }
-					if ($numBytes != 0) {
-						$user = $this->getUserBySocket($socket);
-						if ($user->handshake) {
-							if ($message = $this->deframe($buffer, $user)) {
-								$this->process($user, utf8_encode($message));
-								if ($user->hasSentClose)
-									$this->disconnect($user->socket);
-							} else {
-								do {
-									$numByte = @socket_recv($socket,$buffer,$this->maxBufferSize,MSG_PEEK);
-									if (!$numByte) continue;
-
-									$numByte = @socket_recv($socket, $buffer, $this->maxBufferSize, 0);
-									$message = $this->deframe($buffer, $user);
-									if (!$message) continue;
-
-									$this->process($user,$message);
-									if ($user->hasSentClose)
-										$this->disconnect($user->socket);
-								} while($numByte > 0);
-							}
-						} else {
-							$this->doHandshake($user,$buffer);
-						}
-					} else {
+					if ($numBytes == 0) {
 						$this->disconnect($socket);
+						continue;
 					}
+
+					$user = $this->getUserBySocket($socket);
+
+					if (!$user->handshake) {
+						$this->doHandshake($user, $buffer);
+						continue;
+					}
+
+					$message = $this->deframe($buffer, $user);
+					$this->stdout($message);
+
+					if ($message) {
+
+						$this->process($user, utf8_encode($message));
+
+						if ($user->hasSentClose)
+							$this->disconnect($user->socket);
+
+						continue;
+					}
+
+					do {
+						$numByte = @socket_recv($socket, $buffer, $this->maxBufferSize, MSG_PEEK);
+						if (!$numByte) continue;
+
+						$numByte = @socket_recv($socket, $buffer, $this->maxBufferSize, 0);
+						$message = $this->deframe($buffer, $user);
+						if (!$message) continue;
+
+						$this->process($user, $message);
+
+						if ($user->hasSentClose)
+							$this->disconnect($user->socket);
+					} while($numByte > 0);
+
 				}
 			}
 		}
 	}
 
-	abstract protected function process($user,$message); // Called immediately when the data is recieved. 
+	abstract protected function process($user, $message); // Called immediately when the data is recieved. 
+	//abstract protected function broadcast($message);     // call for all users
 	abstract protected function connected($user);        // Called after the handshake response is sent to the client.
 	abstract protected function closed($user);           // Called after the connection is closed.
 
@@ -83,10 +98,10 @@ abstract class socket_server {
 		// the handshake has completed.
 	}
 
-	protected function send($user,$message) {
+	protected function send($user, $message) {
 		//$this->stdout("> $message");
 		$message = $this->frame($message,$user);
-		socket_write($user->socket,$message,strlen($message));
+		socket_write($user->socket, $message, strlen($message));
 	}
 
 	protected function connect($socket) {
@@ -96,9 +111,10 @@ abstract class socket_server {
 		$this->connecting($user);
 	}
 
-	protected function disconnect($socket,$triggerClosed=true) {
+	protected function disconnect($socket, $triggerClosed=true) {
 		$foundUser = null;
 		$foundSocket = null;
+		$disconnectedUser = null;
 		foreach ($this->users as $key => $user) {
 			if ($user->socket != $socket) continue;
 			$foundUser = $key;
@@ -118,7 +134,7 @@ abstract class socket_server {
 			unset($this->sockets[$foundSocket]);
 			$this->sockets = array_values($this->sockets);
 		}
-		if ($triggerClosed)
+		if ($triggerClosed && $disconnectedUser)
 			$this->closed($disconnectedUser);
 	}
 
@@ -127,7 +143,7 @@ abstract class socket_server {
 		$lines = explode("\n",$buffer);
 		foreach ($lines as $line) {
 			if (strpos($line,":") !== false) {
-				$header = explode(":",$line,2);
+				$header = explode(":", $line, 2);
 				$headers[strtolower(trim($header[0]))] = trim($header[1]);
 			} else if (stripos($line,"get ") !== false) {
 				preg_match("/GET (.*) HTTP/i", $buffer, $reqResource);
@@ -140,32 +156,29 @@ abstract class socket_server {
 			// todo: fail the connection
 			$handshakeResponse = "HTTP/1.1 405 Method Not Allowed\r\n\r\n";			
 		}
-		if (!isset($headers['host']) || !$this->checkHost($headers['host'])) {
+		if (!isset($headers['host']) || !$this->checkHost($headers['host']))
 			$handshakeResponse = "HTTP/1.1 400 Bad Request";
-		}
-		if (!isset($headers['upgrade']) || strtolower($headers['upgrade']) != 'websocket') {
-			$handshakeResponse = "HTTP/1.1 400 Bad Request";
-		} 
-		if (!isset($headers['connection']) || strpos(strtolower($headers['connection']), 'upgrade') === FALSE) {
-			$handshakeResponse = "HTTP/1.1 400 Bad Request";
-		}
-		if (!isset($headers['sec-websocket-key'])) {
-			$handshakeResponse = "HTTP/1.1 400 Bad Request";
-		} else {
 
-		}
-		if (!isset($headers['sec-websocket-version']) || strtolower($headers['sec-websocket-version']) != 13) {
+		if (!isset($headers['upgrade']) || strtolower($headers['upgrade']) != 'websocket')
+			$handshakeResponse = "HTTP/1.1 400 Bad Request";
+
+		if (!isset($headers['connection']) || strpos(strtolower($headers['connection']), 'upgrade') === FALSE)
+			$handshakeResponse = "HTTP/1.1 400 Bad Request";
+
+		if (!isset($headers['sec-websocket-key']))
+			$handshakeResponse = "HTTP/1.1 400 Bad Request";
+
+		if (!isset($headers['sec-websocket-version']) || strtolower($headers['sec-websocket-version']) != 13)
 			$handshakeResponse = "HTTP/1.1 426 Upgrade Required\r\nSec-WebSocketVersion: 13";
-		}
-		if (($this->headerOriginRequired && !isset($headers['origin']) ) || ($this->headerOriginRequired && !$this->checkOrigin($headers['origin']))) {
+
+		if (($this->headerOriginRequired && !isset($headers['origin']) ) || ($this->headerOriginRequired && !$this->checkOrigin($headers['origin'])))
 			$handshakeResponse = "HTTP/1.1 403 Forbidden";
-		}
-		if (($this->headerSecWebSocketProtocolRequired && !isset($headers['sec-websocket-protocol'])) || ($this->headerSecWebSocketProtocolRequired && !$this->checkWebsocProtocol($header['sec-websocket-protocol']))) {
+
+		if (($this->headerSecWebSocketProtocolRequired && !isset($headers['sec-websocket-protocol'])) || ($this->headerSecWebSocketProtocolRequired && !$this->checkWebsocProtocol($header['sec-websocket-protocol'])))
 			$handshakeResponse = "HTTP/1.1 400 Bad Request";
-		}
-		if (($this->headerSecWebSocketExtensionsRequired && !isset($headers['sec-websocket-extensions'])) || ($this->headerSecWebSocketExtensionsRequired && !$this->checkWebsocExtensions($header['sec-websocket-extensions']))) {
+
+		if (($this->headerSecWebSocketExtensionsRequired && !isset($headers['sec-websocket-extensions'])) || ($this->headerSecWebSocketExtensionsRequired && !$this->checkWebsocExtensions($header['sec-websocket-extensions'])))
 			$handshakeResponse = "HTTP/1.1 400 Bad Request";
-		}
 
 		// Done verifying the _required_ headers and optionally required headers.
 
@@ -181,9 +194,9 @@ abstract class socket_server {
 		$webSocketKeyHash = sha1($headers['sec-websocket-key'] . static::MAGIC_GUID);
 
 		$rawToken = "";
-		for ($i = 0; $i < 20; $i++) {
+		for ($i = 0; $i < 20; $i++)
 			$rawToken .= chr(hexdec(substr($webSocketKeyHash,$i*2, 2)));
-		}
+
 		$handshakeToken = base64_encode($rawToken) . "\r\n";
 
 		$subProtocol = (isset($headers['sec-websocket-protocol'])) ? $this->processProtocol($headers['sec-websocket-protocol']) : "";
@@ -233,15 +246,13 @@ abstract class socket_server {
 	}
 
 	protected function stdout($message) {
-		if ($this->interactive) {
+		if ($this->interactive)
 			echo "$message\n";
-		}
 	}
 
 	protected function stderr($message) {
-		if ($this->interactive) {
+		if ($this->interactive)
 			echo "$message\n";
-		}
 	}
 
 	protected function frame($message, $user, $messageType='text', $messageContinues=false) {
@@ -339,16 +350,15 @@ abstract class socket_server {
 		if ($this->checkRSVBits($headers,$user))
 			return false;
 
-		if ($willClose) {
 			// todo: fail the connection
+		if ($willClose)
 			return false;
-		}
 
 		$payload = $user->partialMessage . $this->extractPayload($message,$headers);
 
 		if ($pongReply) {
-			$reply = $this->frame($payload,$user,'pong');
-			socket_write($user->socket,$reply,strlen($reply));
+			$reply = $this->frame($payload, $user, 'pong');
+			socket_write($user->socket, $reply, strlen($reply));
 			return false;
 		}
 		if (extension_loaded('mbstring')) {

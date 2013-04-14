@@ -2,12 +2,14 @@
 require_once(dirname(__FILE__).'/inc.php');
 
 class echoServer extends socket_server {
-	//protected $maxBufferSize = 1048576; //1MB... overkill for an echo server, but potentially plausible for other applications.
+	protected $maxBufferSize = 1048576; //1MB... overkill for an echo server, but potentially plausible for other applications.
 	
 	protected function process($user, $message) {
-		//$url = file_get_contents($message);
-		//preg_match('/<title>.+/', $url, $matches);
-		$this->send($user, h($message));
+		$this->stdout(print_r($message, true));
+		$this->send($user, utf8_encode($message));
+		//foreach ($this->users as $u) {
+			//$this->send($u, $message);
+		//}
 	}
 	
 	protected function connected($user) {
@@ -16,6 +18,7 @@ class echoServer extends socket_server {
 	}
 	
 	protected function closed($user) {
+		$this->stdout(print_r($user, true));
 		// cleanup
 	}
 }

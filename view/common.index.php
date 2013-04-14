@@ -38,15 +38,21 @@ view/common.index.php
 
 <div class="row">
 	<div class="span4">
+		<h2>
+			Form Fields	
+		</h2>
 		<?= r('form_test', 'index') ?>
 	</div>
 	<div class="span4">
+		<h2>
+			Modals	
+		</h2>
 		<?= r('form_test', 'modal') ?>
 	</div>
 	<div class="span4">
-		<? /*
-		<?= r('form_test', 'popover') ?>
-		*/ ?>
+		<h2>
+			Media Rows	
+		</h2>
 		<?= r('common', 'media_rows') ?>
 	</div>
 </div>
@@ -54,9 +60,9 @@ view/common.index.php
 <div class="row">
 
 	<div class="span6">
-		<h3>
-		Pager!
-		</h3>
+		<h2>
+		Pager
+		</h2>
 		<?= r('common', 'pager', [
 			'total' => 50, 
 			'page' => 1, 

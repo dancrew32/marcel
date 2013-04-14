@@ -6,13 +6,12 @@ class app {
 	# routing
 	static $path;
 	static $routes = [];
-	static $cols = 'no-sidebars';
 	static $req_type;
 
 	# assets
 	const JQUERY_VERSION = '1.9.1';
 	public static $assets = [
-		'js'    => [],
+		'js'    => ['/js/class/app.js'],
 		'css'   => ['/css/core/screen.css'],
 		'error' => [],
 		'debug' => [],
