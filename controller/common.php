@@ -27,6 +27,16 @@ class controller_common extends controller_base {
 		]);
 	}	
 
+	function fatal_error() {
+		$code   = 500;
+		$status = 'Internal Server Error';
+		header("HTTP/1.1 {$code} {$status}");
+		json([
+			'status' =>	$status,
+			'code'   => $code,
+		]);
+	}	
+
 	function debug($o) {
 		if (!DEBUG) return $this->skip();
 		$this->memory = round(memory_get_usage(false) / 1000);

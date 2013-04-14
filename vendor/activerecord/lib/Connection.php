@@ -201,7 +201,10 @@ abstract class Connection
 
 			$this->connection = new PDO("$info->protocol:$host;dbname=$info->db",$info->user,$info->pass,static::$PDO_OPTIONS);
 		} catch (PDOException $e) {
-			throw new DatabaseException($e);
+			if (CLI)
+				throw new DatabaseException($e);
+			else
+				_500();
 		}
 	}
 

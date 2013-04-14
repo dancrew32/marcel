@@ -90,7 +90,12 @@ function json($data, $exit=true) {
 	echo json_encode($data);
 }
 
-# Error
+# Missing
 function _404() {
 	app::redir('/404');	
+}
+
+# Error
+function _500() {
+	app::redir('/500');	
 }

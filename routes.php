@@ -38,6 +38,7 @@ app::$routes = [
 	],
 
 	# Error
-	'/404' => [ 'c' => 'common', 'm' => 'not_found' ],
+	'/404' => [ 'c' => 'common', 'm' => 'not_found', 'nodb' => true ],
+	'/500' => [ 'c' => 'common', 'm' => 'fatal_error', 'nodb' => true ],
 
 ];
