@@ -6,15 +6,6 @@
 	<p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
 </div>
 
-<div class="row">
-	<div class="span4 offset4">
-		<h2>Carousel</h2>
-		<div class="inner">
-			<?= r('common', 'carousel') ?>
-		</div>
-	</div>
-</div>
-
 
 <div class="row">
 	<div class="span4">
@@ -76,5 +67,55 @@ view/common.index.php
 			'rpp' => 5
 		]) ?>
 	</div>
+	<div class="span6">
+		<h2>Alerts</h2>
+	 	<div class="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong>Warning!</strong> 
+			Single Liner
+		</div>
+	 	<div class="alert alert-block">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<h4 class="alert-heading">
+				Big warning!
+			</h4>
+			Multiple line warning messages should use the <code>.alert-block</code> class
+			to allow for extra rendering room.
+		</div>	
+	 	<div class="alert alert-error alert-block">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong>Error!</strong> 
+			Oh snap!
+			<br>
+			<?= new field('button', [
+				'data-dismiss' => 'alert',
+				'class' => 'btn btn-danger',
+				'text' => 'Action!',
+		    ]) ?>
+			<a href="#" data-dismiss="alert" class="btn">Alt Action</a>
+		</div>	
+	 	<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong>Yay!</strong> 
+			Successfully updated that thing.
+		</div>	
+	 	<div class="alert alert-info">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong>Just so you know</strong>
+			this is a regular info box.
+		</div>	
+	</div>
+</div>
+
+<div class="row">
+	<div class="span4 offset4">
+		<h2>Carousel</h2>
+		<div class="inner">
+			<?= r('common', 'carousel') ?>
+		</div>
+	</div>
+</div>
+
+
 
 </div>

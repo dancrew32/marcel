@@ -5,8 +5,11 @@ class html {
 		return "<a href=\"{$href}\"{$cls}>{$text}</a>";
 	}
 
-	static function btn($href, $text) {
-		return self::a($href, $text, 'btn');	
+	static function btn($href, $text, $type='') {
+		$cls = 'btn';
+		if ($type)
+			$cls .= " btn-{$type}";
+		return self::a($href, $text, $cls);	
 	}
 
 	static function ul(array $data) {

@@ -49,7 +49,7 @@ class field {
 	}
 
 	function __toString() {
-		$this->render();	
+		return $this->render();	
 	}
 
 	function input() {
