@@ -33,7 +33,7 @@ class controller_form_test extends controller_base {
 				'data-provide'   => "typeahead",
 				'data-source'    => '["one", "two", "three", "four", "five", "six", "seven", "eight"]',
 				'data-items'     => 5,
-				'placeholder'    => 'e.g. "one" or "three"',
+				'placeholder'    => h('e.g. "one" or "three"'),
 				'data-minLength' => 2,
 			])
 		)
@@ -46,20 +46,20 @@ class controller_form_test extends controller_base {
 			new field('radio', [
 				'name' => 'foo',
 				'value' => 'a',
-				'label' => 'Label',
+				'label' => 'Label 1',
 				'inline' => true,
 			]),
 			new field('radio', [
 				'name' => 'foo',
 				'value' => 'a',
 				'checked' => true,
-				'label' => 'Label',
+				'label' => 'Label 2',
 				'inline' => true,
 			]),
 			new field('radio', [
 				'name' => 'foo',
 				'value' => 'a',
-				'label' => 'Label',
+				'label' => 'Label 3',
 				'inline' => true,
 			])
 		)
@@ -71,21 +71,21 @@ class controller_form_test extends controller_base {
 				'name' => 'tel-test[]',
 				'checked' => true,
 				'value' => 'wat',
-				'label' => 'checkbox item',
+				'label' => 'item 1',
 				'inline' => true,
 			]),
 			new field('checkbox', [
 				'name' => 'tel-test[]',
 				'checked' => false,
 				'value' => 'thing',
-				'label' => 'checkbox item',
+				'label' => 'item 2',
 				'inline' => true,
 			]),
 			new field('checkbox', [
 				'name' => 'tel-test[]',
 				'checked' => true,
 				'value' => 'stuff',
-				'label' => 'checkbox item',
+				'label' => 'item 3',
 				'inline' => true,
 			])
 		)
@@ -123,6 +123,7 @@ class controller_form_test extends controller_base {
 		);	
 
 	}
+
 
 	function modal() { }
 	function popover() { }

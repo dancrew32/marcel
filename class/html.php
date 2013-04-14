@@ -36,7 +36,7 @@ class html {
 				case 'autofocus':
 					if ($v) $html.=' autofocus'; break;
                 default:
-					if (in_array($v{0}, ['[', '{'])) # js array or object 
+					if (isset($v{0}) && in_array($v{0}, ['[', '{'])) # js array or object 
 						$html .= " {$k}='{$v}'";
                     else if ($k != 'prepend' && $k != 'append')
                         $html .= " {$k}=\"{$v}\"";
