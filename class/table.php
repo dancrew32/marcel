@@ -29,10 +29,13 @@ class table {
 		$html .= '</thead>';
 
 		foreach ($this->data as $rows) {
-			$html .= '<tr>';
+			$cls = isset($rows['_class']{0}) ? " class=\"{$rows['_class']}\"" : '';
+			$html .= "<tr{$cls}>";
 
-			if ($this->delete_col)
-				$html .= '<td> <a class="icon-trash" href="' . $this->delete_url . '?' . $this->primary_key . '=' . $rows[$this->primary_key] . '"></a></td>';
+			if ($this->delete_col) {
+				$del_href =	"{$this->delete_url}?{$this->primary_key}={$rows[$this->primary_key]}";
+				$html .= "<td> <a class=\"icon-trash\" href=\"{$del_href}\"></a> </td>";
+			}
 
 			foreach ($rows as $key => $value) {
 				if (in_array($key, $keys))

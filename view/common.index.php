@@ -291,16 +291,35 @@ view/common.index.php
 				'site' => 'google.com',
 			],
 			[
-				'id' => 3,
-				'name' => 'Foo',
-				'site' => 'bar.com',
+				'id'     => 3,
+				'_class' => 'warning',
+				'name'   => 'Foo',
+				'site'   => 'bar.com',
+			],
+			[
+				'id'     => 4,
+				'_class' => 'info',
+				'name'   => 'Foo',
+				'site'   => 'bar.com',
+			],
+			[
+				'id'     => 5,
+				'_class' => 'error',
+				'name'   => 'Foo',
+				'site'   => 'bar.com',
+			],
+			[
+				'id'     => 6,
+				'_class' => 'success',
+				'name'   => 'Foo',
+				'site'   => 'bar.com',
 			],
 		], [
 			'delete_col'     => true,
 			'delete_url'     => '#',
 			'primary_key'    => 'id',
 			'hidden_columns' => ['id'],
-			'table_class'    => 'table table-condensed table-striped table-bordered',
+			'table_class'    => 'table table-hover table-condensed table-striped table-bordered',
 		]) ?>
 
 		<div class="row">
