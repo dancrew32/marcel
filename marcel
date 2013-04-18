@@ -1,0 +1,11 @@
+#!/usr/bin/php
+<? require_once(dirname(__FILE__).'/script/inc.php');
+
+$scripts = glob(SCRIPT_DIR.'/[create|gen|db]*.php');
+foreach ($scripts as $k => $s) {
+	$name = util::explode_pop('/', $s);	
+	echo "{$k}. {$name}\n"; 
+}
+$use = gets("Enter number for script to run");
+
+include_once "{$scripts[$use]}";
