@@ -1,6 +1,5 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
-
 $u = new User;
 $u->email = gets("Email:");
 if (User::find_by_email($u->email))

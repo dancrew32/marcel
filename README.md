@@ -19,6 +19,7 @@
 * [Form Fields](#form-fields)
 * [Image Manipulation](#on-the-fly-image-manipulation-and-caching)
 * [Helpers & Utils](#helpers-utils-and-more)
+* [Cron](#cron)
 * [WebSocket Server](#websocket-server)
 * [Interactive Prompt](#interactive-prompt-with-phpsh)
 * [Profiling](#profiling-with-xhprof)
@@ -365,6 +366,16 @@ In `class/helper.php`, `class/util.php`, `class/size.php`, and `class/time.php`
 you'll find many convenient methods to use from everything to obtaining
 time in seconds, human readable byte sizes, string manipulation, debuggers and 
 other shortcuts to use in this system.
+
+## Cron
+To register new cron jobs, add entries through `model/Cron_Job.php`
+and add this to your system's crontab: (to edit your crontab, `sudo crontab -e`)
+```crontab
+* * * * * /var/www/site/script/cron.base.php > /dev/null 2>&1
+```
+`script/cron.base.php` will be hit every minute running any `script`s
+that have matching cron `frequency` entries.
+**TODO**: still implementing this
 
 ## Workers
 [Gearman](http://gearman.org/getting_started)

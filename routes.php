@@ -9,6 +9,9 @@ app::$routes = [
 	'/login'  => [ 'c' => 'authentication', 'm' => 'login' ],
 	'/logout' => [ 'c' => 'authentication', 'm' => 'logout' ],
 
+	# Cron Jobs
+	'/cron' => [ 'c' => 'cron_job', 'm' => 'all' ],
+
 	# HTTP Example
 	'/http' => [
 		'http' => [
