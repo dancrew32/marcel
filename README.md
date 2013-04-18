@@ -49,6 +49,7 @@ git clone git@github.com:dancrew32/marcel.git site
 cd site
 php script/db_init.php
 chmod 777 -R tmp
+chmod 777 marcel
 ```
 
 ## VirtualHost Setup
@@ -92,6 +93,7 @@ php script/db_restore.php
 # Create Users (e.g. Create your first admin user)
 php script/create_user.php
 ```
+or just run `./marcel` from the root directory to launch a wizard for your wizards!
 
 ## Routing
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` matches to a specified method in a controller.
