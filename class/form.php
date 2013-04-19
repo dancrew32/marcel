@@ -1,7 +1,7 @@
 <?
 class form {
 
-	public $html;
+	private $html;
 	private $control_groups; 
 	private $field_head;
 
@@ -9,6 +9,7 @@ class form {
 		$this->html = '';	
 		$this->has_head = false;
 		$this->control_groups = true;
+		return $this;
 	}
 
 	function __toString() {

@@ -91,11 +91,9 @@
 			</li>
 		<? endif ?>
 		
-		</li>
-			<span class="next">
-				<span>
-					next &#x2192;
-				</span>
+		<li>
+			<span class="current next">
+				next &#x2192;
 			</span>
 		</li>
 	<? endif ?>

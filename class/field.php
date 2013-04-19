@@ -14,6 +14,7 @@ class field {
 				$this->attrs['type'] = 'submit';
 				return $this->button();
 			case 'checkbox':
+				$this->attrs['value'] = 1;
 				return $this->checkbox();
 			case 'select':
 				return $this->select();
@@ -59,7 +60,6 @@ class field {
 		$this->html .= html::build_append($this->attrs);
 		return $this;
 	}
-
 
 	function textarea() {
 		$value = $this->pick('value');

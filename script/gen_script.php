@@ -24,12 +24,17 @@ else
 	red(\"FAIL\\n\");
 ";
 
-$use_date = gets("Date? [y/N]");
+$use_date = strtolower(gets("Date? [y/N]"));
 $date = date('ymd');
 if ($use_date == 'y')
 	$script_name = "{$name}.{$date}.php";
 else
 	$script_name = "{$name}.php";
+
+$is_cron = strtolower(gets("Is this a Cron? [y/N]"));
+if ($is_cron == 'y')
+	$script_name = "cron.{$script_name}";
+
 $full_script_path = SCRIPT_DIR."/{$script_name}";
 
 $exists = file_exists($full_script_path);

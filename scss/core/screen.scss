@@ -6,10 +6,17 @@ $linkColor: green;
 $linkColorHover: darken(green, 20%);
 
 // Bootstrap includes
+@import 'compass';
 @import 'compass_twitter_bootstrap';
 @import 'compass_twitter_bootstrap_responsive';
 
 // All yours!
+.input-block-level {
+	display: block;
+	width: 100%;
+	min-height: 28px;
+	@include box-sizing(border-box);
+}
 .row .inner {
 	border: 1px solid #ccc;	
 	padding:40px 0 20px;

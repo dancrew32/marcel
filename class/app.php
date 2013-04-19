@@ -70,6 +70,12 @@ class app {
 			ini_set('html_errors', 1);
 		}
 
+		# IP Limit
+		if (!CLI && isset($GLOBALS['IP_WHITELIST'])) {
+			$allowed = in_array(take($_SERVER, 'REMOTE_ADDR'), $GLOBALS['IP_WHITELIST']);
+			if (!$allowed) app::redir('http://google.com');
+		}
+
 		# Path
 		$path_parts = explode('?', take($_SERVER, 'REQUEST_URI'));
 		self::$path = reset($path_parts);
@@ -84,6 +90,9 @@ class app {
 			$regex = str_replace('/', '\/', $regex);
 			$found = preg_match("/^{$regex}\/?$/i", self::$path, $matches);
 			if (!$found) continue;
+
+			# Purge Empty Matches
+			$matches = array_filter($matches, 'strlen');
 
 			# Router Auth (Phase 1) (optional)
 			$global_auth = isset($o['auth']) ? $o['auth'] : false;
