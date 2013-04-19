@@ -10,11 +10,11 @@ app::$routes = [
 	'/logout' => [ 'c' => 'authentication', 'm' => 'logout' ],
 
 	# Cron Jobs
-	'/cron(?:/*)(?P<page>[0-9]*)'   => [ 'c' => 'cron_job', 'm' => 'all', 'auth' => 'admin' ],
-	'/cron/add'                     => [ 'c' => 'cron_job', 'm' => 'add', 'auth' => 'admin' ],
-	'/cron/scripts'                 => [ 'c' => 'cron_job', 'm' => 'scripts', 'auth' => 'admin' ],
-	'/cron/edit/(?P<id>([0-9]+))'   => [ 'c' => 'cron_job', 'm' => 'edit', 'auth' => 'admin' ],
-	'/cron/delete/(?P<id>([0-9]+))' => [ 'c' => 'cron_job', 'm' => 'delete', 'auth' => 'admin' ],
+	'/cron(?:/*)(?P<page>[0-9]*)'   => [ 'c' => 'cron_job', 'm' => 'all' ],
+	'/cron/add'                     => [ 'c' => 'cron_job', 'm' => 'add' ],
+	'/cron/scripts'                 => [ 'c' => 'cron_job', 'm' => 'scripts' ],
+	'/cron/edit/(?P<id>([0-9]+))'   => [ 'c' => 'cron_job', 'm' => 'edit' ],
+	'/cron/delete/(?P<id>([0-9]+))' => [ 'c' => 'cron_job', 'm' => 'delete' ],
 
 	# HTTP Example
 	'/http' => [

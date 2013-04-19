@@ -25,9 +25,18 @@ class controller_cron_job extends controller_base {
 		$this->cron->active = take($_POST, 'active', 0);
 		$this->cron->script = take($_POST, 'script');
 		$this->cron->frequency = take($_POST, 'frequency');
-		$this->cron->save();
+		$ok = $this->cron->save();
+		if ($ok) {
+			# set flash success
+			app::redir('/cron');
+		}
+		pp('a');
 
-		app::redir('/cron');
+		note::set('cron_job:form', json_encode([
+			'cron' => $_POST, 
+			'errors' => $this->cron->get_errors(),
+		]));
+		app::redir("/cron/edit/{$this->cron->id}");
 	}
 
 	function add() {
@@ -42,7 +51,7 @@ class controller_cron_job extends controller_base {
 			app::redir('/cron');
 		}
 
-		note::set('cron_job:add', json_encode([
+		note::set('cron_job:form', json_encode([
 			'cron' => $_POST, 
 			'errors' => $cron->get_errors(),
 		]));
@@ -73,7 +82,7 @@ class controller_cron_job extends controller_base {
 	function add_form() {
 		$this->form = new form;
 		$this->form->open('/cron/add');
-		$note = json_decode(note::get('cron_job:add'));
+		$note = json_decode(note::get('cron_job:form'));
 		$this->_build_form(take($note, 'cron'), take($note, 'errors'));
 		$this->form->actions(
 			new field('submit', ['text' => 'Add'])
@@ -88,7 +97,8 @@ class controller_cron_job extends controller_base {
 
 		$this->form = new form;
 		$this->form->open("/cron/edit/{$cron->id}");
-		$this->_build_form($cron);
+		$note = json_decode(note::get('cron_job:form'));
+		$this->_build_form(take($note, 'cron', $cron), take($note, 'errors'));
 		$this->form->actions(
 			new field('submit', ['text' => 'Edit'])
 		);
@@ -105,7 +115,7 @@ class controller_cron_job extends controller_base {
 			], 
 			new field('input', [ 
 				'name'        => 'name', 
-				'class'       => 'input-block-level',
+				'class'       => 'input-block-level required',
 				'value'       => h(take($cron, 'name')),
 				'placeholder' => h('e.g. "Update Records"'),
 			]),

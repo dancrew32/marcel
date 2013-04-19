@@ -69,9 +69,9 @@ class form {
 			$class = self::pick($attrs, 'class');
 			$class = 'control-group'. (isset($class{0}) ? ' '. $class : '');
 			$this->html .= "<div class=\"{$class}\"";
-			if (is_string($args[$argpos]))
-				$this->html .= ' '.$args[$argpos++];
-			$this->html .= '">';
+			//if (is_string($args[$argpos]))
+				//$this->html .= ' '.$args[$argpos++];
+			$this->html .= '>';
 		}
 
 		$inputs = count($args) - $argpos;
