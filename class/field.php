@@ -44,6 +44,8 @@ class field {
 			case 'week':
 				$this->attrs['type'] = $type;
 				return $this->input();
+			case 'help':
+				return $this->help();
 			default: 
 				return $this->input();
 		}
@@ -58,6 +60,17 @@ class field {
 		$type = take($this->attrs, 'type', 'text');
 		$this->html .= '<input type="'. $type .'"'. html::build_attributes($this->attrs) .' />';
 		$this->html .= html::build_append($this->attrs);
+		return $this;
+	}
+
+	function help() {
+		$text = take($this->attrs, 'text', false);
+		if (!$text) return $this;
+		$inline = take($this->attrs, 'inline', false);
+		# TODO: add collapsible 
+		$this->html .= $inline ? 
+			"<span class=\"help-inline\">{$text}</span>" :
+			"<p class=\"help-block\">{$text}</p>";
 		return $this;
 	}
 

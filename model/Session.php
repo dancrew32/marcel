@@ -1,5 +1,5 @@
 <?
-class Session extends ActiveRecord\Model {
+class Session extends model {
 	static $table_name = 'sessions';
 
     static function open() {

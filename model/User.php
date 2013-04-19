@@ -1,10 +1,18 @@
 <?
-class User extends ActiveRecord\Model {
+class User extends model {
 	static $table_name = 'users';
 	static $roles = [
 		'admin'   => 'Admin',
 		'manager' => 'Manager',
 		'user'    => 'User',
+	];
+
+	static $validates_inclusion_of = [
+		['role', 'in' => [
+			'admin', 
+			'manager', 
+			'user'
+		], 'message' => 'Invalid user role.'],
 	];
 
 	static $logged_in = false;

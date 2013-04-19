@@ -2,6 +2,17 @@
 class Cron_Job extends model {
 	static $table_name = 'cron_jobs';
 
+	static $validates_presence_of = [
+		['name'], 
+		['script'],
+	];
+	static $validates_uniqueness_of = [
+		['script', 'message' => "exists in cron table"],
+	];
+	static $validates_size_of = [
+		['frequency', 'minimum' => 9, 'too_short' => 'must be at least 9 characters long']
+	];
+
 	function should_run($time = false) {
 		if (!$this->active) return false;
 		$time = is_string($time) ? strtotime($time) : time();

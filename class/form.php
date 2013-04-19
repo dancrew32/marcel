@@ -59,12 +59,16 @@ class form {
 		return $this;
 	}
 
-	function group($label='') {
+	# TODO: handle errors/warnings/etc..
+	function group(array $attrs=[]) {
 		$args = func_get_args();		
 		$argpos = 1;
 
+		$label = self::pick($attrs, 'label');
 		if ($this->control_groups) {
-			$this->html .= '<div class="control-group"';
+			$class = self::pick($attrs, 'class');
+			$class = 'control-group'. (isset($class{0}) ? ' '. $class : '');
+			$this->html .= "<div class=\"{$class}\"";
 			if (is_string($args[$argpos]))
 				$this->html .= ' '.$args[$argpos++];
 			$this->html .= '">';
@@ -72,7 +76,7 @@ class form {
 
 		$inputs = count($args) - $argpos;
 
-		if ($label) {
+		if (isset($label{0})) {
 			$this->html .= '<label';	
 
 			if ($this->control_groups)
@@ -116,6 +120,16 @@ class form {
 			$this->html .= '</fieldset>';
 		$this->html .= "</form>\n";
 		return $this->html;
+	}
+
+	private function pick(&$attrs, $to_pick='', $cast = 'string') {
+		try {
+			$attribute = take($attrs, $to_pick);
+			settype($attribute, $cast);
+			unset($attrs[$to_pick]);
+			return $attribute;
+		} catch (Exception $ex) { }
+		return false;
 	}
 
 }

@@ -43,7 +43,7 @@ class controller_form_test extends controller_base {
 		->fieldset('Groups')
 
 		# Group some radios!
-		->group('Radio Groups',
+		->group([ 'label' => 'Radio Groups' ],
 			new field('radio', [
 				'name' => 'foo',
 				'value' => 'a',
@@ -67,7 +67,7 @@ class controller_form_test extends controller_base {
 
 
 		# Checkbox
-		->group('Checkboxes', 
+		->group([ 'label' => 'Checkboxes' ], 
 			new field('checkbox', [
 				'name' => 'tel-test[]',
 				'checked' => true,

@@ -36,7 +36,16 @@ class controller_cron_job extends controller_base {
 		$cron->active = take($_POST, 'active', 0);
 		$cron->script = take($_POST, 'script');
 		$cron->frequency = take($_POST, 'frequency');
-		$cron->save();
+		$ok = $cron->save();
+		if ($ok) {
+			# set flash success
+			app::redir('/cron');
+		}
+
+		note::set('cron_job:add', json_encode([
+			'cron' => $_POST, 
+			'errors' => $cron->get_errors(),
+		]));
 		app::redir('/cron');
 	}
 
@@ -64,7 +73,8 @@ class controller_cron_job extends controller_base {
 	function add_form() {
 		$this->form = new form;
 		$this->form->open('/cron/add');
-		$this->_build_form();
+		$note = json_decode(note::get('cron_job:add'));
+		$this->_build_form(take($note, 'cron'), take($note, 'errors'));
 		$this->form->actions(
 			new field('submit', ['text' => 'Add'])
 		);
@@ -85,37 +95,61 @@ class controller_cron_job extends controller_base {
 		echo $this->form;
 	}
 
-	private function _build_form($cron=null) {
+	private function _build_form($cron=null, $errors=null) {
 		app::asset('validate.min', 'js');
 		app::asset('view/cron_job.form', 'js');
 
-		$this->form->add('Name', new field('input', [ 
-			'name'        => 'name', 
-			'class'       => 'input-block-level',
-			'value'       => h(take($cron, 'name')),
-			'placeholder' => h('e.g. "Update Records"'),
-		]))
+		$this->form->group([ 
+				'label' => 'Name', 
+				'class' => take($errors, 'name') ? 'error' : '',
+			], 
+			new field('input', [ 
+				'name'        => 'name', 
+				'class'       => 'input-block-level',
+				'value'       => h(take($cron, 'name')),
+				'placeholder' => h('e.g. "Update Records"'),
+			]),
+			new field('help', [ 
+				'text' => take($errors, 'name'),
+			])
+		)
 		->add('Active', new field('checkbox', [ 
 			'name'    => 'active', 
 			'checked' => take($cron, 'active'), 
 		]))
-		->add('Script', new field('typeahead', [ 
-			'name'           => 'script', 
-			'data-api'       => '/cron/scripts',
-			'data-provide'   => "typeahead",
-			'data-items'     => 5,
-			'placeholder'    => h('e.g. cron.<"whatyoutype">.php'),
-			'autocomplete'   => false,
-			'data-minLength' => 2,
-			'class'          => 'cron-script input-block-level',
-			'value'          => h(take($cron, 'script')),
-		]))
-		->add('Frequency', new field('input', [ 
-			'name'        => 'frequency',
-			'value'       => h(take($cron, 'frequency')),
-			'class'       => 'input-block-level',
-			'placeholder' => h('e.g. * * * * *'),
-		]));
+		->group([
+				'label' => 'Script', 
+				'class' => take($errors, 'script') ? 'error' : '',
+			],
+			new field('typeahead', [ 
+				'name'           => 'script', 
+				'data-api'       => '/cron/scripts',
+				'data-provide'   => "typeahead",
+				'data-items'     => 5,
+				'placeholder'    => h('e.g. cron.<"whatyoutype">.php'),
+				'autocomplete'   => false,
+				'data-minLength' => 2,
+				'class'          => 'cron-script input-block-level',
+				'value'          => h(take($cron, 'script')),
+			]),
+			new field('help', [ 
+				'text' => take($errors, 'script'),
+			])
+		)
+		->group([
+				'label' => 'Frequency', 
+				'class' => take($errors, 'frequency') ? 'error' : '',
+			],
+			new field('input', [ 
+				'name'        => 'frequency',
+				'value'       => h(take($cron, 'frequency')),
+				'class'       => 'input-block-level',
+				'placeholder' => h('e.g. * * * * *'),
+			]),
+			new field('help', [ 
+				'text' => take($errors, 'frequency'),
+			])
+		);
 	}
 
 }

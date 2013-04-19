@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` varchar(35) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '0',
-  `role` enum('admin','manager','user') NOT NULL DEFAULT 'user',
+  `role` varchar(32) NOT NULL DEFAULT 'user',
   `first` varchar(35) NOT NULL,
   `last` varchar(35) NOT NULL,
   `created_on` datetime NOT NULL,
