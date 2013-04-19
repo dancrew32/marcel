@@ -84,6 +84,7 @@ function pj($data) {
 
 # Die (or echo) JSON
 function json($data, $exit=true) {
+	ob_get_clean(); # ensure no debug data leaks
 	header('Content-Type: application/json');	
 	if ($exit)
 		die(json_encode($data));
