@@ -25,6 +25,10 @@ class field {
 				return $this->textarea();
 			case 'radio':
 				return $this->radio();
+			case 'typeahead':
+				$this->attrs['data-provide'] = 'typeahead';
+				$this->attrs['autocomplete'] = false;
+				return $this->input();
 			case 'date':
 			case 'datetime':
 			case 'datetime-local':

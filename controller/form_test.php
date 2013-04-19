@@ -29,12 +29,10 @@ class controller_form_test extends controller_base {
 				'class' => ['input-medium']
 			])
 		)
-		->add('Typeahead', new field('text', [
-				'data-provide'   => "typeahead",
+		->add('Typeahead', new field('typeahead', [
 				'data-source'    => '["one", "two", "three", "four", "five", "six", "seven", "eight"]',
 				'data-items'     => 5,
 				'placeholder'    => h('e.g. "one" or "three"'),
-				'autocomplete'   => false,
 				'data-minLength' => 2,
 			])
 		)

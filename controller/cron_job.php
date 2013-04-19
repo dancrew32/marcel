@@ -124,11 +124,9 @@ class controller_cron_job extends controller_base {
 			new field('typeahead', [ 
 				'name'           => 'script', 
 				'data-api'       => '/cron/scripts',
-				'data-provide'   => "typeahead",
 				'data-items'     => 5,
-				'placeholder'    => h('e.g. cron.<"whatyoutype">.php'),
-				'autocomplete'   => false,
 				'data-minLength' => 2,
+				'placeholder'    => h('e.g. cron.<"whatyoutype">.php'),
 				'class'          => 'cron-script input-block-level',
 				'value'          => h(take($cron, 'script')),
 			]),
