@@ -137,7 +137,7 @@ class controller_cron_job extends controller_base {
 				'data-items'     => 5,
 				'data-minLength' => 2,
 				'placeholder'    => h('e.g. cron.<"whatyoutype">.php'),
-				'class'          => 'cron-script input-block-level',
+				'class'          => 'cron-script input-block-level required',
 				'value'          => h(take($cron, 'script')),
 			]),
 			new field('help', [ 
@@ -151,7 +151,7 @@ class controller_cron_job extends controller_base {
 			new field('input', [ 
 				'name'        => 'frequency',
 				'value'       => h(take($cron, 'frequency')),
-				'class'       => 'input-block-level',
+				'class'       => 'input-block-level required',
 				'placeholder' => h('e.g. * * * * *'),
 			]),
 			new field('help', [ 

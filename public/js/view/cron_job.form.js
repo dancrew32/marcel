@@ -39,7 +39,6 @@
 		EL.form = $('form');
 		EL.form.validate({
 			errorElement: 'span',
-			errorContainer: '.controls',
 			errorPlacement: function(error, el) {
 				el = $(el);
 				var help = el.parent().find('.help-block, .help-inline');
