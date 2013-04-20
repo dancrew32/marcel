@@ -3,8 +3,16 @@
 		<h1>
 			Edit Cron
 		</h1>
-		<?= r('cron_job', 'edit_form', ['cron' => $cron]) ?>
+		<div class="well">
+			<?= r('cron_job', 'edit_form', [ 'cron' => $cron ]) ?>
+		</div>
 	</div>
 	<div class="span4">
+		<h2>
+			Current Cron
+		</h2>
+		<div class="media well">
+			<?= r('cron_job', 'view', [ 'cron' => $cron ]) ?>
+		</div>
 	</div>
 </div>

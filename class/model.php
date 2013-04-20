@@ -5,6 +5,10 @@ class model extends ActiveRecord\Model {
 		return $query[0]->total;
 	}	
 
+	static function get_offset($page, $rpp) {
+		return ($page - 1) * $rpp;
+	}
+
 	function get_errors() {
 		$errors = [];
 		foreach ($this->errors as $k => $er)

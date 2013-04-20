@@ -85,10 +85,12 @@ class field {
 	}
 
 	function button() {
+		$icon = $this->pick('icon');
+		$icon = isset($icon{0}) ? html::icon($icon) : '';
 		if (!isset($this->attrs['class']))
 			$this->attrs['class'] = 'btn';
 		$text = $this->pick('text');
-		$this->html .= '<button'. html::build_attributes($this->attrs) .'>'.$text.'</button>';
+		$this->html .= '<button'. html::build_attributes($this->attrs) .'>'.$icon.$text.'</button>';
 		return $this;
 	}
 

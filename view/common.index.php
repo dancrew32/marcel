@@ -45,7 +45,7 @@ view/common.index.php
 		<span class="label label-warning">Warning</span>
 		<span class="label label-important">Important</span>
 		<span class="label label-info">Info</span>
-		<span class="label label-info">Info</span>
+		<span class="label label-inverse">Info</span>
 
 		<h2>Badges</h2>
 		<span class="badge">1</span>

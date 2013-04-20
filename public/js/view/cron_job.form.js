@@ -56,7 +56,7 @@
 			},
 			success: function(el) {
 				el = $(el);
-				el.text('OK!').addClass('valid');
+				//el.text('OK!').addClass('valid');
 				el.closest('.control-group')
 					.removeClass('error')
 					.addClass('success');

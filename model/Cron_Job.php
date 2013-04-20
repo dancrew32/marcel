@@ -12,6 +12,9 @@ class Cron_Job extends model {
 	static $validates_size_of = [
 		['frequency', 'minimum' => 9, 'too_short' => 'must be at least 9 characters long']
 	];
+	static $validates_format_of = [
+		['frequency', 'with' => '/[^a-zA-Z]/'],
+	];
 
 	function should_run($time = false) {
 		if (!$this->active) return false;

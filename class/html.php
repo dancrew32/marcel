@@ -1,11 +1,22 @@
 <?
 class html {
-	static function a($href, $text, $cls=false) {
-		$cls = $cls ? " class=\"{$cls}\"" : '';
-		return "<a href=\"{$href}\"{$cls}>{$text}</a>";
+	static function a(array $attrs = []) {
+		$attrs = array_merge([
+			'href'  => '#',
+			'text'  => '',
+			'class' => false,
+			'icon'  => false,
+		], $attrs);
+		$icon = $attrs['icon'] ? self::icon($attrs['icon']) : '';
+		$class = $attrs['class'] ? " class=\"{$attrs['class']}\"" : '';
+		return "<a href=\"{$attrs['href']}\"{$class}>{$icon}{$attrs['text']}</a>";
 	}
 
-	static function btn($href, $text, $type='') {
+	static function icon($type) {
+		return "<i class=\"icon-{$type}\"></i> ";
+	}
+
+	static function btn($href, $text, $type='', $icon) {
 		$cls = 'btn';
 		if ($type)
 			$cls .= " btn-{$type}";
@@ -89,6 +100,22 @@ class html {
 		foreach ($options as $k => $v)
 			$table->{$k} = $v;
 		return $table;
+	}
+
+	static function alert($content='', array $options=[]) {
+		if (!isset($content{0})) return '';
+		$options = array_merge([
+			'type'   => 'info',
+			'inline' => true,
+			'closer' => true,
+		], $options);
+		$cls = 'alert'. ($options['inline'] ? '' : ' alert-block');
+		$cls .= isset($options['type']{0}) ? " alert-{$options['type']}" : '';
+		$html = "<div class=\"{$cls}\">";
+		if ($options['closer'])
+			$html .= '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+		$html .= "{$content}</div>";
+		return $html;
 	}
 
 	private static function _list(array $data, string $type) {

@@ -59,7 +59,6 @@ class form {
 		return $this;
 	}
 
-	# TODO: handle errors/warnings/etc..
 	function group(array $attrs=[]) {
 		$args = func_get_args();		
 		$argpos = 1;
