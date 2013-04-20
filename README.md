@@ -75,96 +75,18 @@ Just run `./marcel` from the root directory to get a menu
 of scripts to run!
 
 Every script is an easy to use interactive wizard:
-<table>
-<thead>
-<tr>
-	<th>Wizard</th>
-	<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-	<td>
-		`php script/gen_controller.php`
-	</td>
-	<td>
-		Controller
-	</td>
-</tr>
-<tr>
-	<td>
-		`php script/gen_model.php`
-	</td>
-	<td>
-		Model
-	</td>
-</tr>
-<tr>
-	<td>
-		`php script/gen_view.php`
-	</td>
-	<td>
-		View
-	</td>
-</tr>
-<tr>
-	<td>
-		`php script/gen_js_class.php`
-	</td>
-	<td>
-		JavaScript Module
-	</td>
-</tr>
-<tr>
-	<td>
-		`php script/gen_script.php`
-	</td>
-	<td>
-		Script/Cron generator
-	</td>
-</tr>
-<tr>
-	<td>
-		`php script/db_init.php`
-	</td>
-	<td>
-		DB Initialization (see [Install](#install))
-	</td>
-</tr>
-<tr>
-	<td>
-		php script/db_dump.php
-	</td>
-	<td>
-		DB dump in `db/dump`	
-	</td>
-</tr>
-<tr>
-	<td>
-		`php script/db_restore.php`
-	</td>
-	<td>
-		DB restore from `db/dump`
-	</td>
-</tr>
-<tr>
-	<td>
-		`php script/create_user.php`
-	</td>
-	<td>
-		Create `User`s (e.g. Create your first `User` with `role` of `admin`)
-	</td>
-</tr>
-<tr>
-	<td>
-		`php script/cron.base.php`
-	</td>
-	<td>
-		Run `Cron_Job`s if an `active` `Cron_Job->frequency` matches `time()` (now)
-	</td>
-</tr>
-</tbody>
-</table>
+Wizard | Description
+--- | ---
+`php script/gen_controller.php` | Controller
+`php script/gen_model.php` | Model
+`php script/gen_view.php` | View
+`php script/gen_js_class.php` | JavaScript Module
+`php script/gen_script.php` | Script/Cron generator
+`php script/db_init.php` | DB Initialization (see [Install](#install))
+`php script/db_dump.php` | DB dump in `db/dump`	
+`php script/db_restore.php` | DB restore from `db/dump`
+`php script/create_user.php` | Create `User`s (e.g. Create your first `User` with `role` of `admin`)
+`php script/cron.base.php` | Run `Cron_Job`s if an `active` `Cron_Job->frequency` matches `time()` (now)
 
 ## Routing
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` matches to a specified method in a controller.
@@ -174,40 +96,14 @@ HTTP method granularity and/or auth class permissions handled at the router
 You may capture parameters using regular expressions.
 
 Some keys you may utilize:
-<table>
-<thead>
-<tr>
-	<th>Key</th>
-	<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-	<td>`c`</td>
-	<td>Controller</td>
-</tr>
-<tr>
-	<td>`m`</td>
-	<td>Method</td>
-</tr>
-<tr>
-	<td>`l`</td>
-	<td>Layout (`foo` would be `view/layout/foo.php`)</td>
-</tr>
-<tr>
-	<td>`auth`</td>
-	<td>Authorization method in `class/auth.php` to gate access with</td>
-</tr>
-<tr>
-	<td>`name`</td>
-	<td>Unique name for this route (see `app::get_path($name)`)</td>
-</tr>
-<tr>
-	<td>`section`</td>
-	<td>Name for grouping routes together (e.g. `Portfolio`)</td>
-</tr>
-</tbody>
-</table>
+Key | Description
+--- | ---
+`c` | Controller (**required**)
+`m` | Method (**required**)
+`l` | Layout (`foo` would be `view/layout/foo.php`)
+`auth` | Authorization method in `class/auth.php` to gate access with
+`name` | Unique name for this route (see `app::get_path($name)`)
+`section` | Name for grouping routes together (e.g. `Portfolio`)
 
 ```php
 <?
