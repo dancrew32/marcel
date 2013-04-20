@@ -75,6 +75,7 @@ Just run `./marcel` from the root directory to get a menu
 of scripts to run!
 
 Every script is an easy to use interactive wizard:
+
 Wizard | Description
 --- | ---
 `php script/gen_controller.php` | Controller
@@ -96,6 +97,7 @@ HTTP method granularity and/or auth class permissions handled at the router
 You may capture parameters using regular expressions.
 
 Some keys you may utilize:
+
 Key | Description
 --- | ---
 `c` | Controller (**required**)
