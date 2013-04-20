@@ -108,7 +108,10 @@ class controller_cron_job extends controller_base {
 	# no view
 	function add_form() {
 		$this->form = new form;
-		$this->form->open('/cron/add', 'post', ['class' => 'last']);
+		$this->form->open('/cron/add#cron-add', 'post', [
+			'class' => 'last',
+			'id'    => 'cron-add',
+		]);
 		$note = json_decode(note::get('cron_job:form'));
 		$this->_build_form(take($note, 'cron'), take($note, 'errors'));
 		$this->form->add(
@@ -127,7 +130,9 @@ class controller_cron_job extends controller_base {
 		if (!$cron) app::redir('/cron');
 
 		$this->form = new form;
-		$this->form->open("/cron/edit/{$cron->id}", 'post', ['class' => 'last']);
+		$this->form->open("/cron/edit/{$cron->id}", 'post', [
+			'class' => 'last', 
+		]);
 		$note = json_decode(note::get('cron_job:form'));
 		$this->_build_form(take($note, 'cron', $cron), take($note, 'errors'));
 		$this->form->add(

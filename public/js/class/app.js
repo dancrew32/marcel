@@ -17,7 +17,7 @@ var APP = {
 	}
 
 	function addEventListeners() {
-		NS.ELEMENT.body.on('click', 'button', handleButtonStates);
+		NS.ELEMENT.body.on('click', 'form button[type="submit"]', handleButtonStates);
 	}
 
 	function init() {

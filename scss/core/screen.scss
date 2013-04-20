@@ -28,6 +28,11 @@ $linkColorHover: darken(green, 20%);
 	word-wrap: break-word;
 }
 
+.media .pull-right.label {
+	display: inline;
+	float: right;
+}
+
 .last {
 	margin-bottom: 0;
 }
