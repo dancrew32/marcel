@@ -59,22 +59,26 @@ class form {
 		return $this;
 	}
 
-	function group(array $attrs=[]) {
+	function group() {
 		$args = func_get_args();		
-		$argpos = 1;
+		$attrs = [];
+		$argpos = 0;
+		if (is_array($args[0])) {
+			$attrs = $args[0];
+			//unset($args[0]);		
+			$argpos = 1;
+		}
 
-		$label = self::pick($attrs, 'label');
+
 		if ($this->control_groups) {
 			$class = self::pick($attrs, 'class');
 			$class = 'control-group'. (isset($class{0}) ? ' '. $class : '');
-			$this->html .= "<div class=\"{$class}\"";
-			//if (is_string($args[$argpos]))
-				//$this->html .= ' '.$args[$argpos++];
-			$this->html .= '>';
+			$this->html .= "<div class=\"{$class}\">";
 		}
 
 		$inputs = count($args) - $argpos;
 
+		$label = self::pick($attrs, 'label');
 		if (isset($label{0})) {
 			$this->html .= '<label';	
 

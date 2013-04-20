@@ -330,8 +330,14 @@ form builder! Here's an example:
 <?
 $form = new form;
 $form->open('/login', 'post')
-->add('Username', new field('text', ['name' => 'username', 'placeholder' => 'Username']))
-->add('Password', new field('password', ['name' => 'password', 'placeholder' => 'Password']))
+->add('Username', new field('text', [
+	'name' => 'username', 
+	'placeholder' => 'Username'
+]))
+->add('Password', new field('password', [
+	'name' => 'password', 
+	'placeholder' => 'Password'
+]))
 ->action(
 	new field('submit', ['text' => 'Login'])
 );
@@ -362,20 +368,20 @@ Using `nodb => true` in the route prevents unnecessary classes from loading
 (since these images won't need database interaction).
 
 ## Helpers, Utils and more
-In `class/helper.php`, `class/util.php`, `class/size.php`, and `class/time.php`
+In `class/helper.php`, `class/html.php`, `class/util.php`, `class/size.php`, and `class/time.php`
 you'll find many convenient methods to use from everything to obtaining
 time in seconds, human readable byte sizes, string manipulation, debuggers and 
 other shortcuts to use in this system.
 
 ## Cron
 To register new cron jobs, add entries through `model/Cron_Job.php`
+or use the gui for `controller/cron_job.php`
 and add this to your system's crontab: (to edit your crontab, `sudo crontab -e`)
 ```crontab
-* * * * * /var/www/site/script/cron.base.php > /dev/null 2>&1
+* * * * * /usr/bin/php /var/www/site/script/cron.base.php > /dev/null 2>&1
 ```
 `script/cron.base.php` will be hit every minute running any `script`s
 that have matching cron `frequency` entries.
-**TODO**: still implementing this
 
 ## Workers
 [Gearman](http://gearman.org/getting_started)

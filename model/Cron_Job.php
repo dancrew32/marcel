@@ -16,8 +16,13 @@ class Cron_Job extends model {
 		['frequency', 'with' => '/[^a-zA-Z]/'],
 	];
 
+	function script_exists() {
+		return file_exists($this->script);	
+	}
+
 	function should_run($time = false) {
 		if (!$this->active) return false;
+		if (!$this->script_exists()) return false;
 		$time = is_string($time) ? strtotime($time) : time();
 		$time = explode(' ', date('i G j n w', $time));
 		$crontab = explode(' ', $this->frequency);
@@ -45,6 +50,11 @@ class Cron_Job extends model {
 
 	static function scripts() {
 		$scripts = glob(SCRIPT_DIR.'/cron.*.php');
+		$remove = preg_grep('/base/', $scripts);
+		foreach ($scripts as $k => $s) {
+			if (!in_array($s, $remove)) continue;
+			unset($scripts[$k]);
+		}
 		return $scripts;
 	}
 

@@ -16,6 +16,6 @@ class note {
 
 	public static function set($name, $value) {
 		$cookie_name = self::cookie_name($name);	
-		cookie::set($cookie_name, $value, time::ONE_MINUTE);
+		cookie::set($cookie_name, $value, time::ONE_MINUTE*2);
 	}
 }

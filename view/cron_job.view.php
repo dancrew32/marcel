@@ -2,7 +2,9 @@
 	<h4 class="media-heading">
 		<?= h(take($cron, 'name')) ?>
 		<span class="label pull-right<?= $status_class ?>">
-			<? if (!$cron->active): ?>
+			<? if (!$exists): ?>
+				Invalid Script
+			<? elseif (!$cron->active): ?>
 				Inactive
 			<? else: ?>
 				<?= $should_run ? 'Running' : 'Waiting' ?>
@@ -11,12 +13,19 @@
 	</h4>
 	<p>
 		<strong>Script</strong>:
-		<?= h($cron->script) ?>
+		<span class="text-<?= $script_class ?> word-wrap">
+			<?= h($cron->script) ?>
+		</span>
 	</p>
 	<p>
 		<strong>Frequency</strong>:
 		<?= h($cron->frequency) ?>
 	</p>
+	<? if (isset($cron->description{0})): ?>
+		<p>
+			<?= $cron->description ?>
+		</p>
+	<? endif ?>
 	<ul class="nav nav-pills last">
 		<li>
 			<?= html::a([

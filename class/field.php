@@ -98,7 +98,8 @@ class field {
 		$label = $this->pick('label');
 		$inline = $this->pick('inline', 'boolean');
 		$this->html .= '<label class="checkbox';
-		if ($inline) $this->html .= ' inline';
+		if ($inline) 
+			$this->html .= ' inline';
 		$this->html .= '"><input type="checkbox"'. html::build_attributes($this->attrs) .' />'. $label .'</label>';
 		return $this;
 	}

@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <? require_once(dirname(__FILE__).'/script/inc.php');
 
-$scripts = glob(SCRIPT_DIR.'/[create|gen|db]*.php');
+$scripts = glob(SCRIPT_DIR.'/[create|gen|db|scss]*.php');
 foreach ($scripts as $k => $s) {
 	$name = util::explode_pop('/', $s);	
 	echo "{$k}. {$name}\n"; 

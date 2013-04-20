@@ -7,11 +7,19 @@
 		<? echoif(note::get('cron_job:add'), html::alert('Successfully added Cron', ['type'=>'success'])) ?>
 		<? echoif(note::get('cron_job:edit'), html::alert('Successfully updated Cron', ['type'=>'success'])) ?>
 		<? echoif(note::get('cron_job:delete'), html::alert('Successfully deleted Cron', ['type'=>'success'])) ?>
-		<? foreach ($crons as $cron): ?>
-			<div class="media well">
-				<?= r('cron_job', 'view', [ 'cron' => $cron ]) ?>
-			</div>
-		<? endforeach ?>
+		<? if ($total): ?>
+			<? foreach ($crons as $cron): ?>
+				<div class="media well">
+					<?= r('cron_job', 'view', [ 'cron' => $cron ]) ?>
+				</div>
+			<? endforeach ?>
+		<? else: ?>
+			<p class="lead">
+				No cron jobs yet!
+				<br>
+				Use the "Add Cron" form to create a new job!
+			</p>
+		<? endif ?>
 		&nbsp;
 		<?= $pager ?>
 	</div>
