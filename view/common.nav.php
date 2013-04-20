@@ -15,8 +15,12 @@
 			<div class="nav-collapse collapse">
 
 				<ul class="nav">
-					<li<? echoif(app::$path == '/', ' class="active"') ?>><a href="/">Home</a></li>
-					<li<? echoif(app::$path == '/cron', ' class="active"') ?>><a href="/cron">Cron</a></li>
+					<li<? echoif(app::in_section('Home'), ' class="active"') ?>>
+						<a href="<?= app::get_path('Home')?>">Home</a>
+					</li>
+					<li<? echoif(app::in_section('Cron'), ' class="active"') ?>>
+						<a href="<?= app::get_path('Cron Home') ?>">Cron</a>
+					</li>
 					<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 					<ul class="dropdown-menu">

@@ -32,13 +32,21 @@ class util {
 	}
 
 	static function starts_with($string, $start) {
-		return (substr($string, 0, strlen($start)) == $start);
+		return substr($string, 0, strlen($start)) == $start;
 	}
 
 	static function pluck($find, $key, $data) {
-		foreach($data as $struct) {
-			if ($find != $struct->$key) continue;
+		foreach ($data as $k => $struct) {
+			if ($find != take($struct, $key)) continue;
 			return $struct;
+		}
+		return false;
+	}
+
+	static function pluck_key($find, $key, $data) {
+		foreach ($data as $k => $struct) {
+			if ($find != take($struct, $key)) continue;
+			return $k;
 		}
 		return false;
 	}

@@ -1,12 +1,15 @@
 <?
 class app {
 
+	# layout title
 	static $title = APP_NAME;
 
 	# routing
-	static $path;
 	static $routes = [];
-	static $req_type;
+	static $path; # e.g. "/my/url"
+	static $route_name; # e.g. "User Home"
+	static $section_name; # e.g. "user"
+	static $req_type; # e.g. "post"
 
 	# assets
 	const JQUERY_VERSION = '1.9.1';
@@ -16,52 +19,6 @@ class app {
 		'error' => [],
 		'debug' => [],
 	];
-
-	static function layout($o, $yield) {
-		$title = self::$title;
-		$desc = 'desc';
-		$lay = take($o, 'l', 'a');
-		if ($lay == 'none')
-			unset($lay);
-		$css = self::css();
-		$js = self::js();
-		$body_classes = [take($o, 'c'), take($o, 'm')];
-		ob_start();
-		include LAYOUT_DIR."/{$lay}.php";
-		return ob_get_clean();
-	}
-
-	static function css() {
-		$out = '';	
-		foreach (self::$assets['css'] as $c)
-			$out .= '<link href="'. $c .'" rel="stylesheet" type="text/css">';
-		return $out;
-	}
-
-	static function js() {
-		$cdn = '//ajax.googleapis.com/ajax/libs';
-		$out = '<script src="'.JS_DIR.'/loader.js"></script>';
-		$out .= '<script>
-			$LAB.script("'. $cdn .'/jquery/'.self::JQUERY_VERSION.'/jquery.min.js")
-			.script("/js/bootstrap.min.js").wait()';
-		foreach (self::$assets['js'] as $j) {
-			$delim = strpos($j, '?') ? '&' : '?';
-			$j = CACHE_BUST ? $j.$delim.'d='.date('U') : $j;
-			$out .= '.script("'. $j .'")';
-		}
-		$out .= '</script>';
-		return $out;
-	}
-
-	static function asset($path, $type) {
-		$remote = strpos($path, '//') !== false; 
-		if ($remote)
-			return self::$assets[$type][]= $path;
-		$local = "{$path}.{$type}";
-		$test = $type == 'css' ? CSS_DIR : JS_DIR;
-		if (!file_exists(PUBLIC_DIR.'/'.$test.'/'.$local)) return;
-		self::$assets[$type][]= $test.'/'.$local;
-	}
 
 	static function run() {
 		if (DEBUG && !util::is_ajax()) {
@@ -109,7 +66,7 @@ class app {
 			# DB Bypass? If not, init DB and User Sessions
 			if (!isset($o['nodb'])) {
 				self::db_init();
-				self::session_begin();
+				Session::session_begin();
 				User::init();
 			}
 
@@ -132,20 +89,71 @@ class app {
 				}
 			}
 
+			# Route Name 
+			if (isset($o['name']{0}))
+				self::$route_name = $o['name'];
+
+			# Route Section 
+			if (isset($o['section']{0}))
+				self::$section_name = $o['section'];
+
 			# Main render
 			$out = render($o, ['params' => $matches]);
 			echo util::is_ajax() ? $out : self::layout($o, $out);
 			break;
 		}
 
-
 		if (!$found && !CLI) 
 			echo r('status_code', 'not_found');		
 	}
 
+	static function layout($o, $yield) {
+		$title = self::$title;
+		$desc = 'desc';
+		$lay = take($o, 'l', 'a');
+		if ($lay == 'none')
+			unset($lay);
+		$css = self::css();
+		$js = self::js();
+		$body_classes = [take($o, 'c'), take($o, 'm')];
+		ob_start();
+		include LAYOUT_DIR."/{$lay}.php";
+		return ob_get_clean();
+	}
+
+	static function css() {
+		$out = '';	
+		foreach (self::$assets['css'] as $c)
+			$out .= '<link href="'. $c .'" rel="stylesheet" type="text/css">';
+		return $out;
+	}
+
+	static function js() {
+		$cdn = '//ajax.googleapis.com/ajax/libs';
+		$out = '<script src="'.JS_DIR.'/loader.js"></script>';
+		$out .= '<script>
+			$LAB.script("'. $cdn .'/jquery/'.self::JQUERY_VERSION.'/jquery.min.js")
+			.script("/js/bootstrap.min.js").wait()';
+		foreach (self::$assets['js'] as $j) {
+			$delim = strpos($j, '?') ? '&' : '?';
+			$j = CACHE_BUST ? $j.$delim.'d='.date('U') : $j;
+			$out .= '.script("'. $j .'")';
+		}
+		$out .= '</script>';
+		return $out;
+	}
+
+	static function asset($path, $type) {
+		$remote = strpos($path, '//') !== false; 
+		if ($remote)
+			return self::$assets[$type][]= $path;
+		$local = "{$path}.{$type}";
+		$test = $type == 'css' ? CSS_DIR : JS_DIR;
+		if (!file_exists(PUBLIC_DIR.'/'.$test.'/'.$local)) return;
+		self::$assets[$type][]= $test.'/'.$local;
+	}
 
 	static function db_init() {
-		# Active Record
 		require_once VENDOR_DIR.'/activerecord/ActiveRecord.php';
 		ActiveRecord\Config::initialize(function($cfg) {
 			$cfg->set_model_directory(MODEL_DIR);
@@ -156,23 +164,20 @@ class app {
 		});
 	}
 
-	static function session_begin() {
-		session_set_save_handler(
-			'Session::open',
-			'Session::close',
-			'Session::read',
-			'Session::write',
-			'Session::destroy',
-			'Session::gc'
-		);
-		session_name(SESSION_NAME);
-		session_start();
-		register_shutdown_function('session_write_close');	
-	}
-
 	static function redir($url='/') {
 		header("Location: {$url}");
 		exit;
+	}
+
+	static function get_path($name) {
+		# TODO: instance cache for route path/name key/value
+		$found = util::pluck_key($name, 'name', self::$routes);
+		if (!$found) return false;
+		return preg_replace('/\(.*\)/', '', $found); # ignore captures
+	}
+
+	static function in_section($section) {
+		return self::$section_name == $section;
 	}
 
 	static function title($title) {

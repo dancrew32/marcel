@@ -2,6 +2,21 @@
 class Session extends model {
 	static $table_name = 'sessions';
 
+	static function session_begin() {
+		$cls = __CLASS__;
+		session_set_save_handler(
+			"{$cls}::open",
+			"{$cls}::close",
+			"{$cls}::read",
+			"{$cls}::write",
+			"{$cls}::destroy",
+			"{$cls}::gc"
+		);
+		session_name(SESSION_NAME);
+		session_start();
+		register_shutdown_function('session_write_close');	
+	}
+
     static function open() {
         //delete old session handlers
         $limit = time() - (3600 * 24);
@@ -19,9 +34,7 @@ class Session extends model {
 
     static function read($id) {
 		$result = Session::find_by_id($id);
-        if ($result)
-			return $result->data;
-		return false;
+		return $result ? $result->data : false;
     }
 
     static function write($id, $data) {

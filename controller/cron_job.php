@@ -1,6 +1,11 @@
 <?
 class controller_cron_job extends controller_base {
 
+	function __construct($o) {
+		$this->root_path = app::get_path('Cron Home');
+		parent::__construct($o);
+   	}
+
 	function all($o) {
 		$page = take($o['params'], 'page', 1); 
 		$rpp = 5;
@@ -9,7 +14,7 @@ class controller_cron_job extends controller_base {
 			'total' => $this->total,
 			'rpp'   => $rpp,
 			'page'  => $page,
-			'base'  => '/cron/',
+			'base'  => "{$this->root_path}/",
 		]);
 		$this->crons = Cron_Job::find('all', [
 			'limit'  => $rpp,
@@ -60,7 +65,7 @@ class controller_cron_job extends controller_base {
 
 	function edit($o) {
 		$this->cron = Cron_Job::find_by_id(take($o['params'], 'id'));
-		if (!$this->cron) app::redir('/cron');
+		if (!$this->cron) app::redir($this->root_path);
 		if (!$this->is_post) return;
 
 		$this->cron->name        = trim(take($_POST, 'name'));
@@ -72,7 +77,7 @@ class controller_cron_job extends controller_base {
 		$ok = $this->cron->save();
 		if ($ok) {
 			note::set('cron_job:edit', 1);
-			app::redir('/cron');
+			app::redir($this->root_path);
 		}
 
 		note::set('cron_job:form', json_encode([
@@ -80,19 +85,19 @@ class controller_cron_job extends controller_base {
 			'errors' => $this->cron->get_errors(),
 		]));
 
-		app::redir("/cron/edit/{$this->cron->id}");
+		app::redir("{$this->root_path}/edit/{$this->cron->id}");
 	}
 
 	function delete($o) {
 		$id = take($o['params'], 'id');
-		if (!$id) app::redir('/cron');
+		if (!$id) app::redir($this->root_path);
 
 		$cron = Cron_Job::find_by_id($id);
-		if (!$cron) app::redir('/cron');
+		if (!$cron) app::redir($this->root_path);
 
 		$cron->delete();
 		note::set('cron_job:delete', 1);
-		app::redir('/cron');
+		app::redir($this->root_path);
 	}
 
 	function scripts() {
@@ -108,7 +113,7 @@ class controller_cron_job extends controller_base {
 	# no view
 	function add_form() {
 		$this->form = new form;
-		$this->form->open('/cron/add#cron-add', 'post', [
+		$this->form->open("{$this->root_path}/add#cron-add", 'post', [
 			'class' => 'last',
 			'id'    => 'cron-add',
 		]);
@@ -127,10 +132,10 @@ class controller_cron_job extends controller_base {
 	# no view
 	function edit_form($o) {
 		$cron = Cron_Job::find_by_id(take($o['cron'], 'id'));
-		if (!$cron) app::redir('/cron');
+		if (!$cron) app::redir($this->root_path);
 
 		$this->form = new form;
-		$this->form->open("/cron/edit/{$cron->id}", 'post', [
+		$this->form->open("{$this->root_path}/edit/{$cron->id}", 'post', [
 			'class' => 'last', 
 		]);
 		$note = json_decode(note::get('cron_job:form'));

@@ -29,13 +29,13 @@
 	<ul class="nav nav-pills last">
 		<li>
 			<?= html::a([
-				'href' => "/cron/edit/{$cron->id}", 
+				'href' => "{$root_path}/edit/{$cron->id}", 
 				'text' => "Edit",
 				'icon' => 'edit',
 			]) ?>
 		<li>
 			<?= html::a([
-				'href' => "/cron/delete/{$cron->id}", 
+				'href' => "{$root_path}/delete/{$cron->id}", 
 				'text' => "Delete",
 				'icon' => 'trash',
 			]) ?>

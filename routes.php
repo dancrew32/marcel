@@ -3,18 +3,18 @@
 app::$routes = [
 	
 	# Root
-	'/' => [ 'c' => 'common', 'm' => 'index'],
+	'/' => [ 'c' => 'common', 'm' => 'index', 'name' => 'Home', 'section' => 'Home'],
 
 	# Login/Logout
 	'/login'  => [ 'c' => 'authentication', 'm' => 'login' ],
 	'/logout' => [ 'c' => 'authentication', 'm' => 'logout' ],
 
 	# Cron Jobs
-	'/cron(?:/*)(?P<page>[0-9]*)'   => [ 'c' => 'cron_job', 'm' => 'all' ],
-	'/cron/add'                     => [ 'c' => 'cron_job', 'm' => 'add' ],
-	'/cron/scripts'                 => [ 'c' => 'cron_job', 'm' => 'scripts' ],
-	'/cron/edit/(?P<id>([0-9]+))'   => [ 'c' => 'cron_job', 'm' => 'edit' ],
-	'/cron/delete/(?P<id>([0-9]+))' => [ 'c' => 'cron_job', 'm' => 'delete' ],
+	'/cron(?:/*)(?P<page>[0-9]*)'   => [ 'c' => 'cron_job', 'm' => 'all', 'name' => 'Cron Home', 'section' => 'Cron' ],
+	'/cron/add'                     => [ 'c' => 'cron_job', 'm' => 'add', 'section' => 'Cron' ],
+	'/cron/scripts'                 => [ 'c' => 'cron_job', 'm' => 'scripts', 'section' => 'Cron' ],
+	'/cron/edit/(?P<id>([0-9]+))'   => [ 'c' => 'cron_job', 'm' => 'edit', 'section' => 'Cron' ],
+	'/cron/delete/(?P<id>([0-9]+))' => [ 'c' => 'cron_job', 'm' => 'delete', 'section' => 'Cron' ],
 
 	# HTTP Example
 	'/http' => [
