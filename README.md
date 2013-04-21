@@ -77,6 +77,8 @@ of scripts to run!
 
 Every script is an easy to use interactive wizard:
 
+### Wizards & Scripts
+
 Wizard | Script Description
 --- | ---
 `php script/gen_controller.php` | [Controller](#controllers-c)
@@ -92,13 +94,16 @@ Wizard | Script Description
 `php script/scss_watch.php` | run `compass watch` as daemon to watch [SCSS](#scss-compass)
 
 ## Routing
-In `routes.php`, we send url `$_SERVER['REQUEST_URI']` matches to a specified method in a controller.
+In `routes.php`, we send url `$_SERVER['REQUEST_URI']` 
+[preg_match](http://php.net/manual/en/function.preg-match.php)es 
+to a specified method in a [controller](#controllers-c).
 By default, routing is simple, but you may increase the complexity if you would like
-HTTP method granularity and/or auth class permissions handled at the router 
-(instead of the controller).
+[`HTTP`](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) method granularity 
+and/or [auth](#auth) class permissions handled at the router 
+(instead of the [controller](#controllers-c)).
 You may capture parameters using regular expressions.
 
-Some keys you may utilize:
+### Route Keys
 
 Key | Description
 --- | ---
@@ -109,6 +114,9 @@ Key | Description
 `name` | Unique name for this route (see `app::get_path($name)`)
 `section` | Name for grouping routes together (e.g. `Portfolio`)
 `http` | for nested [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) routing (e.g. `get`, `post`, `put`, `delete`)
+`nodb` | if `true`, skip any database connections for this execution
+
+### Example Route Implementation
 
 ```php
 <?
@@ -161,7 +169,8 @@ app::$routes = [
 
 ## Models (M)
 Uses [PHPActiveRecord](http://www.phpactiverecord.org)
-See [Basic CRUD](http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD) to get started
+(see [Basic CRUD](http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD) to learn more).
+Get started with a new Model using the `php script/gen_model.php` [Script](#generator-scripts).
 ```php
 <?
 class Thing extends ActiveRecord\Model {
@@ -186,10 +195,13 @@ $b->delete();
 ```
 
 ## Controllers (C)
-Simple business logic only please. This would be `controller/yours.php`
-`foo()` would pass variables to `view/yours.foo.php`
-`bar()` would pass variables to `view/yours.bar.php`
-`$o` contains parameters passed in the 3rd argument of `r()`
+
+* This file would be `controller/yours.php`
+* `foo()` would pass variables to `view/yours.foo.php`
+* `bar()` would pass variables to `view/yours.bar.php`
+* `$o` contains optional parameters passed in the `3rd` argument of `r('controller', 'method', [ 'thing' => 'dorito' ])`
+   * if your [route](#routing) captures url parameters, they're available through `$o['params']`
+
 ```php
 <?
 class controller_yours extends controller_base {
@@ -210,7 +222,11 @@ class controller_yours extends controller_base {
 ```
 
 ## Views (V)
-Everything you declare in your controller with `$this->...` is available in your view.
+Everything you declare in your [controller](#controllers-c) 
+with `$this->...` is available in your view.
+Based on our [example controller](#controllers-c) above,
+these would be some example views:
+
 ```php
 # views/yours.foo.php
 <div>
@@ -218,6 +234,7 @@ Everything you declare in your controller with `$this->...` is available in your
 </div>
 ```
 
+### Subrendering
 You can subrender `bar` in `foo` using `r(controller, view)`
 ```php
 # views/yours.foo.php
@@ -228,8 +245,11 @@ You can subrender `bar` in `foo` using `r(controller, view)`
 ```
 
 ## Assets
-Assets are loaded per view and in order (duplicates ignored).
-Here's an example view (`view/foo.bar.php`) with its own JavaScript in `public/js/foo.bar.js` and CSS in `public/css/foo.bar.css`
+Assets are loaded per [view](#views-v), in order with duplicates ignored.
+Here's an example [view](#views-v) (`view/foo.bar.php`) with its 
+own [JavaScript](http://en.wikipedia.org/wiki/JavaScript)
+in `public/js/foo.bar.js` and [CSS](https://en.wikipedia.org/wiki/Cascading_Style_Sheets) 
+in `public/css/foo.bar.css`
 ```php
 <? app::asset('foo.bar', 'css') ?>
 <? app::asset('foo.bar', 'js') ?>
@@ -246,7 +266,8 @@ php script/scss_watch.php
 
 ## Layouts
 `views/layouts/a.php` is the default layout. 
-If you want to use an alternative, request the layout name in `routes.php`:
+If you want to use an alternative layout, 
+request the "layout name" (`l` in [Routes](#routes)) in `routes.php`:
 ```php
 <?
 app::$routes = [
@@ -256,15 +277,19 @@ app::$routes = [
 
 ];
 ```
-Layout rendering is automatically skipped by AJAX requests.
+Layout rendering is automatically *skipped* by [XHR](http://en.wikipedia.org/wiki/XMLHttpRequest)
+(AKA [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming))) requests to make
+updating views easier. 
 
 ## Auth
-In `class/auth.php`, you may optionally define user permissions for 
-use in controllers or routes.
-One way to test may be to use `model.User`'s `role` attribute 
-(like the example auth class) to gate controller method access.
-A scalable paradigm would be to write feature-named methods
-that contain user role testing.
+In `class/auth.php`, you may *optionally* define `User` permissions for 
+use in [controllers](#controllers-c) or [routes](#routes).
+
+To test, use `model.User`'s `role` attribute 
+(like the example auth class below) to gate [controller](#controllers-c) method access.
+
+A scalable paradigm would be to write *feature-named* methods
+that contain `User` `role` tests.
 ```php
 <?
 class auth {
@@ -302,12 +327,14 @@ class auth {
 	}
 }
 ```
-Now you can test in the controller for `auth::email_send()`
+Now you can test in the [controller](#controllers-c) for `auth::email_send()`
 or even better, test in `routes.php` `auth => ['email_send']`
 to keep non-managers/non-admins from sending email.
 
 ## Cookies (and Notes)
-Standard API for cookie CRUD and `note` is available for one-time use.
+Standard [API](http://en.wikipedia.org/wiki/Application_programming_interface) 
+for cookie [CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete) 
+and `note` is available for one-time use.
 ```php
 # Cookies
 cookie::set('shoes', 'on', time::ONE_YEAR);
@@ -320,7 +347,8 @@ echo note::get('success_message'); # ""
 ```
 
 ## Cache
-Designed to use Memcached on `11211`. Here's a typical get-if-set pattern:
+Designed to use [Memcached](http://php.net/manual/en/book.memcached.php) 
+on port `11211`. Here's a typical *get-if-set* pattern:
 ```php
 $data = cache::get('cachekey', $found);
 if (!$found) {
@@ -331,8 +359,9 @@ echo $data;
 ```
 
 ## Form Fields
-Building forms from scratch is tedious. Let's use a twitter bootstrap customized
-form builder! Here's an example:
+Building forms from scratch is tedious. Let's use a 
+[twitter bootstrap form](http://twitter.github.io/bootstrap/base-css.html#forms) builder! 
+Here's an example:
 ```php
 <?
 $form = new form;
@@ -355,7 +384,8 @@ If you want to see everything `class/form.php` and `class/field.php` are capable
 check out `controller/form_test.php#index`.
 
 ## On-The-Fly Image Manipulation (and Caching)
-Using a modified version of TimThumb, we can maniuplate our images on the fly!
+Using a modified version of [TimThumb](http://www.binarymoon.co.uk/projects/timthumb/), 
+we can manipulate our images on the fly!
 ```php
 app::$routes = [
 	'/i' => ['c' => 'image', 'm' => 'process', 'nodb' => true ],
