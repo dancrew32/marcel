@@ -93,6 +93,7 @@ Wizard | Script Description
 `php script/db_init.php` | DB initialization (see [Install](#install))
 `php script/db_dump.php` | DB *dump* in `db/dump`	
 `php script/db_restore.php` | DB *restore* from `db/dump`
+`php script/db_create_mysql_user.php` | Create a new mysql user with permissions to *only* this `DB_NAME`
 `php script/create_user.php` | Create `User`s (e.g. Create your first `User` with `role` of `admin`)
 `php script/cron.base.php` | Run each `Cron_Job` if `Cron_Job->frequency` matches `time()` and is `active`
 `php script/scss_watch.php` | run `compass watch` as daemon to watch [SCSS](#scss-compass)
