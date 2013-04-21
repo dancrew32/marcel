@@ -28,7 +28,7 @@ class app {
 		}
 
 		# IP Limit
-		if (!CLI && isset($GLOBALS['IP_WHITELIST'])) {
+		if (!CLI && isset($GLOBALS['IP_WHITELIST']) && count($GLOBALS['IP_WHITELIST'])) {
 			$allowed = in_array(take($_SERVER, 'REMOTE_ADDR'), $GLOBALS['IP_WHITELIST']);
 			if (!$allowed) app::redir('http://google.com');
 		}
