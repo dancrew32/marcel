@@ -76,18 +76,19 @@ of scripts to run!
 
 Every script is an easy to use interactive wizard:
 
-Wizard | Description
+Wizard | Script Description
 --- | ---
-`php script/gen_controller.php` | Controller
-`php script/gen_model.php` | Model
-`php script/gen_view.php` | View
+`php script/gen_controller.php` | [Controller](#controllers-c)
+`php script/gen_model.php` | [Model](#models-m)
+`php script/gen_view.php` | [View](#views-v)
 `php script/gen_js_class.php` | JavaScript Module
-`php script/gen_script.php` | Script/Cron generator
-`php script/db_init.php` | DB Initialization (see [Install](#install))
-`php script/db_dump.php` | DB dump in `db/dump`	
-`php script/db_restore.php` | DB restore from `db/dump`
+`php script/gen_script.php` | Script/[Cron](#cron)
+`php script/db_init.php` | DB initialization (see [Install](#install))
+`php script/db_dump.php` | DB *dump* in `db/dump`	
+`php script/db_restore.php` | DB *restore* from `db/dump`
 `php script/create_user.php` | Create `User`s (e.g. Create your first `User` with `role` of `admin`)
-`php script/cron.base.php` | Run `Cron_Job`s if an `active` `Cron_Job->frequency` matches `time()` (now)
+`php script/cron.base.php` | Run each `Cron_Job` if `Cron_Job->frequency` matches `time()` and is `active`
+`php script/scss_watch.php` | run `compass watch` as daemon to watch [SCSS](#scss-compass)
 
 ## Routing
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` matches to a specified method in a controller.
@@ -100,12 +101,13 @@ Some keys you may utilize:
 
 Key | Description
 --- | ---
-`c` | Controller (**required**)
-`m` | Method (**required**)
+`c` | Controller *required*
+`m` | Method *required*
 `l` | Layout (`foo` would be `view/layout/foo.php`)
 `auth` | Authorization method in `class/auth.php` to gate access with
 `name` | Unique name for this route (see `app::get_path($name)`)
 `section` | Name for grouping routes together (e.g. `Portfolio`)
+`http` | for nested [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) routing (e.g. `get`, `post`, `put`, `delete`)
 
 ```php
 <?
@@ -237,9 +239,8 @@ Here's an example view (`view/foo.bar.php`) with its own JavaScript in `public/j
 Write some [SCSS](http://sass-lang.com/) with [Compass](http://compass-style.org).
 Changes in `scss` directory automatically reflect in `public/css` when you run:
 ```bash
-sudo gem install compass
-sudo gem install compass_twitter_bootstrap
-compass watch &
+sudo gem install compass compass_twitter_bootstrap
+php script/scss_watch.php
 ```
 
 ## Layouts
