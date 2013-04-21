@@ -447,6 +447,37 @@ and add this to your system's crontab: (to edit your crontab, `sudo crontab -e`)
 that have matching cron `frequency` entries.
 
 ## Workers
+Using the `Worker` [model](#models-m), you can add long-running
+processes to a "job queue" using `Worker::add`.
+To start a worker server, run `php script/worker.php`.
+
+### Worker Example
+`example::long_running` takes 10 seconds to complete
+each time it is invoked. If you called `example::long_running`
+`10000` times, it would take over almost `28` hours to 
+execute them all. With `Worker::add`, you can queue them up
+and go work on other things!
+```php
+class example {
+	static function long_running(array $args) {
+		sleep(10);
+		echo take($args, 'foo');
+	}
+}
+
+# Spawn 10000, slow running jobs
+for ($i = 0; $i < 10000; $i++) {
+	Worker::add([
+		'class'  => 'example', 
+		'method' => 'long_running',
+		'args'   => [
+			'foo' => $i,
+		],
+	]);
+}
+```
+
+<!--
 [Gearman](http://gearman.org/getting_started)
 ```bash
 # install gearman
@@ -459,6 +490,7 @@ make install
 sudo pecl install gearman
 # add extension="gearman.so" to /etc/php5/apache2/php.ini
 ```
+-->
 
 ## WebSocket Server
 Running `php -q script/socket_server.php` will start up a websocket server
