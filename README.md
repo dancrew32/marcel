@@ -452,14 +452,14 @@ that have matching cron `frequency` entries.
 ## Workers
 Using the `Worker` [model](#models-m), you can add long-running
 processes to a "job queue" using `Worker::add`.
-To start a worker server, run `php script/worker.php`.
+To *start* a worker server, run `php script/worker.php <optional-thread-count>`.
 
 ### Worker Example
 `example::long_running` takes 10 seconds to complete
 each time it is invoked. If you called `example::long_running`
 `10000` times, it would take over almost `28` hours to 
 execute them all. With `Worker::add`, you can queue them up
-and go work on other things!
+and execute them in paralell as background processes.
 ```php
 class example {
 	static function long_running(array $args) {
