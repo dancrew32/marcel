@@ -59,6 +59,7 @@ After install, you may want to create your first user: `php script/create_user.p
 <VirtualHost *:80>
 	ServerName site.com
 	DocumentRoot /var/www/site/public
+	SetEnv ENV "DEV" # or "PROD"
 </VirtualHost>
 
 # SSL Version

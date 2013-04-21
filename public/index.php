@@ -9,9 +9,10 @@ if (!defined('ROOT_DIR'))
 
 # App
 define('APP_NAME', 'Marcel');
-define('ENV', 'DEV');
+defined('ENV') || define('ENV', (getenv('ENV') ? getenv('ENV') : 'DEV'));
 define('SALT', '<your salt>');
 define('SESSION_NAME', '<your session name>');
+$IP_WHITELIST = [ ];
 
 # DB
 define('DB_USER', '<user>');
@@ -23,7 +24,7 @@ define('SCHEMA_DIR', DB_DIR.'/schema');
 define('DUMP_DIR', DB_DIR.'/dump');
 
 # System
-define('DEBUG', true);
+define('DEBUG', ENV == 'DEV');
 define('CACHE_BUST', false);
 if (DEBUG)
 	$DEBUG_QUERIES = [];
