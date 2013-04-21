@@ -278,8 +278,8 @@ app::$routes = [
 ];
 ```
 Layout rendering is automatically *skipped* by [XHR](http://en.wikipedia.org/wiki/XMLHttpRequest)
-(AKA [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming))) requests to make
-updating views easier. 
+(AKA [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) requests to make
+updating [views](#views-v) easier. 
 
 ## Auth
 In `class/auth.php`, you may *optionally* define `User` permissions for 
@@ -328,7 +328,7 @@ class auth {
 }
 ```
 Now you can test in the [controller](#controllers-c) for `auth::email_send()`
-or even better, test in `routes.php` `auth => ['email_send']`
+or even better, test in the [routes](#routes) (`routes.php`) with `'auth' => ['email_send']`
 to keep non-managers/non-admins from sending email.
 
 ## Cookies (and Notes)
@@ -357,6 +357,29 @@ if (!$found) {
 }
 echo $data;
 ```
+
+### Generating Unique Cache Keys
+Using `class/cache.php`'s `keygen` method, 
+you can safely generate `SITE_NAME` specific, non-conflicting cache keys
+for methods. Here is an arbitrary `get_user_data` function example:
+
+```php
+class example {
+	static function get_user_data($id) {
+		$safe_key = cache::keygen(__CLASS__, __FUNCTION__, $id);
+		$data = cache::get($safe_key, $found, true); # true deserializes (since we're caching an object)
+		if (!$found) {
+			$data = User::find($id);
+			cache::set($safe_key, $data, time::ONE_HOUR, true); # true serializes (since it's an object)
+		}
+	}
+}
+
+# invoke
+$user = example::get_user_data(26);
+```
+If `SITE_NAME` is `define('SITE_NAME', 'Marcel')`,
+`$safe_key` ends up looking like the `md5()` of `'Marcel::example::get_user_data::26'`
 
 ## Form Fields
 Building forms from scratch is tedious. Let's use a 
