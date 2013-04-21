@@ -30,4 +30,8 @@ class mail extends PHPMailer {
 		//$this->AltBody = 'This is the body in plain text for non-HTML mail clients';
 		//$this->Send();
 	}	
+
+	static function queue($args) {
+		return $args['email']->Send();
+	}
 }
