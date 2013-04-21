@@ -3,7 +3,7 @@
 array_shift($argv);
 $search = implode('', $argv);
 $is_search = isset($search{0});
-$scripts = glob(SCRIPT_DIR.'/[create|gen|db|scss]*.php');
+$scripts = glob(SCRIPT_DIR.'/*.php');
 $use = false;
 
 foreach ($scripts as $k => $s) {

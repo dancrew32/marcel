@@ -56,20 +56,21 @@ class Worker extends model {
 		return take($query, 'total') > 0;
 	}
 
-	function run() {
+	function run($thread_id = 0) {
 		if ($this->active) return true;
 		$this->active = true;
 		$this->save();
 		if (CLI)
-			yellow("running {$this->class}::{$this->method}\n");
+			yellow("{$thread_id}: running {$this->class}::{$this->method}\n");
+
 		try {
 			call_user_func("{$this->class}::{$this->method}", $this->get_args());
 			if (CLI)
-				green("completed {$this->class}::{$this->method}\n");
+				green("{$thread_id}: completed {$this->class}::{$this->method}\n");
 			return $this->delete();
 		} catch (Exception $e) {
 			if (CLI)
-				red("FAILED {$this->class}::{$this->method}\n");
+				red("{$thread_id}: FAILED {$this->class}::{$this->method}\n");
 			$this->active = false;
 			# TODO: increment fails
 			$this->save();
