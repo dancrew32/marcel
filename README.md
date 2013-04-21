@@ -73,7 +73,10 @@ After install, you may want to create your first user: `php script/create_user.p
 
 ## Generator Scripts
 Just run `./marcel` from the root directory to get a menu
-of scripts to run!
+of scripts to run! When you're comfortable with the
+list of scripts you have, use the search shortcut
+to immediately run that script `./marcel <search>` 
+(so maybe `./marcel dbdump` to run `php script/db_dump.php`).
 
 Every script is an easy to use interactive wizard:
 

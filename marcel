@@ -1,11 +1,26 @@
 #!/usr/bin/php
 <? require_once(dirname(__FILE__).'/script/inc.php');
-
+array_shift($argv);
+$search = implode('', $argv);
+$is_search = isset($search{0});
 $scripts = glob(SCRIPT_DIR.'/[create|gen|db|scss]*.php');
+$use = false;
+
 foreach ($scripts as $k => $s) {
 	$name = util::explode_pop('/', $s);	
+	if ($is_search) {
+		$name = preg_replace('/[_\-\.]/i', '', $name);
+		$q = '/'.preg_quote($search, '/').'/';
+		if (!preg_match($q, $name)) continue;
+		$use = $k;
+		break;
+	}
 	echo "{$k}. {$name}\n"; 
 }
-$use = gets("Enter number for script to run");
 
+if (!$is_search)
+	$use = gets("Enter number for script to run");
+
+if (!$use || !file_exists($scripts[$use])) 
+	return red("No match\n");
 include_once "{$scripts[$use]}";
