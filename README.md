@@ -95,6 +95,7 @@ Wizard | Script Description
 `php script/create_user.php` | Create `User`s (e.g. Create your first `User` with `role` of `admin`)
 `php script/cron.base.php` | Run each `Cron_Job` if `Cron_Job->frequency` matches `time()` and is `active`
 `php script/scss_watch.php` | run `compass watch` as daemon to watch [SCSS](#scss-compass)
+`php script/worker.php` | start a [worker](#workers) server
 
 ## Routing
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` 
