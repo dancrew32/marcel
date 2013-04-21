@@ -52,6 +52,7 @@ php script/db_init.php
 chmod 777 -R tmp
 chmod 777 marcel
 ```
+After install, you may want to create your first user: `php script/create_user.php`
 
 ## VirtualHost Setup
 ```htaccess
