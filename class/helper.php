@@ -34,6 +34,16 @@ function echoif($condition, $true, $false = '') {
 	echo $condition ? $true : $false;
 }
 
+function times($limit, $function) {
+	$range = range(0, $limit-1);
+	if (is_string($function))
+		foreach ($range as $i)
+			call_user_func($function, $i);
+	else 
+		foreach ($range as $i)
+			$function($i);	
+}
+
 # htmlentities shortcut
 function h($str) {
 	return htmlentities($str);

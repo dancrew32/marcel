@@ -3,7 +3,7 @@ if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', realpath(dirname(dirname(__FILE__))));
 require_once(ROOT_DIR.'/public/index.php');
 if (CLI) 
-	app::db_init();
+	db::init();
 
 # CLI helpers 
 function red($text) {
