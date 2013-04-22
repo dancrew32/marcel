@@ -12,7 +12,7 @@ class Worker extends model {
 			'class'  => false,
 			'method' => false,
 			'args'   => null,
-			'run_on' => false,
+			'run_at' => false,
 		], $options);
 
 		if (!isset($options['class']{0}) || !isset($options['method']{0}))
@@ -29,10 +29,9 @@ class Worker extends model {
 		if ($w->hash_exists())
 			return false;
 
-		$run_on = strtotime($options['run_on']);
-		if ($run_on > 0)
-			$this->run_on = date('Y-m-d H:i:s', $run_on);
-		$w->created_on = time::now();
+		$run_at = strtotime($options['run_at']);
+		if ($run_at > 0)
+			$this->run_at = date('Y-m-d H:i:s', $run_at);
 		$w->save();
 	}
 
@@ -59,7 +58,6 @@ class Worker extends model {
 	function run($thread_id = 0) {
 		if ($this->active) return true;
 		$this->active = true;
-		$this->active_on = time::now();
 		$this->save();
 		if (CLI)
 			yellow("{$thread_id}: running {$this->class}::{$this->method}\n");

@@ -19,7 +19,7 @@ class controller_cron_job extends controller_base {
 		$this->crons = Cron_Job::find('all', [
 			'limit'  => $rpp,
 			'offset' => model::get_offset($page, $rpp),
-			'order'  => 'active desc, updated_on desc',
+			'order'  => 'active desc, updated_at desc',
 		]);
 	}
 
@@ -48,8 +48,6 @@ class controller_cron_job extends controller_base {
 		$cron->script      = trim(take($_POST, 'script'));
 		$cron->frequency   = trim(take($_POST, 'frequency'));
 		$cron->description = trim(take($_POST, 'description'));
-		$cron->created_on  = $now;
-		$cron->updated_on  = $now;
 		$ok = $cron->save();
 		if ($ok) {
 			note::set('cron_job:add', 1);
@@ -73,7 +71,6 @@ class controller_cron_job extends controller_base {
 		$this->cron->script      = trim(take($_POST, 'script'));
 		$this->cron->frequency   = trim(take($_POST, 'frequency'));
 		$this->cron->description = trim(take($_POST, 'description'));
-		$this->cron->updated_on  = time::now();
 		$ok = $this->cron->save();
 		if ($ok) {
 			note::set('cron_job:edit', 1);

@@ -5,11 +5,11 @@ CREATE TABLE IF NOT EXISTS `workers` (
   `method` varchar(32) NOT NULL,
   `args` text DEFAULT NULL,
   `hash` varchar(32) NOT NULL,
-  `run_on` datetime DEFAULT NULL,
-  `active_on` datetime DEFAULT NULL,
-  `created_on` datetime NOT NULL,
+  `run_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `active` (`active`),
   KEY `hash` (`hash`),
-  KEY `run_on` (`run_on`)
+  KEY `run_at` (`run_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
