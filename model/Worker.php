@@ -59,6 +59,7 @@ class Worker extends model {
 	function run($thread_id = 0) {
 		if ($this->active) return true;
 		$this->active = true;
+		$this->active_on = time::now();
 		$this->save();
 		if (CLI)
 			yellow("{$thread_id}: running {$this->class}::{$this->method}\n");

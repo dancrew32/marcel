@@ -16,6 +16,11 @@ app::$routes = [
 	'/cron/edit/(?P<id>([0-9]+))'   => [ 'c' => 'cron_job', 'm' => 'edit', 'section' => 'Cron' ],
 	'/cron/delete/(?P<id>([0-9]+))' => [ 'c' => 'cron_job', 'm' => 'delete', 'section' => 'Cron' ],
 
+	# Workers
+	'/workers/reset/(?P<id>([0-9]+))'  => [ 'c' => 'worker', 'm' => 'reset', 'section' => 'Worker' ],
+	'/workers/delete/(?P<id>([0-9]+))' => [ 'c' => 'worker', 'm' => 'delete', 'section' => 'Worker' ],
+	'/workers(?:/*)(?P<filter>([a-z]*))'     => [ 'c' => 'worker', 'm' => 'all', 'name' => 'Worker Home', 'section' => 'Worker' ],
+
 	# HTTP Example
 	'/http' => [
 		'http' => [

@@ -21,6 +21,11 @@
 					<li<? echoif(app::in_section('Cron'), ' class="active"') ?>>
 						<a href="<?= app::get_path('Cron Home') ?>">Cron</a>
 					</li>
+					<li<? echoif(app::in_section('Worker'), ' class="active"') ?>>
+						<a href="<?= app::get_path('Worker Home') ?>">Workers</a>
+					</li>
+					<? /*
+						
 					<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 					<ul class="dropdown-menu">
@@ -33,6 +38,7 @@
 						<li><a href="#">One more separated link</a></li>
 					</ul>
 					</li>
+					*/ ?>
 				</ul>
 
 				<ul class="nav pull-right">

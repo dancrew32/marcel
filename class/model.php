@@ -1,7 +1,8 @@
 <?
 class model extends ActiveRecord\Model {
-	static function total() {
-		$query = static::find_by_sql('select count(id) as total from '. static::$table_name);
+	static function total($conditions='') {
+		$sql = "select count(id) as total from ". static::$table_name ." {$conditions}";
+		$query = static::find_by_sql($sql);
 		return $query[0]->total;
 	}	
 
