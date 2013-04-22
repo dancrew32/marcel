@@ -56,7 +56,7 @@ class controller_cron_job extends controller_base {
 
 		note::set('cron_job:form', json_encode([
 			'cron' => $_POST, 
-			'errors' => $cron->get_errors(),
+			'errors' => $cron->errors->to_array(),
 		]));
 		app::redir('/cron');
 	}
@@ -79,7 +79,7 @@ class controller_cron_job extends controller_base {
 
 		note::set('cron_job:form', json_encode([
 			'cron'   => $_POST, 
-			'errors' => $this->cron->get_errors(),
+			'errors' => $this->cron->errors->to_array(),
 		]));
 
 		app::redir("{$this->root_path}/edit/{$this->cron->id}");
@@ -162,7 +162,7 @@ class controller_cron_job extends controller_base {
 				'placeholder' => h('e.g. "Update Records"'),
 			]),
 			new field('help', [ 
-				'text' => take($errors, 'name'),
+				'text' => implode("<br>", take($errors, 'name', [])),
 			])
 		)
 		->group(
@@ -180,7 +180,7 @@ class controller_cron_job extends controller_base {
 				'value'          => h(take($cron, 'script')),
 			]),
 			new field('help', [ 
-				'text' => take($errors, 'script'),
+				'text' => implode("<br>", take($errors, 'script', [])),
 			])
 		)
 		->group([
@@ -194,7 +194,7 @@ class controller_cron_job extends controller_base {
 				'placeholder' => h('e.g. * * * * *'),
 			]),
 			new field('help', [ 
-				'text' => take($errors, 'frequency'),
+				'text' => implode("<br>", take($errors, 'frequency', [])),
 			])
 		)
 		->group([
@@ -208,7 +208,7 @@ class controller_cron_job extends controller_base {
 				'placeholder' => h('e.g. "Updates records every hour"'),
 			]),
 			new field('help', [ 
-				'text' => take($errors, 'description'),
+				'text' => implode("<br>", take($errors, 'description', [])),
 			])
 		)
 		->group(

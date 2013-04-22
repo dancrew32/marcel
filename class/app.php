@@ -65,7 +65,7 @@ class app {
 
 			# DB Bypass? If not, init DB and User Sessions
 			if (!isset($o['nodb'])) {
-				self::db_init();
+				db::init();
 				Session::session_begin();
 				User::init();
 			}
@@ -151,17 +151,6 @@ class app {
 		$test = $type == 'css' ? CSS_DIR : JS_DIR;
 		if (!file_exists(PUBLIC_DIR.'/'.$test.'/'.$local)) return;
 		self::$assets[$type][]= $test.'/'.$local;
-	}
-
-	static function db_init() {
-		require_once VENDOR_DIR.'/activerecord/ActiveRecord.php';
-		ActiveRecord\Config::initialize(function($cfg) {
-			$cfg->set_model_directory(MODEL_DIR);
-			$cfg->set_connections([
-				'default' => 'mysql://'. DB_USER .':'. DB_PASS .'@'. DB_HOST .'/'. DB_NAME,
-			]);
-			$cfg->set_default_connection('default');
-		});
 	}
 
 	static function redir($url='/') {
