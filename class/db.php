@@ -13,12 +13,4 @@ class db {
 			$cfg->set_default_connection('default');
 		});
 	}
-	static function dtnow($timestamp=false) {
-		if ($timestamp)
-			return date('Y-m-d H:i:s', $timestamp);
-		return date('Y-m-d H:i:s');	
-	}
-	static function dnow() {
-		return date('Y-m-d');	
-	}
 }

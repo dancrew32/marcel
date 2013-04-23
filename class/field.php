@@ -110,7 +110,7 @@ class field {
 		$this->html .= '<select'. html::build_attributes($this->attrs) .'>';
 
 		foreach ($options as $k => $v) {
-			$this->html .= "<option value=\"{$v}\"";
+			$this->html .= "<option value=\"{$k}\"";
 			if (in_array($k, $selected, true))
 				$this->html .= ' selected';
 			$this->html .= ">{$v}</option>";

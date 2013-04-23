@@ -17,4 +17,12 @@ class model extends ActiveRecord\Model {
 		return $errors;
 	}
 
+	static function take_error($errors, $key) {
+		return implode("<br>", take($errors, $key, []));
+	}
+
+	static function error_class($errors, $key) {
+		return take($errors, $key) ? 'error' : '';
+	}
+
 }

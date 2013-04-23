@@ -9,6 +9,10 @@ class time {
 		return date('Y-m-d H:i:s');	
 	}
 
+	static function date() {
+		return date('Y-m-d');	
+	}
+
 	static function ago($date) {
 		if (!$date) return '';
 		$periods = ["second", "minute", "hour", "day", "week", "month", "year", "decade"];

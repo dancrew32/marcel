@@ -31,7 +31,7 @@ $boilerplate .= "
 			'page'  => \$page,
 			'base'  => \"{\$this->root_path}/\",
 		]);
-		\$this->{$model_lower} = {$model}::find('all', [
+		\$this->{$model_lower}s = {$model}::find('all', [
 			'limit'  => \$rpp,
 			'offset' => model::get_offset(\$page, \$rpp),
 			'order'  => 'updated_at desc',
@@ -120,7 +120,7 @@ $boilerplate .= "
 		if (!\${$model_lower}) app::redir(\$this->root_path);
 
 		\$this->form = new form;
-		\$this->form->open(\"{\$this->root_path}/edit/{\${$model_lower}>id}\", 'post', [
+		\$this->form->open(\"{\$this->root_path}/edit/{\${$model_lower}->id}\", 'post', [
 			'class' => 'last', 
 		]);
 		\$note = json_decode(note::get('{$model_lower}:form'));
@@ -141,7 +141,7 @@ $boilerplate .= "
 
 		\$this->form->group([ 
 				'label' => 'Name', 
-				'class' => take(\$errors, 'name') ? 'error' : '',
+				'class' => model::error_class('name'),
 			], 
 			new field('input', [ 
 				'name'        => 'name', 
@@ -150,7 +150,7 @@ $boilerplate .= "
 				'placeholder' => h('e.g. \"Update Records\"'),
 			]),
 			new field('help', [ 
-				'text' => implode(\"<br>\", take(\$errors, 'name', [])),
+				'text' => model::take_error(\$errors, 'name'),
 			])
 		)
 		->group(

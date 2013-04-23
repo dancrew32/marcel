@@ -21,6 +21,12 @@ app::$routes = [
 	'/workers/delete/(?P<id>([0-9]+))' => [ 'c' => 'worker', 'm' => 'delete', 'section' => 'Worker' ],
 	'/workers(?:/*)(?P<filter>([a-z]*))'     => [ 'c' => 'worker', 'm' => 'all', 'name' => 'Worker Home', 'section' => 'Worker' ],
 
+	# Users
+	'/users/delete/(?P<id>([0-9]+))'   => [ 'c' => 'user', 'm' => 'delete', 'section' => 'User' ],
+	'/users/add'   => [ 'c' => 'user', 'm' => 'add', 'section' => 'User' ],
+	'/users/edit/(?P<id>([0-9]+))'  => [ 'c' => 'user', 'm' => 'edit', 'section' => 'User' ],
+	'/users(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))' => [ 'c' => 'user', 'm' => 'all', 'name' => 'User Home', 'section' => 'User' ],
+
 	# HTTP Example
 	'/http' => [
 		'http' => [

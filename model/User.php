@@ -15,6 +15,14 @@ class User extends model {
 		], 'message' => 'Invalid user role.'],
 	];
 
+	static $validates_presence_of = [
+		['first'],
+		['last'],
+		['email'],
+		['username'],
+		['role'],
+	];
+
 	static $validates_uniqueness_of = [
 		['email', 'message' => 'is taken.'],
 	];
@@ -43,7 +51,7 @@ class User extends model {
 			$_SESSION['in'] = 1;
 			$_SESSION['id'] = take($r, 'id');
 			self::$logged_in = true;
-			$r->last_login = db::dtnow();
+			$r->last_login = time::now();
 			$r->last_login_ip = take($_SERVER, 'REMOTE_ADDR', null);
 			$r->login_count++;
 			$r->save();
@@ -72,6 +80,10 @@ class User extends model {
 
 	static function spass($p) {
 		return md5(SALT.$p.SALT);	
+	}
+
+	function full_name() {
+		return $this->first.' '.$this->last;	
 	}
 
 }

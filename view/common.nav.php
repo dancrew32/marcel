@@ -24,6 +24,9 @@
 					<li<? echoif(app::in_section('Worker'), ' class="active"') ?>>
 						<a href="<?= app::get_path('Worker Home') ?>">Workers</a>
 					</li>
+					<li<? echoif(app::in_section('User'), ' class="active"') ?>>
+						<a href="<?= app::get_path('User Home') ?>">Users</a>
+					</li>
 					<? /*
 						
 					<li class="dropdown">
