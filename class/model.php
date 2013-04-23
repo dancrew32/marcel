@@ -16,4 +16,5 @@ class model extends ActiveRecord\Model {
 			$errors[$k] = $er;
 		return $errors;
 	}
+
 }

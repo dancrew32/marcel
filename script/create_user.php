@@ -11,7 +11,6 @@ $u->active = 1;
 $u->role = gets('Role:');
 $u->first = gets('First name:');
 $u->last = gets('Last name:');
-$now = db::dtnow();
 $u->login_count = 0;
 if ($u->save())
 	green("User:{$u->id} created.\n");

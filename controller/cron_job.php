@@ -41,7 +41,6 @@ class controller_cron_job extends controller_base {
 	}
 
 	function add() {
-		$now  = time::now();
 		$cron = new Cron_Job;
 		$cron->name        = trim(take($_POST, 'name'));
 		$cron->active      = take($_POST, 'active', 0);
@@ -51,14 +50,14 @@ class controller_cron_job extends controller_base {
 		$ok = $cron->save();
 		if ($ok) {
 			note::set('cron_job:add', 1);
-			app::redir('/cron');
+			app::redir($this->root_path);
 		}
 
 		note::set('cron_job:form', json_encode([
 			'cron' => $_POST, 
 			'errors' => $cron->errors->to_array(),
 		]));
-		app::redir('/cron');
+		app::redir($this->root_path);
 	}
 
 	function edit($o) {

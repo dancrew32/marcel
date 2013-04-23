@@ -15,6 +15,10 @@ class User extends model {
 		], 'message' => 'Invalid user role.'],
 	];
 
+	static $validates_uniqueness_of = [
+		['email', 'message' => 'is taken.'],
+	];
+
 	static $logged_in = false;
 	static $user = [];
 
