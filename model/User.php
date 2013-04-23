@@ -24,7 +24,8 @@ class User extends model {
 	];
 
 	static $validates_uniqueness_of = [
-		['email', 'message' => 'is taken.'],
+		['email',    'message' => 'is taken.'],
+		['username', 'message' => 'is taken.'],
 	];
 
 	static $logged_in = false;
@@ -85,6 +86,23 @@ class User extends model {
 	function full_name() {
 		$name = take($this, 'first').' '.take($this, 'last');	
 		return trim($name);
+	}
+
+	static function badge_class($status) {
+		return $status ? 'label-success' : '';
+	}
+
+	function badge($cls='') {
+		$cls = isset($cls{0}) ? " {$cls}" : '';
+		$html = "<span class=\"label{$cls}";
+		$badge_class = self::badge_class($this->active);
+		if ($this->active) {
+			$html .= " {$badge_class}\">Active</span>";		
+		} else {
+			# TODO: banned
+			$html .= '">Inactive</span>';		
+		}
+		return $html;
 	}
 
 }

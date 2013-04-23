@@ -7,40 +7,46 @@ class controller_user extends controller_base {
    	}
  
 	function all($o) {
-		$page = take($o['params'], 'page', 1); 
-		$rpp = 5;
+		$page   = take($o['params'], 'page', 1); 
+		$format = take($o['params'], 'format');
+		switch ($format) {
+			case '.table':
+				$this->output_style = 'table';
+				$rpp = 15;
+				break;
+			case '.json':
+				$rpp = 10;
+				break;
+			default:	
+				$this->output_style = 'media';
+				$rpp = 5;
+		}
 		$this->total = User::total();
 		$this->pager = r('common', 'pager', [
-			'total' => $this->total,
-			'rpp'   => $rpp,
-			'page'  => $page,
-			'base'  => "{$this->root_path}/",
+			'total'  => $this->total,
+			'rpp'    => $rpp,
+			'page'   => $page,
+			'base'   => "{$this->root_path}/",
+			'suffix' => h($format),
 		]);
 		$this->users = User::find('all', [
 			'select' => 'id, first, last, email, active, last_login',
 			'limit'  => $rpp,
 			'offset' => model::get_offset($page, $rpp),
-			'order'  => 'updated_at desc',
+			'order'  => 'id asc',
 		]);
-		switch (take($o['params'], 'format')) {
-			case '.table':
-				$this->output_style = 'table';
-				break;
-			case '.json':
-				json(model::collection_to_json($this->users));
-				break;
-			default:	
-				$this->output_style = 'media';
-		}
+
+		if ($format == '.json') 
+			json(model::collection_to_json($this->users));
 	}
 
 	function view($o) {
 		$this->user = take($o, 'user');	
+
 	}
 
 	function table($o) {
 		$this->users = take($o, 'users');	
-		$this->keys = array_keys($this->users[0]->to_array());
 	}
 
 	function add($o) {

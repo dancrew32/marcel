@@ -10,7 +10,7 @@
 		<? if ($total): ?>
 			<? if ($output_style == 'table'): ?>
 
-				<table class="table table-condensed table-striped">
+				<table class="table table-condensed table-striped table-hover">
 					<?= r('user', 'table', [ 'users' => $users ]) ?>
 				</table>
 

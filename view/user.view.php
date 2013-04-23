@@ -1,20 +1,15 @@
 <div class="media-body">
 	<h4 class="media-heading">
+		<? if (isset($user->active)): ?>
+			<?= $user->badge('pull-right') ?>
+		<? endif ?>
+
 		<?= h($user->full_name()) ?>
+
 		<? if (isset($user->email{0})): ?>
 			<small>
 				<?= h($user->email) ?>
 			</small>
-		<? endif ?>
-
-		<? if (isset($user->active)): ?>
-			<span class="label pull-right">
-				<? if ($user->active): ?>
-					Active
-				<? else: ?>
-					Inactive
-				<? endif ?>
-			</span>
 		<? endif ?>
 	</h4>
 	<ul class="nav nav-pills last">

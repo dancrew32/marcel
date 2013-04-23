@@ -45,11 +45,19 @@
 				</ul>
 
 				<ul class="nav pull-right">
-						<? if ($logged_in): ?>
-							<li class="dropdown">
-								<a href="/login" 
-									class="dropdown-toggle"
+					<? if ($logged_in): ?>
+						<li class="dropdown">
+						<? /*
+							
+							<div
+								class="dropdown-toggle"
+								data-toggle="dropdown">
+									
+								*/ ?>
+
+								<a href="#"
 									data-toggle="dropdown">
+
 									<i class="icon-user"></i>
 									<? if (User::$user->full_name()): ?>
 										<?= User::$user->full_name() ?>
@@ -58,26 +66,29 @@
 										Logged In
 									<? endif ?>
 									<b class="caret"></b>
-									<ul class="dropdown-menu">
-										<li>
-											<a href="<?= app::get_path('Logout') ?>">Log Out</a>
-										</li>
-									</ul>
 								</a>
-							</li>
-						<? else: ?>
-							<li>
-								<a href="/login">
-									Login
-								</a>
-							</li>
-							<li>
-								<a href="/login">
-									Join	
-								</a>
-							</li>
-						<? endif ?>
-					</li>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="<?= app::get_path('Logout') ?>">Log Out</a>
+									</li>
+								</ul>
+								<? /*
+									
+							</div>
+							*/ ?>
+						</li>
+					<? else: ?>
+						<li>
+							<a href="/login">
+								Login
+							</a>
+						</li>
+						<li>
+							<a href="/login">
+								Join	
+							</a>
+						</li>
+					<? endif ?>
 				</ul>
 
 				<? /*

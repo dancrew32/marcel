@@ -1,22 +1,24 @@
 <thead>
 	<tr>
-	<? foreach ($keys as $key): ?>
-		<th><?= $key ?></th>
-	<? endforeach ?>
+		<th class="hidden-phone">ID</th>
+		<th>Name</th>
+		<th>Email</th>
+		<th class="hidden-phone">Last Login</th>
+		<th class="hidden-phone">Status</th>
+		<th class="actions">Actions</th>
 	</tr>
 </thead>
 <tbody>
-<? foreach ($users as $user): ?>
+<? foreach ($users as $u): ?>
 	<tr>
-		<? foreach ($user->to_array() as $k => $v): ?>
-			<? switch ($k):
-				case 'last_login': ?>
-				<td><?= time::ago($v) ?></td>
-			<? break ?>
-			<? default: ?>
-				<td><?= $v ?></td>
-			<? endswitch ?>
-		<? endforeach ?>
+		<td class="hidden-phone"><?= $u->id ?></td>
+		<td><?= $u->full_name() ?></td>
+		<td><?= $u->email ?></td>
+		<td class="hidden-phone"><?= time::ago($u->last_login) ?></td>
+		<td class="hidden-phone"><?= $u->badge() ?></td>
+		<td>
+			<?= html::a("{$root_path}/edit/{$u->id}", 'Edit', 'edit');?>
+		</td>
 	</tr>
 <? endforeach ?>
 </tbody>

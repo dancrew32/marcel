@@ -1,6 +1,15 @@
 <?
 class html {
-	static function a(array $attrs = []) {
+
+	static function __callStatic($method, $args) {
+		switch ($method) {
+			case 'a':	
+				return is_array($args[0]) ? self::_a($args[0]) : self::_a2($args);
+			break;
+		}
+	}
+
+	static function _a(array $attrs = []) {
 		$attrs = array_merge([
 			'href'  => '#',
 			'text'  => '',
@@ -10,6 +19,15 @@ class html {
 		$icon = $attrs['icon'] ? self::icon($attrs['icon']) : '';
 		$class = $attrs['class'] ? " class=\"{$attrs['class']}\"" : '';
 		return "<a href=\"{$attrs['href']}\"{$class}>{$icon}{$attrs['text']}</a>";
+	}
+
+	static function _a2($args) {
+		return self::_a([
+			'href' => take($args, 0),
+			'text' => take($args, 1),
+			'icon' => take($args, 2),
+			'class' => take($args, 3),
+		]);
 	}
 
 	static function icon($type) {
