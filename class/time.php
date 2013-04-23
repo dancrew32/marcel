@@ -18,7 +18,7 @@ class time {
 		$periods = ["second", "minute", "hour", "day", "week", "month", "year", "decade"];
 		$lengths = ["60","60","24","7","4.35","12","10"];
 		$now = time();
-		$unix_date = $date->getTimestamp();
+		$unix_date = is_string($date) ? strtotime($date) : $date->getTimestamp();
 		$tense = 'ago';
 
 		if ($now > $unix_date)

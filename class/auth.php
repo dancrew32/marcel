@@ -22,5 +22,31 @@ class auth {
 		return !User::$logged_in;
 	}	
 
+/*
+ * FEATURES
+ */
+
+
+	static function cron_job_section() {
+		return self::admin();
+	}
+
+	static function user_section() {
+		return self::admin();
+	}
+
+	static function worker_section() {
+		return self::admin();
+	}
+
+/*
+ * HELPERS
+ */
+	static function check($method) {
+		if (!method_exists(__CLASS__, $method)) 
+			return true;
+		$allowed = self::$method();
+		if (!$allowed) _403();
+	}
 
 }

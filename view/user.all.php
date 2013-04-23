@@ -8,11 +8,21 @@
 		<? echoif(note::get('user:edit'), html::alert('Successfully updated User', ['type'=>'success'])) ?>
 		<? echoif(note::get('user:delete'), html::alert('Successfully deleted User', ['type'=>'success'])) ?>
 		<? if ($total): ?>
-			<? foreach ($users as $user): ?>
-				<div class="media well">
-					<?= r('user', 'view', [ 'user' => $user ]) ?>
-				</div>
-			<? endforeach ?>
+			<? if ($output_style == 'table'): ?>
+
+				<table class="table table-condensed table-striped">
+					<?= r('user', 'table', [ 'users' => $users ]) ?>
+				</table>
+
+			<? elseif ($output_style == 'media'): ?>
+
+				<? foreach ($users as $user): ?>
+					<div class="media well">
+						<?= r('user', 'view', [ 'user' => $user ]) ?>
+					</div>
+				<? endforeach ?>
+
+			<? endif ?>
 		<? else: ?>
 			<p class="lead">
 				No users yet!

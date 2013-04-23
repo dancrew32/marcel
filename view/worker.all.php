@@ -14,7 +14,7 @@
 		<? else: ?>
 			<p class="lead">
 				There don't appear to be any
-				<?= isset($filter{0}) ? ('<em>'. strtolower($filter) .'</em> ') : '' ?>workers
+				<?= $filter != 'All' ? ('<em>'. strtolower($filter) .'</em> ') : '' ?>workers
 				in the queue.
 			</p>
 		<? endif ?>

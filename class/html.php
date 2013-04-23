@@ -96,7 +96,7 @@ class html {
 			'primary_key' => 'id',
 			'hidden_columns' => [],
 		], $options);
-		$table = new table((array) $data);	
+		$table = new table($data);	
 		foreach ($options as $k => $v)
 			$table->{$k} = $v;
 		return $table;

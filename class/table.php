@@ -28,18 +28,25 @@ class table {
 			$html .= '<th>' . $key . '</th>';
 		$html .= '</thead>';
 
-		foreach ($this->data as $rows) {
-			$cls = isset($rows['_class']{0}) ? " class=\"{$rows['_class']}\"" : '';
+		foreach ($this->data as $row) {
+			$cls = !is_object($row) && isset($row['_class']{0}) ? " class=\"{$row['_class']}\"" : '';
 			$html .= "<tr{$cls}>";
 
 			if ($this->delete_col) {
-				$del_href =	"{$this->delete_url}?{$this->primary_key}={$rows[$this->primary_key]}";
+				$del_href =	"{$this->delete_url}?{$this->primary_key}={$row[$this->primary_key]}";
 				$html .= "<td> <a class=\"icon-trash\" href=\"{$del_href}\"></a> </td>";
 			}
 
-			foreach ($rows as $key => $value) {
-				if (in_array($key, $keys))
-					$html .= '<td>' . $value . '</td>';
+			if (is_object($row)) {
+				foreach ($row->to_array() as $k => $v) {
+					if (in_array($k, $keys))
+						$html .= '<td>' . $v . '</td>';
+				}
+			} else {
+				foreach ($row as $k => $v) {
+					if (in_array($k, $keys))
+						$html .= '<td>' . $v . '</td>';
+				}
 			}
 		}
 		$html .= '</tr></table>';
@@ -65,7 +72,8 @@ class table {
 		$keys = [];
 
 		if (!isset($this->data[0])) return $keys;
-		foreach ($this->data[0] as $key => $value) {
+		$row = is_object($this->data[0]) ? $this->data[0]->to_array() : $this->data[0];
+		foreach ($row as $key => $value) {
 			if (!in_array($key, $this->hidden_columns))
 				$keys[] = $key;
 		}

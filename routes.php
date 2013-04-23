@@ -6,8 +6,8 @@ app::$routes = [
 	'/' => [ 'c' => 'common', 'm' => 'index', 'name' => 'Home', 'section' => 'Home'],
 
 	# Login/Logout
-	'/login'  => [ 'c' => 'authentication', 'm' => 'login' ],
-	'/logout' => [ 'c' => 'authentication', 'm' => 'logout' ],
+	'/login'  => [ 'c' => 'authentication', 'm' => 'login', 'name' => 'Login' ],
+	'/logout' => [ 'c' => 'authentication', 'm' => 'logout', 'name' => 'Logout' ],
 
 	# Cron Jobs
 	'/cron(?:/*)(?P<page>[0-9]*)'   => [ 'c' => 'cron_job', 'm' => 'all', 'name' => 'Cron Home', 'section' => 'Cron' ],
@@ -22,10 +22,14 @@ app::$routes = [
 	'/workers(?:/*)(?P<filter>([a-z]*))'     => [ 'c' => 'worker', 'm' => 'all', 'name' => 'Worker Home', 'section' => 'Worker' ],
 
 	# Users
-	'/users/delete/(?P<id>([0-9]+))'   => [ 'c' => 'user', 'm' => 'delete', 'section' => 'User' ],
-	'/users/add'   => [ 'c' => 'user', 'm' => 'add', 'section' => 'User' ],
-	'/users/edit/(?P<id>([0-9]+))'  => [ 'c' => 'user', 'm' => 'edit', 'section' => 'User' ],
-	'/users(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))' => [ 'c' => 'user', 'm' => 'all', 'name' => 'User Home', 'section' => 'User' ],
+	'/users/delete/(?P<id>([0-9]+))' 
+		=> [ 'c' => 'user', 'm' => 'delete', 'section' => 'User' ],
+	'/users/add'   
+		=> [ 'c' => 'user', 'm' => 'add', 'section' => 'User' ],
+	'/users/edit/(?P<id>([0-9]+))'  
+		=> [ 'c' => 'user', 'm' => 'edit', 'section' => 'User' ],
+	'/users(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
+		=> [ 'c' => 'user', 'm' => 'all', 'name' => 'User Home', 'section' => 'User' ],
 
 	# HTTP Example
 	'/http' => [
@@ -56,6 +60,7 @@ app::$routes = [
 	],
 
 	# Error
+	'/403' => [ 'c' => 'status_code', 'm' => 'forbidden', 'nodb' => true ],
 	'/404' => [ 'c' => 'status_code', 'm' => 'not_found', 'nodb' => true ],
 	'/500' => [ 'c' => 'status_code', 'm' => 'fatal_error', 'nodb' => true ],
 

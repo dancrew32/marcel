@@ -25,4 +25,11 @@ class model extends ActiveRecord\Model {
 		return take($errors, $key) ? 'error' : '';
 	}
 
+	static function collection_to_json($collection) {
+		$out = [];
+		foreach ($collection as $model)
+			$out[] = $model->to_json();
+		return $out;
+	}
+
 }

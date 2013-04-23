@@ -83,7 +83,8 @@ class User extends model {
 	}
 
 	function full_name() {
-		return $this->first.' '.$this->last;	
+		$name = take($this, 'first').' '.take($this, 'last');	
+		return trim($name);
 	}
 
 }

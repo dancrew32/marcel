@@ -51,13 +51,16 @@
 									class="dropdown-toggle"
 									data-toggle="dropdown">
 									<i class="icon-user"></i>
-									Logged In
+									<? if (User::$user->full_name()): ?>
+										<?= User::$user->full_name() ?>
+										[<?= User::$user->role ?>]
+									<? else: ?>
+										Logged In
+									<? endif ?>
 									<b class="caret"></b>
 									<ul class="dropdown-menu">
 										<li>
-										<a href="#">Item</a>
-										<a href="#">Item</a>
-										<a href="#">Item</a>
+											<a href="<?= app::get_path('Logout') ?>">Log Out</a>
 										</li>
 									</ul>
 								</a>

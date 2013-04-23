@@ -2,6 +2,7 @@
 class controller_worker extends controller_base {
 	function __construct($o) {
 		$this->root_path = app::get_path('Worker Home');
+		auth::check('worker_section');
 		parent::__construct($o);
    	}
 
@@ -9,8 +10,8 @@ class controller_worker extends controller_base {
 		$filter = take($o['params'], 'filter');
 		switch ($filter) {
 			case 'scheduled':	
-				$conditions = ['run_on is not null'];
-				$this->total = Worker::total('where run_on is not null');	
+				$conditions = ['run_at is not null'];
+				$this->total = Worker::total('where run_at is not null');	
 				$this->filter = "Scheduled";
 				break;
 			case 'active':	

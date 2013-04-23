@@ -101,6 +101,11 @@ function json($data, $exit=true) {
 	echo json_encode($data);
 }
 
+# Forbidden
+function _403() {
+	app::redir('/403');	
+}
+
 # Missing
 function _404() {
 	app::redir('/404');	

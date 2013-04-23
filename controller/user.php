@@ -2,6 +2,7 @@
 class controller_user extends controller_base {
 	function __construct($o) {
 		$this->root_path = app::get_path('User Home');
+		auth::check('user_section');
 		parent::__construct($o);
    	}
  
@@ -16,14 +17,30 @@ class controller_user extends controller_base {
 			'base'  => "{$this->root_path}/",
 		]);
 		$this->users = User::find('all', [
+			'select' => 'id, first, last, email, active, last_login',
 			'limit'  => $rpp,
 			'offset' => model::get_offset($page, $rpp),
 			'order'  => 'updated_at desc',
 		]);
+		switch (take($o['params'], 'format')) {
+			case '.table':
+				$this->output_style = 'table';
+				break;
+			case '.json':
+				json(model::collection_to_json($this->users));
+				break;
+			default:	
+				$this->output_style = 'media';
+		}
 	}
 
 	function view($o) {
 		$this->user = take($o, 'user');	
+	}
+
+	function table($o) {
+		$this->users = take($o, 'users');	
+		$this->keys = array_keys($this->users[0]->to_array());
 	}
 
 	function add($o) {

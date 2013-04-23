@@ -1,25 +1,22 @@
 <div class="media-body">
 	<h4 class="media-heading">
 		<?= h($user->full_name()) ?>
-		<small>
-			<?= h($user->email) ?>
-		</small>
-		<span class="label pull-right">
-			<? if ($user->active): ?>
-				Active
-			<? else: ?>
-				Inactive
-			<? endif ?>
-		</span>
+		<? if (isset($user->email{0})): ?>
+			<small>
+				<?= h($user->email) ?>
+			</small>
+		<? endif ?>
+
+		<? if (isset($user->active)): ?>
+			<span class="label pull-right">
+				<? if ($user->active): ?>
+					Active
+				<? else: ?>
+					Inactive
+				<? endif ?>
+			</span>
+		<? endif ?>
 	</h4>
-	<? /*
-	<p>
-		<strong>Script</strong>:
-		<span class="text-<?= $script_class ?> word-wrap">
-			<?= h($user->script) ?>
-		</span>
-	</p>
-	*/ ?>
 	<ul class="nav nav-pills last">
 		<li>
 			<?= html::a([
