@@ -31,7 +31,7 @@ $boilerplate .= "
 			'page'  => \$page,
 			'base'  => \"{\$this->root_path}/\",
 		]);
-		\$this->crons = {$model}::find('all', [
+		\$this->{$model_lower} = {$model}::find('all', [
 			'limit'  => \$rpp,
 			'offset' => model::get_offset(\$page, \$rpp),
 			'order'  => 'updated_at desc',
@@ -49,11 +49,11 @@ $boilerplate .= "
 		\$ok = \${$model_lower}->save();
 		if (\$ok) {
 			note::set('{$model_lower}:add', 1);
-			app::redir('/cron');
+			app::redir(\$this->root_path);
 		}
 
 		note::set('{$model_lower}:form', json_encode([
-			'cron'   => \$_POST, 
+			'{$model_lower}'   => \$_POST, 
 			'errors' => \${$model_lower}->errors->to_array(),
 		]));
 		app::redir(\$this->root_path);
@@ -72,8 +72,8 @@ $boilerplate .= "
 			app::redir(\$this->root_path);
 		}
 
-		note::set('cron_job:form', json_encode([
-			'cron'   => \$_POST, 
+		note::set('{$model_lower}:form', json_encode([
+			'{$model_lower}'   => \$_POST, 
 			'errors' => \$this->{$model_lower}->errors->to_array(),
 		]));
 
@@ -103,7 +103,7 @@ $boilerplate .= "
 			'id'    => '{$model_lower}-add',
 		]);
 		\$note = json_decode(note::get('{$model_lower}:form'));
-		\$this->_build_form(take(\$note, 'cron'), take(\$note, 'errors'));
+		\$this->_build_form(take(\$note, '{$model_lower}'), take(\$note, 'errors'));
 		\$this->form->add(
 			new field('submit', [
 				'text' => 'Add', 
@@ -115,7 +115,7 @@ $boilerplate .= "
 	}
 
 	# no view
-	function edit_form($o) {
+	function edit_form(\$o) {
 		\${$model_lower} = {$model}::find_by_id(take(\$o['{$model_lower}'], 'id'));
 		if (!\${$model_lower}) app::redir(\$this->root_path);
 
