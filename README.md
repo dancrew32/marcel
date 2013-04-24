@@ -703,7 +703,12 @@ foreach ($users as $u)
 	echo "{$user->email}\n";
 ```
 
+A usefil `~/.vimrc` addition might be:
 
+```viml
+map <silent> <Leader>x :!./marcel vim<cr><cr>
+```
+So, if your leader key is `,`, `,x` will launch the Marcel Vim buffer.
 
 
 
