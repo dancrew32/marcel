@@ -536,7 +536,7 @@ class example {
 }
 
 # Spawn 10000, slow running jobs
-for ($i = 0; $i < 10000; $i++) {
+times(10000, function($i) {
 	Worker::add([
 		'class'  => 'example', 
 		'method' => 'long_running',
@@ -544,7 +544,7 @@ for ($i = 0; $i < 10000; $i++) {
 			'foo' => $i,
 		],
 	]);
-}
+});
 ```
 
 <!--
