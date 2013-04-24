@@ -493,7 +493,7 @@ Helper | Description
 --- | ---
 `r($controller, $method, [])` | Alias for `util::render`
 `take($arrOrObj, 'key', 'fallback')` | Return the value of `$arrOrObj` by `key`. If not set, return `fallback`
-`echoif($condition, $output)` | If `$condition` is `true`, `echo` $output`
+`echoif($condition, $output)` | If `$condition` is `true`, `echo` `$output`
 `ifset($a, $elseb, $elsec, ...)` | Return first argument that `isset`
 `times(200, 'function_name')` | Repeat `function_name($i)` `200` times
 `h('<script>alert('unsafe')</script>')` | Alias for [`htmlentities`](http://php.net/manual/en/function.htmlentities.php)
