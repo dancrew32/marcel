@@ -107,7 +107,7 @@ Wizard | Script Description
 `php script/create_user.php` | Create `User`s (e.g. Create your first `User` with `role` of `admin`)
 `php script/cron.base.php` | Run each `Cron_Job` if `Cron_Job->frequency` matches `time()` and is `active`
 `php script/scss_watch.php` | Run `compass watch` as daemon to watch [SCSS](#scss-compass)
-`php script/worker.php` | Start a [worker](#workers) server
+`php script/worker.php` | Start a [Worker](#workers) server
 `php script/vim.php` | Start an [Interactive Vim](#vim-interactivity) `eval` session
 
 ## Routing
@@ -119,6 +119,7 @@ By default, routing is simple, but you may increase the complexity if you would 
 [`HTTP`](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) method granularity 
 and/or [`auth`](#auth) class permissions handled at the router 
 (instead of the [controller](#controllers-c)).
+
 You may capture parameters using regular expressions with 
 [named subpatterns](http://us1.php.net/manual/en/function.preg-match.php#example-4666)
 e.g. `'/(?P<word>\w+)/(?P<digit>\d+)'` would match `/blogs/2`.
