@@ -1,7 +1,7 @@
 <?
 class image {
 
-	static $process_path;
+	static $process_path = false;
 
 	static $ALLOWED_SITES = array (
 		'flickr.com',
@@ -16,10 +16,14 @@ class image {
 		'tinypic.com',
 	);
 
+	static function set_process_path() {
+		if (!self::$process_path)
+			self::$process_path = app::get_path("Image Process");
+	}
+
 	static function process() {
 		require_once VENDOR_DIR.'/image_manip.php';
 		self::config();	
-		self::$process_path = app::get_path('Image Process');
 		image_manip::start();
 	}
 
@@ -74,10 +78,13 @@ class image {
 			define('OPTIPNG_ENABLED', false);  
 		if (!defined('OPTIPNG_PATH'))
 			define('OPTIPNG_PATH', '/usr/bin/optipng');
+
+		self::set_process_path();
 	}
 
 	# http://www.binarymoon.co.uk/2012/02/complete-timthumb-parameters-guide/
 	static function get(array $o=array(), $html=false, $alt=false) {
+		self::set_process_path();
 		$o = array_merge([
 			'src' => '',  // TODO: add default image
 			'w'   => null,

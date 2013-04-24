@@ -519,15 +519,18 @@ Now any [view](#views-v), use `image::get()`
 	'w'   => 100,
 	'h'   => 100,
 ]) ?>
-# http://site.com/i?src=%2Fimg%2Fdrwho.jpg&q=85&w&sig=ae52cd7c3f8792dcfec01180b37c5ea5
+
+# http://site.com/i?src=%2Fimg%2Fdrwho.jpg&q=85&w=100&height=100&sig=ae52cd7c3f8792dcfec01180b37c5ea5
 
 # Tag render
 <?= image::get([
 	'src' => '/img/drwho.jpg',
-	'w'   => 100,
-	'h'   => 100,
+	'w'   => 200,
+	'h'   => 200,
 ], true) ?>
-# <img src="http://site.com/i?src=%2Fimg%2Fdrwho.jpg&q=85&w&sig=ae52cd7c3f8792dcfec01180b37c5ea5" width="100" height="100" />
+
+# <img src="http://site.com/i?src=%2Fimg%2Fdrwho.jpg&q=85&w=200&h=200&sig=fea0f1f6fede90bd0a925b4194deac11" width="100" height="100" />
+
 ```
 
 This new image will be cached and served from now on!
