@@ -312,6 +312,28 @@ sudo gem install compass compass_twitter_bootstrap
 php script/scss_watch.php
 ```
 
+### SCSS/Compass Example
+
+* Start `compass watch` with `./marcel scss` or `script/scss_watch.php`.
+* Create a new `.scss` file in the `scss` directory
+```scss
+// # scss/test.scss
+#foo {
+	a {
+		color: blue;
+		&:hover {
+			color: green;
+		}
+	}
+}
+```
+* On `scss/test.scss` save, `SASS` compiles that file to `public/css/test.css`: 
+```css
+#foo a {color:blue} #foo a:hover {color:green}
+```
+* Add `asset::add('test', 'css')` to your view to load `public/csss/test.css`
+
+
 ## Layouts
 `views/layouts/a.php` is the default layout. 
 If you want to use an alternative layout, 
