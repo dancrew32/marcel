@@ -614,13 +614,17 @@ the contents of `tmp/vim-output.php` will be evaluted.
 
 ### Vim usage example
 While in your current Vim session: 
+
 1. `:!./marcel vim` to run our `script/vim.php` 
 2. New Vim session opens with `tmp/vim-output.php` buffer
-3. Write some code:
+3. Write some code: **See example code below**
+4. Save buffer and exit Vim with `ZZ` or `:wq`
+5. Observe output: e.g. something like: `admin@example.com`
+6. `fg` to get back into your original Vim session
 
+Example `tmp/vim-output.php` in step *4* above:
 ```php
 <?
-
 $users = User::find('all', [
 	'select' => 'email', 
 	'limit'  => 1,
@@ -630,9 +634,6 @@ foreach ($users as $u)
 	echo "{$user->email}\n";
 ```
 
-4. Save buffer and exit Vim with `ZZ` or `:wq`
-5. Observe output: `admin@example.com`
-6. `fg` to get back into your original Vim session
 
 
 
