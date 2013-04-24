@@ -164,7 +164,7 @@ app::$routes = [
 
 	
 	# Skip Database (`nodb` avoids database & user session initialization)
-	'/i' => [ 'c' => 'image', 'm' => 'process', 'nodb' => true ],
+	'/i' => [ 'c' => 'image', 'm' => 'process', 'nodb' => true, 'name' => "Image Process" ],
 
 	
 	# Auth (optional)
@@ -507,7 +507,7 @@ app::$routes = [
 ];
 ```
 
-Now any view, use `image::get()`:
+Now any [view](#views-v), use `image::get()`
 
 ```php
 # Path render
@@ -531,10 +531,9 @@ This new image will be cached and served from now on!
 Using `nodb => true` in the route prevents unnecessary classes from loading
 (since these images won't need database interaction).
 
-The `sig` parameter prevents end-users from creating their own resized
-versions of images (e.g. to prevent hacker from generating 
-10000, different-sized versions of the same image by updating w parameter
-10000 times).
+The `sig` parameter prevents end-users (hackers, specifically) from creating their own resized
+versions of images (e.g. hacker tries generating 10000 different-sized 
+versions of the same image by updating `w` parameter to 10000 different values).
 
 ### `image::get` Parameters
 
