@@ -518,6 +518,62 @@ Then from the site root directory (`ROOT_DIR`) run:
 phpsh script/inc.php
 ```
 
+## Mail
+Uses PHPMailer via the `class/mail`. 
+Check out `class/mail.php` to see everything you can do.
+
+```php
+$m = new mail;
+$m->From     = 'you@example.com';
+$m->FromName = 'Marcel';
+$m->AddAddress('user@example.com', 'Example User');
+$m->Subject  = "Queue Test";
+$m->Body     = "This concludes the test!";
+
+# Add it to the worker queue
+Worker::add([
+	'class'  => 'mail',
+	'method' => 'queue',
+	'args'   => [
+		'email' => $m, #serialize email
+	],
+]);
+
+# Or just send it
+$m->Send();
+```
+
+## Fake Data
+Using Faker via the `class/fake.php` class,
+you can generate fake data for testing your app. 
+```php
+# Generate 250 fake users
+times(250, function() {
+	$u = new User;
+	$u->first    = fake::firstName();
+	$u->last     = fake::lastName();
+	$u->email    = fake::safeEmail();
+	$u->username = fake::userName();
+	$u->role     = 'user';
+	$u->password = User::spass('testing');
+	$u->save();
+});
+```
+
+## Scraping
+Using [PHPSimpleDom](http://simplehtmldom.sourceforge.net) via `class/dom.php`,
+you can scrape any webpage for data and parse specific sections with
+jQuery/Sizzle style selectors.
+```php
+$html = dom::get_html('http://www.danmasq.com');
+$images = $html->find('img');
+$sources = [];
+foreach ($images as $i)
+	$sources[] = $i->src;
+
+pr($sources); # array of <img> "src" attribute values
+```
+
 ## Profiling with XHProf
 **TODO**: create the interface for running tests
 ```bash
