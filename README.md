@@ -529,7 +529,7 @@ Now any [view](#views-v), use `image::get()`
 	'h'   => 200,
 ], true) ?>
 
-# <img src="http://site.com/i?src=%2Fimg%2Fdrwho.jpg&q=85&w=200&h=200&sig=fea0f1f6fede90bd0a925b4194deac11" width="100" height="100" />
+# <img src="http://site.com/i?src=%2Fimg%2Fdrwho.jpg&q=85&w=200&h=200&sig=fea0f1f6fede90bd0a925b4194deac11" width="200" height="200" />
 
 ```
 
