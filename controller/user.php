@@ -157,96 +157,114 @@ class controller_user extends controller_base {
 		app::asset('validate.min', 'js');
 		# app::asset('view/user.form', 'js');
 
-		$this->form->group([ 
-				'label' => 'First Name', 
-				'class' => model::error_class($errors, 'first'),
-			], 
-			new field('input', [ 
-				'name'         => 'first', 
-				'class'        => 'input-block-level required',
-				'value'        => h(take($user, 'first')),
-				'autocomplete' => false,
-			]),
-			new field('help', [ 
-				'text' => model::take_error($errors, 'first'),
-			])
-		)
-		->group([ 
-				'label' => 'Last Name', 
-				'class' => model::error_class($errors, 'last'),
-			], 
-			new field('input', [ 
-				'name'         => 'last', 
-				'class'        => 'input-block-level required',
-				'value'        => h(take($user, 'last')),
-				'autocomplete' => false,
-			]),
-			new field('help', [ 
-				'text' => model::take_error($errors, 'last'),
-			])
-		)
-		->group([ 
-				'label' => 'Email', 
-				'class' => model::error_class($errors, 'email'),
-			], 
-			new field('email', [ 
-				'name'         => 'email', 
-				'class'        => 'input-block-level email required',
-				'value'        => h(take($user, 'email')),
-				'autocomplete' => false,
-			]),
-			new field('help', [ 
-				'text' => model::take_error($errors, 'email'),
-			])
-		)
-		->group([ 
-				'label' => 'Username', 
-				'class' => model::error_class($errors, 'username'),
-			], 
-			new field('input', [ 
-				'name'         => 'username', 
-				'class'        => 'input-block-level required',
-				'autocomplete' => false,
-				'value'        => h(take($user, 'username')),
-			]),
-			new field('help', [ 
-				'text' => model::take_error($errors, 'username'),
-			])
-		)
-		->group([ 
-				'label'        => 'Password', 
-				'class'        => model::error_class($errors, 'password'),
-			], 
-			new field('password', [ 
-				'name'        => 'password', 
-				'class'       => 'input-block-level',
-				'autocomplete' => false,
-			]),
-			new field('help', [ 
-				'text' => model::take_error($errors, 'password'),
-			])
-		)
-		->group([ 
-				'label' => 'Role', 
-				'class' => model::error_class($errors, 'role'),
-			], 
-			new field('select', [ 
-				'name'        => 'role', 
-				'class'       => 'input-block-level',
-				'options'     => User::$roles,
-				'value'       => take($user, 'role', 'user'),
-			]),
-			new field('help', [ 
-				'text' => model::take_error($errors, 'role'),
-			])
-		)
-		->group(
-			new field('checkbox', [ 
-				'name'    => 'active',
-				'checked' => take($user, 'active'),
-				'label'   => 'Activate',
-				'inline'  => true,
-			])
-		);
+
+		# First name
+		$first_name_group = [ 
+			'label' => 'First Name', 
+			'class' => model::error_class($errors, 'first'),
+		];
+		$first_name = new field('input', [ 
+			'name'         => 'first', 
+			'class'        => 'input-block-level required',
+			'value'        => h(take($user, 'first')),
+			'autocomplete' => false,
+		]);
+		$first_name_help = new field('help', [ 'text' => model::take_error($errors, 'first') ]);
+
+
+		# Last Name
+		$last_name_group = [ 
+			'label' => 'Last Name', 
+			'class' => model::error_class($errors, 'last'),
+		];
+		$last_name = new field('input', [ 
+			'name'         => 'last', 
+			'class'        => 'input-block-level required',
+			'value'        => h(take($user, 'last')),
+			'autocomplete' => false,
+		]);
+		$last_name_help = new field('help', [ 'text' => model::take_error($errors, 'last') ]);
+
+
+		# Email 
+		$email_group = [ 
+			'label' => 'Email', 
+			'class' => model::error_class($errors, 'email'),
+		]; 
+		$email = new field('email', [ 
+			'name'         => 'email', 
+			'class'        => 'input-block-level email required',
+			'value'        => h(take($user, 'email')),
+			'autocomplete' => false,
+		]);
+		$email_help = new field('help', [ 
+			'text' => model::take_error($errors, 'email'),
+		]);
+
+
+		# Username
+		$username_group = [ 
+			'label' => 'Username', 
+			'class' => model::error_class($errors, 'username'),
+		]; 
+		$username = new field('input', [ 
+			'name'         => 'username', 
+			'class'        => 'input-block-level required',
+			'autocomplete' => false,
+			'value'        => h(take($user, 'username')),
+		]);
+		$username_help = new field('help', [ 
+			'text' => model::take_error($errors, 'username'),
+		]);
+
+
+		# Password
+		$password_group = [ 
+			'label'        => 'Password', 
+			'class'        => model::error_class($errors, 'password'),
+		];
+		$password = new field('password', [ 
+			'name'        => 'password', 
+			'class'       => 'input-block-level',
+			'autocomplete' => false,
+		]);
+		$password_help = new field('help', [ 
+			'text' => model::take_error($errors, 'password'),
+		]);
+
+
+		# Role
+		$role_group = [ 
+			'label' => 'Role', 
+			'class' => model::error_class($errors, 'role'),
+		]; 
+		$role = new field('select', [ 
+			'name'        => 'role', 
+			'class'       => 'input-block-level',
+			'options'     => User::$roles,
+			'value'       => take($user, 'role', 'user'),
+		]);
+		$role_help = new field('help', [ 
+			'text' => model::take_error($errors, 'role'),
+		]);
+
+
+		# Active
+		$active = new field('checkbox', [ 
+			'name'    => 'active',
+			'checked' => take($user, 'active'),
+			'label'   => 'Activate',
+			'inline'  => true,
+		]);
+
+		# Build Form
+		$this->form
+			->group($first_name_group, $first_name, $first_name_help)
+			->group($last_name_group, $last_name, $last_name_help)
+			->group($email_group, $email, $email_help)
+			->group($username_group, $username, $username_help)
+			->group($password_group, $password, $password_help)
+			->group($role_group, $role, $role_help)
+			->group($active);
 	}
 }
