@@ -365,6 +365,9 @@ app::$routes = [
 
 ];
 ```
+
+**layouts must contain** `<?= $yield ?>`
+
 Layout rendering is automatically *skipped* by [XHR](http://en.wikipedia.org/wiki/XMLHttpRequest)
 (AKA [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) requests to make
 updating [views](#views-v) easier. 
