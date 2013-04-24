@@ -8,6 +8,12 @@ app::$routes = [
 	# Login/Logout
 	'/login'  => [ 'c' => 'authentication', 'm' => 'login', 'name' => 'Login' ],
 	'/logout' => [ 'c' => 'authentication', 'm' => 'logout', 'name' => 'Logout' ],
+	'/join'   => [
+		'http' => [
+			'get'  => [ 'c' => 'authentication', 'm' => 'join', 'name' => 'Join' ],
+			'post' => [ 'c' => 'authentication', 'm' => 'create_user' ],
+		],
+	],
 
 	# Cron Jobs
 	'/cron(?:/*)(?P<page>[0-9]*)'   => [ 'c' => 'cron_job', 'm' => 'all', 'name' => 'Cron Home', 'section' => 'Cron' ],

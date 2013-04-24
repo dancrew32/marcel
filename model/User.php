@@ -16,10 +16,11 @@ class User extends model {
 	];
 
 	static $validates_presence_of = [
-		['first'],
-		['last'],
+		//['first'],
+		//['last'],
 		['email'],
-		['username'],
+		['password'],
+		//['username'],
 		['role'],
 	];
 

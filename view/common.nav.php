@@ -79,12 +79,12 @@
 						</li>
 					<? else: ?>
 						<li>
-							<a href="/login">
+							<a href="<?= app::get_path('Login') ?>">
 								Login
 							</a>
 						</li>
 						<li>
-							<a href="/login">
+							<a href="<?= app::get_path('Join') ?>">
 								Join	
 							</a>
 						</li>
