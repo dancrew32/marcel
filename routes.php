@@ -10,9 +10,9 @@ app::$routes = [
 	'/logout' => [ 'c' => 'authentication', 'm' => 'logout', 'name' => 'Logout' ],
 	'/join'   => [
 		'http' => [
-			'get'  => [ 'c' => 'authentication', 'm' => 'join', 'name' => 'Join' ],
+			'get'  => [ 'c' => 'authentication', 'm' => 'join' ],
 			'post' => [ 'c' => 'authentication', 'm' => 'create_user' ],
-		],
+		], 'name' => 'Join' 
 	],
 
 	# Cron Jobs

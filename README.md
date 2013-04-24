@@ -3,7 +3,7 @@
 
 ![Marcel](http://i.danmasq.com/marcel.jpg)
 
-## Contents
+## Contents (stable)
 * [Requirements](#requirements)
 * [Install](#install)
 * [VirtualHost Setup](#virtualhost-setup)
@@ -20,8 +20,15 @@
 * [Image Manipulation](#on-the-fly-image-manipulation-and-caching)
 * [Helpers & Utils](#helpers-utils-and-more)
 * [Cron](#cron)
-* [WebSocket Server](#websocket-server)
+* [Workers](#workers)
+* [Mail](#mail)
+* [Fake Data](#fake-data)
+* [Scraping](#scraping)
 * [Interactive Prompt](#interactive-prompt-with-phpsh)
+* [Vim Interactivity](#vim-interactivity)
+
+### Contents (unstable)
+* [WebSocket Server](#websocket-server)
 * [Profiling](#profiling-with-xhprof)
 * [XDebug](#xdebug)
 
@@ -240,6 +247,13 @@ these would be some example views:
 </div>
 ```
 
+```php
+# views/yours.bar.php
+<div>
+	<?= $other_stuff ?>
+</div>
+```
+
 ### Subrendering
 You can subrender `bar` in `foo` using `r(controller, view)`
 ```php
@@ -249,6 +263,16 @@ You can subrender `bar` in `foo` using `r(controller, view)`
 	<?= r('yours', 'bar') ?>
 </div>
 ```
+**Outputs:**
+```html
+<div>
+	I'm available to the view
+	<div>
+		Stuff
+	</div>
+</div>
+```
+
 
 ## Assets
 Assets are loaded per [view](#views-v), in order with duplicates ignored.
@@ -495,31 +519,8 @@ sudo pecl install gearman
 ```
 -->
 
-## WebSocket Server
-Running `php -q script/socket_server.php` will start up a websocket server
-that has access to all of the framework methods. 
-TODO: working on getting User sessions data in the `socket_user` constructor.
-
-## Interactive Prompt with PHPSH
-Using [PHPSH](https://github.com/facebook/phpsh), 
-you may interactively run the framework.
-Install PHPSH:
-```bash
-cd ~
-git@github.com:facebook/phpsh.git
-cd phpsh
-python setup.py build
-sudo python setup.py install
-```
-
-Then from the site root directory (`ROOT_DIR`) run:
-
-```bash
-phpsh script/inc.php
-```
-
 ## Mail
-Uses PHPMailer via the `class/mail`. 
+Uses [PHPMailer](https://github.com/Synchro/PHPMailer) via the `class/mail`. 
 Check out `class/mail.php` to see everything you can do.
 
 ```php
@@ -544,16 +545,16 @@ $m->Send();
 ```
 
 ## Fake Data
-Using Faker via the `class/fake.php` class,
-you can generate fake data for testing your app. 
+Using [Faker](https://github.com/fzaninotto/Faker) via the `class/fake.php` class,
+you can generate fake (aka "dummy") data for testing your app. 
 ```php
 # Generate 250 fake users
 times(250, function() {
 	$u = new User;
-	$u->first    = fake::firstName();
-	$u->last     = fake::lastName();
-	$u->email    = fake::safeEmail();
-	$u->username = fake::userName();
+	$u->first    = fake::firstName(); # Marcel
+	$u->last     = fake::lastName(); # Shellington
+	$u->email    = fake::safeEmail(); # marcel@example.com
+	$u->username = fake::userName(); # dorito_hanglider7
 	$u->role     = 'user';
 	$u->password = User::spass('testing');
 	$u->save();
@@ -573,6 +574,73 @@ foreach ($images as $i)
 
 pr($sources); # array of <img> "src" attribute values
 ```
+
+
+## Interactive Prompt with PHPSH
+Using [PHPSH](https://github.com/facebook/phpsh), 
+you may interactively run the framework.
+Install PHPSH:
+```bash
+cd ~
+git@github.com:facebook/phpsh.git
+cd phpsh
+python setup.py build
+sudo python setup.py install
+```
+
+Then from the site root directory (`ROOT_DIR`) run:
+
+```bash
+phpsh script/inc.php
+```
+
+## Vim Interactivity
+Marcel loves [Vim](http://en.wikipedia.org/wiki/Vim_(text_editor) and knows
+that interactive prompts can be annoying to use (one line at a time), so
+we made a way to quickly `eval` data through a vim session:
+
+To use interactive Vim, `php script/vim.php`. This will start a
+new Vim session with `tmp/vim-output.php` open. In this file, you'll
+automatically have access to all of the framework classes/variables/etc.
+
+By default (the first time you open it), `tmp/vim-output.php` looks like this:
+```php
+<?
+echo "Hello, Vim!\n";
+```
+
+When you save and exit (`ZZ` or `:wq`) this Vim buffer, 
+the contents of `tmp/vim-output.php` will be evaluted.
+
+### Vim usage example
+While in your current Vim session: 
+1. `:!./marcel vim` to run our `script/vim.php` 
+2. New Vim session opens with `tmp/vim-output.php` buffer
+3. Write some code:
+
+```php
+<?
+
+$users = User::find('all', [
+	'select' => 'email', 
+	'limit'  => 1,
+]);
+
+foreach ($users as $u)
+	echo "{$user->email}\n";
+```
+
+4. Save buffer and exit Vim with `ZZ` or `:wq`
+5. Observe output: `admin@example.com`
+6. `fg` to get back into your original Vim session
+
+
+
+
+## WebSocket Server
+Running `php -q script/socket_server.php` will start up a websocket server
+that has access to all of the framework methods. 
+TODO: working on getting User sessions data in the `socket_user` constructor.
 
 ## Profiling with XHProf
 **TODO**: create the interface for running tests
