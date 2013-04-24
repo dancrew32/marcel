@@ -190,7 +190,7 @@ app::$routes = [
 	'/changes-frequently' =>
 		[ 'c' => 'thing' => 'm' => 'index', 'name' => 'Things Home', 'section' => 'Things' ],
 		# app::get_path('Things Home') returns '/changes-frequently'
-	'/changes-as-well(?:/*)(?P<url_slug>\d+)' => # app::get_path('Things Secondary') 
+	'/changes-as-well(?:/*)(?P<url_slug>\d+)' =>
 		[ 'c' => 'thing' => 'm' => 'secondary', 'name' => 'Things Secondary', 'section' => 'Things' ],
 		# app::get_path('Things Secondary') returns '/changes-as-well'
 
