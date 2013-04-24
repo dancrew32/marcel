@@ -38,7 +38,6 @@ define('MODEL_DIR', ROOT_DIR.'/model');
 
 # View
 define('VIEW_DIR', ROOT_DIR.'/view');
-define('PARTIAL_DIR', VIEW_DIR.'/partial');
 define('LAYOUT_DIR', VIEW_DIR.'/layout');
 
 # Vendor

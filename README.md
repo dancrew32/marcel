@@ -18,7 +18,8 @@
 * [Cache](#cache)
 * [Form Fields](#form-fields)
 * [Image Manipulation](#on-the-fly-image-manipulation-and-caching)
-* [Helpers & Utils](#helpers-utils-and-more)
+* [Utilities](#utilities)
+* [Helpers](#helpers)
 * [Cron](#cron)
 * [Workers](#workers)
 * [Mail](#mail)
@@ -375,8 +376,9 @@ class auth {
 }
 ```
 Now you can test in the [controller](#controllers-c) for `auth::email_send()`
-or even better, test in the [routes](#routes) (`routes.php`) with `'auth' => ['email_send']`
 to keep non-managers/non-admins from sending email.
+
+You may also test in the [routes](#routes) (`routes.php`) with `'auth' => ['email_send']`
 
 ## Cookies (and Notes)
 Standard [API](http://en.wikipedia.org/wiki/Application_programming_interface) 
@@ -474,11 +476,35 @@ This new image will be cached and served from now on!
 Using `nodb => true` in the route prevents unnecessary classes from loading
 (since these images won't need database interaction).
 
-## Helpers, Utils and more
-In `class/helper.php`, `class/html.php`, `class/util.php`, `class/size.php`, and `class/time.php`
+## Utilities
+In `class/util.php`, `class/html.php`, `class/size.php`, and `class/time.php`
 you'll find many convenient methods to use from everything to obtaining
 time in seconds, human readable byte sizes, string manipulation, debuggers and 
 other shortcuts to use in this system.
+
+Some utilities have shortcuts defined in [Helpers](#helpers).
+
+
+## Helpers
+Shortcuts for utility functions may be defined in `class/helpers.php`.
+
+### Useful Helpers
+Helper | Description
+--- | ---
+`r($controller, $method, [])` | Alias for `util::render`
+`take($arrOrObj, 'key', 'fallback') | Return the value of `$arrOrObj` by `key`. If not set, return `fallback`
+`echoif($condition, $output)` | If `$condition` is `true`, `echo` $output`
+`ifset($a, $elseb, $elsec, ...)` | Return first argument that `isset`
+`times(200, 'function_name')` | Repeat `function_name($i)` `200` times
+`h('<script>alert('unsafe')</script>')` | Alias for [htmlentities](http://php.net/manual/en/function.htmlentities.php)
+`pr($mixed)` | Alias for `print_r`
+`pp($mixed)` | Pretty-Print `print_r` (wrap with `<pre>`)
+`pd($mixed)` | Pretty-Print that [`die()`](http://php.net/manual/en/function.die.php)s after
+`json($mixed)` | Safely `die()` out [`json_encode`](http://php.net/manual/en/function.json-encode.php) data
+`_403()` | Redirect to `controller/status_code.php#forbidden`
+`_404()` | Redirect to `controller/status_code.php#not_found`
+`_500()` | Redirect to `controller/status_code.php#fatal_error`
+
 
 ## Cron
 To register new cron jobs, add entries through `model/Cron_Job.php`

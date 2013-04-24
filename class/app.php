@@ -98,7 +98,7 @@ class app {
 				self::$section_name = $o['section'];
 
 			# Main render
-			$out = render($o, ['params' => $matches]);
+			$out = util::render($o, ['params' => $matches]);
 			echo util::is_ajax() ? $out : self::layout($o, $out);
 			break;
 		}

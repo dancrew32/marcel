@@ -1,5 +1,20 @@
 <?
 class util {
+
+	static function render($o, $p) {
+		require_once CONTROLLER_DIR.'/'.$o['c'].'.php';
+		$c = "controller_{$o['c']}";
+		$obj = new $c($p);
+		$obj->$o['m']($p);
+		$_view = VIEW_DIR.'/'.$o['c'].'.'.$o['m'].'.php';
+		if (!file_exists($_view)) return;
+		if ($obj->skip) return $obj->skip = false;
+		ob_start();
+		extract((array)$obj);
+		include $_view;
+		return ob_get_clean();
+	}
+
 	static function is_ajax() {
 		return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) 
 			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
