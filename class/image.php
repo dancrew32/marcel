@@ -1,9 +1,9 @@
 <?
 class image {
 
-	const PROCESS_PATH = '/i';
+	static $process_path;
 
-	public static $ALLOWED_SITES = array (
+	static $ALLOWED_SITES = array (
 		'flickr.com',
 		'staticflickr.com',
 		'picasa.com',
@@ -19,10 +19,13 @@ class image {
 	static function process() {
 		require_once VENDOR_DIR.'/image_manip.php';
 		self::config();	
+		self::$process_path = app::get_path('Image Process');
 		image_manip::start();
 	}
 
 	static function config() {
+		# TODO: use registry to drive image_manip.php instead of `define`s
+
 		// Allow image fetching from external websites. 
 		// Will check against ALLOWED_SITES if ALLOW_ALL_EXTERNAL_SITES is false
 		if (!defined('ALLOW_EXTERNAL'))	
@@ -95,7 +98,7 @@ class image {
 			throw new Exception('Must have `src`');
 		
 		$params = http_build_query($o, '', '&amp;');
-		$path = self::PROCESS_PATH."?{$params}";
+		$path = self::$process_path."?{$params}";
 
 		$path .= '&sig='.self::keygen($o);
 

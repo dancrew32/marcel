@@ -5,6 +5,9 @@ app::$routes = [
 	# Root
 	'/' => [ 'c' => 'common', 'm' => 'index', 'name' => 'Home', 'section' => 'Home'],
 
+	# Skip database initialization with `nodb`
+	'/i' => [ 'c' => 'image', 'm' => 'process', 'nodb' => true, 'name' => 'Image Process' ],
+
 	# Login/Logout
 	'/login'  => [ 'c' => 'authentication', 'm' => 'login', 'name' => 'Login' ],
 	'/logout' => [ 'c' => 'authentication', 'm' => 'logout', 'name' => 'Logout' ],
@@ -46,9 +49,6 @@ app::$routes = [
 			'delete' => [ 'c' => 'http_test', 'm' => 'delete' ],
 		],
 	],
-
-	# Skip database initialization with `nodb`
-	'/i' => [ 'c' => 'image', 'm' => 'process', 'nodb' => true ],
 
 	# Auth Example (anons not allowed)
 	'/auth-test-simple' => [ 

@@ -291,6 +291,20 @@ You can subrender `bar` in `foo` using `r(controller, view)`
 </div>
 ```
 
+You may *skip* the rendering of any view by calling `$this->skip()`
+in the view's [controller](#controllers-c) method.
+```php
+class controller_yours extends controller_base {
+	function my_view($o) {
+		$required_id = take($o['params'], 'id', false);
+		if (!$required_id) 
+			return $this->skip(); # skips rendering views/yours.my_view.php
+
+		# ... rest of method ...	
+	}
+}
+```
+
 
 ## Assets
 Assets are loaded per [view](#views-v), in order with duplicates ignored.
@@ -394,9 +408,9 @@ class auth {
  * FEATURES
  */
 
-	// Users that may send email
+	# Users that may send email
 	static function email_send() {
-		// only admins and managers may send email
+		# only admins and managers may send email
 		return self::manager();
 	}
 }
@@ -484,23 +498,58 @@ check out `controller/form_test.php#index`.
 ## On-The-Fly Image Manipulation (and Caching)
 Using a modified version of [TimThumb](http://www.binarymoon.co.uk/projects/timthumb/), 
 we can manipulate our images on the fly!
+
 ```php
 app::$routes = [
-	'/i' => ['c' => 'image', 'm' => 'process', 'nodb' => true ],
+	'/i' => ['c' => 'image', 'm' => 'process', 'nodb' => true, 'name' => 'Image Process' ],
+	# Note: if you change 'name' from "Image Process"
+	# make sure you update image::$process_path
 ];
 ```
-Now any view: 
+
+Now any view, use `image::get()`:
+
 ```php
+# Path render
+<?= image::get([
+	'src' => '/img/drwho.jpg',
+	'w'   => 100,
+	'h'   => 100,
+]) ?>
+# http://site.com/i?src=%2Fimg%2Fdrwho.jpg&q=85&w&sig=ae52cd7c3f8792dcfec01180b37c5ea5
+
+# Tag render
 <?= image::get([
 	'src' => '/img/drwho.jpg',
 	'w'   => 100,
 	'h'   => 100,
 ], true) ?>
+# <img src="http://site.com/i?src=%2Fimg%2Fdrwho.jpg&q=85&w&sig=ae52cd7c3f8792dcfec01180b37c5ea5" width="100" height="100" />
 ```
-Will generate: `http://site.com/i?src=%2Fimg%2Fdrwho.jpg&q=85`.
+
 This new image will be cached and served from now on!
 Using `nodb => true` in the route prevents unnecessary classes from loading
 (since these images won't need database interaction).
+
+The `sig` parameter prevents end-users from creating their own resized
+versions of images (e.g. to prevent hacker from generating 
+10000, different-sized versions of the same image by updating w parameter
+10000 times).
+
+### `image::get` Parameters
+
+Key | Description
+--- | ---
+`src` | Source: *default `''`* **required**
+`w` | Width: *default `null`*, **required**
+`h` | Height: *default `null`* **required**
+`q` | Quality *default `85`*
+`a` | Crop Alignment: *default `null`* `c`, `t`, `l`, `r`, `b`, `tl`, `tr`, `bl`, `br` *chainable* 
+`zc` | Scale & Crop: *default `null`*  `0` size to fit (ugly), `1` crop resize (default), `2` proportional fit, `3` fill proportional
+`f` | Filters: *default `null`* `1` invert, `2` grey, `3,<%>` Brightness, `4,<%>` Contrast, `5,<rgba>` Colorize, `6` Edges `7` Emboss `8` Gaussian, `9` Selective Blur, `10` sketch, `11` Smooth
+`s` | Sharpen: *default `null`*
+`cc` | Canvas Hex Color: *default `null`* (e.g. `'#ffffff'`)
+`ct` | Canvas Transparency: *default `false`* (ignores `cc`)
 
 ## Utilities
 In `class/util.php`, `class/html.php`, `class/size.php`, and `class/time.php`
