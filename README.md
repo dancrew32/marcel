@@ -7,7 +7,7 @@
 * [Requirements](#requirements)
 * [Install](#install)
 * [VirtualHost Setup](#virtualhost-setup)
-* [Generator Scripts](#generator-scripts)
+* [Scripts](#scripts)
 * [Routing](#routing)
 * [Models](#models-m)
 * [Controllers](#controllers-c)
@@ -79,9 +79,13 @@ After install, you may want to create your first user: `php script/create_user.p
 </VirtualHost>
 ```
 
-## Generator Scripts
+## Scripts
+Marcel has a ton of scripts available to automate development.
+
 Just run `./marcel` from the root directory to get a menu
-of scripts to run! When you're comfortable with the
+of scripts to run! 
+
+When you're comfortable with the
 list of scripts you have, use the search shortcut
 to immediately run that script `./marcel <search>` 
 (so maybe `./marcel dbdump` to run `php script/db_dump.php`).
@@ -89,7 +93,6 @@ to immediately run that script `./marcel <search>`
 Every script is an easy to use interactive wizard:
 
 ### Wizards & Scripts
-
 Wizard | Script Description
 --- | ---
 `php script/gen_controller.php` | [Controller](#controllers-c)
@@ -105,6 +108,7 @@ Wizard | Script Description
 `php script/cron.base.php` | Run each `Cron_Job` if `Cron_Job->frequency` matches `time()` and is `active`
 `php script/scss_watch.php` | run `compass watch` as daemon to watch [SCSS](#scss-compass)
 `php script/worker.php` | start a [worker](#workers) server
+`php script/vim.php` | Start an [Interactive Vim](#vim-interactivity) `eval` session
 
 ## Routing
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` 
@@ -183,7 +187,7 @@ app::$routes = [
 ## Models (M)
 Uses [PHPActiveRecord](http://www.phpactiverecord.org)
 (see [Basic CRUD](http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD) to learn more).
-Get started with a new Model using the `php script/gen_model.php` [Script](#generator-scripts).
+Get started with a new Model using the `php script/gen_model.php` [Script](#scripts).
 ```php
 <?
 class Thing extends ActiveRecord\Model {
