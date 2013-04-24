@@ -496,10 +496,10 @@ Helper | Description
 `echoif($condition, $output)` | If `$condition` is `true`, `echo` $output`
 `ifset($a, $elseb, $elsec, ...)` | Return first argument that `isset`
 `times(200, 'function_name')` | Repeat `function_name($i)` `200` times
-`h('<script>alert('unsafe')</script>')` | Alias for [htmlentities](http://php.net/manual/en/function.htmlentities.php)
-`pr($mixed)` | Alias for `print_r`
+`h('<script>alert('unsafe')</script>')` | Alias for [`htmlentities`](http://php.net/manual/en/function.htmlentities.php)
+`pr($mixed)` | Alias for [`print_r`](http://php.net/manual/en/function.print-r.php)
 `pp($mixed)` | Pretty-Print `print_r` (wrap with `<pre>`)
-`pd($mixed)` | Pretty-Print that [`die()`](http://php.net/manual/en/function.die.php)s after
+`pd($mixed)` | Pretty-Print that [`die`](http://php.net/manual/en/function.die.php)s after
 `json($mixed)` | Safely `die()` out [`json_encode`](http://php.net/manual/en/function.json-encode.php) data
 `_403()` | Redirect to `controller/status_code.php#forbidden`
 `_404()` | Redirect to `controller/status_code.php#not_found`
