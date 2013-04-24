@@ -9,14 +9,6 @@ class controller_common extends controller_base {
 		die('allowed');
 	}
 
-	function media_rows() {
-	
-	}
-
-	function carousel() {
-	
-	}
-
 	function nav() {
 		$this->logged_in = User::$logged_in;	
 	}

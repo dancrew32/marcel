@@ -61,7 +61,52 @@ view/common.index.php
 		<h2>
 			Media Rows	
 		</h2>
-		<?= r('common', 'media_rows') ?>
+
+		<div class="media">
+			<a href="#" class="pull-left">
+				<img src="<?= image::get([
+					'src' => '/img/drwho.jpg',
+					'w' => 65,
+					'h' => 65,
+				]) ?>" alt="" class="media-object" />
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading">Media rows</h4>
+				<p>
+					Here is some fun content.	
+				</p>
+			</div>
+		</div>
+		<div class="media">
+			<a href="#" class="pull-left">
+				<img src="<?= image::get([
+					'src' => '/img/drwho.jpg',
+					'w' => 65,
+					'h' => 65,
+				]) ?>" alt="" class="media-object" />
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading">Media rows</h4>
+				<p>
+					Here is some fun content.	
+				</p>
+			</div>
+		</div>
+		<div class="media">
+			<a href="#" class="pull-left">
+				<img src="<?= image::get([
+					'src' => '/img/drwho.jpg',
+					'w' => 65,
+					'h' => 65,
+				]) ?>" alt="" class="media-object" />
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading">Media rows</h4>
+				<p>
+					Here is some fun content.	
+				</p>
+			</div>
+		</div>
 	</div>
 
 	<div class="span4">
@@ -329,7 +374,22 @@ view/common.index.php
 					This row is also designed to show off offset. (see <code>.offset4</code>)
 				</p>
 				<div class="inner">
-					<?= r('common', 'carousel') ?>
+					<div id="myCarousel" class="carousel slide">
+						<? /*
+						<ol class="carousel-indicators">
+							<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+							<li data-target="#myCarousel" data-slide-to="1"></li>
+							<li data-target="#myCarousel" data-slide-to="2"></li>
+						</ol>
+						*/ ?>
+						<div class="carousel-inner">
+							<div class="active item">Slide A</div>
+							<div class="item">Slide B</div>
+							<div class="item">Slide C</div>
+						</div>
+						<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+					</div>	
 				</div>
 			</div>
 		</div>
