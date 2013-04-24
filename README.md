@@ -103,22 +103,25 @@ Wizard | Script Description
 `php script/db_init.php` | DB initialization (see [Install](#install))
 `php script/db_dump.php` | DB *dump* in `db/dump`	
 `php script/db_restore.php` | DB *restore* from `db/dump`
-`php script/db_create_mysql_user.php` | Create a new mysql user with permissions to *only* this `DB_NAME`
+`php script/db_create_mysql_user.php` | Create a new [MySQL](http://dev.mysql.com/doc/refman/5.1/en/adding-users.html) user with permissions to *only this* `DB_NAME`
 `php script/create_user.php` | Create `User`s (e.g. Create your first `User` with `role` of `admin`)
 `php script/cron.base.php` | Run each `Cron_Job` if `Cron_Job->frequency` matches `time()` and is `active`
-`php script/scss_watch.php` | run `compass watch` as daemon to watch [SCSS](#scss-compass)
-`php script/worker.php` | start a [worker](#workers) server
+`php script/scss_watch.php` | Run `compass watch` as daemon to watch [SCSS](#scss-compass)
+`php script/worker.php` | Start a [worker](#workers) server
 `php script/vim.php` | Start an [Interactive Vim](#vim-interactivity) `eval` session
 
 ## Routing
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` 
 [preg_match](http://php.net/manual/en/function.preg-match.php)es 
 to a specified method in a [controller](#controllers-c).
+
 By default, routing is simple, but you may increase the complexity if you would like
 [`HTTP`](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) method granularity 
-and/or [auth](#auth) class permissions handled at the router 
+and/or [`auth`](#auth) class permissions handled at the router 
 (instead of the [controller](#controllers-c)).
-You may capture parameters using regular expressions.
+You may capture parameters using regular expressions with 
+[named subpatterns](http://us1.php.net/manual/en/function.preg-match.php#example-4666)
+e.g. `'/(?P<word>\w+)/(?P<digit>\d+)'` would match `/blogs/2`.
 
 ### Route Keys
 
@@ -128,7 +131,7 @@ Key | Description
 `m` | Method *required*
 `l` | Layout (`foo` would be `view/layout/foo.php`)
 `auth` | Authorization method in `class/auth.php` to gate access with
-`name` | Unique name for this route (see `app::get_path($name)`)
+`name` | Unique name for this route (see `app::get_path($name)` useful when url paths change)
 `section` | Name for grouping routes together (e.g. `Portfolio`)
 `http` | for nested [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) routing (e.g. `get`, `post`, `put`, `delete`)
 `nodb` | if `true`, skip any database connections for this execution
@@ -142,10 +145,12 @@ app::$routes = [
 	# Site base url leads to controller_yours::foo
 	'/' => ['c' => 'yours', 'm' => 'foo'],
 
-	# Capture page id, name capture "id" with (?P<capturename>regexp) syntax
-	'/page/(?P<id>[0-9]+)' => ['c' => 'yours', 'm' => 'test'],
 
-	# Optional HTTP Method routing
+	# Capture page id, name capture "id" with (?P<capturename>regexp) syntax
+	'/page/(?P<id>\d+)' => ['c' => 'yours', 'm' => 'test'],
+
+
+	# HTTP method-specific (Optional)
 	'/http' => [
 		'http' => [
 			'get'    => [ 'c' => 'http_test', 'm' => 'get' ],
@@ -154,15 +159,13 @@ app::$routes = [
 			'delete' => [ 'c' => 'http_test', 'm' => 'delete' ],
 		],
 	],
+
 	
-	# Use `nodb` to avoid database and user session initialization
+	# Skip Database (`nodb` avoids database & user session initialization)
 	'/i' => [ 'c' => 'image', 'm' => 'process', 'nodb' => true ],
 
-	# Login/Logout
-	'/login'  => [ 'c' => 'authentication', 'm' => 'login' ],
-	'/logout' => [ 'c' => 'authentication', 'm' => 'logout' ],
 	
-	# Optional Auth
+	# Auth (optional)
 	'/auth-test-simple' => [ 
 		'c' => 'common', 'm' => 'auth_test',
 		'auth' => ['user'], # users only
@@ -180,6 +183,15 @@ app::$routes = [
 		],
 		'auth' => ['manager'], # managers may GET and POST
 	],
+
+
+	# Named-Routes & Sections (optional)
+	'/changes-frequently' =>
+		[ 'c' => 'thing' => 'm' => 'index', 'name' => 'Things Home', 'section' => 'Things' ],
+		# app::get_path('Things Home') returns '/changes-frequently'
+	'/changes-as-well(?:/*)(?P<url_slug>\d+)' => # app::get_path('Things Secondary') 
+		[ 'c' => 'thing' => 'm' => 'secondary', 'name' => 'Things Secondary', 'section' => 'Things' ],
+		# app::get_path('Things Secondary') returns '/changes-as-well'
 
 ];
 ```
