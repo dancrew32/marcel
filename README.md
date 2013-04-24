@@ -708,7 +708,8 @@ A usefil `~/.vimrc` addition might be:
 ```viml
 map <silent> <Leader>x :!./marcel vim<cr><cr>
 ```
-So, if your leader key is `,` then `,x` will launch the Marcel Vim buffer.
+So, if your [<Leader>](http://vimdoc.sourceforge.net/htmldoc/map.html#<Leader>) key 
+is `,` then `,x` will launch the Marcel Vim buffer.
 
 
 
