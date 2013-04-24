@@ -29,6 +29,10 @@ class User extends model {
 		['username', 'message' => 'is taken.'],
 	];
 
+	static $validates_format_of = [
+		['email', 'with' => '/@/']
+	];
+
 	static $logged_in = false;
 	static $user = [];
 
