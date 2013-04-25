@@ -45,7 +45,7 @@ class controller_worker extends controller_base {
 		$worker->active = 0;
 		$worker->save();
 
-		note::set('worker:reset', 1);
+		note::set('worker:reset', $worker->id);
 		app::redir($this->root_path);
 	}
 
@@ -57,7 +57,7 @@ class controller_worker extends controller_base {
 		if (!$worker) app::redir($this->root_path);
 		$worker->delete();
 
-		note::set('worker:delete', 1);
+		note::set('worker:delete', $worker->id);
 		app::redir($this->root_path);
 	}
 }

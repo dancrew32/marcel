@@ -50,7 +50,7 @@ class controller_cron_job extends controller_base {
 		$cron->active      = take($_POST, 'active', 0);
 		$ok = $cron->save();
 		if ($ok) {
-			note::set('cron_job:add', 1);
+			note::set('cron_job:add', $cron->id);
 			app::redir($this->root_path);
 		}
 
@@ -70,7 +70,7 @@ class controller_cron_job extends controller_base {
 		$this->cron->active      = take($_POST, 'active', 0);
 		$ok = $this->cron->save();
 		if ($ok) {
-			note::set('cron_job:edit', 1);
+			note::set('cron_job:edit', $this->cron->id);
 			app::redir($this->root_path);
 		}
 
@@ -86,7 +86,7 @@ class controller_cron_job extends controller_base {
 		if (!$cron) app::redir($this->root_path);
 
 		$cron->delete();
-		note::set('cron_job:delete', 1);
+		note::set('cron_job:delete', $cron->id);
 		app::redir($this->root_path);
 	}
 

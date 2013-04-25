@@ -13,6 +13,18 @@ class field {
 			case 'submit':
 				$this->attrs['type'] = 'submit';
 				return $this->button();
+			case 'submit_add':
+				$this->attrs['type'] = 'submit';
+				$this->attrs['text'] = 'Add';
+				$this->attrs['icon'] = 'plus';
+				$this->attrs['data-loading-text'] = h('<i class="icon-plus"></i> Adding&hellip;');
+				return $this->button();
+			case 'submit_update':
+				$this->attrs['type'] = 'submit';
+				$this->attrs['text'] = 'Update';
+				$this->attrs['icon'] = 'edit';
+				$this->attrs['data-loading-text'] = h('<i class="icon-edit"></i> Updating&hellip;');
+				return $this->button();
 			case 'checkbox':
 				$this->attrs['value'] = 1;
 				return $this->checkbox();

@@ -60,7 +60,7 @@ class controller_user extends controller_base {
 		$user->active   = take($_POST, 'active', 0);
 		$ok = $user->save();
 		if ($ok) {
-			note::set('user:add', 1);
+			note::set('user:add', $user->id);
 			app::redir($this->root_path);
 		}
 
@@ -84,7 +84,7 @@ class controller_user extends controller_base {
 
 		$ok = $this->user->save();
 		if ($ok) {
-			note::set('user:edit', 1);
+			note::set('user:edit', $this->user->id);
 			app::redir($this->root_path);
 		}
 
@@ -100,7 +100,7 @@ class controller_user extends controller_base {
 		if (!$user) app::redir($this->root_path);
 
 		$user->delete();
-		note::set('user:delete', 1);
+		note::set('user:delete', $this->user->id);
 		app::redir($this->root_path);
 	}
 
@@ -118,13 +118,7 @@ class controller_user extends controller_base {
 			'id'    => 'user-add',
 		]);
 		$this->_build_form($user);
-		$this->form->add(
-			new field('submit', [
-				'text' => 'Add', 
-				'icon' => 'plus',
-				'data-loading-text' => h('<i class="icon-plus"></i> Adding&hellip;'),
-			])
-		);
+		$this->form->add(new field('submit_add'));
 		echo $this->form;
 	}
 
@@ -139,13 +133,7 @@ class controller_user extends controller_base {
 			'class' => 'last', 
 		]);
 		$this->_build_form($user);
-		$this->form->add(
-			new field('submit', [
-				'text' => 'Update', 
-				'icon' => 'edit',
-				'data-loading-text' => h('<i class="icon-edit"></i> Updating&hellip;')
-			])
-		);
+		$this->form->add(new field('submit_update'));
 		echo $this->form;
 	}
 
