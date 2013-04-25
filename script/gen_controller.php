@@ -102,6 +102,7 @@ $boilerplate .= "
 		if (!\${$model_lower}) app::redir(\$this->root_path);
 
 		\${$model_lower}->delete();
+		note::set('{$model_lower}:delete', \${$model_lower}->id);
 		app::redir(\$this->root_path);
 	}	
 

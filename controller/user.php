@@ -100,7 +100,7 @@ class controller_user extends controller_base {
 		if (!$user) app::redir($this->root_path);
 
 		$user->delete();
-		note::set('user:delete', $this->user->id);
+		note::set('user:delete', $user->id);
 		app::redir($this->root_path);
 	}
 
