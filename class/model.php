@@ -21,17 +21,9 @@ class model extends ActiveRecord\Model {
 		return $out;
 	}
 
-
 /*
  * INSTANCE
  */
-	function get_errors() {
-		$errors = [];
-		foreach ($this->errors as $k => $er)
-			$errors[$k] = $er;
-		return $errors;
-	}
-
 	function take_error($key) {
 		if (!$this->errors) return false;
 		$errors = take($this->errors, $key);
@@ -42,18 +34,24 @@ class model extends ActiveRecord\Model {
 		return take($this->errors, $key) ? 'error' : '';
 	}
 
-	function to_note($key='a') {
+	# Flash set errors and previously entered values
+	function to_note() {
 		$out = $this->to_array();
 		if ($this->errors)
 			$out['errors'] = $this->errors->to_array();
-		note::set($key, json_encode($out), true);
+		note::set($this->note_key(), json_encode($out), true);
 	}
 
-	function from_note($key='a') {
-		$note = note::get($key, true);
+	# Flash get model and errors
+	function from_note() {
+		$note = note::get($this->note_key(), true);
 		if (!$note) return $this;
 		$json = (array) json_decode($note); 
 		return new $this($json);
+	}
+
+	function note_key() {
+		return get_class($this).':form';
 	}
 
 }
