@@ -37,6 +37,9 @@ class User extends model {
 	];
 
 	
+/*
+ * INSTANCE
+ */
 	function __set($name, $value) {
 		switch ($name) {
 			case 'first':
@@ -51,6 +54,23 @@ class User extends model {
 		}
 	}
 
+	function full_name() {
+		$name = take($this, 'first').' '.take($this, 'last');	
+		return trim($name);
+	}
+
+	function badge($cls='') {
+		$cls = isset($cls{0}) ? " {$cls}" : '';
+		$html = "<span class=\"label{$cls}";
+		$badge_class = self::badge_class($this->active);
+		if ($this->active) {
+			$html .= " {$badge_class}\">Active</span>";		
+		} else {
+			# TODO: banned
+			$html .= '">Inactive</span>';		
+		}
+		return $html;
+	}
 
 
 /*
@@ -110,29 +130,6 @@ class User extends model {
 
 	static function badge_class($status) {
 		return $status ? 'label-success' : '';
-	}
-
-
-/*
- * INSTANCE
- */
-	function full_name() {
-		$name = take($this, 'first').' '.take($this, 'last');	
-		return trim($name);
-	}
-
-
-	function badge($cls='') {
-		$cls = isset($cls{0}) ? " {$cls}" : '';
-		$html = "<span class=\"label{$cls}";
-		$badge_class = self::badge_class($this->active);
-		if ($this->active) {
-			$html .= " {$badge_class}\">Active</span>";		
-		} else {
-			# TODO: banned
-			$html .= '">Inactive</span>';		
-		}
-		return $html;
 	}
 
 }

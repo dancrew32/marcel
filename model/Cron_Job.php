@@ -2,6 +2,10 @@
 class Cron_Job extends model {
 	static $table_name = 'cron_jobs';
 
+
+/*
+ * VALIDATION
+ */
 	static $validates_presence_of = [
 		['name'], 
 		['script'],
@@ -16,6 +20,23 @@ class Cron_Job extends model {
 		['frequency', 'with' => '/[^a-zA-Z]/'],
 	];
 
+
+/*
+ * INSTANCE
+ */
+	function __set($name, $value) {
+		switch ($name) {
+			case 'name':
+			case 'script':
+			case 'frequency':
+			case 'description':
+				$this->assign_attribute($name, trim($value));
+				break;
+			default: 
+				$this->assign_attribute($name, $value);
+		}
+	}
+
 	function script_exists() {
 		return file_exists($this->script);	
 	}
@@ -23,9 +44,16 @@ class Cron_Job extends model {
 	function should_run($time = false) {
 		if (!$this->active) return false;
 		if (!$this->script_exists()) return false;
+		return self::build_cron_expression($this->frequency, $time);
+	}
+
+/*
+ * STATIC
+ */
+	static function build_cron_expression($frequency, $time) {
 		$time = is_string($time) ? strtotime($time) : time();
 		$time = explode(' ', date('i G j n w', $time));
-		$crontab = explode(' ', $this->frequency);
+		$crontab = explode(' ', $frequency);
 		foreach ($crontab as $k => &$v) {
 			$v = explode(',', $v);
 			$regexps = [

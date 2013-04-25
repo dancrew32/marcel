@@ -43,21 +43,18 @@ class controller_cron_job extends controller_base {
 
 	function add() {
 		$cron = new Cron_Job;
-		$cron->name        = trim(take($_POST, 'name'));
+		$cron->name        = take($_POST, 'name');
+		$cron->script      = take($_POST, 'script');
+		$cron->frequency   = take($_POST, 'frequency');
+		$cron->description = take($_POST, 'description');
 		$cron->active      = take($_POST, 'active', 0);
-		$cron->script      = trim(take($_POST, 'script'));
-		$cron->frequency   = trim(take($_POST, 'frequency'));
-		$cron->description = trim(take($_POST, 'description'));
 		$ok = $cron->save();
 		if ($ok) {
 			note::set('cron_job:add', 1);
 			app::redir($this->root_path);
 		}
 
-		note::set('cron_job:form', json_encode([
-			'cron' => $_POST, 
-			'errors' => $cron->errors->to_array(),
-		]));
+		$cron->to_note();
 		app::redir($this->root_path);
 	}
 
@@ -66,22 +63,18 @@ class controller_cron_job extends controller_base {
 		if (!$this->cron) app::redir($this->root_path);
 		if (!$this->is_post) return;
 
-		$this->cron->name        = trim(take($_POST, 'name'));
+		$this->cron->name        = take($_POST, 'name');
+		$this->cron->script      = take($_POST, 'script');
+		$this->cron->frequency   = take($_POST, 'frequency');
+		$this->cron->description = take($_POST, 'description');
 		$this->cron->active      = take($_POST, 'active', 0);
-		$this->cron->script      = trim(take($_POST, 'script'));
-		$this->cron->frequency   = trim(take($_POST, 'frequency'));
-		$this->cron->description = trim(take($_POST, 'description'));
 		$ok = $this->cron->save();
 		if ($ok) {
 			note::set('cron_job:edit', 1);
 			app::redir($this->root_path);
 		}
 
-		note::set('cron_job:form', json_encode([
-			'cron'   => $_POST, 
-			'errors' => $this->cron->errors->to_array(),
-		]));
-
+		$this->cron->to_note();
 		app::redir("{$this->root_path}/edit/{$this->cron->id}");
 	}
 
@@ -109,13 +102,15 @@ class controller_cron_job extends controller_base {
  */
 	# no view
 	function add_form() {
+		$cron = new Cron_Job;
+		$cron = $cron->from_note();
+
 		$this->form = new form;
 		$this->form->open("{$this->root_path}/add#cron-add", 'post', [
 			'class' => 'last',
 			'id'    => 'cron-add',
 		]);
-		$note = json_decode(note::get('cron_job:form'));
-		$this->_build_form(take($note, 'cron'), take($note, 'errors'));
+		$this->_build_form($cron);
 		$this->form->add(
 			new field('submit', [
 				'text' => 'Add', 
@@ -128,15 +123,15 @@ class controller_cron_job extends controller_base {
 
 	# no view
 	function edit_form($o) {
-		$cron = Cron_Job::find_by_id(take($o['cron'], 'id'));
+		$cron = take($o, 'cron');
+		$cron = $cron->from_note();
 		if (!$cron) app::redir($this->root_path);
 
 		$this->form = new form;
 		$this->form->open("{$this->root_path}/edit/{$cron->id}", 'post', [
 			'class' => 'last', 
 		]);
-		$note = json_decode(note::get('cron_job:form'));
-		$this->_build_form(take($note, 'cron', $cron), take($note, 'errors'));
+		$this->_build_form($cron);
 		$this->form->add(
 			new field('submit', [
 				'text' => 'Update', 
@@ -147,78 +142,92 @@ class controller_cron_job extends controller_base {
 		echo $this->form;
 	}
 
-	private function _build_form($cron=null, $errors=null) {
+	private function _build_form($cron) {
 		app::asset('validate.min', 'js');
-		app::asset('view/cron_job.form', 'js');
+		//app::asset('view/cron_job.form', 'js');
 
-		$this->form->group([ 
-				'label' => 'Name', 
-				'class' => take($errors, 'name') ? 'error' : '',
-			], 
-			new field('input', [ 
-				'name'        => 'name', 
-				'class'       => 'input-block-level required',
-				'value'       => h(take($cron, 'name')),
-				'placeholder' => h('e.g. "Update Records"'),
-			]),
-			new field('help', [ 
-				'text' => implode("<br>", take($errors, 'name', [])),
-			])
-		)
-		->group(
-			[
-				'label' => 'Script', 
-				'class' => take($errors, 'script') ? 'error' : '',
-			],
-			new field('typeahead', [ 
-				'name'           => 'script', 
-				'data-api'       => '/cron/scripts',
-				'data-items'     => 5,
-				'data-minLength' => 2,
-				'placeholder'    => h('e.g. cron."whatyoutype".php'),
-				'class'          => 'cron-script input-block-level required',
-				'value'          => h(take($cron, 'script')),
-			]),
-			new field('help', [ 
-				'text' => implode("<br>", take($errors, 'script', [])),
-			])
-		)
-		->group([
-				'label' => 'Frequency', 
-				'class' => take($errors, 'frequency') ? 'error' : '',
-			],
-			new field('input', [ 
-				'name'        => 'frequency',
-				'value'       => h(take($cron, 'frequency')),
-				'class'       => 'input-block-level required',
-				'placeholder' => h('e.g. * * * * *'),
-			]),
-			new field('help', [ 
-				'text' => implode("<br>", take($errors, 'frequency', [])),
-			])
-		)
-		->group([
-				'label' => 'Description', 
-				'class' => take($errors, 'description') ? 'error' : '',
-			],
-			new field('textarea', [ 
-				'name'        => 'description',
-				'value'       => h(take($cron, 'description')),
-				'class'       => 'input-block-level',
-				'placeholder' => h('e.g. "Updates records every hour"'),
-			]),
-			new field('help', [ 
-				'text' => implode("<br>", take($errors, 'description', [])),
-			])
-		)
-		->group(
-			new field('checkbox', [ 
-				'name'    => 'active',
-				'checked' => take($cron, 'active'),
-				'label'   => 'Activate',
-				'inline'  => true,
-			])
-		);
+
+		# Name
+		$cron_name_group = [ 
+			'label' => 'Name', 
+			'class' => $cron->error_class('name'),
+		];
+		$cron_name_field = new field('input', [ 
+			'name'        => 'name', 
+			'class'       => 'input-block-level required',
+			'value'       => h(take($cron, 'name')),
+			'placeholder' => h('e.g. "Update Records"'),
+		]);
+		$cron_name_help = new field('help', [ 
+			'text' => $cron->take_error('name'),
+		]);
+
+
+		# Script
+		$cron_script_group = [
+			'label' => 'Script', 
+			'class' => $cron->error_class('script'),
+		];
+		$cron_script_field = new field('typeahead', [ 
+			'name'           => 'script', 
+			'data-api'       => '/cron/scripts',
+			'data-items'     => 5,
+			'data-minLength' => 2,
+			'placeholder'    => h('e.g. cron."whatyoutype".php'),
+			'class'          => 'cron-script input-block-level required',
+			'value'          => h(take($cron, 'script')),
+		]);
+		$cron_script_help = new field('help', [ 
+			'text' => $cron->take_error('script'),
+		]);
+
+
+		# Frequency
+		$cron_frequency_group = [
+			'label' => 'Frequency', 
+			'class' => $cron->error_class('frequency'),
+		];
+		$cron_frequency_field = new field('input', [ 
+			'name'        => 'frequency',
+			'value'       => h(take($cron, 'frequency')),
+			'class'       => 'input-block-level required',
+			'placeholder' => h('e.g. * * * * *'),
+		]);
+		$cron_frequency_help = new field('help', [ 
+			'text' => $cron->take_error('frequency'),
+		]);
+
+
+		# Description
+		$cron_description_group = [
+			'label' => 'Description', 
+			'class' => $cron->error_class('description'),
+		];
+		$cron_description_field = new field('textarea', [ 
+			'name'        => 'description',
+			'value'       => h(take($cron, 'description')),
+			'class'       => 'input-block-level',
+			'placeholder' => h('e.g. "Updates records every hour"'),
+		]);
+		$cron_description_help = new field('help', [ 
+			'text' => $cron->take_error('description'),
+		]);
+
+
+		# Active
+		$cron_active_field = new field('checkbox', [ 
+			'name'    => 'active',
+			'checked' => take($cron, 'active'),
+			'label'   => 'Activate',
+			'inline'  => true,
+		]);
+
+		$this->form
+			->group($cron_name_group, $cron_name_field, $cron_name_help)
+			->group($cron_script_group, $cron_script_field, $cron_script_help)
+			->group($cron_frequency_group, $cron_frequency_field, $cron_frequency_help)
+			->group($cron_description_group, $cron_description_field, $cron_description_help)
+			->group($cron_active_field);
 	}
 
 }
