@@ -12,7 +12,7 @@
 			Current User
 		</h2>
 		<div class="media well">
-			<?= r('user', 'view', [ 'user' => $user ]) ?>
+			<?= r('user', 'view', [ 'user' => $user, 'mode' => 'edit' ]) ?>
 		</div>
 	</div>
 </div>

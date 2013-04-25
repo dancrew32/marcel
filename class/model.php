@@ -1,5 +1,9 @@
 <?
 class model extends ActiveRecord\Model {
+
+/*
+ * STATIC
+ */
 	static function total($conditions='') {
 		$sql = "select count(id) as total from ". static::$table_name ." {$conditions}";
 		$query = static::find_by_sql($sql);
@@ -10,6 +14,17 @@ class model extends ActiveRecord\Model {
 		return ($page - 1) * $rpp;
 	}
 
+	static function collection_to_json($collection) {
+		$out = [];
+		foreach ($collection as $model)
+			$out[] = $model->to_json();
+		return $out;
+	}
+
+
+/*
+ * INSTANCE
+ */
 	function get_errors() {
 		$errors = [];
 		foreach ($this->errors as $k => $er)
@@ -17,19 +32,28 @@ class model extends ActiveRecord\Model {
 		return $errors;
 	}
 
-	static function take_error($errors, $key) {
-		return implode("<br>", take($errors, $key, []));
+	function take_error($key) {
+		if (!$this->errors) return false;
+		$errors = take($this->errors, $key);
+		return $errors ? implode("<br>", $errors) : false;
 	}
 
-	static function error_class($errors, $key) {
-		return take($errors, $key) ? 'error' : '';
+	function error_class($key) {
+		return take($this->errors, $key) ? 'error' : '';
 	}
 
-	static function collection_to_json($collection) {
-		$out = [];
-		foreach ($collection as $model)
-			$out[] = $model->to_json();
-		return $out;
+	function to_note($key='a') {
+		$out = $this->to_array();
+		if ($this->errors)
+			$out['errors'] = $this->errors->to_array();
+		note::set($key, json_encode($out), true);
+	}
+
+	function from_note($key='a') {
+		$note = note::get($key, true);
+		if (!$note) return $this;
+		$json = (array) json_decode($note); 
+		return new $this($json);
 	}
 
 }

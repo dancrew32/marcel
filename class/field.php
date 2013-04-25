@@ -70,8 +70,8 @@ class field {
 	function help() {
 		$text = take($this->attrs, 'text', false);
 		if (!$text) return $this;
+		$text = is_array($text) ? implode('<br>', $text) : $text;
 		$inline = take($this->attrs, 'inline', false);
-		# TODO: add collapsible 
 		$this->html .= $inline ? 
 			"<span class=\"help-inline\">{$text}</span>" :
 			"<p class=\"help-block\">{$text}</p>";

@@ -30,7 +30,7 @@ class controller_user extends controller_base {
 			'suffix' => h($format),
 		]);
 		$this->users = User::find('all', [
-			'select' => 'id, first, last, email, active, last_login',
+			'select' => 'id, first, last, email, username, active, last_login',
 			'limit'  => $rpp,
 			'offset' => model::get_offset($page, $rpp),
 			'order'  => 'id asc',
@@ -42,7 +42,7 @@ class controller_user extends controller_base {
 
 	function view($o) {
 		$this->user = take($o, 'user');	
-
+		$this->mode = take($o, 'mode', false);
 	}
 
 	function table($o) {
@@ -57,16 +57,14 @@ class controller_user extends controller_base {
 		$user->username = take($_POST, 'username');
 		$user->password = take($_POST, 'password');
 		$user->role     = take($_POST, 'role');
+		$user->active   = take($_POST, 'active', 0);
 		$ok = $user->save();
 		if ($ok) {
 			note::set('user:add', 1);
 			app::redir($this->root_path);
 		}
 
-		note::set('user:form', json_encode([
-			'user'   => $_POST, 
-			'errors' => $user->errors->to_array(),
-		]));
+		$user->to_note();
 		app::redir($this->root_path);
 	}
 
@@ -75,12 +73,12 @@ class controller_user extends controller_base {
 		if (!$this->user) app::redir($this->root_path);
 		if (!$this->is_post) return;
 
-		$this->user->first    = trim(take($_POST, 'first'));
-		$this->user->last     = trim(take($_POST, 'last'));
-		$this->user->email    = trim(take($_POST, 'email'));
-		$this->user->username = trim(take($_POST, 'username'));
+		$this->user->first    = take($_POST, 'first');
+		$this->user->last     = take($_POST, 'last');
+		$this->user->email    = take($_POST, 'email');
+		$this->user->username = take($_POST, 'username');
 		if (isset($_POST['password']{0}))
-			$this->user->password = trim(take($_POST, 'password'));
+			$this->user->password = take($_POST, 'password');
 		$this->user->role     = take($_POST, 'role');
 		$this->user->active   = take($_POST, 'active', 0);
 
@@ -90,11 +88,7 @@ class controller_user extends controller_base {
 			app::redir($this->root_path);
 		}
 
-		note::set('user:form', json_encode([
-			'user'   => $_POST, 
-			'errors' => $this->user->errors->to_array(),
-		]));
-
+		$this->user->to_note();
 		app::redir("{$this->root_path}/edit/{$this->user->id}");
 	}
 
@@ -115,13 +109,15 @@ class controller_user extends controller_base {
  */
 	# no view
 	function add_form() {
+		$user = new User;
+		$user = $user->from_note();
+
 		$this->form = new form;
 		$this->form->open("{$this->root_path}/add", 'post', [
 			'class' => 'last',
 			'id'    => 'user-add',
 		]);
-		$note = json_decode(note::get('user:form'));
-		$this->_build_form(take($note, 'user'), take($note, 'errors'));
+		$this->_build_form($user);
 		$this->form->add(
 			new field('submit', [
 				'text' => 'Add', 
@@ -134,15 +130,15 @@ class controller_user extends controller_base {
 
 	# no view
 	function edit_form($o) {
-		$user = User::find_by_id(take($o['user'], 'id'));
+		$user = take($o, 'user');
+		$user = $user->from_note();
 		if (!$user) app::redir($this->root_path);
 
 		$this->form = new form;
 		$this->form->open("{$this->root_path}/edit/{$user->id}", 'post', [
 			'class' => 'last', 
 		]);
-		$note = json_decode(note::get('user:form'));
-		$this->_build_form(take($note, 'user', $user), take($note, 'errors'));
+		$this->_build_form($user);
 		$this->form->add(
 			new field('submit', [
 				'text' => 'Update', 
@@ -153,7 +149,7 @@ class controller_user extends controller_base {
 		echo $this->form;
 	}
 
-	private function _build_form($user=null, $errors=null) {
+	private function _build_form($user) {
 		app::asset('validate.min', 'js');
 		# app::asset('view/user.form', 'js');
 
@@ -161,7 +157,7 @@ class controller_user extends controller_base {
 		# First name
 		$first_name_group = [ 
 			'label' => 'First Name', 
-			'class' => model::error_class($errors, 'first'),
+			'class' => $user->error_class('first'),
 		];
 		$first_name = new field('input', [ 
 			'name'         => 'first', 
@@ -169,13 +165,13 @@ class controller_user extends controller_base {
 			'value'        => h(take($user, 'first')),
 			'autocomplete' => false,
 		]);
-		$first_name_help = new field('help', [ 'text' => model::take_error($errors, 'first') ]);
+		$first_name_help = new field('help', [ 'text' => $user->take_error('first') ]);
 
 
 		# Last Name
 		$last_name_group = [ 
 			'label' => 'Last Name', 
-			'class' => model::error_class($errors, 'last'),
+			'class' => $user->error_class('last'),
 		];
 		$last_name = new field('input', [ 
 			'name'         => 'last', 
@@ -183,13 +179,13 @@ class controller_user extends controller_base {
 			'value'        => h(take($user, 'last')),
 			'autocomplete' => false,
 		]);
-		$last_name_help = new field('help', [ 'text' => model::take_error($errors, 'last') ]);
+		$last_name_help = new field('help', [ 'text' => $user->take_error('last') ]);
 
 
 		# Email 
 		$email_group = [ 
 			'label' => 'Email', 
-			'class' => model::error_class($errors, 'email'),
+			'class' => $user->error_class('email'),
 		]; 
 		$email = new field('email', [ 
 			'name'         => 'email', 
@@ -198,14 +194,14 @@ class controller_user extends controller_base {
 			'autocomplete' => false,
 		]);
 		$email_help = new field('help', [ 
-			'text' => model::take_error($errors, 'email'),
+			'text' => $user->take_error('email'),
 		]);
 
 
 		# Username
 		$username_group = [ 
 			'label' => 'Username', 
-			'class' => model::error_class($errors, 'username'),
+			'class' => $user->error_class('username'),
 		]; 
 		$username = new field('input', [ 
 			'name'         => 'username', 
@@ -214,14 +210,14 @@ class controller_user extends controller_base {
 			'value'        => h(take($user, 'username')),
 		]);
 		$username_help = new field('help', [ 
-			'text' => model::take_error($errors, 'username'),
+			'text' => $user->take_error('username'),
 		]);
 
 
 		# Password
 		$password_group = [ 
 			'label'        => 'Password', 
-			'class'        => model::error_class($errors, 'password'),
+			'class'        => $user->error_class('password'),
 		];
 		$password = new field('password', [ 
 			'name'        => 'password', 
@@ -229,14 +225,14 @@ class controller_user extends controller_base {
 			'autocomplete' => false,
 		]);
 		$password_help = new field('help', [ 
-			'text' => model::take_error($errors, 'password'),
+			'text' => $user->take_error('password'),
 		]);
 
 
 		# Role
 		$role_group = [ 
 			'label' => 'Role', 
-			'class' => model::error_class($errors, 'role'),
+			'class' => $user->error_class('role'),
 		]; 
 		$role = new field('select', [ 
 			'name'        => 'role', 
@@ -245,7 +241,7 @@ class controller_user extends controller_base {
 			'value'       => take($user, 'role', 'user'),
 		]);
 		$role_help = new field('help', [ 
-			'text' => model::take_error($errors, 'role'),
+			'text' => $user->take_error('role'),
 		]);
 
 

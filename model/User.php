@@ -1,12 +1,18 @@
 <?
 class User extends model {
 	static $table_name = 'users';
+
+	static $logged_in = false;
+	static $user = [];
 	static $roles = [
 		'admin'   => 'Admin',
 		'manager' => 'Manager',
 		'user'    => 'User',
 	];
 
+/*
+ * VALIDATION
+ */
 	static $validates_inclusion_of = [
 		['role', 'in' => [
 			'admin', 
@@ -16,11 +22,8 @@ class User extends model {
 	];
 
 	static $validates_presence_of = [
-		//['first'],
-		//['last'],
 		['email'],
 		['password'],
-		//['username'],
 		['role'],
 	];
 
@@ -33,9 +36,26 @@ class User extends model {
 		['email', 'with' => '/@/']
 	];
 
-	static $logged_in = false;
-	static $user = [];
+	
+	function __set($name, $value) {
+		switch ($name) {
+			case 'first':
+			case 'last':
+			case 'email':
+			case 'username':
+			case 'password':
+				$this->assign_attribute($name, trim($value));
+				break;
+			default: 
+				$this->assign_attribute($name, $value);
+		}
+	}
 
+
+
+/*
+ * STATIC
+ */
 	static function init() {
 		self::$logged_in = take($_SESSION, 'in', false);
 		if (!self::$logged_in) return false;
@@ -88,14 +108,19 @@ class User extends model {
 		return md5(SALT.$p.SALT);	
 	}
 
+	static function badge_class($status) {
+		return $status ? 'label-success' : '';
+	}
+
+
+/*
+ * INSTANCE
+ */
 	function full_name() {
 		$name = take($this, 'first').' '.take($this, 'last');	
 		return trim($name);
 	}
 
-	static function badge_class($status) {
-		return $status ? 'label-success' : '';
-	}
 
 	function badge($cls='') {
 		$cls = isset($cls{0}) ? " {$cls}" : '';
