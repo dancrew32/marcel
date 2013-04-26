@@ -83,7 +83,7 @@ class image {
 	}
 
 	# http://www.binarymoon.co.uk/2012/02/complete-timthumb-parameters-guide/
-	static function get(array $o=array(), $html=false, $alt=false) {
+	static function get(array $o=array(), $html=false, $alt='') {
 		self::set_process_path();
 		$o = array_merge([
 			'src' => '',  // TODO: add default image
@@ -107,16 +107,17 @@ class image {
 		$params = http_build_query($o, '', '&amp;');
 		$path = self::$process_path."?{$params}";
 
-		$path .= '&sig='.self::keygen($o);
+		$path .= '&amp;sig='.self::keygen($o);
 
 		if (!$html) return $path;
 		$attrs = '';
-		if ($alt)
-			$attrs .= ' alt="'. $alt .'"';
+		# always needs alt
+		$alt = isset($alt{0}) ? $alt : $o['src'];
+		$attrs .= " alt=\"{$alt}\"";
 		if ($o['w'])
-			$attrs .= ' width="'. $o['w'] .'"';
+			$attrs .= " width=\"{$o['w']}\"";
 		if ($o['h'])
-			$attrs .= ' height="'. $o['h'] .'"';
+			$attrs .= " height=\"{$o['h']}\"";
 		return '<img src="'. $path .'"'. $attrs .'>';
 	}
 

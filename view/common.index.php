@@ -39,7 +39,7 @@ view/common.index.php
 			Modals	
 		</h2>
 		<?= r('form_test', 'modal') ?>
-		<h2>Labels<h2>
+		<h2>Labels</h2>
 		<span class="label">Default</span>
 		<span class="label label-success">Success</span>
 		<span class="label label-warning">Warning</span>

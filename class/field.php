@@ -46,7 +46,6 @@ class field {
 			case 'datetime-local':
 			case 'file':
 			case 'hidden':
-			case 'image':
 			case 'password':
 			case 'email':
 			case 'month':
@@ -59,6 +58,11 @@ class field {
 			case 'url':
 			case 'week':
 				$this->attrs['type'] = $type;
+				return $this->input();
+			case 'image':
+				$this->attrs['type'] = $type;
+				if (!isset($this->attrs['alt']))
+					$this->attrs['alt'] = 'submit';
 				return $this->input();
 			case 'help':
 				return $this->help();
@@ -73,8 +77,9 @@ class field {
 
 	function input() {
 		$this->html .= html::build_prepend($this->attrs); 
-		$type = take($this->attrs, 'type', 'text');
-		$this->html .= '<input type="'. $type .'"'. html::build_attributes($this->attrs) .' />';
+		if (!isset($this->attrs['type']))
+			$this->attrs['type'] = 'text';
+		$this->html .= '<input '. html::build_attributes($this->attrs) .' />';
 		$this->html .= html::build_append($this->attrs);
 		return $this;
 	}

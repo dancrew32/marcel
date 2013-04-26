@@ -29,8 +29,7 @@ class controller_authentication extends controller_base {
 		]);
 
 		# Password
-		$this->field_password = new field('input', [
-			'type' => 'password',
+		$this->field_password = new field('password', [
 			'name' => 'pass',
 			'placeholder' => 'Password',
 		]);
@@ -68,8 +67,8 @@ class controller_authentication extends controller_base {
 			])
 		)
 		->group([ 
-				'label'        => 'Password', 
-				'class'        => $user->error_class('password'),
+				'label' => 'Password', 
+				'class' => $user->error_class('password'),
 			], 
 			new field('password', [ 
 				'name'        => 'password', 

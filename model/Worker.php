@@ -66,6 +66,10 @@ class Worker extends model {
 			yellow("{$thread_id}: running {$this->class}::{$this->method}\n");
 
 		try {
+			$callable = is_callable("{$this->class}::{$this->method}") === true;
+			if (!$callable)
+				return false;
+
 			$args = $this->args ? unserialize($this->args) : null;
 			call_user_func("{$this->class}::{$this->method}", $args);
 			if (CLI)

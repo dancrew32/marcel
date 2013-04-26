@@ -6,7 +6,7 @@ $form
 ->add(new field('checkbox', ['label' => 'Remember Me', 'name' => 'remember', 'checked' => true, 'inline' => true]))
 ->actions(new field('submit', [
 	'text' => 'Login', 
-	'data-loading-text' => "Logging in..."
+	'data-loading-text' => "Logging in...",
 ]));
 if (!$simple_mode) {
 $form->add(new field('help', [

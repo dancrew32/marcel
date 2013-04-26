@@ -55,18 +55,25 @@ class html {
             switch ($k) {
 				case 'class':
 					$html .= " {$k}=\"". (is_array($v) ? implode(' ', $v) : $v) .'"';
+					break;
                 case 'checked':
-					if ($v) $html .=' checked'; break;
+					if ($v) $html .=' checked="checked"'; break;
+					break;
 				case 'autocomplete': 
 					if (!$v) $html .=' autocomplete="off"'; break;
+					break;
                 case 'required':
                     if ($v) $html .=' required'; break;
+					break;
                 case 'multiple':
                     if ($v) $html .=' multiple'; break;
+					break;
 				case 'readonly':
 					if ($v) $html .=' readonly'; break;
+					break;
 				case 'autofocus':
 					if ($v) $html.=' autofocus'; break;
+					break;
                 default:
 					if (isset($v{0}) && in_array($v{0}, ['[', '{'])) # js array or object 
 						$html .= " {$k}='{$v}'";
