@@ -42,6 +42,7 @@ class mail extends PHPMailer {
 	}
 
 	static function process($args) {
-		return $args['email']->Send();
+		$email = take($args, 'email');
+		return $email->Send();
 	}
 }

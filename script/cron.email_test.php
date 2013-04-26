@@ -7,10 +7,4 @@ $m->FromName = 'Marcel';
 $m->AddAddress('user@example.com', 'Example User');
 $m->Subject = "Queue Test";
 $m->Body = "This concludes the test!";
-Worker::add([
-	'class'  => 'mail',
-	'method' => 'queue',
-	'args'   => [
-		'email' => $m, #serialize email
-	],
-]);
+$m->Queue();

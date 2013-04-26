@@ -2,8 +2,6 @@
 class Worker extends model {
 	static $table_name = 'workers';
 
-	private $args;
-
 /*
  * VALIDATION
  */
@@ -21,11 +19,6 @@ class Worker extends model {
 /*
  * STATIC
  */
-	static function test($args) {
-		sleep(1);
-		return true;
-	}
-
 	static function add(array $options=[]) {
 		$options = array_merge([
 			'class'  => false,
@@ -43,8 +36,8 @@ class Worker extends model {
 		$w = new Worker;
 		$w->class = $options['class'];
 		$w->method = $options['method'];
-		$w->set_args($options['args']);
-		$w->set_hash();
+		$w->apply_args($options['args']);
+		$w->make_hash();
 
 		$run_at = strtotime($options['run_at']);
 		if ($run_at > 0)
@@ -53,15 +46,15 @@ class Worker extends model {
 		return $w->save();
 	}
 
-	function set_args($args) {
+
+/*
+ * INSTANCE
+ */
+	function apply_args($args) {
 		$this->args = serialize($args);
 	}
 
-	function get_args() {
-		return unserialize($this->args);	
-	}
-
-	function set_hash() {
+	function make_hash() {
 		$this->hash = md5($this->class.$this->method.$this->args);
 	}
 
@@ -73,7 +66,8 @@ class Worker extends model {
 			yellow("{$thread_id}: running {$this->class}::{$this->method}\n");
 
 		try {
-			call_user_func("{$this->class}::{$this->method}", $this->get_args());
+			$args = $this->args ? unserialize($this->args) : null;
+			call_user_func("{$this->class}::{$this->method}", $args);
 			if (CLI)
 				green("{$thread_id}: completed {$this->class}::{$this->method}\n");
 			return $this->delete();
