@@ -2,12 +2,12 @@
 class credit {
 	static function get_instance() {
 		require_once VENDOR_DIR.'/stripe/lib/Stripe.php';
-		$key = api::get_key('stripe')[ENV]['secret'];
+		$key = api::get_key('stripe')['secret'];
 		Stripe::setApiKey($key);
 	}	
 
 	static function get_public_key() {
-		return api::get_key('stripe')[ENV]['public'];
+		return api::get_key('stripe')['public'];
 	}
 
 	static function get_months() {
@@ -38,14 +38,14 @@ class credit {
 		return $years;
 	}
 
-	static function charge(array $o=[], $env='DEV') {
-		self::get_instance($env);
+	static function charge(array $o=[]) {
+		self::get_instance();
 
 		$o = array_merge([
-			'number'      => '4242424242424242', # required (MC:5555555555554444, AE:371449635398431)
-			'exp_month'   => 5,  # required
-			'exp_year'    => 2015, # required
-			'amount'      => 2000,
+			'number'      => ENV == 'DEV' ? '4242424242424242' : '', # required (MC:5555555555554444, AE:371449635398431)
+			'exp_month'   => ENV == 'DEV' ? 5 : '',  # required
+			'exp_year'    => ENV == 'DEV' ? 2015 : '', # required
+			'amount'      => ENV == 'DEV' ? 2000 : '',
 			'token'       => false,
 			'currency'    => 'usd',
 			'description' => '',
@@ -63,8 +63,11 @@ class credit {
 		}
 		$charge_data['amount'] = take($o, 'amount');
 		$charge_data['currency'] = take($o, 'currency');
-		$charge = Stripe_Charge::create($charge_data);
-
-		return $charge;
+		try {
+			$charge = Stripe_Charge::create($charge_data);
+			return $charge;
+		} catch (Exception $e) {
+			return $e;	
+		}
 	}
 }

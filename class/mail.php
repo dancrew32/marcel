@@ -31,7 +31,17 @@ class mail extends PHPMailer {
 		//$this->Send();
 	}	
 
-	static function queue($args) {
+	function Queue() {
+		Worker::add([
+			'class'  => 'mail',
+			'method' => 'process',
+			'args'   => [
+				'email' => $this, #serialize email
+			],
+		]);
+	}
+
+	static function process($args) {
 		return $args['email']->Send();
 	}
 }

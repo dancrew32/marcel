@@ -658,13 +658,7 @@ $m->Subject  = "Queue Test";
 $m->Body     = "This concludes the test!";
 
 # Add it to the worker queue
-Worker::add([
-	'class'  => 'mail',
-	'method' => 'queue',
-	'args'   => [
-		'email' => $m, #serialize email
-	],
-]);
+$m->Queue();
 
 # Or just send it
 $m->Send();

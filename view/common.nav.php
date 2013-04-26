@@ -28,7 +28,7 @@
 						<a href="<?= app::get_path('User Home') ?>">Users</a>
 					</li>
 					<li<? echoif(app::in_section('Cart'), ' class="active"') ?>>
-						<a href="<?= app::get_path('Cart Home') ?>">Checkout</a>
+						<a href="<?= app::get_path('Cart Home') ?>">Cart</a>
 					</li>
 					<? /*
 						

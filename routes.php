@@ -41,7 +41,18 @@ app::$routes = [
 		=> [ 'c' => 'user', 'm' => 'all', 'name' => 'User Home', 'section' => 'User' ],
 
 	# Cart Example
-	'/checkout' => [ 'c' => 'cart', 'm' => 'index', 'name' => 'Cart Home', 'section' => 'Cart' ],
+	'/cart' 
+		=> [ 'c' => 'cart', 'm' => 'index', 'name' => 'Cart Home', 'section' => 'Cart' ],
+	'/cart/add/(?P<key>[0-9]+)' 
+		=> [ 'c' => 'cart', 'm' => 'add' ],
+	'/cart/remove/(?P<key>[0-9]+)(?:/*)(?P<amount>[0-9\*]*)' 
+		=> [ 'c' => 'cart', 'm' => 'remove' ],
+	'/cart/checkout' 
+		=> [ 'c' => 'cart', 'm' => 'checkout' ],
+	'/cart/quantity' 
+		=> [ 'c' => 'cart', 'm' => 'quantity' ],
+	'/cart/thank-you' 
+		=> [ 'c' => 'cart', 'm' => 'success', 'name' => 'Checkout Success' ],
 
 	# HTTP Example
 	'/http' => [
