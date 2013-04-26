@@ -220,7 +220,7 @@ class controller_cart extends controller_base {
 
 			//$mail = new mail;
 			//$mail->From  = 'admin@site.com';
-			//$mail->FromName = SITE_NAME;
+			//$mail->FromName = APP_NAME;
 			//$mail->AddAddress($email, 'Example User');
 			//$mail->Subject  = "Thanks for your purchase!";
 			//$mail->Body     = "Thanks for your purchase of X. \${$total} was charged to your {$card->type}!.";

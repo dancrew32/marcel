@@ -20,6 +20,13 @@ class User extends model {
 
 
 /*
+ * EVENTS
+ */
+	static $after_update  = ['update_cache'];
+	static $after_destroy = ['delete_cache'];
+
+
+/*
  * VALIDATION
  */
 	static $validates_inclusion_of = [
@@ -55,8 +62,10 @@ class User extends model {
 			case 'last':
 			case 'email':
 			case 'username':
-			case 'password':
 				$this->assign_attribute($name, trim($value));
+				break;
+			case 'password':
+				$this->assign_attribute($name, self::spass(trim($value)));
 				break;
 			default: 
 				$this->assign_attribute($name, $value);
@@ -82,15 +91,29 @@ class User extends model {
 	}
 
 
+	function delete_cache() {
+		return cache::delete(self::cache_key($this->id));
+	}
+
+	function update_cache() {
+		self::$user = $this;
+		return cache::set(self::cache_key($this->id), self::$user, time::ONE_HOUR, true);
+	}
+
+
 /*
  * STATIC
  */
+	static function cache_key($id) {
+		return cache::keygen(__CLASS__, __FUNCTION__, $id);
+	}
+
 	static function init() {
 		self::$logged_in = take($_SESSION, 'in', false);
 		if (!self::$logged_in) return false;
 
 		$id = (int) take($_SESSION, 'id');
-		$cache_key  = cache::keygen(__CLASS__, __FUNCTION__, $id);
+		$cache_key  = self::cache_key($id);
 		self::$user = cache::get($cache_key, $found, true);
 		if (!$found) {
 			self::$user = User::find($id);

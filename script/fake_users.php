@@ -8,6 +8,6 @@ times(250, function() {
 	$u->email    = fake::safeEmail();
 	$u->username = fake::userName();
 	$u->role     = 'user';
-	$u->password = User::spass('testing');
+	$u->password = 'testing';
 	$u->save();
 });

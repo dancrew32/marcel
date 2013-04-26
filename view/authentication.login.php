@@ -15,7 +15,7 @@ $form->add(new field('help', [
 			Forgot Password?
 		</a>
 		or 
-		<a href="#">
+		<a href="'. app::get_path('Join') .'">
 			Want to Join?
 		</a>
 	',

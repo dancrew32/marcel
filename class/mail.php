@@ -35,7 +35,7 @@ class mail extends PHPMailer {
 		Worker::add([
 			'class'  => 'mail',
 			'method' => 'process',
-			'args'   => [
+			'args' => [
 				'email' => $this, #serialize email
 			],
 		]);

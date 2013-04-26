@@ -2,6 +2,8 @@
 class Worker extends model {
 	static $table_name = 'workers';
 
+	private $args;
+
 /*
  * VALIDATION
  */
@@ -51,7 +53,7 @@ class Worker extends model {
 		return $w->save();
 	}
 
-	function set_args(array $args) {
+	function set_args($args) {
 		$this->args = serialize($args);
 	}
 

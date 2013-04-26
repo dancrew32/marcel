@@ -13,9 +13,13 @@ for ($i = 0; $i < $threads; $i++) {
 				'limit' => 1,
 			]);
 			foreach ($ws as $w) {
-				$w->run($pid);	
+				try {
+					$w->run($pid);	
+				} catch(Exception $e) {
+						
+				}
 			}
-			sleep(1);
+			sleep(5);
 		}
 	} else
 		$thread_store[] = $pid;

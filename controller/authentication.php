@@ -94,7 +94,7 @@ class controller_authentication extends controller_base {
 		$user = new User;
 		$user->email = $email;
 		if (isset($pass{0}))
-			$user->password = $user->spass($pass);
+			$user->password = $pass;
 		$user->active = 1;
 		$user->role = 'user';
 		$ok = $user->save();

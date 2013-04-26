@@ -6,7 +6,7 @@ if (User::find_by_email($u->email))
 	return red("User exists\n");
 
 $pass = prompt_silent("Password:");
-$u->password = User::spass($pass);
+$u->password = $pass;
 $u->active = 1;
 $u->role = gets('Role:');
 $u->first = gets('First name:');
