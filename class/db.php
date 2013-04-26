@@ -13,4 +13,12 @@ class db {
 			$cfg->set_default_connection('default');
 		});
 	}
+
+	# Don't use this.
+	static function get_array($query) {
+		$pdo = new PDO('mysql:host='. DB_HOST .';dbname='.DB_NAME, DB_USER, DB_PASS);
+		$prep = $pdo->prepare($query);
+		$prep->execute();
+		return $prep->fetchAll(PDO::FETCH_ASSOC);
+	}
 }

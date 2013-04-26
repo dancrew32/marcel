@@ -24,6 +24,7 @@ $grants = [
 	'insert' => "GRANT INSERT ON ". DB_NAME .".* TO '{$user}'@'". DB_HOST ."'",
 	'select' => "GRANT SELECT ON ". DB_NAME .".* TO '{$user}'@'". DB_HOST ."'",
 	'update' => "GRANT UPDATE ON ". DB_NAME .".* TO '{$user}'@'". DB_HOST ."'",
+	'lock'   => "GRANT LOCK TABLES ON ". DB_NAME .".* TO '{$user}'@'". DB_HOST ."'",
 ];
 
 $to_execute = [];
