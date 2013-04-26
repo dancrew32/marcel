@@ -60,7 +60,7 @@ class Worker extends model {
 
 	function run($thread_id = 0) {
 		if ($this->active) return true;
-		$this->active = true;
+		$this->active = 1;
 		$this->save();
 		if (CLI)
 			yellow("{$thread_id}: running {$this->class}::{$this->method}\n");
@@ -78,7 +78,7 @@ class Worker extends model {
 		} catch (Exception $e) {
 			if (CLI)
 				red("{$thread_id}: FAILED {$this->class}::{$this->method}\n");
-			$this->active = false;
+			$this->active = 0;
 			# TODO: increment fails
 			$this->save();
 		}
