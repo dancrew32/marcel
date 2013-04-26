@@ -3,6 +3,13 @@ require_once(dirname(__FILE__).'/inc.php');
 
 $threads = isset($argv[1]{0}) ? $argv[1] : 10;
 $thread_store = [];
+$_ = $_SERVER['_'];
+
+register_shutdown_function(function() {
+	global $_, $argv;	
+	pcntrl_exec($_, $argv);
+});
+
 for ($i = 0; $i < $threads; $i++) {
 	$pid = pcntl_fork();
 	if ($pid === 0) {
