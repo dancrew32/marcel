@@ -152,8 +152,9 @@ class User extends model {
 	}
 
 	static function logout() {
+		cache::delete(self::cache_key(self::$user->id));
 		session_destroy();
-		app::redir('/');
+		return true;
 	}
 
 	static function spass($p) {

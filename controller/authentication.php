@@ -6,7 +6,10 @@ class controller_authentication extends controller_base {
    	}
 
 	function logout() {
-		User::logout();
+		$ok = User::logout();
+		if ($ok)
+			note::set('logout:success', 1);
+		app::redir(app::get_path('Home'));
 	}
 
 	function login($o) {
@@ -37,7 +40,10 @@ class controller_authentication extends controller_base {
 		if (!$this->is_post) return;
 
 		$ok = User::login($user, $pass);
-		app::redir($ok ? '/' : $action);
+
+		if ($ok)
+			note::set('login:success', 1);
+		app::redir($ok ? app::get_path('Home') : $action);
 	}
 
 	function join($o) {

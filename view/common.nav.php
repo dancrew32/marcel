@@ -117,3 +117,15 @@
 		</div>
 	</div>
 </div>
+
+<? if (note::get('login:success')): ?>
+	<div class="container">
+		<?= html::alert("You're now logged in.", ['type'=>'success']) ?>
+	</div>
+<? endif ?>
+
+<? if (note::get('logout:success')): ?>
+	<div class="container">
+		<?= html::alert("You're now logged out.", ['type'=>'success']) ?>
+	</div>
+<? endif ?>
