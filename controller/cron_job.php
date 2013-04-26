@@ -111,13 +111,7 @@ class controller_cron_job extends controller_base {
 			'id'    => 'cron-add',
 		]);
 		$this->_build_form($cron);
-		$this->form->add(
-			new field('submit', [
-				'text' => 'Add', 
-				'icon' => 'plus',
-				'data-loading-text' => h('<i class="icon-plus"></i> Adding&hellip;'),
-			])
-		);
+		$this->form->add(new field('submit_add'));
 		echo $this->form;
 	}
 
@@ -132,13 +126,7 @@ class controller_cron_job extends controller_base {
 			'class' => 'last', 
 		]);
 		$this->_build_form($cron);
-		$this->form->add(
-			new field('submit', [
-				'text' => 'Update', 
-				'icon' => 'edit',
-				'data-loading-text' => h('<i class="icon-edit"></i> Updating&hellip;')
-			])
-		);
+		$this->form->add(new field('submit_update'));
 		echo $this->form;
 	}
 
@@ -148,26 +136,18 @@ class controller_cron_job extends controller_base {
 
 
 		# Name
-		$cron_name_group = [ 
-			'label' => 'Name', 
-			'class' => $cron->error_class('name'),
-		];
+		$cron_name_group = [ 'label' => 'Name', 'class' => $cron->error_class('name') ];
 		$cron_name_field = new field('input', [ 
 			'name'        => 'name', 
 			'class'       => 'input-block-level required',
 			'value'       => h(take($cron, 'name')),
 			'placeholder' => h('e.g. "Update Records"'),
 		]);
-		$cron_name_help = new field('help', [ 
-			'text' => $cron->take_error('name'),
-		]);
+		$cron_name_help = new field('help', [ 'text' => $cron->take_error('name') ]);
 
 
 		# Script
-		$cron_script_group = [
-			'label' => 'Script', 
-			'class' => $cron->error_class('script'),
-		];
+		$cron_script_group = [ 'label' => 'Script', 'class' => $cron->error_class('script') ];
 		$cron_script_field = new field('typeahead', [ 
 			'name'           => 'script', 
 			'data-api'       => '/cron/scripts',
@@ -177,41 +157,29 @@ class controller_cron_job extends controller_base {
 			'class'          => 'cron-script input-block-level required',
 			'value'          => h(take($cron, 'script')),
 		]);
-		$cron_script_help = new field('help', [ 
-			'text' => $cron->take_error('script'),
-		]);
+		$cron_script_help = new field('help', [ 'text' => $cron->take_error('script') ]);
 
 
 		# Frequency
-		$cron_frequency_group = [
-			'label' => 'Frequency', 
-			'class' => $cron->error_class('frequency'),
-		];
+		$cron_frequency_group = [ 'label' => 'Frequency', 'class' => $cron->error_class('frequency') ];
 		$cron_frequency_field = new field('input', [ 
 			'name'        => 'frequency',
 			'value'       => h(take($cron, 'frequency')),
 			'class'       => 'input-block-level required',
 			'placeholder' => h('e.g. * * * * *'),
 		]);
-		$cron_frequency_help = new field('help', [ 
-			'text' => $cron->take_error('frequency'),
-		]);
+		$cron_frequency_help = new field('help', [ 'text' => $cron->take_error('frequency') ]);
 
 
 		# Description
-		$cron_description_group = [
-			'label' => 'Description', 
-			'class' => $cron->error_class('description'),
-		];
+		$cron_description_group = [ 'label' => 'Description', 'class' => $cron->error_class('description') ];
 		$cron_description_field = new field('textarea', [ 
 			'name'        => 'description',
 			'value'       => h(take($cron, 'description')),
 			'class'       => 'input-block-level',
 			'placeholder' => h('e.g. "Updates records every hour"'),
 		]);
-		$cron_description_help = new field('help', [ 
-			'text' => $cron->take_error('description'),
-		]);
+		$cron_description_help = new field('help', [ 'text' => $cron->take_error('description') ]);
 
 
 		# Active

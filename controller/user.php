@@ -143,10 +143,7 @@ class controller_user extends controller_base {
 
 
 		# First name
-		$first_name_group = [ 
-			'label' => 'First Name', 
-			'class' => $user->error_class('first'),
-		];
+		$first_name_group = [ 'label' => 'First Name', 'class' => $user->error_class('first') ];
 		$first_name = new field('input', [ 
 			'name'         => 'first', 
 			'class'        => 'input-block-level required',
@@ -157,10 +154,7 @@ class controller_user extends controller_base {
 
 
 		# Last Name
-		$last_name_group = [ 
-			'label' => 'Last Name', 
-			'class' => $user->error_class('last'),
-		];
+		$last_name_group = [ 'label' => 'Last Name', 'class' => $user->error_class('last') ];
 		$last_name = new field('input', [ 
 			'name'         => 'last', 
 			'class'        => 'input-block-level required',
@@ -171,66 +165,46 @@ class controller_user extends controller_base {
 
 
 		# Email 
-		$email_group = [ 
-			'label' => 'Email', 
-			'class' => $user->error_class('email'),
-		]; 
+		$email_group = [ 'label' => 'Email', 'class' => $user->error_class('email') ]; 
 		$email = new field('email', [ 
 			'name'         => 'email', 
 			'class'        => 'input-block-level email required',
 			'value'        => h(take($user, 'email')),
 			'autocomplete' => false,
 		]);
-		$email_help = new field('help', [ 
-			'text' => $user->take_error('email'),
-		]);
+		$email_help = new field('help', [ 'text' => $user->take_error('email') ]);
 
 
 		# Username
-		$username_group = [ 
-			'label' => 'Username', 
-			'class' => $user->error_class('username'),
-		]; 
+		$username_group = [ 'label' => 'Username', 'class' => $user->error_class('username') ]; 
 		$username = new field('input', [ 
 			'name'         => 'username', 
 			'class'        => 'input-block-level required',
 			'autocomplete' => false,
 			'value'        => h(take($user, 'username')),
 		]);
-		$username_help = new field('help', [ 
-			'text' => $user->take_error('username'),
-		]);
+		$username_help = new field('help', [ 'text' => $user->take_error('username') ]);
 
 
 		# Password
-		$password_group = [ 
-			'label'        => 'Password', 
-			'class'        => $user->error_class('password'),
-		];
+		$password_group = [ 'label' => 'Password', 'class' => $user->error_class('password') ];
 		$password = new field('password', [ 
 			'name'        => 'password', 
 			'class'       => 'input-block-level',
 			'autocomplete' => false,
 		]);
-		$password_help = new field('help', [ 
-			'text' => $user->take_error('password'),
-		]);
+		$password_help = new field('help', [ 'text' => $user->take_error('password') ]);
 
 
 		# Role
-		$role_group = [ 
-			'label' => 'Role', 
-			'class' => $user->error_class('role'),
-		]; 
+		$role_group = [ 'label' => 'Role', 'class' => $user->error_class('role') ]; 
 		$role = new field('select', [ 
 			'name'        => 'role', 
 			'class'       => 'input-block-level',
 			'options'     => User::$roles,
 			'value'       => take($user, 'role', 'user'),
 		]);
-		$role_help = new field('help', [ 
-			'text' => $user->take_error('role'),
-		]);
+		$role_help = new field('help', [ 'text' => $user->take_error('role') ]);
 
 
 		# Active

@@ -52,37 +52,27 @@ class controller_authentication extends controller_base {
 
 		$this->form = new form;
 		$this->form->open(app::get_path('Join'))
-		->group([ 
-				'label' => 'Email', 
-				'class' => $user->error_class('email'),
-			], 
+		->group(
+			[ 'label' => 'Email', 'class' => $user->error_class('email') ], 
 			new field('email', [ 
 				'name'         => 'email', 
 				'class'        => 'input-block-level email required',
 				'autocomplete' => false,
 				'value'        => take($user, 'email'),
 			]),
-			new field('help', [ 
-				'text' => $user->take_error('email'),
-			])
+			new field('help', [ 'text' => $user->take_error('email') ])
 		)
-		->group([ 
-				'label' => 'Password', 
-				'class' => $user->error_class('password'),
-			], 
+		->group(
+			[ 'label' => 'Password', 'class' => $user->error_class('password') ], 
 			new field('password', [ 
-				'name'        => 'password', 
-				'class'       => 'input-block-level',
+				'name'         => 'password', 
+				'class'        => 'input-block-level',
 				'autocomplete' => false,
 			]),
-			new field('help', [ 
-				'text' => $user->take_error('password'),
-			])
+			new field('help', [ 'text' => $user->take_error('password') ])
 		)
 		->add(
-			new field('submit', [
-				'text' => 'Join',
-			])
+			new field('submit', [ 'text' => 'Join' ])
 		);
 	}
 
