@@ -28,12 +28,10 @@ class image_manip {
 	protected static $curlFH = false;
 	public static function start(){
 		$tim = new image_manip();
-		if ($tim->tryBrowserCache()){
+		if ($tim->tryBrowserCache())
 			exit(0);
-		}
-		if (FILE_CACHE_ENABLED && $tim->tryServerCache()){
+		if (FILE_CACHE_ENABLED && $tim->tryServerCache())
 			exit(0);
-		}
 		$tim->run();
 		exit(0);
 	}
@@ -53,9 +51,8 @@ class image_manip {
 				}
 			}
 			$this->cacheDirectory = FILE_CACHE_DIRECTORY;
-			if (!touch($this->cacheDirectory . '/index.html')) {
+			if (!touch($this->cacheDirectory . '/index.html'))
 				$this->error("Could not create the index.html file - to fix this create an empty file named index.html file in the cache directory.");
-			}
 		} else {
 			$this->cacheDirectory = sys_get_temp_dir();
 		}
@@ -71,9 +68,8 @@ class image_manip {
 			$this->error("No image specified");
 			return false;
 		}
-		if (preg_match('/^https?:\/\/[^\/]+/i', $this->src)){
+		if (preg_match('/^https?:\/\/[^\/]+/i', $this->src))
 			$this->isURL = true;
-		}
 		if ($this->isURL && (!ALLOW_EXTERNAL)){
 			$this->error("You are not allowed to fetch images from an external website.");
 			return false;
@@ -113,9 +109,8 @@ class image_manip {
 		return true;
 	}
 	public function __destruct(){
-		foreach($this->toDeletes as $del){
+		foreach($this->toDeletes as $del)
 			@unlink($del);
-		}
 	}
 	public function run(){
 		if ($this->isURL){
@@ -138,20 +133,18 @@ class image_manip {
 				//If we don't have something cached, regenerate the cached image.
 				return false;
 			}
-			if ($this->localImageMTime){
+			if ($this->localImageMTime)
 				$mtime = $this->localImageMTime;
-			} else if (is_file($this->cachefile)){ //If it's not a local request then use the mtime of the cached file to determine the 304
+			else if (is_file($this->cachefile)) //If it's not a local request then use the mtime of the cached file to determine the 304
 				$mtime = @filemtime($this->cachefile);
-			}
 			if (!$mtime){ return false; }
 
 			$iftime = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
-			if ($iftime < 1){
+			if ($iftime < 1)
 				return false;
-			}
-			if ($iftime < $mtime){ //Real file or cache file has been modified since last request, so force refetch.
+			if ($iftime < $mtime) //Real file or cache file has been modified since last request, so force refetch.
 				return false;
-			} else { //Otherwise serve a 304
+			else { //Otherwise serve a 304
 				header ($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
 				return true;
 			}
@@ -172,11 +165,10 @@ class image_manip {
 						return false; 
 					}
 				}
-			} else {
 			}
-			if ($this->serveCacheFile()){
+			if ($this->serveCacheFile())
 				return true;
-			} else {
+			else {
 				//Image serving failed. We can't retry at this point, but lets remove it from cache so the next request recreates it
 				@unlink($this->cachefile);
 				return true;
@@ -189,10 +181,7 @@ class image_manip {
 
 	}
 	protected function haveErrors(){
-		if (sizeof($this->errors) > 0){
-			return true;
-		}
-		return false;
+		return sizeof($this->errors) > 0;
 	}
 	protected function serveInternalImage(){
 		if (!$this->localImage){
@@ -216,34 +205,29 @@ class image_manip {
 		}
 	}
 	protected function cleanCache(){
-		if (FILE_CACHE_TIME_BETWEEN_CLEANS < 0) {
+		if (FILE_CACHE_TIME_BETWEEN_CLEANS < 0)
 			return;
-		}
 		$lastCleanFile = $this->cacheDirectory . '/imgcache_cacheLastCleanTime.touch';
 		
 		//If this is a new installation we need to create the file
 		if (!is_file($lastCleanFile)){
-			if (!touch($lastCleanFile)) {
+			if (!touch($lastCleanFile))
 				$this->error("Could not create cache clean timestamp file.");
-			}
 			return;
 		}
 		if (@filemtime($lastCleanFile) < (time() - FILE_CACHE_TIME_BETWEEN_CLEANS) ){ //Cache was last cleaned more than 1 day ago
 			// Very slight race condition here, but worst case we'll have 2 or 3 servers cleaning the cache simultaneously once a day.
-			if (!touch($lastCleanFile)) {
+			if (!touch($lastCleanFile))
 				$this->error("Could not create cache clean timestamp file.");
-			}
 			$files = glob($this->cacheDirectory . '/*' . FILE_CACHE_SUFFIX);
 			if ($files) {
 				$timeAgo = time() - FILE_CACHE_MAX_FILE_AGE;
 				foreach($files as $file){
-					if (@filemtime($file) < $timeAgo){
+					if (@filemtime($file) < $timeAgo)
 						@unlink($file);
-					}
 				}
 			}
 			return true;
-		} else {
 		}
 		return false;
 	}
@@ -252,13 +236,11 @@ class image_manip {
 		$origType = $sData[2];
 		$mimeType = $sData['mime'];
 
-		if (!preg_match('/^image\/(?:gif|jpg|jpeg|png)$/i', $mimeType)){
+		if (!preg_match('/^image\/(?:gif|jpg|jpeg|png)$/i', $mimeType))
 			return $this->error("The image being resized is not a valid gif, jpg or png.");
-		}
 
-		if (!function_exists ('imagecreatetruecolor')) {
+		if (!function_exists ('imagecreatetruecolor'))
 		    return $this->error('GD Library Error: imagecreatetruecolor does not exist - please contact your webhost and ask them to install the GD library');
-		}
 
 		if (function_exists ('imagefilter') && defined ('IMG_FILTER_NEGATE')) {
 			$imageFilters = array (
@@ -302,9 +284,8 @@ class image_manip {
 
 		// open the existing image
 		$image = $this->openImage ($mimeType, $localImage);
-		if ($image === false) {
+		if ($image === false)
 			return $this->error('Unable to open image.');
-		}
 
 		// Get original width and height
 		$width = imagesx ($image);
@@ -313,72 +294,59 @@ class image_manip {
 		$origin_y = 0;
 
 		// generate new w/h if not provided
-		if ($new_width && !$new_height) {
+		if ($new_width && !$new_height)
 			$new_height = floor ($height * ($new_width / $width));
-		} else if ($new_height && !$new_width) {
+		else if ($new_height && !$new_width)
 			$new_width = floor ($width * ($new_height / $height));
-		}
 
 		// scale down and add borders
 		if ($zoom_crop == 3) {
-
 			$final_height = $height * ($new_width / $width);
 
-			if ($final_height > $new_height) {
+			if ($final_height > $new_height)
 				$new_width = $width * ($new_height / $height);
-			} else {
+			else
 				$new_height = $final_height;
-			}
-
 		}
 
 		// create a new true color image
-		$canvas = imagecreatetruecolor ($new_width, $new_height);
-		imagealphablending ($canvas, false);
+		$canvas = imagecreatetruecolor($new_width, $new_height);
+		imagealphablending($canvas, false);
 
-		if (strlen($canvas_color) == 3) { //if is 3-char notation, edit string into 6-char notation
+		if (strlen($canvas_color) == 3) //if is 3-char notation, edit string into 6-char notation
 			$canvas_color =  str_repeat(substr($canvas_color, 0, 1), 2) . str_repeat(substr($canvas_color, 1, 1), 2) . str_repeat(substr($canvas_color, 2, 1), 2); 
-		} else if (strlen($canvas_color) != 6) {
+		else if (strlen($canvas_color) != 6)
 			$canvas_color = 'ffffff'; // on error return default canvas color
- 		}
 
-		$canvas_color_R = hexdec (substr ($canvas_color, 0, 2));
-		$canvas_color_G = hexdec (substr ($canvas_color, 2, 2));
-		$canvas_color_B = hexdec (substr ($canvas_color, 4, 2));
+		$canvas_color_R = hexdec(substr($canvas_color, 0, 2));
+		$canvas_color_G = hexdec(substr($canvas_color, 2, 2));
+		$canvas_color_B = hexdec(substr($canvas_color, 4, 2));
 
 		// Create a new transparent color for image
-		$color = imagecolorallocatealpha ($canvas, $canvas_color_R, $canvas_color_G, $canvas_color_B, 127);		
-
+		$color = imagecolorallocatealpha($canvas, $canvas_color_R, $canvas_color_G, $canvas_color_B, 127);		
 
 		// Completely fill the background of the new image with allocated color.
-		imagefill ($canvas, 0, 0, $color);
+		imagefill($canvas, 0, 0, $color);
 
 		// scale down and add borders
 		if ($zoom_crop == 2) {
-
 			$final_height = $height * ($new_width / $width);
 
 			if ($final_height > $new_height) {
-
 				$origin_x = $new_width / 2;
 				$new_width = $width * ($new_height / $height);
 				$origin_x = round ($origin_x - ($new_width / 2));
-
 			} else {
-
 				$origin_y = $new_height / 2;
 				$new_height = $final_height;
-				$origin_y = round ($origin_y - ($new_height / 2));
-
+				$origin_y = round($origin_y - ($new_height / 2));
 			}
-
 		}
 
 		// Restore transparency blending
-		imagesavealpha ($canvas, true);
+		imagesavealpha($canvas, true);
 
 		if ($zoom_crop > 0) {
-
 			$src_x = $src_y = 0;
 			$src_w = $width;
 			$src_h = $height;
@@ -388,40 +356,30 @@ class image_manip {
 
 			// calculate x or y coordinate and width or height of source
 			if ($cmp_x > $cmp_y) {
-
-				$src_w = round ($width / $cmp_x * $cmp_y);
-				$src_x = round (($width - ($width / $cmp_x * $cmp_y)) / 2);
-
+				$src_w = round($width / $cmp_x * $cmp_y);
+				$src_x = round(($width - ($width / $cmp_x * $cmp_y)) / 2);
 			} else if ($cmp_y > $cmp_x) {
-
-				$src_h = round ($height / $cmp_y * $cmp_x);
-				$src_y = round (($height - ($height / $cmp_y * $cmp_x)) / 2);
-
+				$src_h = round($height / $cmp_y * $cmp_x);
+				$src_y = round(($height - ($height / $cmp_y * $cmp_x)) / 2);
 			}
 
 			// positional cropping!
 			if ($align) {
-				if (strpos ($align, 't') !== false) {
+				if (strpos ($align, 't') !== false)
 					$src_y = 0;
-				}
-				if (strpos ($align, 'b') !== false) {
+				if (strpos ($align, 'b') !== false)
 					$src_y = $height - $src_h;
-				}
-				if (strpos ($align, 'l') !== false) {
+				if (strpos ($align, 'l') !== false)
 					$src_x = 0;
-				}
-				if (strpos ($align, 'r') !== false) {
+				if (strpos ($align, 'r') !== false)
 					$src_x = $width - $src_w;
-				}
 			}
 
-			imagecopyresampled ($canvas, $image, $origin_x, $origin_y, $src_x, $src_y, $new_width, $new_height, $src_w, $src_h);
+			imagecopyresampled($canvas, $image, $origin_x, $origin_y, $src_x, $src_y, $new_width, $new_height, $src_w, $src_h);
 
 		} else {
-
 			// copy and resize part of an image with resampling
-			imagecopyresampled ($canvas, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-
+			imagecopyresampled($canvas, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
 		}
 
 		if ($filters != '' && function_exists ('imagefilter') && defined ('IMG_FILTER_NEGATE')) {
@@ -433,40 +391,28 @@ class image_manip {
 				if (isset ($imageFilters[$filterSettings[0]])) {
 
 					for ($i = 0; $i < 4; $i ++) {
-						if (!isset ($filterSettings[$i])) {
+						if (!isset($filterSettings[$i]))
 							$filterSettings[$i] = null;
-						} else {
+						else
 							$filterSettings[$i] = (int) $filterSettings[$i];
-						}
 					}
 
-					switch ($imageFilters[$filterSettings[0]][1]) {
-
+					switch($imageFilters[$filterSettings[0]][1]) {
 						case 1:
-
 							imagefilter ($canvas, $imageFilters[$filterSettings[0]][0], $filterSettings[1]);
 							break;
-
 						case 2:
-
 							imagefilter ($canvas, $imageFilters[$filterSettings[0]][0], $filterSettings[1], $filterSettings[2]);
 							break;
-
 						case 3:
-
 							imagefilter ($canvas, $imageFilters[$filterSettings[0]][0], $filterSettings[1], $filterSettings[2], $filterSettings[3]);
 							break;
-
 						case 4:
-
 							imagefilter ($canvas, $imageFilters[$filterSettings[0]][0], $filterSettings[1], $filterSettings[2], $filterSettings[3], $filterSettings[4]);
 							break;
-
 						default:
-
 							imagefilter ($canvas, $imageFilters[$filterSettings[0]][0]);
 							break;
-
 					}
 				}
 			}
@@ -476,10 +422,10 @@ class image_manip {
 		if ($sharpen && function_exists ('imageconvolution')) {
 
 			$sharpenMatrix = array (
-					array (-1,-1,-1),
-					array (-1,16,-1),
-					array (-1,-1,-1),
-					);
+				array (-1,-1,-1),
+				array (-1,16,-1),
+				array (-1,-1,-1),
+			);
 
 			$divisor = 8;
 			$offset = 0;
@@ -514,10 +460,6 @@ class image_manip {
 			clearstatcache();
 			$aftersize = filesize($tempfile);
 			$sizeDrop = $presize - $aftersize;
-			if ($sizeDrop > 0){
-			} else if ($sizeDrop < 0){
-			} else {
-			}
 		}
 
 		$tempfile4 = tempnam($this->cacheDirectory, 'imgcache_tmpimg_');
@@ -529,9 +471,8 @@ class image_manip {
 		@unlink($tempfile);
 		$lockFile = $this->cachefile . '.lock';
 		$fh = fopen($lockFile, 'w');
-		if (!$fh){
+		if (!$fh)
 			return $this->error("Could not open the lockfile for writing an image.");
-		}
 		if (flock($fh, LOCK_EX)){
 			@unlink($this->cachefile); //rename generally overwrites, but doing this in case of platform specific quirks. File might not exist yet.
 			rename($tempfile4, $this->cachefile);
@@ -550,18 +491,15 @@ class image_manip {
 	}
 	protected function calcDocRoot(){
 		$docRoot = @$_SERVER['DOCUMENT_ROOT'];
-		if (defined('LOCAL_FILE_BASE_DIRECTORY')) {
+		if (defined('LOCAL_FILE_BASE_DIRECTORY'))
 			$docRoot = LOCAL_FILE_BASE_DIRECTORY;   
-		}
 		if (!isset($docRoot)){ 
-			if (isset($_SERVER['SCRIPT_FILENAME'])){
+			if (isset($_SERVER['SCRIPT_FILENAME']))
 				$docRoot = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF'])));
-			} 
 		}
 		if (!isset($docRoot)){ 
-			if (isset($_SERVER['PATH_TRANSLATED'])){
+			if (isset($_SERVER['PATH_TRANSLATED']))
 				$docRoot = str_replace( '\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0-strlen($_SERVER['PHP_SELF'])));
-			} 
 		}
 		if ($docRoot && $_SERVER['DOCUMENT_ROOT'] != '/'){ $docRoot = preg_replace('/\/$/', '', $docRoot); }
 		$this->docRoot = $docRoot;
@@ -623,9 +561,8 @@ class image_manip {
 	protected function realpath($path){
 		//try to remove any relative paths
 		$remove_relatives = '/\w+\/\.\.\//';
-		while(preg_match($remove_relatives,$path)){
+		while(preg_match($remove_relatives,$path))
 		    $path = preg_replace($remove_relatives, '', $path);
-		}
 		//if any remain use PHP realpath to strip them out, otherwise return $path
 		//if using realpath, any symlinks will also be resolved
 		return preg_match('#^\.\./|/\.\./#', $path) ? realpath($path) : $path;
@@ -664,11 +601,10 @@ class image_manip {
 	public static function curlWrite($h, $d){
 		fwrite(self::$curlFH, $d);
 		self::$curlDataWritten += strlen($d);
-		if (self::$curlDataWritten > self::MAX_FILE_SIZE){
+		if (self::$curlDataWritten > self::MAX_FILE_SIZE)
 			return 0;
-		} else {
+		else 
 			return strlen($d);
-		}
 	}
 	protected function serveCacheFile(){
 		if (!is_file($this->cachefile)){
@@ -688,9 +624,8 @@ class image_manip {
 		$this->sendImageHeaders($imgType, $imageDataSize);
 		$bytesSent = @fpassthru($fp);
 		fclose($fp);
-		if ($bytesSent > 0){
+		if ($bytesSent > 0)
 			return true;
-		}
 		$content = file_get_contents ($this->cachefile);
 		if ($content != FALSE) {
 			$content = substr($content, strlen($this->filePrependSecurityBlock) + 6);
@@ -702,19 +637,17 @@ class image_manip {
 		}
 	}
 	protected function sendImageHeaders($mimeType, $dataSize){
-		if (!preg_match('/^image\//i', $mimeType)){
+		if (!preg_match('/^image\//i', $mimeType))
 			$mimeType = 'image/' . $mimeType;
-		}
-		if (strtolower($mimeType) == 'image/jpg'){
+		if (strtolower($mimeType) == 'image/jpg')
 			$mimeType = 'image/jpeg';
-		}
 		$gmdate_expires = gmdate ('D, d M Y H:i:s', strtotime ('now +10 days')) . ' GMT';
 		$gmdate_modified = gmdate ('D, d M Y H:i:s') . ' GMT';
 		// send content headers then display image
-		header ('Content-Type: ' . $mimeType);
-		header ('Accept-Ranges: none'); //Changed this because we don't accept range requests
-		header ('Last-Modified: ' . $gmdate_modified);
-		header ('Content-Length: ' . $dataSize);
+		header('Content-Type: ' . $mimeType);
+		header('Accept-Ranges: none'); //Changed this because we don't accept range requests
+		header('Last-Modified: ' . $gmdate_modified);
+		header('Content-Length: ' . $dataSize);
 		if (BROWSER_CACHE_DISABLE){
 			header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 			header("Pragma: no-cache");
@@ -726,11 +659,10 @@ class image_manip {
 		return true;
 	}
 	protected function param($property, $default = ''){
-		if (isset ($_GET[$property])) {
+		if (isset($_GET[$property])) 
 			return $_GET[$property];
-		} else {
+		else
 			return $default;
-		}
 	}
 	protected function openImage($mimeType, $src){
 		switch ($mimeType) {
@@ -774,23 +706,19 @@ class image_manip {
 	}
 	protected function getMimeType($file){
 		$info = getimagesize($file);
-		if (is_array($info) && $info['mime']){
+		if (is_array($info) && $info['mime'])
 			return $info['mime'];
-		}
 		return '';
 	}
 	protected function setMemoryLimit(){
 		$inimem = ini_get('memory_limit');
 		$inibytes = image_manip::returnBytes($inimem);
 		$ourbytes = image_manip::returnBytes('30M');
-		if ($inibytes < $ourbytes){
+		if ($inibytes < $ourbytes)
 			ini_set ('memory_limit', '30M');
-		} else {
-		}
 	}
 	protected static function returnBytes($size_str){
-		switch (substr ($size_str, -1))
-		{
+		switch (substr ($size_str, -1)) {
 			case 'M': case 'm': return (int)$size_str * 1048576;
 			case 'K': case 'k': return (int)$size_str * 1024;
 			case 'G': case 'g': return (int)$size_str * 1073741824;
@@ -809,21 +737,20 @@ class image_manip {
 			}
 			self::$curlDataWritten = 0;
 			$curl = curl_init($url);
-			curl_setopt ($curl, CURLOPT_TIMEOUT, 20);
-			curl_setopt ($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.122 Safari/534.30");
-			curl_setopt ($curl, CURLOPT_RETURNTRANSFER, TRUE);
-			curl_setopt ($curl, CURLOPT_HEADER, 0);
-			curl_setopt ($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-			curl_setopt ($curl, CURLOPT_WRITEFUNCTION, 'image_manip::curlWrite');
-			@curl_setopt ($curl, CURLOPT_FOLLOWLOCATION, true);
-			@curl_setopt ($curl, CURLOPT_MAXREDIRS, 10);
+			curl_setopt($curl, CURLOPT_TIMEOUT, 20);
+			curl_setopt($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/534.30 (KHTML, like Gecko) Chrome/12.0.742.122 Safari/534.30");
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($curl, CURLOPT_HEADER, 0);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+			curl_setopt($curl, CURLOPT_WRITEFUNCTION, 'image_manip::curlWrite');
+			@curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			@curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
 			
 			$curlResult = curl_exec($curl);
 			fclose(self::$curlFH);
 			$httpStatus = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-			if ($httpStatus == 404){
+			if ($httpStatus == 404)
 				$this->set404();
-			}
 			if ($httpStatus == 302){
 				$this->error("External Image is Redirecting. Try alternate image url");
 				return false;
@@ -837,18 +764,15 @@ class image_manip {
 				return false;
 			}
 		} else {
-			$img = @file_get_contents ($url);
+			$img = @file_get_contents($url);
 			if ($img === false){
 				$err = error_get_last();
-				if (is_array($err) && $err['message']){
+				if (is_array($err) && $err['message'])
 					$this->lastURLError = $err['message'];
-				} else {
+				else
 					$this->lastURLError = $err;
-				}
-				if (preg_match('/404/', $this->lastURLError)){
+				if (preg_match('/404/', $this->lastURLError))
 					$this->set404();
-				}
-
 				return false;
 			}
 			if (!file_put_contents($tempfile, $img)){
@@ -861,24 +785,21 @@ class image_manip {
 	}
 	protected function serveImg($file){
 		$s = getimagesize($file);
-		if (!($s && $s['mime'])){
+		if (!($s && $s['mime']))
 			return false;
-		}
-		header ('Content-Type: ' . $s['mime']);
-		header ('Content-Length: ' . filesize($file) );
-		header ('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-		header ("Pragma: no-cache");
+		header('Content-Type: ' . $s['mime']);
+		header('Content-Length: ' . filesize($file) );
+		header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+		header("Pragma: no-cache");
 		$bytes = @readfile($file);
-		if ($bytes > 0){
+		if ($bytes > 0)
 			return true;
-		}
 		$content = @file_get_contents ($file);
 		if ($content != FALSE){
 			echo $content;
 			return true;
 		}
 		return false;
-
 	}
 	protected function set404(){
 		$this->is404 = true;

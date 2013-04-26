@@ -9,6 +9,7 @@ $boilerplate ="<?
 class {$name} extends model {
 	static \$table_name = '{$table}';
 
+	/*
 	# Relationships
 	static \$has_one = [
 		[ 'stats', 'class_name' => 'Cat_Stat' ]	

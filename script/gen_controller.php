@@ -16,7 +16,7 @@ if ($crud == 'y') {
 $boilerplate = "<?
 class controller_{$name} extends controller_base {
 	function __construct(\$o) {
-		\$this->root_path = app::get_path('". ucfirst(preg_replace("/[^a-zA-Z]*/", " ", $name)) ." Home');
+		\$this->root_path = app::get_path('". ucfirst(preg_replace("/[^a-zA-Z]+/", "", $name)) ." Home');
 		parent::__construct(\$o);
    	}
 ";
