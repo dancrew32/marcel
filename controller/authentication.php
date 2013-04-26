@@ -1,11 +1,16 @@
 <?
 class controller_authentication extends controller_base {
+	function __construct($o) {
+		$this->root_path = app::get_path('Login');
+		parent::__construct($o);
+   	}
+
 	function logout() {
 		User::logout();
 	}
 
 	function login($o) {
-		$action = "/login";
+		$action = app::get_path('Login');
 		$user = take($_POST, 'user');
 		$pass = take($_POST, 'pass');
 
@@ -32,43 +37,48 @@ class controller_authentication extends controller_base {
 
 		if (!$this->is_post) return;
 
-		$to = User::login($user, $pass);
-		app::redir($to ? '/' : $action);
+		$ok = User::login($user, $pass);
+		app::redir($ok ? '/' : $action);
 	}
 
 	function join($o) {
 		app::asset('validate.min', 'js');
 		# app::asset('view/user.form', 'js');
 
+		if (User::$logged_in)
+			app::redir(app::get_path('Home'));
+		
+		$user = new User;
+		$user = $user->from_note();
+
 		$this->form = new form;
 		$this->form->open(app::get_path('Join'))
 		->group([ 
 				'label' => 'Email', 
-				//'class' => model::error_class($errors, 'email'),
+				'class' => $user->error_class('email'),
 			], 
 			new field('email', [ 
 				'name'         => 'email', 
 				'class'        => 'input-block-level email required',
 				'autocomplete' => false,
+				'value'        => take($user, 'email'),
+			]),
+			new field('help', [ 
+				'text' => $user->take_error('email'),
 			])
-				//,
-			//new field('help', [ 
-				//'text' => model::take_error($errors, 'email'),
-			//])
 		)
 		->group([ 
 				'label'        => 'Password', 
-				//'class'        => model::error_class($errors, 'password'),
+				'class'        => $user->error_class('password'),
 			], 
 			new field('password', [ 
 				'name'        => 'password', 
 				'class'       => 'input-block-level',
 				'autocomplete' => false,
+			]),
+			new field('help', [ 
+				'text' => $user->take_error('password'),
 			])
-				//,
-			//new field('help', [ 
-				//'text' => model::take_error($errors, 'password'),
-			//])
 		)
 		->add(
 			new field('submit', [
@@ -81,16 +91,21 @@ class controller_authentication extends controller_base {
 		$email = take($_POST, 'email');
 		$pass  = take($_POST, 'password');
 
-		$u = new User;
-		$u->email = $email;
-		$u->password = $u->spass($pass);
-		$u->active = 1;
-		$u->role = 'user';
-		$ok = $u->save();
-		if (!$ok)
-			pd($u->errors->to_array());
+		$user = new User;
+		$user->email = $email;
+		if (isset($pass{0}))
+			$user->password = $user->spass($pass);
+		$user->active = 1;
+		$user->role = 'user';
+		$ok = $user->save();
+		if ($ok) {
+			User::login($user->email, $pass);
+			note::set('join:success', $user->id);
+			app::redir(app::get_path('Home'));
+		}
 
-		pd('created');
+		$user->to_note();
+		app::redir(app::get_path('Join'));
 	}
 
 }

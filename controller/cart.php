@@ -21,7 +21,8 @@ class controller_cart extends controller_base {
 				continue;
 			}
 
-			$product = Product::find_by_id($id);
+			//$product = Product::find_by_id($id);
+			$product = false;
 			if (!$product) continue;
 
 			$this->items[$id] = (object) [
@@ -44,16 +45,17 @@ class controller_cart extends controller_base {
 	}
 
 	function add($o) {
-		$key = take($o['p'], 'key', false);
+		$key = take($o['params'], 'key', false);
 		if (!$key) _404();
 
 		$cart = Cart::get_type('cart:a');
-		$product = Product::find_by_id($key);
-		if ($product && $product->price) {
+		//$product = Product::find_by_id($key);
+		$product = (object) ['id' => $key];	
+		//if ($product && $product->price) {
 			$cart->add_item($product->id);
 			$saved = (bool) $cart->save();
-		} else
-			$saved = false;	
+		//} else
+			//$saved = false;	
 
 		if (util::is_ajax())
 			json(['success' => $saved]);		
@@ -64,10 +66,10 @@ class controller_cart extends controller_base {
 
 
 	function remove($o) {
-		$key = take($o['p'], 'key', false);
+		$key = take($o['params'], 'key', false);
 		if (!$key) _404();
 
-		$amount = take($o['p'], 'amount', 1);
+		$amount = take($o['params'], 'amount', 1);
 		$cart = Cart::get_type('cart:a');
 		if ($amount == '*') {
 			$items = $cart->get_items();
@@ -143,7 +145,7 @@ class controller_cart extends controller_base {
 			app::redir($this->root_path);
 
 		$cart = Cart::get_type('cart:a');
-		if (!$cart || $cart->active)
+		if (!$cart || $cart->complete)
 			app::redir($this->root_path);
 
 		$items = $cart->get_items();
@@ -199,7 +201,7 @@ class controller_cart extends controller_base {
 
 		# OKAY
 		if ($charge->paid) {
-			$cart->active = true;
+			$cart->complete = true;
 			$cart->save();
 
 			// TODO: finish transaction log
@@ -230,7 +232,7 @@ class controller_cart extends controller_base {
 
 		# FAILED
 		else {
-			$cart->active = false;
+			$cart->complete = false;
 			$cart->save();
 
 			// TODO: transaction data

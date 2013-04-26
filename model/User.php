@@ -10,6 +10,15 @@ class User extends model {
 		'user'    => 'User',
 	];
 
+
+/*
+ * RELATIONSHIPS
+ */
+	static $has_one = [
+		[ 'cart', 'through' => 'carts' ],
+	];
+
+
 /*
  * VALIDATION
  */

@@ -17,6 +17,8 @@ class Cart extends model {
 			cookie::set($key, $hash);	
 			$cart = new Cart;	
 			$cart->hash = $hash;
+			if (User::$logged_in)
+				$cart->user_id = User::$user->id;
 		}
 
 		return $cart;

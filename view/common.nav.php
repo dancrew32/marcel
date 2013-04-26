@@ -18,15 +18,25 @@
 					<li<? echoif(app::in_section('Home'), ' class="active"') ?>>
 						<a href="<?= app::get_path('Home')?>">Home</a>
 					</li>
-					<li<? echoif(app::in_section('Cron'), ' class="active"') ?>>
-						<a href="<?= app::get_path('Cron Home') ?>">Cron</a>
-					</li>
-					<li<? echoif(app::in_section('Worker'), ' class="active"') ?>>
-						<a href="<?= app::get_path('Worker Home') ?>">Workers</a>
-					</li>
-					<li<? echoif(app::in_section('User'), ' class="active"') ?>>
-						<a href="<?= app::get_path('User Home') ?>">Users</a>
-					</li>
+
+					<? if (auth::cron_job_section()): ?>
+						<li<? echoif(app::in_section('Cron'), ' class="active"') ?>>
+							<a href="<?= app::get_path('Cron Home') ?>">Cron</a>
+						</li>
+					<? endif ?>
+
+					<? if (auth::worker_section()): ?>
+						<li<? echoif(app::in_section('Worker'), ' class="active"') ?>>
+							<a href="<?= app::get_path('Worker Home') ?>">Workers</a>
+						</li>
+					<? endif ?>
+
+					<? if (auth::user_section()): ?>
+						<li<? echoif(app::in_section('User'), ' class="active"') ?>>
+							<a href="<?= app::get_path('User Home') ?>">Users</a>
+						</li>
+					<? endif ?>
+
 					<li<? echoif(app::in_section('Cart'), ' class="active"') ?>>
 						<a href="<?= app::get_path('Cart Home') ?>">Cart</a>
 					</li>

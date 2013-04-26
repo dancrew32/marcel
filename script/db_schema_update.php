@@ -12,6 +12,7 @@ foreach ($tables as $k => $row) {
 	shell_exec($cmd);
 	$contents = file_get_contents(SCHEMA_DIR."/{$file}");
 	$contents = preg_replace('/ AUTO_INCREMENT=[0-9]+/', '', $contents);
+	//$contents = preg_replace('/CONSTRAINT.*/', '', $contents);
 	$contents = preg_replace('/\/\*.*/m', '', $contents);
 	$contents = preg_replace('/\-\-.*/m', '', $contents);
 	$contents = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "", $contents);
