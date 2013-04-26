@@ -102,14 +102,17 @@ Wizard | Script Description
 `php script/gen_js_class.php` | JavaScript Module
 `php script/gen_script.php` | Script/[Cron](#cron)
 `php script/db_init.php` | DB initialization (see [Install](#install))
+`php script/db_create_mysql_user.php` | Create a new [MySQL](http://dev.mysql.com/doc/refman/5.1/en/adding-users.html) user with permissions to *only this* `DB_NAME`
 `php script/db_dump.php` | DB *dump* in `db/dump`	
 `php script/db_restore.php` | DB *restore* from `db/dump`
-`php script/db_create_mysql_user.php` | Create a new [MySQL](http://dev.mysql.com/doc/refman/5.1/en/adding-users.html) user with permissions to *only this* `DB_NAME`
+`php script/db_schema_apply.php` | DB *apply* a schema in from `db/schema`
+`php script/db_schema_update.php` | DB *update* *all* schemas in from `db/schema`
 `php script/create_user.php` | Create `User`s (e.g. Create your first `User` with `role` of `admin`)
 `php script/cron.base.php` | Run each `Cron_Job` if `Cron_Job->frequency` matches `time()` and is `active`
 `php script/scss_watch.php` | Run `compass watch` as daemon to watch [SCSS](#scss-compass)
 `php script/worker.php` | Start a [Worker](#workers) server
 `php script/vim.php` | Start an [Interactive Vim](#vim-interactivity) `eval` session
+`php script/fake_users.php` | Create `250` fake `User`s with role of `user`
 
 ## Routing
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` 

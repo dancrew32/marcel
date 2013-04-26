@@ -1,7 +1,7 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
 
-times(25000, function() {
+times(250, function() {
 	$u = new User;
 	$u->first    = fake::firstName();
 	$u->last     = fake::lastName();

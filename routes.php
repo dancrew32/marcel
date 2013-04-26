@@ -40,6 +40,9 @@ app::$routes = [
 	'/users(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
 		=> [ 'c' => 'user', 'm' => 'all', 'name' => 'User Home', 'section' => 'User' ],
 
+	# Cart Example
+	'/checkout' => [ 'c' => 'cart', 'm' => 'index', 'name' => 'Cart Home', 'section' => 'Cart' ],
+
 	# HTTP Example
 	'/http' => [
 		'http' => [
