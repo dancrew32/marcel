@@ -4,11 +4,11 @@
 			<?= $user->badge('pull-right') ?>
 		<? endif ?>
 
-		<?= h(ifset($user->full_name(), $user->username, "No Name")) ?>
+		<?= ifset($user->full_name(), $user->username, "No Name") ?>
 
 		<? if (isset($user->email{0})): ?>
 			<small>
-				<?= h($user->email) ?>
+				<?= $user->email ?>
 			</small>
 		<? endif ?>
 	</h4>

@@ -72,6 +72,16 @@ class User extends model {
 		}
 	}
 
+	function &__get($name) {
+		switch ($name) {
+			case 'password':
+				return $this->read_attribute($name);
+			default:
+				$out = h($this->read_attribute($name));
+		}
+		return $out;
+	}
+
 	function full_name() {
 		$name = take($this, 'first').' '.take($this, 'last');	
 		return trim($name);
@@ -145,10 +155,10 @@ class User extends model {
 
 	static function id_or_email_or_username($key) {
 		if (is_numeric($key))
-			return self::find_by_id($key);
+			return self::find('first', [ 'conditions' => [ 'id = ?', $key ] ]);
 		if (strpos($key, '@'))
-			return self::find_by_email($key);
-		return self::find_by_username($key);
+			return self::find('first', [ 'conditions' => [ "email = ?", $key ] ]);
+		return self::find('first', [ 'conditions' => [ "username = ?", $key ] ]);
 	}
 
 	static function logout() {

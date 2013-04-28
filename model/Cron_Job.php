@@ -17,7 +17,7 @@ class Cron_Job extends model {
 		['frequency', 'minimum' => 9, 'too_short' => 'must be at least 9 characters long']
 	];
 	static $validates_format_of = [
-		['frequency', 'with' => '/[^a-zA-Z]/'],
+		['frequency', 'with' => '/[^a-zA-Z<>]*/'],
 	];
 
 
@@ -35,6 +35,14 @@ class Cron_Job extends model {
 			default: 
 				$this->assign_attribute($name, $value);
 		}
+	}
+
+	function &__get($name) {
+		switch ($name) {
+			default:
+				$out = h($this->read_attribute($name));
+		}
+		return $out;
 	}
 
 	function script_exists() {

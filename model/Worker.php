@@ -50,6 +50,19 @@ class Worker extends model {
 /*
  * INSTANCE
  */
+
+	function &__get($name) {
+		switch ($name) {
+			case 'class':
+			case 'method':
+				$out = h($this->read_attribute($name));
+				break;
+			default:
+				return $this->read_attribute($name);
+		}
+		return $out;
+	}
+
 	function apply_args($args) {
 		$this->args = serialize($args);
 	}

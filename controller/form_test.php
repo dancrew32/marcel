@@ -32,7 +32,7 @@ class controller_form_test extends controller_base {
 		->add('Typeahead', new field('typeahead', [
 				'data-source'    => '["one", "two", "three", "four", "five", "six", "seven", "eight"]',
 				'data-items'     => 5,
-				'placeholder'    => h('e.g. "one" or "three"'),
+				'placeholder'    => 'e.g. "one" or "three"',
 				'data-minLength' => 2,
 			])
 		)

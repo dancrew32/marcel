@@ -76,6 +76,24 @@ class {$name} extends model {
 	static \$after_destroy = [];               # called after a model has been deleted
 	*/
 
+/*
+ * INSTANCE
+ */
+	function __set(\$name, \$value) {
+		switch (\$name) {
+			default: 
+				\$this->assign_attribute(\$name, \$value);
+		}
+	}
+
+	function &__get(\$name) {
+		switch (\$name) {
+			default:
+				\$out = h(\$this->read_attribute($name));
+		}
+		return \$out;
+	}
+
 }";
 
 $script_name = "{$name}.php";

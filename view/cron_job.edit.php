@@ -12,7 +12,7 @@
 			Current Cron
 		</h2>
 		<div class="media well">
-			<?= r('cron_job', 'view', [ 'cron' => $cron ]) ?>
+			<?= r('cron_job', 'view', [ 'cron' => $cron, 'mode' => 'edit' ]) ?>
 		</div>
 	</div>
 </div>

@@ -13,6 +13,9 @@ class controller_authentication extends controller_base {
 	}
 
 	function login($o) {
+		if (User::$logged_in) 
+			return $this->skip();
+
 		$action = app::get_path('Login');
 		$user = take($_POST, 'user');
 		$pass = take($_POST, 'pass');

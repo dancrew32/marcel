@@ -25,8 +25,16 @@ view/common.index.php
 		], true) ?>
 	</div>
 	<div class="span4">
-		<h2>Login</h2>
-		<?= r('authentication', 'login', ['simple_mode' => true]) ?>
+		<? if (!User::$logged_in): ?>
+			<h2>Login</h2>
+			<?= r('authentication', 'login', ['simple_mode' => true]) ?>
+		<? else: ?>
+			<h2>User Info</h2>
+			<? pp(User::$user->id) ?>
+			<? pp(User::$user->full_name()) ?>
+			<? pp(User::$user->username) ?>
+			<? pp(User::$user->email) ?>
+		<? endif ?>
 	</div>
 </div>
 

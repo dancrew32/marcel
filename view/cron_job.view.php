@@ -1,6 +1,6 @@
 <div class="media-body">
 	<h4 class="media-heading">
-		<?= h(take($cron, 'name')) ?>
+		<?= take($cron, 'name') ?>
 		<span class="label pull-right<?= $status_class ?>">
 			<? if (!$exists): ?>
 				Invalid Script
@@ -14,12 +14,12 @@
 	<p>
 		<strong>Script</strong>:
 		<span class="text-<?= $script_class ?> word-wrap">
-			<?= h($cron->script) ?>
+			<?= $cron->script ?>
 		</span>
 	</p>
 	<p>
 		<strong>Frequency</strong>:
-		<?= h($cron->frequency) ?>
+		<?= $cron->frequency ?>
 	</p>
 	<? if (isset($cron->description{0})): ?>
 		<p>
@@ -27,12 +27,15 @@
 		</p>
 	<? endif ?>
 	<ul class="nav nav-pills last">
-		<li>
-			<?= html::a([
-				'href' => "{$root_path}/edit/{$cron->id}", 
-				'text' => "Edit",
-				'icon' => 'edit',
-			]) ?>
+		<? if ($mode != 'edit'): ?>
+			<li>
+				<?= html::a([
+					'href' => "{$root_path}/edit/{$cron->id}", 
+					'text' => "Edit",
+					'icon' => 'edit',
+				]) ?>
+			</li>
+		<? endif ?>
 		<li>
 			<?= html::a([
 				'href' => "{$root_path}/delete/{$cron->id}", 

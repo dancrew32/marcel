@@ -57,22 +57,25 @@ class html {
 					$html .= " {$k}=\"". (is_array($v) ? implode(' ', $v) : $v) .'"';
 					break;
                 case 'checked':
-					if ($v) $html .=' checked="checked"'; break;
+					if ($v) $html .=' checked="checked"';
 					break;
 				case 'autocomplete': 
-					if (!$v) $html .=' autocomplete="off"'; break;
+					if (!$v) $html .=' autocomplete="off"';
 					break;
                 case 'required':
-                    if ($v) $html .=' required'; break;
+                    if ($v) $html .=' required';
 					break;
                 case 'multiple':
-                    if ($v) $html .=' multiple'; break;
+                    if ($v) $html .=' multiple';
 					break;
 				case 'readonly':
-					if ($v) $html .=' readonly'; break;
+					if ($v) $html .=' readonly';
 					break;
 				case 'autofocus':
-					if ($v) $html.=' autofocus'; break;
+					if ($v) $html.=' autofocus';
+					break;
+				case 'placeholder':
+					$html .=' placeholder="'. h($v) .'"';
 					break;
                 default:
 					if (isset($v{0}) && in_array($v{0}, ['[', '{'])) # js array or object 

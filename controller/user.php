@@ -147,7 +147,7 @@ class controller_user extends controller_base {
 		$first_name = new field('input', [ 
 			'name'         => 'first', 
 			'class'        => 'input-block-level required',
-			'value'        => h(take($user, 'first')),
+			'value'        => take($user, 'first'),
 			'autocomplete' => false,
 		]);
 		$first_name_help = new field('help', [ 'text' => $user->take_error('first') ]);
@@ -158,7 +158,7 @@ class controller_user extends controller_base {
 		$last_name = new field('input', [ 
 			'name'         => 'last', 
 			'class'        => 'input-block-level required',
-			'value'        => h(take($user, 'last')),
+			'value'        => take($user, 'last'),
 			'autocomplete' => false,
 		]);
 		$last_name_help = new field('help', [ 'text' => $user->take_error('last') ]);
@@ -169,7 +169,7 @@ class controller_user extends controller_base {
 		$email = new field('email', [ 
 			'name'         => 'email', 
 			'class'        => 'input-block-level email required',
-			'value'        => h(take($user, 'email')),
+			'value'        => take($user, 'email'),
 			'autocomplete' => false,
 		]);
 		$email_help = new field('help', [ 'text' => $user->take_error('email') ]);
@@ -181,7 +181,7 @@ class controller_user extends controller_base {
 			'name'         => 'username', 
 			'class'        => 'input-block-level required',
 			'autocomplete' => false,
-			'value'        => h(take($user, 'username')),
+			'value'        => take($user, 'username'),
 		]);
 		$username_help = new field('help', [ 'text' => $user->take_error('username') ]);
 

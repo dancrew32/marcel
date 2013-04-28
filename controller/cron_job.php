@@ -26,6 +26,7 @@ class controller_cron_job extends controller_base {
 
 	function view($o) {
 		$this->cron = take($o, 'cron');	
+		$this->mode = take($o, 'mode');
 		$this->should_run = $this->cron->should_run();
 		$this->exists = $this->cron->script_exists();
 
@@ -140,8 +141,8 @@ class controller_cron_job extends controller_base {
 		$cron_name_field = new field('input', [ 
 			'name'        => 'name', 
 			'class'       => 'input-block-level required',
-			'value'       => h(take($cron, 'name')),
-			'placeholder' => h('e.g. "Update Records"'),
+			'value'       => take($cron, 'name'),
+			'placeholder' => 'e.g. "Update Records"',
 		]);
 		$cron_name_help = new field('help', [ 'text' => $cron->take_error('name') ]);
 
@@ -153,9 +154,9 @@ class controller_cron_job extends controller_base {
 			'data-api'       => '/cron/scripts',
 			'data-items'     => 5,
 			'data-minLength' => 2,
-			'placeholder'    => h('e.g. cron."whatyoutype".php'),
+			'placeholder'    => 'e.g. cron."whatyoutype".php',
 			'class'          => 'cron-script input-block-level required',
-			'value'          => h(take($cron, 'script')),
+			'value'          => take($cron, 'script'),
 		]);
 		$cron_script_help = new field('help', [ 'text' => $cron->take_error('script') ]);
 
@@ -164,9 +165,9 @@ class controller_cron_job extends controller_base {
 		$cron_frequency_group = [ 'label' => 'Frequency', 'class' => $cron->error_class('frequency') ];
 		$cron_frequency_field = new field('input', [ 
 			'name'        => 'frequency',
-			'value'       => h(take($cron, 'frequency')),
+			'value'       => take($cron, 'frequency'),
 			'class'       => 'input-block-level required',
-			'placeholder' => h('e.g. * * * * *'),
+			'placeholder' => 'e.g. * * * * *',
 		]);
 		$cron_frequency_help = new field('help', [ 'text' => $cron->take_error('frequency') ]);
 
@@ -175,9 +176,9 @@ class controller_cron_job extends controller_base {
 		$cron_description_group = [ 'label' => 'Description', 'class' => $cron->error_class('description') ];
 		$cron_description_field = new field('textarea', [ 
 			'name'        => 'description',
-			'value'       => h(take($cron, 'description')),
+			'value'       => take($cron, 'description'),
 			'class'       => 'input-block-level',
-			'placeholder' => h('e.g. "Updates records every hour"'),
+			'placeholder' => 'e.g. "Updates records every hour"',
 		]);
 		$cron_description_help = new field('help', [ 'text' => $cron->take_error('description') ]);
 
