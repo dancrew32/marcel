@@ -85,8 +85,15 @@ class form {
 			if ($this->control_groups)
 				$this->html .= ' class="control-label"';
 
-			if ($inputs == 1 && take($args[$argpos], 'id', false))
-				$this->html .= ' for="'. take($args[$argpos], 'id') .'"';
+			if ($inputs == 1) {
+				foreach ($args as $inp) {
+					if (!isset($inp->attrs)) continue;
+					$id = take($inp->attrs, 'id', false);
+					if (!$id) continue;
+					$this->html .= " for=\"{$id}\"";
+					break;
+				}
+			}
 
 			$this->html .= ">{$label}</label>";
 		}

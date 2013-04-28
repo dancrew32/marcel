@@ -248,6 +248,100 @@ class controller_cart extends controller_base {
  */
 	private function _build_form() {
 		app::asset('//js.stripe.com/v1', 'js');
+			/*j
+			<? if ($has_items): ?>
+				<table id="bookbag">
+					<thead>
+						<th class="action-col">
+						</th>
+						<th>
+							Book
+						</th>
+						<th>
+							Price
+						</th>
+						<th>
+							Quantity
+						</th>
+						<th>
+							Total
+						</th>
+					</thead>
+					<tbody>
+						<? foreach ($items as $k => $i): ?>
+							<tr data-id="<?= $k ?>">
+								<td class="action-col">
+									<a class="remove" href="/bookbag/remove/<?= $i->id ?>/*">
+										Remove
+									</a>
+								</td>
+								<td>
+									<?= $i->title ?>
+									<? if ($i->subtitle): ?>
+										<div>
+										<?= $i->subtitle ?>
+										</div>
+									<? endif ?>
+									<div class="by">
+									By <?= $i->author ?>
+									</div>
+								</td>
+								<td>
+									$<?= number_format($i->price, 2, '.', '') ?>
+								</td>
+								<td class="quantity">
+									<input type="text" 
+									name="quantity" 
+									value="<?= $i->quantity ?>"
+									style="width:40px"
+									maxlength=2>
+								</td>
+								<td class="total">
+									$<?= number_format($i->price * $i->quantity, 2, '.', '') ?>
+								</td>
+							</tr>
+						<? endforeach ?>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td class="action-col"></td>
+							<td>
+							</td>
+							<td>
+							</td>
+							<td id="shipping">
+								Shipping: $<?= $shipping ?>
+							</td>
+							<td id="grand-total">
+								<?= $grand_total ?>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			<? else: ?>
+				You don't have any books in your bag!
+				<a href="/books">Go find some books &raquo;</a>
+			<? endif ?>
+			<div id="no-data" style="display: none;">
+				Woops, you don't have any books in your bag!<br>
+				<strong>Update your quantities</strong> or <a href="/books">go find some more books &raquo;</a>
+			</div>
+		</article>
+
+
+		<form action="/bookbag/checkout"
+			method="post"
+			<? if (!$has_items): ?>
+				style="display: none"
+			<? endif ?>
+			id="payment-form">
+			<? include partial('cart.form') ?>
+			<span class="payment-errors error"></span>
+			<?= r('form', 'submit', ['text' => 'Buy Now']) ?>
+		</form>
+	</div>
+</div>
+			 */
 	}
 
 }

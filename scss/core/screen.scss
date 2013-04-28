@@ -39,6 +39,34 @@ $linkColorHover: darken(green, 20%);
 
 .last {
 	margin-bottom: 0;
+	.form-actions {
+		.well & {
+			padding-bottom: 5px;
+			padding-left: 0;
+			padding-right: 0;
+		}
+		margin-bottom: 0;	
+	}
+}
+
+// Authentication Main
+.authentication.main {
+	.type-login {
+		.join-span h2 { color: #bbb; }			
+	}
+	.type-join {
+		.login-span h2 { color: #bbb; }			
+	}
+	.or {
+		text-align: center;	
+		font-size: 2em;
+		margin-top: 155px;
+		color: #ddd;
+	}
+}
+
+.nav-output-style {
+	margin: 15px 0 10px;
 }
 /*	
 .pagination {

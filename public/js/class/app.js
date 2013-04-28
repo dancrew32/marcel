@@ -13,7 +13,7 @@ var APP = {
 		btn.button('loading');
 		setTimeout(function() {
 			btn.button('reset');
-		}, 500);
+		}, 750);
 	}
 
 	function addEventListeners() {

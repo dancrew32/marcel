@@ -34,6 +34,10 @@ class html {
 		return "<i class=\"icon-{$type}\"></i> ";
 	}
 
+	static function verb_icon($verb, $icon) {
+		return h("<i class=\"icon-{$icon}\"></i> {$verb}&hellip;");
+	}
+
 	static function btn($href, $text, $type='', $icon) {
 		$cls = 'btn';
 		if ($type)

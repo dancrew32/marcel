@@ -7,7 +7,7 @@ class controller_user extends controller_base {
    	}
  
 	function all($o) {
-		$page   = take($o['params'], 'page', 1); 
+		$this->page = take($o['params'], 'page', 1); 
 		$format = take($o['params'], 'format');
 		switch ($format) {
 			case '.table':
@@ -25,14 +25,14 @@ class controller_user extends controller_base {
 		$this->pager = r('common', 'pager', [
 			'total'  => $this->total,
 			'rpp'    => $rpp,
-			'page'   => $page,
+			'page'   => $this->page,
 			'base'   => "{$this->root_path}/",
 			'suffix' => h($format),
 		]);
 		$this->users = User::find('all', [
 			'select' => 'id, first, last, email, username, active, last_login',
 			'limit'  => $rpp,
-			'offset' => model::get_offset($page, $rpp),
+			'offset' => model::get_offset($this->page, $rpp),
 			'order'  => 'id asc',
 		]);
 

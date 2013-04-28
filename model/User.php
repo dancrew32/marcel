@@ -31,7 +31,7 @@ class User extends model {
  * RELATIONSHIPS
  */
 	static $has_one = [
-		[ 'cart', 'through' => 'carts' ],
+		[ 'cart' ],
 	];
 
 
@@ -50,7 +50,7 @@ class User extends model {
 			'admin', 
 			'manager', 
 			'user'
-		], 'message' => 'Invalid user role.'],
+		], 'message' => 'Invalid user role'],
 	];
 
 	static $validates_presence_of = [
@@ -60,8 +60,8 @@ class User extends model {
 	];
 
 	static $validates_uniqueness_of = [
-		['email',    'message' => 'is taken.'],
-		['username', 'message' => 'is taken.'],
+		['email',    'message' => 'is taken'],
+		['username', 'message' => 'is taken'],
 	];
 
 	static $validates_format_of = [
@@ -91,10 +91,13 @@ class User extends model {
 
 	function &__get($name) {
 		switch ($name) {
-			case 'password':
-				return $this->read_attribute($name);
-			default:
+			case 'first':
+			case 'last':
+			case 'email':
+			case 'username':
 				$out = h($this->read_attribute($name));
+			default:
+				return $this->read_attribute($name);
 		}
 		return $out;
 	}
@@ -183,8 +186,7 @@ class User extends model {
 	}
 
 	static function logout() {
-		$key = self::cache_key(self::$user->id);
-		cache::delete($key);
+		cache::delete(self::cache_key(self::$user->id));
 		session_destroy();
 		return true;
 	}

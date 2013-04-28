@@ -22,13 +22,20 @@ class auth {
 		return !User::$logged_in;
 	}	
 
+
 /*
  * FEATURES
  */
-
-
 	static function cron_job_section() {
 		return self::admin();
+	}
+
+	static function join() {
+		return self::anon();
+	}
+
+	static function login() {
+		return self::anon();
 	}
 
 	static function user_section() {
@@ -38,6 +45,7 @@ class auth {
 	static function worker_section() {
 		return self::admin();
 	}
+
 
 /*
  * HELPERS

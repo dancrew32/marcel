@@ -8,15 +8,21 @@ app::$routes = [
 	# Skip database initialization with `nodb`
 	'/i' => [ 'c' => 'image', 'm' => 'process', 'nodb' => true, 'name' => 'Image Process' ],
 
-	# Login/Logout
-	'/login'  => [ 'c' => 'authentication', 'm' => 'login', 'name' => 'Login' ],
-	'/logout' => [ 'c' => 'authentication', 'm' => 'logout', 'name' => 'Logout' ],
+	# Login/Join/Logout
+	'/login'  => [ 
+		'http' => [ 
+			'get'  => [ 'c' => 'authentication', 'm' => 'main' ],
+			'post' => [ 'c' => 'authentication', 'm' => 'login_try' ],
+		],
+		'name' => 'Login',
+	],
 	'/join'   => [
 		'http' => [
-			'get'  => [ 'c' => 'authentication', 'm' => 'join' ],
+			'get'  => [ 'c' => 'authentication', 'm' => 'main' ],
 			'post' => [ 'c' => 'authentication', 'm' => 'create_user' ],
-		], 'name' => 'Join' 
+		], 'name' => 'Join',
 	],
+	'/logout' => [ 'c' => 'authentication', 'm' => 'logout', 'name' => 'Logout' ],
 
 	# Cron Jobs
 	'/cron(?:/*)(?P<page>[0-9]*)'   => [ 'c' => 'cron_job', 'm' => 'all', 'name' => 'Cron Home', 'section' => 'Cron' ],
