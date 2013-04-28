@@ -2,7 +2,7 @@
 class User extends model {
 	static $table_name = 'users';
 
-	const BCRYPT_COST = 13; # 4 min, 31 max
+	const BCRYPT_COST = 10; # 4 min, 31 max
 	static $logged_in = false;
 	static $user = [];
 	static $roles = [
@@ -67,6 +67,7 @@ class User extends model {
 				break;
 			case 'password':
 				$this->assign_attribute($name, self::spass(trim($value)));
+				$this->assign_attribute('salt', self::make_salt(trim($value)));
 				break;
 			default: 
 				$this->assign_attribute($name, $value);
@@ -172,8 +173,12 @@ class User extends model {
 		require_once VENDOR_DIR.'/password_compat/lib/password.php';
 		return password_hash($password, PASSWORD_BCRYPT, [
 			'cost' => self::BCRYPT_COST,
-			'salt' => SALT,
+			'salt' => self::make_salt($password),
 		]);
+	}
+
+	static function make_salt($password) {
+		return md5(SALT.$password.SALT);	
 	}
 
 	static function rehash($password, $hash) {
@@ -181,7 +186,7 @@ class User extends model {
 		if (!password_verify($password, $hash)) return false;
 		if (!password_needs_rehash($hash, PASSWORD_BCRYPT, [
 			'cost' => self::BCRYPT_COST,
-			'salt' => SALT,
+			'salt' => self::make_salt($password),
 		])) return false;
 		return self::spass($password); // store this in db now
 	}

@@ -4,6 +4,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `username` varchar(35) DEFAULT NULL,
   `password` char(60) NOT NULL,
+  `salt` char(32) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '0',
   `role` varchar(32) NOT NULL DEFAULT 'user',
   `first` varchar(35) DEFAULT NULL,
