@@ -178,7 +178,10 @@ class User extends model {
 	}
 
 	static function make_salt($password) {
-		return md5(SALT.$password.SALT);	
+		return password_hash($password, PASSWORD_BCRYPT, [
+			'cost' => self::BCRYPT_COST, 
+			'salt' => md5(SALT.$password.SALT)
+		]);
 	}
 
 	static function rehash($password, $hash) {
