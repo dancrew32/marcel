@@ -11,6 +11,21 @@ class User extends model {
 		'user'    => 'User',
 	];
 
+	static $safe_columns = [
+		'id',
+		'email',
+		'username',
+		'active',
+		'role',
+		'first',
+		'last',
+		'created_at',
+		'updated_at',
+		'last_login',
+		'last_login_ip',
+		'login_count',
+	];
+
 
 /*
  * RELATIONSHIPS
@@ -128,7 +143,10 @@ class User extends model {
 		$cache_key  = self::cache_key($id);
 		self::$user = cache::get($cache_key, $found, true);
 		if (!$found) {
-			self::$user = User::find($id);
+			self::$user = User::find('first', [
+				'select' => implode(', ', self::$safe_columns),
+				'conditions' => [ 'id = ?', $id ],
+			]);
 			cache::set($cache_key, self::$user, time::ONE_HOUR, true);
 		}
 	}
@@ -146,6 +164,7 @@ class User extends model {
 			$r->login_count++;
 			$r->save();
 			self::$user = $r;
+			cache::delete(self::cache_key(self::$user->id));
 		} else {
 			unset($_SESSION['in']);
 			unset($_SESSION['id']);
@@ -164,7 +183,8 @@ class User extends model {
 	}
 
 	static function logout() {
-		cache::delete(self::cache_key(self::$user->id));
+		$key = self::cache_key(self::$user->id);
+		cache::delete($key);
 		session_destroy();
 		return true;
 	}

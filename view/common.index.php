@@ -30,10 +30,7 @@ view/common.index.php
 			<?= r('authentication', 'login', ['simple_mode' => true]) ?>
 		<? else: ?>
 			<h2>User Info</h2>
-			<? pp(User::$user->id) ?>
-			<? pp(User::$user->full_name()) ?>
-			<? pp(User::$user->username) ?>
-			<? pp(User::$user->email) ?>
+			<? pp(User::$user) ?>
 		<? endif ?>
 	</div>
 </div>
