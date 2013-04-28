@@ -439,6 +439,11 @@ echo cookie::get('shoes'); # "on"
 note::set('success_message', 'Message Sent');
 echo note::get('success_message'); # "Message Sent"
 echo note::get('success_message'); # ""
+
+# Notes in $_SESSION
+note::set('store_in_db', "I'm in the session", true);
+note::get('store_in_db', true); # "I'm in the session"
+note::get('store_in_db', true); # ""
 ```
 
 ## Cache
