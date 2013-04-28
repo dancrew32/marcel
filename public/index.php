@@ -10,7 +10,7 @@ if (!defined('ROOT_DIR'))
 # App
 define('APP_NAME', 'Marcel');
 defined('ENV') || define('ENV', (getenv('ENV') ? getenv('ENV') : 'DEV'));
-define('SALT', '<your salt>');
+define('SALT', '<yourGreaterThan21CharacterSalt>'); # must be creater than 21 chars
 define('SESSION_NAME', '<your session name>');
 $IP_WHITELIST = [ ];
 

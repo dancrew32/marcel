@@ -2,6 +2,7 @@
 class User extends model {
 	static $table_name = 'users';
 
+	const BCRYPT_COST = 13; # 4 min, 31 max
 	static $logged_in = false;
 	static $user = [];
 	static $roles = [
@@ -167,8 +168,22 @@ class User extends model {
 		return true;
 	}
 
-	static function spass($p) {
-		return md5(SALT.$p.SALT);	
+	static function spass($password) {
+		require_once VENDOR_DIR.'/password_compat/lib/password.php';
+		return password_hash($password, PASSWORD_BCRYPT, [
+			'cost' => self::BCRYPT_COST,
+			'salt' => SALT,
+		]);
+	}
+
+	static function rehash($password, $hash) {
+		require_once VENDOR_DIR.'/password_compat/lib/password.php';
+		if (!password_verify($password, $hash)) return false;
+		if (!password_needs_rehash($hash, PASSWORD_BCRYPT, [
+			'cost' => self::BCRYPT_COST,
+			'salt' => SALT,
+		])) return false;
+		return self::spass($password); // store this in db now
 	}
 
 	static function badge_class($status) {
