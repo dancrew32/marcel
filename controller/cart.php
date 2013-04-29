@@ -142,12 +142,17 @@ class controller_cart extends controller_base {
 	}
 
 	function checkout($o) {
+		if (User::$logged_in) {
+			$name  = ifset(User::$user->full_name(), 'Anonymous');
+			$email = User::$user->email;
+		} else {
+			$name  = take($_POST, 'name', 'Anonymous');
+			$email = take($_POST, 'email', false);
+		}
+		$address = take($_POST, 'address', false);
 
-
-		$name         = take($_POST, 'name', 'Anonymous');
-		$email        = take($_POST, 'email', false);
-		$address      = take($_POST, 'address', false);
 		$stripe_token = take($_POST, 'stripe_token', false);
+
 		if (!$email || !$address || !$stripe_token)
 			app::redir($this->root_path);
 
@@ -260,9 +265,13 @@ class controller_cart extends controller_base {
 		$this->form = new form;
 		$this->form->open("{$this->root_path}/checkout", 'post', [
 			'class' => 'last',
-			'id'    => 'user-add',
+			'id'    => 'checkout-cart',
 		]);
 		$this->_build_form($cart);
+		$this->form->custom(html::alert('<div class="payment-errors"></div>', [
+			'type'=>'error', 
+			'hidden' => true
+		]));
 		$this->form->add(new field('submit', [
 			'text' => 'Buy Now',
 			'icon' => 'gift',
@@ -273,7 +282,7 @@ class controller_cart extends controller_base {
 
 	private function _build_form($cart) {
 		app::asset('//js.stripe.com/v1', 'js');
-		app::asset('validate.min', 'js');
+		app::asset('view/cart.checkout_form', 'js');
 
 		# Name (TODO: skip if logged in)
 		$name_group = [ 'label' => "Recipient's Name", 'class' => $cart->error_class('name') ];
@@ -335,7 +344,7 @@ class controller_cart extends controller_base {
 			'name'         => 'cvc',
 			'class'        => 'input-block-level required',
 			'maxlength'    => 4,
-			'min'          => 3,
+			'minlength'    => 3,
 			'id'           => 'cart-cvc',
 			'value'        => take($cart, 'cvc'),
 			'placeholder'  => 'The 3 to 4 digit code on the back.',

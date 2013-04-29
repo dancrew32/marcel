@@ -143,9 +143,11 @@ class html {
 			'type'   => 'info',
 			'inline' => true,
 			'closer' => true,
+			'hidden' => false,
 		], $options);
 		$cls = 'alert'. ($options['inline'] ? '' : ' alert-block');
 		$cls .= isset($options['type']{0}) ? " alert-{$options['type']}" : '';
+		$cls .= $options['hidden'] ? " hide" : '';
 		$html = "<div class=\"{$cls}\">";
 		if ($options['closer'])
 			$html .= '<button type="button" class="close" data-dismiss="alert">&times;</button>';

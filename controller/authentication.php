@@ -107,8 +107,6 @@ class controller_authentication extends controller_base {
  * FORMS
  */
 	private function _build_login_form() {
-		app::asset('validate.min', 'js');
-
 		$note = note::get('login:failure', true);
 		$error_class = $note ? 'error' : '';
 		if ($note)
@@ -151,9 +149,6 @@ class controller_authentication extends controller_base {
 	}
 
 	private function _build_join_form() {
-		app::asset('validate.min', 'js');
-		# app::asset('view/user.form', 'js');
-
 		$user = new User;
 		$user = $user->from_note();
 

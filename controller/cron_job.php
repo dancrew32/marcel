@@ -132,9 +132,6 @@ class controller_cron_job extends controller_base {
 	}
 
 	private function _build_form($cron) {
-		app::asset('validate.min', 'js');
-		//app::asset('view/cron_job.form', 'js');
-
 
 		# Name
 		$cron_name_group = [ 'label' => 'Name', 'class' => $cron->error_class('name') ];
@@ -153,6 +150,7 @@ class controller_cron_job extends controller_base {
 		$cron_script_field = new field('typeahead', [ 
 			'name'           => 'script', 
 			'data-api'       => '/cron/scripts',
+			'data-typeahead-method' => 'key-get-value',
 			'data-items'     => 5,
 			'data-minLength' => 2,
 			'placeholder'    => 'e.g. cron."whatyoutype".php',

@@ -60,6 +60,9 @@ app::$routes = [
 	'/cart/thank-you' 
 		=> [ 'c' => 'cart', 'm' => 'success', 'name' => 'Checkout Success' ],
 
+	# Geocoder
+	'/geo' => [ 'c' => 'geo', 'm' => 'code', 'name' => 'Geocode' ],
+
 	# Messaging
 	'/message' => [ 'c' => 'message', 'm' => 'main', 'name' => 'Message Home', 'section' => 'Message' ],
 

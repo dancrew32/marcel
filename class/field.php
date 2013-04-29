@@ -38,6 +38,11 @@ class field {
 			case 'radio':
 				return $this->radio();
 			case 'typeahead':
+				if (!isset($this->attrs['class']{0}))
+					$this->attrs['class'] = 'typeahead';
+				else
+					$this->attrs['class'] .= ' typeahead';
+				$this->attrs['data-provide'] = 'typeahead';
 				$this->attrs['data-provide'] = 'typeahead';
 				$this->attrs['autocomplete'] = false;
 				return $this->input();

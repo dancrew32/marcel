@@ -138,9 +138,6 @@ class controller_user extends controller_base {
 	}
 
 	private function _build_form($user) {
-		app::asset('validate.min', 'js');
-		# app::asset('view/user.form', 'js');
-
 
 		# First name
 		$first_name_group = [ 'label' => 'First Name', 'class' => $user->error_class('first') ];
