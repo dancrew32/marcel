@@ -23,6 +23,9 @@
 				<?= html::a((app::get_path('Cart Home')."/add/1"), "Add Item") ?>
 			</li>
 			<li>
+				<?= html::a((app::get_path('Cart Home')."/add/1/3"), "Add 3 Items") ?>
+			</li>
+			<li>
 				<?= html::a((app::get_path('Cart Home')."/remove/1"), "Remove Item") ?>
 			</li>
 			<li>
@@ -32,7 +35,7 @@
 				<?= html::a((app::get_path('Cart Home')."/remove/1/3"), "Remove 3") ?>
 			</li>
 		</ul>
-		<? pp(User::$user->cart) ?>
+		<? pp(Cart::get_type('cart:a')) ?>
 	</div>
 </div>
 <div id="stripe-data"

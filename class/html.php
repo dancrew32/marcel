@@ -63,6 +63,9 @@ class html {
                 case 'checked':
 					if ($v) $html .=' checked="checked"';
 					break;
+                case 'disabled':
+					if ($v) $html .=' disabled="disabled"';
+					break;
 				case 'autocomplete': 
 					if (!$v) $html .=' autocomplete="off"';
 					break;

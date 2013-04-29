@@ -49,7 +49,7 @@ app::$routes = [
 	# Cart Example
 	'/cart' 
 		=> [ 'c' => 'cart', 'm' => 'index', 'name' => 'Cart Home', 'section' => 'Cart' ],
-	'/cart/add/(?P<key>[0-9]+)' 
+	'/cart/add/(?P<key>[0-9]+)(?:/*)(?P<amount>[0-9\*]*)' 
 		=> [ 'c' => 'cart', 'm' => 'add' ],
 	'/cart/remove/(?P<key>[0-9]+)(?:/*)(?P<amount>[0-9\*]*)' 
 		=> [ 'c' => 'cart', 'm' => 'remove' ],
@@ -59,6 +59,9 @@ app::$routes = [
 		=> [ 'c' => 'cart', 'm' => 'quantity' ],
 	'/cart/thank-you' 
 		=> [ 'c' => 'cart', 'm' => 'success', 'name' => 'Checkout Success' ],
+
+	# Messaging
+	'/message' => [ 'c' => 'message', 'm' => 'main', 'name' => 'Message Home', 'section' => 'Message' ],
 
 	# HTTP Example
 	'/http' => [

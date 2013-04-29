@@ -53,11 +53,13 @@ class controller_cart extends controller_base {
 		$key = take($o['params'], 'key', false);
 		if (!$key) _404();
 
+		$amount = take($o['params'], 'amount', 1);
+
 		$cart = Cart::get_type('cart:a');
 		//$product = Product::find_by_id($key);
 		$product = (object) ['id' => $key];	
 		//if ($product && $product->price) {
-			$cart->add_item($product->id);
+			$cart->add_item($product->id, $amount);
 			$saved = (bool) $cart->save();
 		//} else
 			//$saved = false;	
@@ -280,7 +282,8 @@ class controller_cart extends controller_base {
 			'name'        => 'name',
 			'id'          => 'cart-name',
 			'class'       => 'input-block-level',
-			'value'       => take($cart, 'name'),
+			'value'       => User::$logged_in ? User::$user->full_name() : take($cart, 'name'),
+			'disabled'    => User::$logged_in,
 			'placeholder' => "Who we'll ship to.",
 		]);
 
@@ -291,7 +294,8 @@ class controller_cart extends controller_base {
 			'name'        => 'email',
 			'id'          => 'cart-email',
 			'class'       => 'input-block-level required',
-			'value'       => take($cart, 'email'),
+			'disabled'    => User::$logged_in,
+			'value'       => User::$logged_in ? User::$user->email : take($cart, 'email'),
 			'placeholder' => "For purchase confirmation only.",
 		]);
 
@@ -313,28 +317,30 @@ class controller_cart extends controller_base {
 		$card_group = [ 'label' => "Card Number", 'class' => $cart->error_class('card') ];
 		$card_help  = new field('help', [ 'text' => $cart->take_error('card') ]);
 		$card_field = new field('tel', [ # tel feels better for creditcard numbers
-			'name'        => 'card',
-			'class'       => 'input-block-level required',
-			'maxlength'   => 16,
-			'min'         => 16,
-			'id'          => 'cart-card',
-			'value'       => take($cart, 'card'),
-			'placeholder' => 'E.g. "44443332221111"',
-			'data-stripe' => 'number',
+			'name'         => 'card',
+			'class'        => 'input-block-level required',
+			'maxlength'    => 16,
+			'min'          => 16,
+			'id'           => 'cart-card',
+			'value'        => take($cart, 'card'),
+			'placeholder'  => 'E.g. "44443332221111"',
+			'data-stripe'  => 'number',
+			'autocomplete' => false,
 		]);
 
 		# Card Number
 		$cvc_group = [ 'label' => "CVC", 'class' => $cart->error_class('cvc') ];
 		$cvc_help  = new field('help', [ 'text' => $cart->take_error('cvc') ]);
 		$cvc_field = new field('tel', [ # tel feels better for cvc
-			'name'        => 'cvc',
-			'class'       => 'input-block-level required',
-			'maxlength'   => 4,
-			'min'         => 3,
-			'id'          => 'cart-cvc',
-			'value'       => take($cart, 'cvc'),
-			'placeholder' => 'The 3 to 4 digit code on the back.',
-			'data-stripe' => 'cvc',
+			'name'         => 'cvc',
+			'class'        => 'input-block-level required',
+			'maxlength'    => 4,
+			'min'          => 3,
+			'id'           => 'cart-cvc',
+			'value'        => take($cart, 'cvc'),
+			'placeholder'  => 'The 3 to 4 digit code on the back.',
+			'data-stripe'  => 'cvc',
+			'autocomplete' => false,
 		]);
 
 		$exp_month_group = [ 'label' => "Expiration Month", 'class' => $cart->error_class('exp_month') ];

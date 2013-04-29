@@ -5,8 +5,7 @@ $ok = true;
 $controller = strtolower(gets("Enter View's Controller:"));
 $method = strtolower(gets("Enter View's Method:"));
 
-$boilerplate ='
-<div class="row">
+$boilerplate ='<div class="row">
 	<div class="span4">
 
 	</div>

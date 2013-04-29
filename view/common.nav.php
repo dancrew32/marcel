@@ -40,6 +40,9 @@
 					<li<? echoif(app::in_section('Cart'), ' class="active"') ?>>
 						<a href="<?= app::get_path('Cart Home') ?>">Cart</a>
 					</li>
+					<li<? echoif(app::in_section('Message'), ' class="active"') ?>>
+						<a href="<?= app::get_path('Message Home') ?>">Message</a>
+					</li>
 					<? /*
 						
 					<li class="dropdown">

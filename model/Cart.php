@@ -11,9 +11,10 @@ class Cart extends model {
 		return (array) $data;
 	}
 
-	function add_item($key) {
+	function add_item($key, $amount=1) {
 		$data = $this->get_items();
-		$data[] = $key;
+		for ($i = 0; $i < $amount; $i++)
+			$data[] = $key;
 		$this->data = json_encode($data);
 	}
 
@@ -32,8 +33,7 @@ class Cart extends model {
  * STATIC
  */
 	static function get_type($key='cart') {
-		if (User::$logged_in)
-			$cart = Cart::find_by_user_id(User::$user->id);
+		$cart = User::$logged_in ? Cart::find_by_user_id(User::$user->id) : false;
 
 		if (!$cart && cookie::exists($key)) {
 			$hash = cookie::get($key);
