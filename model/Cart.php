@@ -2,29 +2,10 @@
 class Cart extends model {
 	static $table_name = 'carts';
 
-	static function get_type($key='cart') {
-		if (User::$logged_in)
-			$cart = Cart::find_by_user_id(User::$user->id);
 
-		if (!$cart && cookie::exists($key)) {
-			$hash = cookie::get($key);
-			$cart = Cart::find_by_hash($hash);
-		} 
-
-		if (!isset($cart) || !$cart) {
-			$hash = md5(SALT.time::now().SALT);
-
-			$cart = new Cart;	
-			$cart->hash = $hash;
-			if (User::$logged_in)
-				$cart->user_id = User::$user->id;
-			else 
-				cookie::set($key, $hash);	
-		}
-
-		return $cart;
-	}
-
+/*
+ * INSTANCE
+ */
 	function get_items() {
 		$data = isset($this->data{0}) ? json_decode($this->data) : [];
 		return (array) $data;
@@ -47,4 +28,29 @@ class Cart extends model {
 		$this->data = json_encode((array)$data);
 	}
 
+/*
+ * STATIC
+ */
+	static function get_type($key='cart') {
+		if (User::$logged_in)
+			$cart = Cart::find_by_user_id(User::$user->id);
+
+		if (!$cart && cookie::exists($key)) {
+			$hash = cookie::get($key);
+			$cart = Cart::find_by_hash($hash);
+		} 
+
+		if (!isset($cart) || !$cart) {
+			$hash = md5(SALT.time::now().SALT);
+
+			$cart = new Cart;	
+			$cart->hash = $hash;
+			if (User::$logged_in)
+				$cart->user_id = User::$user->id;
+			else 
+				cookie::set($key, $hash);	
+		}
+
+		return $cart;
+	}
 }

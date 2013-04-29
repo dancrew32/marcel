@@ -118,7 +118,7 @@ class controller_authentication extends controller_base {
 
 		# Username
 		$username_group = [ 'label' => 'Username or Email', 'class' => $error_class ]; 
-		$username = new field('input', [ 
+		$username_field = new field('input', [ 
 			'name'        => 'user',
 			'id'          => 'login-user',
 			'value'       => h(take($note, 'user')),
@@ -128,7 +128,7 @@ class controller_authentication extends controller_base {
 
 		# Password
 		$password_group = [ 'label' => 'Password', 'class' => $error_class ]; 
-		$password = new field('password', [ 
+		$password_field = new field('password', [ 
 			'name'        => 'pass',
 			'id'          => 'login-pass',
 			'class'       => 'input-block-level required',
@@ -136,7 +136,7 @@ class controller_authentication extends controller_base {
 		]);
 
 		# Remember Me
-		$remember = new field('checkbox', [ 
+		$remember_field = new field('checkbox', [ 
 			'name'    => 'remember',
 			'checked' => take($note, 'remember', 1),
 			'label'   => 'Remember Me',
@@ -145,9 +145,9 @@ class controller_authentication extends controller_base {
 
 		# Build Form
 		$this->form
-			->group($username_group, $username)
-			->group($password_group, $password)
-			->add($remember);
+			->group($username_group, $username_field)
+			->group($password_group, $password_field)
+			->add($remember_field);
 	}
 
 	private function _build_join_form() {
@@ -174,27 +174,27 @@ class controller_authentication extends controller_base {
 
 		# Email
 		$email_group = [ 'label' => 'Email', 'class' => $user->error_class('email') ];
-		$email = new field('email', [ 
+		$email_help = new field('help', [ 'text' => $user->take_error('email') ]);
+		$email_field = new field('email', [ 
 			'name'         => 'email', 
 			'id'           => 'join-email',
 			'class'        => 'input-block-level email required',
 			'autocomplete' => false,
 			'value'        => take($user, 'email'),
 		]);
-		$email_help = new field('help', [ 'text' => $user->take_error('email') ]);
 
 		# Password
 		$password_group = [ 'label' => 'Password', 'class' => $user->error_class('password') ];
-		$password = new field('password', [ 
+		$password_help  = new field('help', [ 'text' => $user->take_error('password') ]);
+		$password_field = new field('password', [ 
 			'name'         => 'password', 
 			'id'           => 'join-password',
 			'class'        => 'input-block-level',
 			'autocomplete' => false,
 		]);
-		$password_help = new field('help', [ 'text' => $user->take_error('password') ]);
 
 		$this->form
-			->group($email_group, $email, $email_help)
-			->group($password_group, $password, $password_help);
+			->group($email_group, $email_field, $email_help)
+			->group($password_group, $password_field, $password_help);
 	}
 }

@@ -144,71 +144,71 @@ class controller_user extends controller_base {
 
 		# First name
 		$first_name_group = [ 'label' => 'First Name', 'class' => $user->error_class('first') ];
-		$first_name = new field('input', [ 
+		$first_name_help  = new field('help', [ 'text' => $user->take_error('first') ]);
+		$first_name_field = new field('input', [ 
 			'name'         => 'first', 
 			'class'        => 'input-block-level required',
 			'value'        => take($user, 'first'),
 			'autocomplete' => false,
 		]);
-		$first_name_help = new field('help', [ 'text' => $user->take_error('first') ]);
 
 
 		# Last Name
 		$last_name_group = [ 'label' => 'Last Name', 'class' => $user->error_class('last') ];
-		$last_name = new field('input', [ 
+		$last_name_help  = new field('help', [ 'text' => $user->take_error('last') ]);
+		$last_name_field = new field('input', [ 
 			'name'         => 'last', 
 			'class'        => 'input-block-level required',
 			'value'        => take($user, 'last'),
 			'autocomplete' => false,
 		]);
-		$last_name_help = new field('help', [ 'text' => $user->take_error('last') ]);
 
 
 		# Email 
 		$email_group = [ 'label' => 'Email', 'class' => $user->error_class('email') ]; 
-		$email = new field('email', [ 
+		$email_help  = new field('help', [ 'text' => $user->take_error('email') ]);
+		$email_field = new field('email', [ 
 			'name'         => 'email', 
 			'class'        => 'input-block-level email required',
 			'value'        => take($user, 'email'),
 			'autocomplete' => false,
 		]);
-		$email_help = new field('help', [ 'text' => $user->take_error('email') ]);
 
 
 		# Username
 		$username_group = [ 'label' => 'Username', 'class' => $user->error_class('username') ]; 
-		$username = new field('input', [ 
+		$username_help  = new field('help', [ 'text' => $user->take_error('username') ]);
+		$username_field = new field('input', [ 
 			'name'         => 'username', 
 			'class'        => 'input-block-level required',
 			'autocomplete' => false,
 			'value'        => take($user, 'username'),
 		]);
-		$username_help = new field('help', [ 'text' => $user->take_error('username') ]);
 
 
 		# Password
 		$password_group = [ 'label' => 'Password', 'class' => $user->error_class('password') ];
-		$password = new field('password', [ 
+		$password_help  = new field('help', [ 'text' => $user->take_error('password') ]);
+		$password_field = new field('password', [ 
 			'name'        => 'password', 
 			'class'       => 'input-block-level',
 			'autocomplete' => false,
 		]);
-		$password_help = new field('help', [ 'text' => $user->take_error('password') ]);
 
 
 		# Role
 		$role_group = [ 'label' => 'Role', 'class' => $user->error_class('role') ]; 
-		$role = new field('select', [ 
+		$role_help  = new field('help', [ 'text' => $user->take_error('role') ]);
+		$role_field = new field('select', [ 
 			'name'        => 'role', 
 			'class'       => 'input-block-level',
 			'options'     => User::$roles,
 			'value'       => take($user, 'role', 'user'),
 		]);
-		$role_help = new field('help', [ 'text' => $user->take_error('role') ]);
 
 
 		# Active
-		$active = new field('checkbox', [ 
+		$active_field = new field('checkbox', [ 
 			'name'    => 'active',
 			'checked' => take($user, 'active'),
 			'label'   => 'Activate',
@@ -217,12 +217,12 @@ class controller_user extends controller_base {
 
 		# Build Form
 		$this->form
-			->group($first_name_group, $first_name, $first_name_help)
-			->group($last_name_group, $last_name, $last_name_help)
-			->group($email_group, $email, $email_help)
-			->group($username_group, $username, $username_help)
-			->group($password_group, $password, $password_help)
-			->group($role_group, $role, $role_help)
-			->group($active);
+			->group($first_name_group, $first_name_field, $first_name_help)
+			->group($last_name_group, $last_name_field, $last_name_help)
+			->group($email_group, $email_field, $email_help)
+			->group($username_group, $username_field, $username_help)
+			->group($password_group, $password_field, $password_help)
+			->group($role_group, $role_field, $role_help)
+			->group($active_field);
 	}
 }

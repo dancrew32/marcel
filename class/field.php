@@ -17,13 +17,13 @@ class field {
 				$this->attrs['type'] = 'submit';
 				$this->attrs['text'] = 'Add';
 				$this->attrs['icon'] = 'plus';
-				$this->attrs['data-loading-text'] = h('<i class="icon-plus"></i> Adding&hellip;');
+				$this->attrs['data-loading-text'] = html::verb_icon('Adding', 'plus');
 				return $this->button();
 			case 'submit_update':
 				$this->attrs['type'] = 'submit';
 				$this->attrs['text'] = 'Update';
 				$this->attrs['icon'] = 'edit';
-				$this->attrs['data-loading-text'] = h('<i class="icon-edit"></i> Updating&hellip;');
+				$this->attrs['data-loading-text'] = html::verb_icon('Updating', 'edit');
 				return $this->button();
 			case 'checkbox':
 				$this->attrs['value'] = 1;

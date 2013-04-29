@@ -10,19 +10,23 @@ class controller_cart extends controller_base {
 
 	function index() {
 		$this->items = [];
-
 		$cart = Cart::get_type('cart:a');
 
 		$items = $cart->get_items();
 		$this->items = [];
+		$this->total_items = 0;
 		foreach ($items as $id) {
 			if (isset($this->items[$id])) {
 				$this->items[$id]->quantity++;	
+				$this->total_items++;
 				continue;
 			}
 
 			//$product = Product::find_by_id($id);
-			$product = false;
+			$product = new stdClass;
+			$product->id = $id;
+			$product->price = 1350;
+
 			if (!$product) continue;
 
 			$this->items[$id] = (object) [
@@ -31,9 +35,10 @@ class controller_cart extends controller_base {
 				'quantity' => 1,
 				'price'    => $product->price,
 			];
+			$this->total_items++;
 		}
 
-		$this->has_items = count($this->items) > 0;
+		$this->has_items =  count($this->items) > 0;
 		$this->shipping = self::SHIPPING;
 
 		$this->grand_total = 0;
@@ -246,102 +251,126 @@ class controller_cart extends controller_base {
 /*
  * FORM
  */
-	private function _build_form() {
+	function checkout_form() {
+		$cart = new Cart;
+		$cart = $cart->from_note();
+
+		$this->form = new form;
+		$this->form->open("{$this->root_path}/checkout", 'post', [
+			'class' => 'last',
+			'id'    => 'user-add',
+		]);
+		$this->_build_form($cart);
+		$this->form->add(new field('submit', [
+			'text' => 'Buy Now',
+			'icon' => 'gift',
+			'data-loading-text' => html::verb_icon('Buying', 'gift'),
+		]));
+		echo $this->form;
+	}
+
+	private function _build_form($cart) {
 		app::asset('//js.stripe.com/v1', 'js');
-			/*j
-			<? if ($has_items): ?>
-				<table id="bookbag">
-					<thead>
-						<th class="action-col">
-						</th>
-						<th>
-							Book
-						</th>
-						<th>
-							Price
-						</th>
-						<th>
-							Quantity
-						</th>
-						<th>
-							Total
-						</th>
-					</thead>
-					<tbody>
-						<? foreach ($items as $k => $i): ?>
-							<tr data-id="<?= $k ?>">
-								<td class="action-col">
-									<a class="remove" href="/bookbag/remove/<?= $i->id ?>/*">
-										Remove
-									</a>
-								</td>
-								<td>
-									<?= $i->title ?>
-									<? if ($i->subtitle): ?>
-										<div>
-										<?= $i->subtitle ?>
-										</div>
-									<? endif ?>
-									<div class="by">
-									By <?= $i->author ?>
-									</div>
-								</td>
-								<td>
-									$<?= number_format($i->price, 2, '.', '') ?>
-								</td>
-								<td class="quantity">
-									<input type="text" 
-									name="quantity" 
-									value="<?= $i->quantity ?>"
-									style="width:40px"
-									maxlength=2>
-								</td>
-								<td class="total">
-									$<?= number_format($i->price * $i->quantity, 2, '.', '') ?>
-								</td>
-							</tr>
-						<? endforeach ?>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td class="action-col"></td>
-							<td>
-							</td>
-							<td>
-							</td>
-							<td id="shipping">
-								Shipping: $<?= $shipping ?>
-							</td>
-							<td id="grand-total">
-								<?= $grand_total ?>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			<? else: ?>
-				You don't have any books in your bag!
-				<a href="/books">Go find some books &raquo;</a>
-			<? endif ?>
-			<div id="no-data" style="display: none;">
-				Woops, you don't have any books in your bag!<br>
-				<strong>Update your quantities</strong> or <a href="/books">go find some more books &raquo;</a>
-			</div>
-		</article>
+		app::asset('validate.min', 'js');
 
+		# Name (TODO: skip if logged in)
+		$name_group = [ 'label' => "Recipient's Name", 'class' => $cart->error_class('name') ];
+		$name_help  = new field('help', [ 'text' => $cart->take_error('name') ]);
+		$name_field = new field('input', [
+			'name'        => 'name',
+			'id'          => 'cart-name',
+			'class'       => 'input-block-level',
+			'value'       => take($cart, 'name'),
+			'placeholder' => "Who we'll ship to.",
+		]);
 
-		<form action="/bookbag/checkout"
-			method="post"
-			<? if (!$has_items): ?>
-				style="display: none"
-			<? endif ?>
-			id="payment-form">
-			<? include partial('cart.form') ?>
-			<span class="payment-errors error"></span>
-			<?= r('form', 'submit', ['text' => 'Buy Now']) ?>
-		</form>
-	</div>
-</div>
-			 */
+		# Email (TODO: skip if logged in)
+		$email_group = [ 'label' => "Your Email", 'class' => $cart->error_class('email') ];
+		$email_help  = new field('help', [ 'text' => $cart->take_error('email') ]);
+		$email_field = new field('input', [
+			'name'        => 'email',
+			'id'          => 'cart-email',
+			'class'       => 'input-block-level required',
+			'value'       => take($cart, 'email'),
+			'placeholder' => "For purchase confirmation only.",
+		]);
+
+		# Shipping Address (TODO: skip if logged in and address exists)
+		$address_group = [ 'label' => "Shipping Address", 'class' => $cart->error_class('email') ];
+		$address_help  = new field('help', [ 'text' => $cart->take_error('email') ]);
+		$address_field = new field('typeahead', [
+			'name'           => 'address',
+			'class'          => 'input-block-level required',
+			'id'             => 'cart-address',
+			'value'          => take($cart, 'address'),
+			'placeholder'    => 'E.g. "123 Anywhere St., San Francisco, CA 94121"',
+			'data-api'       => app::get_path('Geocode'),
+			'data-items'     => 5,
+			'data-minLength' => 20,
+		]);
+
+		# Card Number
+		$card_group = [ 'label' => "Card Number", 'class' => $cart->error_class('card') ];
+		$card_help  = new field('help', [ 'text' => $cart->take_error('card') ]);
+		$card_field = new field('tel', [ # tel feels better for creditcard numbers
+			'name'        => 'card',
+			'class'       => 'input-block-level required',
+			'maxlength'   => 16,
+			'min'         => 16,
+			'id'          => 'cart-card',
+			'value'       => take($cart, 'card'),
+			'placeholder' => 'E.g. "44443332221111"',
+			'data-stripe' => 'number',
+		]);
+
+		# Card Number
+		$cvc_group = [ 'label' => "CVC", 'class' => $cart->error_class('cvc') ];
+		$cvc_help  = new field('help', [ 'text' => $cart->take_error('cvc') ]);
+		$cvc_field = new field('tel', [ # tel feels better for cvc
+			'name'        => 'cvc',
+			'class'       => 'input-block-level required',
+			'maxlength'   => 4,
+			'min'         => 3,
+			'id'          => 'cart-cvc',
+			'value'       => take($cart, 'cvc'),
+			'placeholder' => 'The 3 to 4 digit code on the back.',
+			'data-stripe' => 'cvc',
+		]);
+
+		$exp_month_group = [ 'label' => "Expiration Month", 'class' => $cart->error_class('exp_month') ];
+		$exp_month_help  = new field('help', [ 'text' => $cart->take_error('exp_month') ]);
+		$exp_month_field = new field('select', [
+			'name'        => 'exp_month',
+			'class'       => 'input-block-level required',
+			'id'          => 'cart-exp-month',
+			'data-stripe' => 'exp-month',
+			'value'       => take($cart, 'exp_month'),
+			'options'     => credit::get_months(),
+		]);
+
+		$exp_year_group = [ 'label' => "Expiration Year", 'class' => $cart->error_class('exp_year') ];
+		$exp_year_help  = new field('help', [ 'text' => $cart->take_error('exp_year') ]);
+		$exp_year_field = new field('select', [
+			'name'        => 'exp_year',
+			'class'       => 'input-block-level required',
+			'id'          => 'cart-exp-year',
+			'data-stripe' => 'exp-year',
+			'value'       => take($cart, 'exp_year'),
+			'options'     => credit::get_years(),
+		]);
+				
+
+		$this->form
+			->fieldset('Shipping')
+			->group($name_group, $name_field, $name_help)
+			->group($email_group, $email_field, $email_help)
+			->group($address_group, $address_field, $address_help)
+			->fieldset('Payment')
+			->group($card_group, $card_field, $card_help)
+			->group($cvc_group, $cvc_field, $cvc_help)
+			->group($exp_month_group, $exp_month_field, $exp_month_help)
+			->group($exp_year_group, $exp_year_field, $exp_year_help)
+			;
 	}
 
 }
