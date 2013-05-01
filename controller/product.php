@@ -2,6 +2,7 @@
 class controller_product extends controller_base {
 	function __construct($o) {
 		$this->root_path = app::get_path('Product Home');
+		auth::check('product_section');
 		parent::__construct($o);
    	}
  
