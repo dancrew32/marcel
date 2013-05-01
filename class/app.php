@@ -123,7 +123,7 @@ class app {
 
 	static function css() {
 		$out = '';	
-		foreach (self::$assets['css'] as $c)
+		foreach (array_unique(self::$assets['css']) as $c)
 			$out .= '<link href="'. $c .'" rel="stylesheet" type="text/css">';
 		return $out;
 	}
@@ -131,10 +131,9 @@ class app {
 	static function js() {
 		$cdn = '//ajax.googleapis.com/ajax/libs';
 		$out = '<script src="'.JS_DIR.'/loader.js"></script>';
-		$out .= '<script>
-			$LAB.script("'. $cdn .'/jquery/'.self::JQUERY_VERSION.'/jquery.min.js")
+		$out .= '<script>$LAB.script("'. $cdn .'/jquery/'.self::JQUERY_VERSION.'/jquery.min.js")
 			.script("/js/bootstrap.min.js").wait()';
-		foreach (self::$assets['js'] as $j) {
+		foreach (array_unique(self::$assets['js']) as $j) {
 			$delim = strpos($j, '?') ? '&' : '?';
 			$j = CACHE_BUST ? $j.$delim.'d='.date('U') : $j;
 			$out .= '.script("'. $j .'")';

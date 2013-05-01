@@ -60,6 +60,16 @@ app::$routes = [
 	'/cart/thank-you' 
 		=> [ 'c' => 'cart', 'm' => 'success', 'name' => 'Checkout Success' ],
 
+	# Product
+	'/products/delete/(?P<id>([0-9]+))' 
+		=> [ 'c' => 'product', 'm' => 'delete', 'section' => 'Product' ],
+	'/products/add'   
+		=> [ 'c' => 'product', 'm' => 'add', 'section' => 'Product' ],
+	'/products/edit/(?P<id>([0-9]+))'  
+		=> [ 'c' => 'product', 'm' => 'edit', 'section' => 'Product' ],
+	'/products(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
+		=> [ 'c' => 'product', 'm' => 'all', 'name' => 'Product Home', 'section' => 'Product' ],
+
 	# Geocoder
 	'/geo' => [ 'c' => 'geo', 'm' => 'code', 'name' => 'Geocode' ],
 

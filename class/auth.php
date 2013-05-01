@@ -38,6 +38,10 @@ class auth {
 		return self::anon();
 	}
 
+	static function product_section() {
+		return self::admin();
+	}
+
 	static function user_section() {
 		return self::admin();
 	}

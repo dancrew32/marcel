@@ -37,6 +37,12 @@
 						</li>
 					<? endif ?>
 
+					<? if (auth::product_section()): ?>
+						<li<? echoif(app::in_section('Product'), ' class="active"') ?>>
+							<a href="<?= app::get_path('Product Home') ?>">Products</a>
+						</li>
+					<? endif ?>
+
 					<li<? echoif(app::in_section('Cart'), ' class="active"') ?>>
 						<a href="<?= app::get_path('Cart Home') ?>">Cart</a>
 					</li>

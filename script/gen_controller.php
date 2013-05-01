@@ -45,7 +45,7 @@ $boilerplate .= "
 			'base'   => \"{\$this->root_path}/\",
 			'suffix' => h(\$format),
 		]);
-		\$this->{$model_lower} = {$model}::find('all', [
+		\$this->{$model_lower}s = {$model}::find('all', [
 			//'select' => 'id',
 			'limit'  => \$rpp,
 			'offset' => model::get_offset(\$page, \$rpp),
@@ -53,7 +53,7 @@ $boilerplate .= "
 		]);
 
 		if (\$format == '.json') 
-			json(model::collection_to_json(\$this->{$model_lower}));
+			json(model::collection_to_json(\$this->{$model_lower}s));
 	}	
 
 	function view(\$o) {
@@ -62,7 +62,7 @@ $boilerplate .= "
 	}	
 
 	function table(\$o) {
-		\$this->{$model_lower} = take(\$o, '{$model_lower}');	
+		\$this->{$model_lower}s = take(\$o, '{$model_lower}s');	
 	}
 
 	function add() {
@@ -131,6 +131,9 @@ $boilerplate .= "
 		if (!\${$model_lower}) app::redir(\$this->root_path);
 
 		\$this->form = new form;
+		\$this->form->open(\"{\$this->root_path}/edit/{\$model_lower}->id}\", 'post', [
+			'class' => 'last',
+		]);
 		\$this->_build_form(\${$model_lower});
 		\$this->form->add(new field('submit_update'));
 

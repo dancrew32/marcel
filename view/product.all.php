@@ -3,7 +3,7 @@
 
 		<div class="clearfix">
 			<h1 class="pull-left">
-				Users
+				Products
 				<? echoif($total, "<small>{$total} Total</small>") ?>
 			</h1>
 
@@ -14,30 +14,30 @@
 			]) ?>
 		</div>
 
-		<? echoif(note::get('user:add'), html::alert('Successfully added User', ['type'=>'success'])) ?>
-		<? echoif(note::get('user:edit'), html::alert('Successfully updated User', ['type'=>'success'])) ?>
-		<? echoif(note::get('user:delete'), html::alert('Successfully deleted User', ['type'=>'success'])) ?>
+		<? echoif(note::get('product:add'), html::alert('Successfully added Product', ['type'=>'success'])) ?>
+		<? echoif(note::get('product:edit'), html::alert('Successfully updated Product', ['type'=>'success'])) ?>
+		<? echoif(note::get('product:delete'), html::alert('Successfully deleted Product', ['type'=>'success'])) ?>
 		<? if ($total): ?>
 			<? if ($output_style == 'table'): ?>
 
 				<table class="table table-condensed table-striped table-hover">
-					<?= r('user', 'table', [ 'users' => $users ]) ?>
+					<?= r('product', 'table', [ 'products' => $products ]) ?>
 				</table>
 
 			<? elseif ($output_style == 'media'): ?>
 
-				<? foreach ($users as $user): ?>
+				<? foreach ($products as $product): ?>
 					<div class="media well">
-						<?= r('user', 'view', [ 'user' => $user ]) ?>
+						<?= r('product', 'view', [ 'product' => $product ]) ?>
 					</div>
 				<? endforeach ?>
 
 			<? endif ?>
 		<? else: ?>
 			<p class="lead">
-				No users yet!
+				No products yet!
 				<br>
-				Use the "Add User" form to create a new user!
+				Use the "Add Product" form to create a new product!
 			</p>
 		<? endif ?>
 		&nbsp;
@@ -45,10 +45,10 @@
 	</div>
 	<div class="span4">
 		<h2>
-			Add User
+			Add Product
 		</h2>
 		<div class="well">
-			<?= r('user', 'add_form') ?>
+			<?= r('product', 'add_form') ?>
 		</div>
 	</div>
 </div>

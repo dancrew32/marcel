@@ -61,4 +61,10 @@ class controller_common extends controller_base {
 		}
 	}
 
+	function output_style($o) {
+		$this->output_style = take($o, 'output_style');
+		$this->root_path    = take($o, 'root_path');
+		$this->page         = take($o, 'page');
+	}
+
 }

@@ -89,7 +89,7 @@ class {$name} extends model {
 	function &__get(\$name) {
 		switch (\$name) {
 			default:
-				\$out = h(\$this->read_attribute($name));
+				\$out = h(\$this->read_attribute(\$name));
 		}
 		return \$out;
 	}
