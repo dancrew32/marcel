@@ -193,7 +193,6 @@ abstract class socket_server {
 		}
 
 		$user->headers = $headers;
-		# Handshake
 		$user->handshake = $buffer;
 
 		$webSocketKeyHash = sha1($headers['sec-websocket-key'] . static::MAGIC_GUID);
