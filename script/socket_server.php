@@ -1,7 +1,7 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
 
-class echoServer extends socket_server {
+class chat_server extends socket_server {
 	protected $maxBufferSize = size::ONE_MB;
 	
 	protected function process($user, $message) {
@@ -29,10 +29,12 @@ class echoServer extends socket_server {
 		# Apply user to socket user
 		$user->try_set_user($session_id);
 
+		$this->event_connect($user);
 		//$this->stdout(print_r($user, true));
 	}
 	
 	protected function closed($user) {
+		$this->event_disconnect($user);
 		$user->destroy();
 		//$this->stdout(print_r($user, true));
 	}
@@ -41,11 +43,41 @@ class echoServer extends socket_server {
 /*
  * EVENTS
  */
+	function event_connect($user) {
+		$name = $user->user ? $user->user->full_name() : 'Anonymous';
+		$data = [
+			'event' => 'foo:bar:response',
+			'text' => "{$name}: Joined the room.",
+		];
+
+		$this->send_all(json_encode($data));
+	}
+
+	function event_disconnect($user) {
+		$name = $user->user ? $user->user->full_name() : 'Anonymous';
+		$data = [
+			'event' => 'foo:bar:response',
+			'text' => "{$name}: Left the room.",
+		];
+
+		$this->send_all(json_encode($data));
+	}
+
 	function event_foo_bar($user, $data) {
-		if (!auth::admin($user->user)) return;
-		$foo = h(take($data, 'foo', 'cheese'));
-		$this->send_all("I'm {$user->user->full_name()} and I like {$foo}.");
+		//if (!auth::admin($user->user)) return;
+		$text = h(take($data, 'text'));
+		$text_trimmed = trim($text);
+		if (!isset($text_trimmed{0})) return false;
+
+		$name = $user->user ? $user->user->full_name() : 'Anonymous';
+
+		$data = [
+			'event' => 'foo:bar:response',
+			'text' => "{$name}: {$text}",
+		];
+
+		$this->send_all(json_encode($data));
 	}
 }
 
-$echo = new echoServer("173.255.209.99","7334");
+$echo = new chat_server("173.255.209.99","7334");

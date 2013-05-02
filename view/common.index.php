@@ -1,5 +1,3 @@
-<? app::asset('ws', 'js') ?>
-<? app::asset('class/websocket', 'js') ?>
 <div class="hero-unit">
 	<h1>Marcel</h1>
 	<p>

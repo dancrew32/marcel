@@ -17,10 +17,10 @@ abstract class socket_server {
 
 	function __construct($addr, $port, $bufferLength = 2048) {
 		$this->maxBufferSize = $bufferLength;
-		$this->master = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)  or die("Failed: socket_create()");
+		$this->master = socket_create(AF_INET, SOCK_STREAM, SOL_TCP) or die("Failed: socket_create()");
 		socket_set_option($this->master, SOL_SOCKET, SO_REUSEADDR, 1) or die("Failed: socket_option()");
-		socket_bind($this->master, $addr, $port)                      or die("Failed: socket_bind()");
-		socket_listen($this->master,20)                               or die("Failed: socket_listen()");
+		socket_bind($this->master, $addr, $port) or die("Failed: socket_bind()");
+		socket_listen($this->master,20) or die("Failed: socket_listen()");
 		$this->sockets[] = $this->master;
 		$this->stdout("Server started\nListening on: $addr:$port\nMaster socket: ".$this->master);
 
@@ -42,7 +42,7 @@ abstract class socket_server {
 				} else {
 					$numBytes = @socket_recv($socket, $buffer, $this->maxBufferSize, 0); 
 					//$this->stdout($numBytes);
-					
+
 					// todo: if($numBytes === false) { error handling } elseif ($numBytes === 0) { remote client disconected }
 					if ($numBytes == 0) {
 						$this->disconnect($socket);
@@ -60,7 +60,6 @@ abstract class socket_server {
 					//$this->stdout($message);
 
 					if ($message) {
-
 						$this->process($user, utf8_encode($message));
 
 						if ($user->hasSentClose)
@@ -154,12 +153,11 @@ abstract class socket_server {
 				$headers['get'] = trim($reqResource[1]);
 			}
 		}
-		if (isset($headers['get'])) {
+
+		if (isset($headers['get']))
 			$user->requestedResource = $headers['get'];
-		} else {
-			// todo: fail the connection
+		else // todo: fail the connection
 			$handshakeResponse = "HTTP/1.1 405 Method Not Allowed\r\n\r\n";			
-		}
 		if (!isset($headers['host']) || !$this->checkHost($headers['host']))
 			$handshakeResponse = "HTTP/1.1 400 Bad Request";
 
@@ -187,7 +185,7 @@ abstract class socket_server {
 		// Done verifying the _required_ headers and optionally required headers.
 
 		if (isset($handshakeResponse)) {
-			socket_write($user->socket,$handshakeResponse,strlen($handshakeResponse));
+			socket_write($user->socket, $handshakeResponse, strlen($handshakeResponse));
 			$this->disconnect($user->socket);
 			return false;
 		}
@@ -199,7 +197,7 @@ abstract class socket_server {
 
 		$rawToken = "";
 		for ($i = 0; $i < 20; $i++)
-			$rawToken .= chr(hexdec(substr($webSocketKeyHash,$i*2, 2)));
+			$rawToken .= chr(hexdec(substr($webSocketKeyHash, $i*2, 2)));
 
 		$handshakeToken = base64_encode($rawToken) . "\r\n";
 
@@ -207,7 +205,7 @@ abstract class socket_server {
 		$extensions = (isset($headers['sec-websocket-extensions'])) ? $this->processExtensions($headers['sec-websocket-extensions']) : "";
 
 		$handshakeResponse = "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: $handshakeToken$subProtocol$extensions\r\n";
-		socket_write($user->socket,$handshakeResponse,strlen($handshakeResponse));
+		socket_write($user->socket, $handshakeResponse, strlen($handshakeResponse));
 		$this->connected($user);
 	}
 
@@ -242,9 +240,8 @@ abstract class socket_server {
 
 	protected function getUserBySocket($socket) {
 		foreach ($this->users as $user) {
-			if ($user->socket == $socket) {
+			if ($user->socket == $socket)
 				return $user;
-			}
 		}
 		return null;
 	}
@@ -354,7 +351,7 @@ abstract class socket_server {
 		if ($this->checkRSVBits($headers,$user))
 			return false;
 
-			// todo: fail the connection
+		// todo: fail the connection
 		if ($willClose)
 			return false;
 
@@ -390,7 +387,7 @@ abstract class socket_server {
 	}
 
 	protected function extractHeaders($message) {
-		$header = array('fin'     => $message[0] & chr(128),
+		$header = array('fin' => $message[0] & chr(128),
 			'rsv1'    => $message[0] & chr(64),
 			'rsv2'    => $message[0] & chr(32),
 			'rsv3'    => $message[0] & chr(16),
@@ -401,15 +398,12 @@ abstract class socket_server {
 		$header['length'] = (ord($message[1]) >= 128) ? ord($message[1]) - 128 : ord($message[1]);
 
 		if ($header['length'] == 126) {
-			if ($header['hasmask']) {
+			if ($header['hasmask'])
 				$header['mask'] = $message[4] . $message[5] . $message[6] . $message[7];
-			}
-			$header['length'] = ord($message[2]) * 256 
-				+ ord($message[3]);
+			$header['length'] = ord($message[2]) * 256 + ord($message[3]);
 		} elseif ($header['length'] == 127) {
-			if ($header['hasmask']) {
+			if ($header['hasmask'])
 				$header['mask'] = $message[10] . $message[11] . $message[12] . $message[13];
-			}
 			$header['length'] = ord($message[2]) * 65536 * 65536 * 65536 * 256 
 				+ ord($message[3]) * 65536 * 65536 * 65536
 				+ ord($message[4]) * 65536 * 65536 * 256
@@ -418,9 +412,8 @@ abstract class socket_server {
 				+ ord($message[7]) * 65536 
 				+ ord($message[8]) * 256
 				+ ord($message[9]);
-		} elseif ($header['hasmask']) {
+		} elseif ($header['hasmask'])
 			$header['mask'] = $message[2] . $message[3] . $message[4] . $message[5];
-		}
 		//echo $this->strtohex($message);
 		//$this->printHeaders($header);
 		return $header;
@@ -455,10 +448,8 @@ abstract class socket_server {
 		return $effectiveMask ^ $payload;
 	}
 	protected function checkRSVBits($headers,$user) { // override this method if you are using an extension where the RSV bits are used.
-		if (ord($headers['rsv1']) + ord($headers['rsv2']) + ord($headers['rsv3']) > 0) {
-			//$this->disconnect($user); // todo: fail connection
+		if (ord($headers['rsv1']) + ord($headers['rsv2']) + ord($headers['rsv3']) > 0) //$this->disconnect($user); // todo: fail connection
 			return true;
-		}
 		return false;
 	}
 
