@@ -42,12 +42,22 @@ class util {
 		$paths = glob($path.'*', GLOB_MARK|GLOB_ONLYDIR|GLOB_NOSORT);
 		$files = glob($path . $pattern, $flags);
 		foreach ($paths as $path) 
-			$files = array_merge($files,self::rglob($pattern, $flags, $path));
+			$files = array_merge($files, self::rglob($pattern, $flags, $path));
 		return $files;
 	}
 
 	static function starts_with($string, $start) {
 		return substr($string, 0, strlen($start)) == $start;
+	}
+
+	static function list_english(array $items=[]) {
+		$count = count($items);
+		if (!$count) 
+			return '';
+		if ($count == 1)
+			return $items[0];
+		$last = $count - 1;
+		return implode(', ', array_slice($items, 0, $last)) . ' and ' . $items[$last];
 	}
 
 	static function pluck($find, $key, $data) {

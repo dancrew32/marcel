@@ -36,6 +36,9 @@ class chat_server extends socket_server {
 	protected function closed($user) {
 		$this->event_disconnect($user);
 		$user->destroy();
+		$data = $this->get_user_total_data($user);
+		$this->send_all(json_encode($data));
+
 		//$this->stdout(print_r($user, true));
 	}
 
@@ -47,33 +50,74 @@ class chat_server extends socket_server {
 		$name = $user->user ? $user->user->full_name() : 'Anonymous';
 		$data = [
 			'event' => 'foo:bar:response',
-			'text' => "{$name}: Joined the room.",
+			'text'  => "<p class=\"muted\">{$name}: Joined the room.</p>",
 		];
 
 		$this->send_all(json_encode($data));
+
+		$data = $this->get_user_total_data($user);
+		$this->send($user, json_encode($data));
+	}
+
+	function get_user_total_data($user) {
+		$user_count = $this->user_count() - 1;
+		if ($user_count) {
+			$user_list = [];
+			foreach ($this->users as $u)
+				$user_list[] = $u->full_name();
+
+			$user_list = util::list_english($user_list);
+
+			$user_suffix = $user_count == 1 ? 'person' : 'people';
+			$text = "<p class=\"muted\">Looks like there's {$user_count} {$user_suffix} here ({$user_list}).</p>";
+		} else {
+			$text = "<p class=\"muted\">Looks like you're the only one here.</p>";
+		}
+		return [
+			'event' => 'foo:bar:response',
+			'text'  => $text,
+		];
 	}
 
 	function event_disconnect($user) {
-		$name = $user->user ? $user->user->full_name() : 'Anonymous';
 		$data = [
 			'event' => 'foo:bar:response',
-			'text' => "{$name}: Left the room.",
+			'text' => "{$user->full_name()}: Left the room.",
 		];
 
 		$this->send_all(json_encode($data));
 	}
 
 	function event_foo_bar($user, $data) {
-		//if (!auth::admin($user->user)) return;
 		$text = h(take($data, 'text'));
 		$text_trimmed = trim($text);
 		if (!isset($text_trimmed{0})) return false;
 
-		$name = $user->user ? $user->user->full_name() : 'Anonymous';
+
+		# Tags
+		$tag_subs = [
+			'/(#\w+)/' => '<a href="https://twitter.com/search?q=$1&src=hash">$1</a>',
+			'/(@\w+)/' => '<code>$1</code>',
+		];
+		$text = preg_replace(array_keys($tag_subs), array_values($tag_subs), $text); 
+
+		# Image
+		if (auth::admin($user->user)) {
+			$img_regex = '/(https?:\/\/.*\.(?:png|jpg))/i';
+			if (preg_match($img_regex, $text, $match)) {
+				$text .= "<br><div class=\"thumbnail\">";
+				$text .= image::get([
+					'src' => $match[1],
+					'w' => 400,
+					'h' => 400,
+				], true, 'my image');
+				$text .= "</div>";
+			}
+		}
 
 		$data = [
 			'event' => 'foo:bar:response',
-			'text' => "{$name}: {$text}",
+			'text' => "<p><strong>{$user->full_name()}</strong>: {$text}<p>",
 		];
 
 		$this->send_all(json_encode($data));

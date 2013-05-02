@@ -101,6 +101,10 @@ abstract class socket_server {
 			$this->send($u, $message);
 	}
 
+	protected function user_count() {
+		return count($this->users);	
+	}
+
 	protected function send($user, $message) {
 		//$this->stdout("> $message");
 		$message = $this->frame($message,$user);

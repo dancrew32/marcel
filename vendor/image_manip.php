@@ -74,7 +74,8 @@ class image_manip {
 			$this->error("You are not allowed to fetch images from an external website.");
 			return false;
 		}
-		if ($this->isURL){
+
+		if ($this->isURL && !ALLOW_ALL_EXTERNAL_SITES) {
 			$allowed = false;
 			foreach(image::$ALLOWED_SITES as $site){
 				if ((strtolower(substr($this->url['host'],-strlen($site)-1)) === strtolower(".$site")) || (strtolower($this->url['host'])===strtolower($site)))

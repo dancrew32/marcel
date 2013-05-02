@@ -48,4 +48,8 @@ class socket_user {
 	function destroy() {
 		$this->user = null;
 	}
+
+	function full_name() {
+		return $this->user ? $this->user->full_name() : 'Anonymous';
+	}
 }

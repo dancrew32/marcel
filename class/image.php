@@ -37,7 +37,7 @@ class image {
 
 		// Allow fetching from all external sites (DANGEROUS)
 		if (!defined('ALLOW_ALL_EXTERNAL_SITES'))
-			define('ALLOW_ALL_EXTERNAL_SITES', false); // leave this false.
+			define('ALLOW_ALL_EXTERNAL_SITES', true);
 
 		// Should we store resized/modified images on disk to speed things up?
 		if (!defined('FILE_CACHE_ENABLED')) 

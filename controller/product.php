@@ -174,7 +174,7 @@ class controller_product extends controller_base {
 
 
 		$this->form
-			->group($name_group, $name_help, $name_field)
+			->group($name_group, $name_field, $name_help)
 			->group($price_group, $price_field, $price_help)
 			->group($description_group, $description_field, $description_help)
 			->group($active_field);
