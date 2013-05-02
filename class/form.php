@@ -17,6 +17,7 @@ class form {
 	}
 
 	function open($action='#', $method='post', array $attrs=array()) {
+		app::asset('class/form', 'js');
 		app::asset('validate.min', 'js');
 		$this->html .= '<form action="'. $action .'" method="'. strtoupper($method) .'"';
 		$this->html .= html::build_attributes($attrs) .'>';

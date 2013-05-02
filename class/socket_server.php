@@ -41,7 +41,7 @@ abstract class socket_server {
 						$this->connect($client);
 				} else {
 					$numBytes = @socket_recv($socket, $buffer, $this->maxBufferSize, 0); 
-					$this->stdout($numBytes);
+					//$this->stdout($numBytes);
 					
 					// todo: if($numBytes === false) { error handling } elseif ($numBytes === 0) { remote client disconected }
 					if ($numBytes == 0) {
@@ -57,7 +57,7 @@ abstract class socket_server {
 					}
 
 					$message = $this->deframe($buffer, $user);
-					$this->stdout($message);
+					//$this->stdout($message);
 
 					if ($message) {
 
@@ -89,13 +89,17 @@ abstract class socket_server {
 	}
 
 	abstract protected function process($user, $message); // Called immediately when the data is recieved. 
-	//abstract protected function broadcast($message);     // call for all users
 	abstract protected function connected($user);        // Called after the handshake response is sent to the client.
 	abstract protected function closed($user);           // Called after the connection is closed.
 
 	protected function connecting($user) {
 		// Override to handle a connecting user, after the instance of the User is created, but before
 		// the handshake has completed.
+	}
+
+	protected function send_all($message) {
+		foreach ($this->users as $u)	
+			$this->send($u, $message);
 	}
 
 	protected function send($user, $message) {
@@ -189,6 +193,7 @@ abstract class socket_server {
 		}
 
 		$user->headers = $headers;
+		# Handshake
 		$user->handshake = $buffer;
 
 		$webSocketKeyHash = sha1($headers['sec-websocket-key'] . static::MAGIC_GUID);

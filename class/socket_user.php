@@ -3,7 +3,7 @@ class socket_user {
 
 	public $socket;
 	public $id;
-	public $user_id;
+	public $user = null; # reserved for User::$user
 	public $headers = array();
 	public $handshake = false;
 
@@ -15,8 +15,12 @@ class socket_user {
 
 	public $hasSentClose = false;
 
-	function __construct($id,$socket) {
+	function __construct($id, $socket) {
 		$this->id = $id;
 		$this->socket = $socket;
+	}
+
+	function destroy() {
+		$this->user = null;
 	}
 }

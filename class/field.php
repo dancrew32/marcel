@@ -38,6 +38,7 @@ class field {
 			case 'radio':
 				return $this->radio();
 			case 'typeahead':
+				app::asset('class/typeahead', 'js');
 				if (!isset($this->attrs['class']{0}))
 					$this->attrs['class'] = 'typeahead';
 				else
