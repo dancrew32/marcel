@@ -10,4 +10,8 @@ api::$keys = [
 			'public' => 'pk_live...',
 		],
 	],
+	'google_maps' => [ # https://code.google.com/apis/console/b/0/
+		'DEV'  => '',
+		'LIVE' => '',
+	],
 ];
