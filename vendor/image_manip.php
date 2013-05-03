@@ -93,7 +93,7 @@ class image_manip {
 
 		$cachePrefix = ($this->isURL ? '_ext_' : '_int_');
 		if ($this->isURL){
-			$arr = explode('&', $_SERVER ['QUERY_STRING']);
+			$arr = explode('&', $_SERVER['QUERY_STRING']);
 			asort($arr);
 			$this->cachefile = $this->cacheDirectory . '/' . FILE_CACHE_PREFIX . $cachePrefix . md5($this->salt . implode('', $arr) . $this->fileCacheVersion) . FILE_CACHE_SUFFIX;
 		} else {

@@ -15,7 +15,7 @@
 		<h1>
 			Chat
 		</h1>
-		<div id="messages" class="well"></div>
+		<div id="messages" class="well word-wrap"></div>
 		<?= r('message', 'chat_form') ?>
 	</div>
 	<div class="span4">

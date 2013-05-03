@@ -108,8 +108,9 @@ class chat_server extends socket_server {
 				$text .= "<br><div class=\"thumbnail\">";
 				$text .= image::get([
 					'src' => $match[1],
-					'w' => 400,
-					'h' => 400,
+					'w' => 720,
+					'h' => 405,
+					'q' => 10,
 				], true, 'my image');
 				$text .= "</div>";
 			}

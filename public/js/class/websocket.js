@@ -20,7 +20,7 @@
 	};
 
 	function websocketInit(event) {
-		console.log('sockets are up');
+		//console.log('sockets are up');
 		NS.SOCKETS.main.onmessage = onMessage;
 		EL.chatForm.on('submit', chatSubmit);
 	}
@@ -66,7 +66,7 @@
 
 	function handleChat(event, data) {
 		$('#messages').append("<p>"+ data.text +"</p>");
-		notifyDesktop('', 'new message', data.text);
+		//notifyDesktop('', 'new message', data.text);
 	}
 
 	function addEventListeners() {
@@ -75,7 +75,7 @@
 			NS.SOCKETS.main.onopen = websocketInit;
 		}
 		NS.ELEMENT.win.on('foo:bar:response', handleChat);
-		EL.notificationsEnable.on('click', enableNotifications);
+		//EL.notificationsEnable.on('click', enableNotifications);
 	}
 
 	function init() {
