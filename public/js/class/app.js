@@ -1,14 +1,14 @@
 // Main 
 var APP = {
-	CLASSES: {},
-	ELEMENT: {},
-	SOCKETS: {}
+	CLASSES: {}, // Module Namespace
+	ELEMENT: {}, // jQuery Elements
+	SOCKETS: {}, // WebSockets
+	TEMPLATE: {} // Mustache templates
 };
 
 (function(NS) {
 
 	"use strict";
-
 
 	function addEventListeners() {
 	}

@@ -5,6 +5,8 @@ app::$routes = [
 	# Root
 	'/' => [ 'c' => 'common', 'm' => 'index', 'name' => 'Home', 'section' => 'Home'],
 
+
+
 	# Skip database initialization with `nodb`
 	'/i' => [ 'c' => 'image', 'm' => 'process', 'nodb' => true, 'name' => 'Image Process' ],
 
@@ -100,6 +102,9 @@ app::$routes = [
 		],
 		'auth' => ['anon'],
 	],
+
+	# Mustache view test
+	'/mustache' => [ 'c' => 'mustachetest', 'm' => 'main', 'name' => 'Mustache Home', 'section' => 'Mustache' ],
 
 	# Error
 	'/403' => [ 'c' => 'status_code', 'm' => 'forbidden', 'nodb' => true ],

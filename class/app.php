@@ -148,8 +148,9 @@ class app {
 			return self::$assets[$type][]= $path;
 		$local = "{$path}.{$type}";
 		$test = $type == 'css' ? CSS_DIR : JS_DIR;
-		if (!file_exists(PUBLIC_DIR.'/'.$test.'/'.$local)) return;
-		self::$assets[$type][]= $test.'/'.$local;
+		$path = "{$test}/{$local}";
+		if (!file_exists(PUBLIC_DIR."/{$path}")) return;
+		self::$assets[$type][]= $path;
 	}
 
 	static function redir($url='/') {

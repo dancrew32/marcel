@@ -72,6 +72,11 @@ legend {
 .nav-output-style {
 	margin: 15px 0 10px;
 }
+
+.scrolling {
+	overflow: auto;	
+	max-height: 400px;
+}
 /*	
 .pagination {
 	span,

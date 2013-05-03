@@ -49,6 +49,9 @@
 					<li<? echoif(app::in_section('Message'), ' class="active"') ?>>
 						<a href="<?= app::get_path('Message Home') ?>">Message</a>
 					</li>
+					<li<? echoif(app::in_section('Mustache'), ' class="active"') ?>>
+						<a href="<?= app::get_path('Mustache Home') ?>">Mustache</a>
+					</li>
 					<? /*
 						
 					<li class="dropdown">

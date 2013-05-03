@@ -6,13 +6,25 @@ class util {
 		$c = "controller_{$o['c']}";
 		$obj = new $c($p);
 		$obj->$o['m']($p);
-		$_view = VIEW_DIR.'/'.$o['c'].'.'.$o['m'].'.php';
-		if (!file_exists($_view)) return;
 		if ($obj->skip) return $obj->skip = false;
-		ob_start();
-		extract((array)$obj);
-		include $_view;
-		return ob_get_clean();
+
+		$path = VIEW_DIR."/{$o['c']}.{$o['m']}";
+
+		# PHP
+		$_view = "{$path}.php";
+		if (file_exists($_view)) {
+			ob_start();
+			extract((array)$obj);
+			include $_view;
+			return ob_get_clean();
+		}
+
+		# Mustache
+		$_view = "{$path}.mustache";
+		if (file_exists($_view)) {
+			app::asset('class/mustache.min', 'js');
+			return stache::render($_view, (array)$obj);
+		}
 	}
 
 	static function is_ajax() {
