@@ -96,9 +96,28 @@ abstract class socket_server {
 		// the handshake has completed.
 	}
 
-	protected function send_all($message) {
-		foreach ($this->users as $u)	
+	protected function send_all($message, array $options=[]) {
+		$options = array_merge([
+			'exclude'        => [], # $users to exclude from bulk send
+			'sender'         => null, # reserved for $user sending message
+			'sender_message' => null, # sender override message
+		], $options);
+
+		foreach ($this->users as $u) {
+			$excluded = in_array($u, $options['exclude']);
+			if ($excluded) continue;
+
+			$sender_mode = isset($options['sender']) && isset($options['sender_message']);
+			if ($sender_mode) {
+				$is_sender = $u === $options['sender'];
+				if ($is_sender) {
+					$this->send($u, $options['sender_message']);	
+					continue;	
+				}
+			}
+			# Send regular message
 			$this->send($u, $message);
+		}
 	}
 
 	protected function user_count() {

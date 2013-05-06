@@ -8,6 +8,11 @@ class controller_message extends controller_base {
 	function main($o) {
 	}
 
+	function message() {
+		$this->message = 'Connecting...';		
+		$this->cls = 'muted';
+	}
+
 	function chat_form() {
 		app::asset('ws', 'js');
 		app::asset('class/websocket', 'js');

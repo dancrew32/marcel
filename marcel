@@ -10,7 +10,7 @@ foreach ($scripts as $k => $s) {
 	$name = util::explode_pop('/', $s);	
 	if ($is_search) {
 		$name = preg_replace('/[_\-\.]/i', '', $name);
-		$q = '/'.preg_quote($search, '/').'/';
+		$q = '/.*'.preg_quote($search, '/').'.*/';
 		if (!preg_match($q, $name)) continue;
 		$use = $k;
 		break;
@@ -21,6 +21,6 @@ foreach ($scripts as $k => $s) {
 if (!$is_search)
 	$use = gets("Enter number for script to run");
 
-if (!$use || !file_exists($scripts[$use])) 
+if (!file_exists($scripts[$use])) 
 	return red("No match\n");
 include_once "{$scripts[$use]}";

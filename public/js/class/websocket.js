@@ -23,6 +23,7 @@
 		//console.log('sockets are up');
 		NS.SOCKETS.main.onmessage = onMessage;
 		EL.chatForm.on('submit', chatSubmit);
+		NS.TEMPLATE.chatMessage = $('#message-message').html();
 	}
 	
 	function notifyDesktop(image, a, text) {
@@ -65,7 +66,15 @@
 	}
 
 	function handleChat(event, data) {
-		$('#messages').append("<p>"+ data.text +"</p>");
+		var html = Mustache.to_html(NS.TEMPLATE.chatMessage, {
+			message: data.text,
+			cls: data.cls
+		});
+		var el = $('#messages');
+		el.append(html);
+		el.animate({
+			scrollTop: el[0].scrollHeight
+		}, 700);
 		//notifyDesktop('', 'new message', data.text);
 	}
 

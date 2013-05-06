@@ -2,6 +2,15 @@
 require_once(dirname(__FILE__).'/inc.php');
 
 class chat_server extends socket_server {
+	
+	static $text_class = [
+		'muted'   => 'muted',
+		'info'    => 'text-info',
+		'success' => 'text-success',
+		'warning' => 'text-warning',
+		'error'   => 'text-error',
+	];
+
 	protected $maxBufferSize = size::ONE_MB;
 	
 	protected function process($user, $message) {
@@ -50,7 +59,8 @@ class chat_server extends socket_server {
 		$name = $user->user ? $user->user->full_name() : 'Anonymous';
 		$data = [
 			'event' => 'foo:bar:response',
-			'text'  => "<p class=\"muted\">{$name}: Joined the room.</p>",
+			'text'  => "{$name}: Joined the room.",
+			'cls'   => self::$text_class['muted'],
 		];
 
 		$this->send_all(json_encode($data));
@@ -69,13 +79,14 @@ class chat_server extends socket_server {
 			$user_list = util::list_english($user_list);
 
 			$user_suffix = $user_count == 1 ? 'person' : 'people';
-			$text = "<p class=\"muted\">Looks like there's {$user_count} {$user_suffix} here ({$user_list}).</p>";
+			$text = "Looks like there's {$user_count} {$user_suffix} here ({$user_list}).";
 		} else {
-			$text = "<p class=\"muted\">Looks like you're the only one here.</p>";
+			$text = "Looks like you're the only one here.";
 		}
 		return [
 			'event' => 'foo:bar:response',
 			'text'  => $text,
+			'cls'   => self::$text_class['muted'],
 		];
 	}
 
@@ -118,10 +129,15 @@ class chat_server extends socket_server {
 
 		$data = [
 			'event' => 'foo:bar:response',
-			'text' => "<p><strong>{$user->full_name()}</strong>: {$text}<p>",
+			'text' => "<strong>{$user->full_name()}</strong>: {$text}",
 		];
 
-		$this->send_all(json_encode($data));
+		$this->send_all(json_encode($data), [
+			'sender' => $user,
+			'sender_message' => json_encode(array_merge([
+				'cls' => self::$text_class['success'],
+			], $data)),
+		]);
 	}
 }
 
