@@ -1,10 +1,12 @@
 // Main 
-var APP = {
-	CLASSES: {}, // Module Namespace
-	ELEMENT: {}, // jQuery Elements
-	SOCKETS: {}, // WebSockets
-	TEMPLATE: {} // Mustache templates
-};
+(function(global) {
+	global.APP = {
+		CLASSES: {}, // Module Namespace
+		ELEMENT: {}, // jQuery Elements
+		SOCKETS: {}, // WebSockets
+		TEMPLATE: {} // Mustache templates
+	};
+}(window));
 
 (function(NS) {
 
@@ -21,4 +23,4 @@ var APP = {
 
 	$(init);
 
-}(APP));
+}(window.APP));

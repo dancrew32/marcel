@@ -14,7 +14,6 @@ class controller_message extends controller_base {
 	}
 
 	function chat_form() {
-		app::asset('ws', 'js');
 		app::asset('class/websocket', 'js');
 		$this->form = new form;
 		$this->form->open('#', 'post', [

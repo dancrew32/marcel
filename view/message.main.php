@@ -1,3 +1,4 @@
+<? app::asset('message.main', 'js') ?>
 <div class="row">
 	<? /*
 	<div class="span4">

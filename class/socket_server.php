@@ -315,11 +315,11 @@ abstract class socket_server {
 			$b2 = 126;
 			$hexLength = dechex($length);
 			//$this->stdout("Hex Length: $hexLength");
-			if (strlen($hexLength)%2 == 1)
+			if (strlen($hexLength) % 2 == 1)
 				$hexLength = '0' . $hexLength;
 			$n = strlen($hexLength) - 2;
 
-			for ($i = $n; $i >= 0; $i=$i-2)
+			for ($i = $n; $i >= 0; $i = $i - 2)
 				$lengthField = chr(hexdec(substr($hexLength, $i, 2))) . $lengthField;
 
 			while (strlen($lengthField) < 2)
@@ -327,11 +327,11 @@ abstract class socket_server {
 		} else {
 			$b2 = 127;
 			$hexLength = dechex($length);
-			if (strlen($hexLength)%2 == 1)
+			if (strlen($hexLength) % 2 == 1)
 				$hexLength = '0' . $hexLength;
 			$n = strlen($hexLength) - 2;
 
-			for ($i = $n; $i >= 0; $i=$i-2)
+			for ($i = $n; $i >= 0; $i = $i-2)
 				$lengthField = chr(hexdec(substr($hexLength, $i, 2))) . $lengthField;
 
 			while (strlen($lengthField) < 8)
