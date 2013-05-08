@@ -27,6 +27,7 @@
 		NS.TEMPLATE.chatMessage = $('#message-message').html();
 		NS.SOCKETS.main.onmessage = onMessage;
 		EL.chatForm.on('submit', chatSubmit);
+		EL.chatForm.find('input:first').focus();
 	}
 
 	function websocketFocusRestore() {
