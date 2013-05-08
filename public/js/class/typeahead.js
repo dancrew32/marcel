@@ -85,6 +85,7 @@
 	
 	function handleTypeaheads() {
 		NS.ELEMENT.typeaheads.typeahead({
+			//minLength: $(this).data('minlength'),
 			source: handleSource,
 			matcher: function() { return true; },
 			updater: handleUpdater

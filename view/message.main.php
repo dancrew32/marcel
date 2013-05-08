@@ -1,17 +1,8 @@
-<? app::asset('message.main', 'js') ?>
+<? app::asset('class/json', 'js') ?>
+<? app::asset('class/mustache', 'js') ?>
+<? app::asset('class/websocket', 'js') ?>
+<? app::asset('view/message.main', 'js') ?>
 <div class="row">
-	<? /*
-	<div class="span4">
-		<h2>
-			Send Email
-		</h2>
-	</div>
-	<div class="span4">
-		<h2>
-			Send Text
-		</h2>
-	</div>
-	*/ ?>
 	<div class="span8">
 		<h1>
 			Chat

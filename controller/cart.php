@@ -269,7 +269,7 @@ class controller_cart extends controller_base {
 		]);
 		$this->_build_form($cart);
 		$this->form->custom(html::alert('<div class="payment-errors"></div>', [
-			'type'=>'error', 
+			'type'   => 'error',
 			'hidden' => true
 		]));
 		$this->form->add(new field('submit', [

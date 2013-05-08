@@ -22,7 +22,6 @@ class util {
 		# Mustache
 		$_view = "{$path}.mustache";
 		if (file_exists($_view)) {
-			app::asset('class/mustache.min', 'js');
 			return stache::render($_view, (array)$obj);
 		}
 	}

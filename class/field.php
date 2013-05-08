@@ -44,7 +44,6 @@ class field {
 				else
 					$this->attrs['class'] .= ' typeahead';
 				$this->attrs['data-provide'] = 'typeahead';
-				$this->attrs['data-provide'] = 'typeahead';
 				$this->attrs['autocomplete'] = false;
 				return $this->input();
 			case 'date':

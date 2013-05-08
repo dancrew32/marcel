@@ -1,8 +1,9 @@
-<div class="navbar<? /*navbar-inverse navbar-fixed-top */ ?>">
+<div class="navbar navbar-fixed-top<? /*navbar-inverse navbar-fixed-top */ ?>">
 	<div class="navbar-inner">
 		<div class="container">
 
-			<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			<button type="button" class="btn btn-navbar" 
+					data-toggle="collapse" data-target=".nav-collapse">
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
@@ -19,21 +20,40 @@
 						<a href="<?= app::get_path('Home')?>">Home</a>
 					</li>
 
-					<? if (auth::cron_job_section()): ?>
-						<li<? echoif(app::in_section('Cron'), ' class="active"') ?>>
-							<a href="<?= app::get_path('Cron Home') ?>">Cron</a>
-						</li>
-					<? endif ?>
 
-					<? if (auth::worker_section()): ?>
-						<li<? echoif(app::in_section('Worker'), ' class="active"') ?>>
-							<a href="<?= app::get_path('Worker Home') ?>">Workers</a>
-						</li>
-					<? endif ?>
+					<? if (auth::cron_job_section() || auth::worker_section() || auth::user_section()): ?>
+						<li class="dropdown<? echoif((app::in_section('Cron') || app::in_section('Worker') || app::in_section('User')), ' active') ?>">
+							<a href="#" 
+								class="dropdown-toggle" 
+								data-toggle="dropdown">
+								Admin
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<? if (auth::user_section()): ?>
+									<li>
+										<a href="<?= app::get_path('User Home') ?>">
+											Users
+										</a>
+									</li>
+								<? endif ?>
 
-					<? if (auth::user_section()): ?>
-						<li<? echoif(app::in_section('User'), ' class="active"') ?>>
-							<a href="<?= app::get_path('User Home') ?>">Users</a>
+								<? if (auth::cron_job_section()): ?>
+									<li>
+										<a href="<?= app::get_path('Cron Home') ?>">
+											Cron
+										</a>
+									</li>
+								<? endif ?>
+
+								<? if (auth::worker_section()): ?>
+									<li>
+										<a href="<?= app::get_path('Worker Home') ?>">
+											Workers
+										</a>
+									</li>
+								<? endif ?>
+							</ul>
 						</li>
 					<? endif ?>
 
@@ -46,27 +66,33 @@
 					<li<? echoif(app::in_section('Cart'), ' class="active"') ?>>
 						<a href="<?= app::get_path('Cart Home') ?>">Cart</a>
 					</li>
-					<li<? echoif(app::in_section('Message'), ' class="active"') ?>>
-						<a href="<?= app::get_path('Message Home') ?>">Message</a>
-					</li>
-					<li<? echoif(app::in_section('Mustache'), ' class="active"') ?>>
-						<a href="<?= app::get_path('Mustache Home') ?>">Mustache</a>
-					</li>
-					<? /*
 						
-					<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li class="nav-header">Nav header</li>
-						<li><a href="#">Separated link</a></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul>
+					<li class="dropdown<? echoif(app::in_section('Message') || app::in_section('Mustache'), ' active') ?>">
+						<a href="#" 
+							class="dropdown-toggle" 
+							data-toggle="dropdown">
+							Chat Test
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="<?= app::get_path('Message Home') ?>">Message</a>
+							</li>
+							<li>
+								<a href="<?= app::get_path('Mustache Home') ?>">Mustache</a>
+							</li>
+							<? /*
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li class="divider"></li>
+							<li class="nav-header">Nav header</li>
+							<li><a href="#">Separated link</a></li>
+							<li><a href="#">One more separated link</a></li>
+							*/ ?>
+						</ul>
 					</li>
-					*/ ?>
+
 				</ul>
 
 				<ul class="nav pull-right">

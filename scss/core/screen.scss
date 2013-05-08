@@ -8,6 +8,7 @@ $linkColorHover: darken(green, 20%);
 // Bootstrap includes
 @import 'compass';
 @import 'compass_twitter_bootstrap';
+body { padding-top: 40px; }
 @import 'compass_twitter_bootstrap_responsive';
 
 // All yours!
