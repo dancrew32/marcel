@@ -34,6 +34,12 @@
 		<?= $product->active ? 'Active' : 'Inactive' ?>
 	</p>
 
+	<? if ($product->description): ?>
+		<p>
+			<?= util::truncate($product->description, size::ONE_TWEET)  ?>
+		</p>
+	<? endif ?>
+
 	<ul class="nav nav-pills last">
 		<? if ($mode != 'edit'): ?>
 			<li>
