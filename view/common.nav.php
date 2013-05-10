@@ -35,13 +35,6 @@
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
-								<? if (auth::user_section()): ?>
-									<li>
-										<a href="<?= app::get_path('User Home') ?>">
-											Users
-										</a>
-									</li>
-								<? endif ?>
 
 								<? if (auth::cron_job_section()): ?>
 									<li>
@@ -51,10 +44,10 @@
 									</li>
 								<? endif ?>
 
-								<? if (auth::worker_section()): ?>
+								<? if (auth::product_category_section()): ?>
 									<li>
-										<a href="<?= app::get_path('Worker Home') ?>">
-											Workers
+										<a href="<?= app::get_path('Product Category Home') ?>">
+											Product Categories
 										</a>
 									</li>
 								<? endif ?>
@@ -67,13 +60,22 @@
 									</li>
 								<? endif ?>
 
-								<? if (auth::product_category_section()): ?>
+								<? if (auth::user_section()): ?>
 									<li>
-										<a href="<?= app::get_path('Product Category Home') ?>">
-											Product Categories
+										<a href="<?= app::get_path('User Home') ?>">
+											Users
 										</a>
 									</li>
 								<? endif ?>
+
+								<? if (auth::worker_section()): ?>
+									<li>
+										<a href="<?= app::get_path('Worker Home') ?>">
+											Workers
+										</a>
+									</li>
+								<? endif ?>
+
 							</ul>
 						</li>
 					<? endif ?>

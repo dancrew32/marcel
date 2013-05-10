@@ -41,6 +41,8 @@ class controller_product_category extends controller_base {
 
 	function view($o) {
 		$this->product_category = take($o, 'product_category');	
+		$this->types = $this->product_category->types;
+		$this->type_count = count($this->types);
 		$this->mode = take($o, 'mode', false);
 	}	
 

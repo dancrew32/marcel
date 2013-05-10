@@ -38,11 +38,11 @@ class html {
 		return h("<i class=\"icon-{$icon}\"></i> {$verb}&hellip;");
 	}
 
-	static function btn($href, $text, $type='', $icon) {
+	static function btn($href, $text='', $icon=null, $type='') {
 		$cls = 'btn';
 		if ($type)
 			$cls .= " btn-{$type}";
-		return self::a($href, $text, $cls);	
+		return self::a($href, $text, $icon, $cls);	
 	}
 
 	static function ul(array $data) {

@@ -9,10 +9,20 @@
 	</div>
 	<div class="span4">
 		<h2>
-			Current Product Type
+			Current Type
 		</h2>
 		<div class="media well">
 			<?= r('product_type', 'view', [ 'product_type' => $product_type, 'mode' => 'edit' ]) ?>
 		</div>
+
+		<ul class="nav nav-tabs nav-stacked">
+			<li>
+				<?= html::a([
+					'href' => "{$root_path}",
+					'text' => "View All Product Types",
+					'icon' => 'eye-open',
+				]) ?>
+			</li>
+		</ul>
 	</div>
 </div>

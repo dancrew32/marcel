@@ -40,5 +40,15 @@
 		<div class="well">
 			<?= r('product_type', 'add_form') ?>
 		</div>
+
+		<ul class="nav nav-tabs nav-stacked">
+			<li>
+				<?= html::a([
+					'href' => app::get_path('Product Category Home'),
+					'text' => "View Product Categories",
+					'icon' => 'eye-open',
+				]) ?>
+			</li>
+		</ul>
 	</div>
 </div>

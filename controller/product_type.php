@@ -25,6 +25,7 @@ class controller_product_type extends controller_base {
 
 	function view($o) {
 		$this->product_type = take($o, 'product_type');	
+		$this->product_category = $this->product_type->category;
 		$this->mode = take($o, 'mode', false);
 	}	
 
