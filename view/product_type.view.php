@@ -1,6 +1,10 @@
 <div class="media-body">
 	<h4 class="media-heading">
 		<?= $product_type ?>
+
+		<small>
+			(<?= $product_type->slug ?>)
+		</small>
 		
 		<? if ($product_category): ?>
 			<a href="<?= app::get_path('Product Category Home') ."/edit/{$product_category->id}" ?>" 
@@ -13,6 +17,20 @@
 			</span>
 		<? endif ?>
 	</h4>
+
+	<ul class="nav nav-pills">
+		<? foreach ($products as $product): ?>
+			<li>
+				<?= html::a([
+					'href'  => app::get_path('Product Home') ."/edit/{$product->id}", 
+					'text'  => $product, 
+					'icon'  => 'gift', 
+					'class' => $product->active ? '' : 'muted',
+				]) ?>
+			</li>
+		<? endforeach ?>
+	</ul>
+
 	<ul class="nav nav-pills last">
 		<? if ($mode != 'edit'): ?>
 			<li>

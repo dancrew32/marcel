@@ -35,7 +35,7 @@
 	</div>
 	<div class="span4">
 		<h2>
-			Add Product Type
+			Add Type
 		</h2>
 		<div class="well">
 			<?= r('product_type', 'add_form') ?>
@@ -45,7 +45,14 @@
 			<li>
 				<?= html::a([
 					'href' => app::get_path('Product Category Home'),
-					'text' => "View Product Categories",
+					'text' => "View All Product Categories",
+					'icon' => 'eye-open',
+				]) ?>
+			</li>
+			<li>
+				<?= html::a([
+					'href' => app::get_path('Product Home'),
+					'text' => "View All Products",
 					'icon' => 'eye-open',
 				]) ?>
 			</li>

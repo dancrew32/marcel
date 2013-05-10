@@ -14,5 +14,15 @@
 		<div class="media well">
 			<?= r('product', 'view', [ 'product' => $product, 'mode' => 'edit' ]) ?>
 		</div>
+
+		<ul class="nav nav-tabs nav-stacked">
+			<li>
+				<?= html::a([
+					'href' => app::get_path('Product Home'),
+					'text' => "View All Products",
+					'icon' => 'eye-open',
+				]) ?>
+			</li>
+		</ul>
 	</div>
 </div>

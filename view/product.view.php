@@ -20,11 +20,18 @@
 		<? endif ?>
 	</h4>
 
-	<p>
+	<p<? echoif(!$product->price, ' class="text-warning"') ?>>
 		<strong>	
 			Price:
 		</strong>
 		$<?= number_format($product->price, 2) ?>
+	</p>
+
+	<p<? echoif(!$product->active, ' class="muted"')?>>
+		<strong>	
+			Status:
+		</strong>
+		<?= $product->active ? 'Active' : 'Inactive' ?>
 	</p>
 
 	<ul class="nav nav-pills last">

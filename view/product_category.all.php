@@ -49,6 +49,13 @@
 					'icon' => 'eye-open',
 				]) ?>
 			</li>
+			<li>
+				<?= html::a([
+					'href' => app::get_path('Product Home'),
+					'text' => "View All Products",
+					'icon' => 'eye-open',
+				]) ?>
+			</li>
 		</ul>
 	</div>
 </div>
