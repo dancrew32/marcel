@@ -131,7 +131,7 @@ $boilerplate .= "
 		if (!\${$model_lower}) app::redir(\$this->root_path);
 
 		\$this->form = new form;
-		\$this->form->open(\"{\$this->root_path}/edit/\${$model_lower}->id}\", 'post', [
+		\$this->form->open(\"{\$this->root_path}/edit/{\${$model_lower}->id}\", 'post', [
 			'class' => 'last',
 		]);
 		\$this->_build_form(\${$model_lower});
@@ -140,7 +140,7 @@ $boilerplate .= "
 		echo \$this->form;
 	}
 
-	private function _build_form(\${$model_lower}) {
+	private function _build_form(\$o) {
 
 		// \$this->form
 		//   ->group();

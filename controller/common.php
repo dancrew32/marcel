@@ -9,10 +9,6 @@ class controller_common extends controller_base {
 		die('allowed');
 	}
 
-	function adminer() {
-		json(['adminer']);
-	}
-
 	function nav() {
 		$this->logged_in = User::$logged_in;	
 	}

@@ -175,7 +175,7 @@ class controller_product extends controller_base {
 		$type_help  = new field('help', [ 'text' => $product->take_error('product_type_id') ]);
 		$type_field = new field('select', [ 
 			'name'         => 'type', 
-			'class'        => 'input-block-level required',
+			'class'        => 'input-block-level',
 			'value'        => take($product, 'product_type_id'),
 			'options'      => Product_Type::options(),
 		]);

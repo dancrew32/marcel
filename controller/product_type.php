@@ -124,7 +124,7 @@ class controller_product_type extends controller_base {
 			'value'        => take($o, 'name'),
 		]);
 
-		# Name
+		# Slug
 		$slug_group = [ 'label' => 'Slug', 'class' => $o->error_class('slug') ]; 
 		$slug_help  = new field('help', [ 'text' => $o->take_error('slug') ]);
 		$slug_field = new field('input', [ 
@@ -135,12 +135,12 @@ class controller_product_type extends controller_base {
 			'value'        => take($o, 'slug'),
 		]);
 
-		# Type
+		# Category
 		$category_group = [ 'label' => 'Category', 'class' => $o->error_class('product_category_id') ]; 
 		$category_help  = new field('help', [ 'text' => $o->take_error('product_category_id') ]);
 		$category_field = new field('select', [ 
 			'name'         => 'category', 
-			'class'        => 'input-block-level required',
+			'class'        => 'input-block-level',
 			'value'        => take($o, 'product_category_id'),
 			'options'      => Product_Category::options(),
 		]);

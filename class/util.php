@@ -61,6 +61,11 @@ class util {
 		return substr($string, 0, strlen($start)) == $start;
 	}
 
+	public static function ends_with($string, $end) {
+		$end_len = strlen($end);
+		return (substr($string, strlen($string) - $end_len, $end_len) == $end);
+	}
+
 	static function list_english(array $items=[]) {
 		$count = count($items);
 		if (!$count) 

@@ -26,43 +26,47 @@ class auth {
 /*
  * FEATURES
  */
-	static function cron_job_section() {
-		return self::admin();
+	static function cron_job_section($user=null) {
+		return self::admin($user);
 	}
 
-	static function join() {
-		return self::anon();
+	static function join($user=null) {
+		return self::anon($user);
 	}
 
-	static function login() {
-		return self::anon();
+	static function login($user=null) {
+		return self::anon($user);
 	}
 
-	static function product_section() {
-		return self::admin();
+	static function product_section($user=null) {
+		return self::admin($user);
 	}
 
-	static function product_type_section() {
-		return self::admin();
+	static function product_type_section($user=null) {
+		return self::admin($user);
 	}
 
-	static function user_section() {
-		return self::admin();
+	static function product_category_section($user=null) {
+		return self::admin($user);
 	}
 
-	static function worker_section() {
-		return self::admin();
+	static function user_section($user=null) {
+		return self::admin($user);
+	}
+
+	static function worker_section($user=null) {
+		return self::admin($user);
 	}
 
 
 /*
  * HELPERS
  */
-	static function check($method) {
+	static function check($method, $fail='_403') {
 		if (!method_exists(__CLASS__, $method)) 
 			return true;
 		$allowed = self::$method();
-		if (!$allowed) _403();
+		if (!$allowed) $fail();
 	}
 
 	static function for_user($user=false) {

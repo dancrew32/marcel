@@ -13,5 +13,5 @@ CREATE TABLE `products` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `active` (`active`),
-  KEY `type_id` (`product_type_id`)
+  KEY `product_type_id` (`product_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -355,7 +355,7 @@ class controller_cart extends controller_base {
 		$exp_month_help  = new field('help', [ 'text' => $cart->take_error('exp_month') ]);
 		$exp_month_field = new field('select', [
 			'name'        => 'exp_month',
-			'class'       => 'input-block-level required',
+			'class'       => 'input-block-level',
 			'id'          => 'cart-exp-month',
 			'data-stripe' => 'exp-month',
 			'value'       => take($cart, 'exp_month'),
@@ -366,7 +366,7 @@ class controller_cart extends controller_base {
 		$exp_year_help  = new field('help', [ 'text' => $cart->take_error('exp_year') ]);
 		$exp_year_field = new field('select', [
 			'name'        => 'exp_year',
-			'class'       => 'input-block-level required',
+			'class'       => 'input-block-level',
 			'id'          => 'cart-exp-year',
 			'data-stripe' => 'exp-year',
 			'value'       => take($cart, 'exp_year'),

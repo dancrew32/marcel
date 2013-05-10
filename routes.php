@@ -5,11 +5,7 @@ app::$routes = [
 	# Root
 	'/' => [ 'c' => 'common', 'm' => 'index', 'name' => 'Home', 'section' => 'Home'],
 
-	# Adminer
-	'/adminer' => [ 'c' => 'common', 'm' => 'adminer'],
-
-
-	# Skip database initialization with `nodb`
+	# Image Processing path (Skip database initialization with `nodb`)
 	'/i' => [ 'c' => 'image', 'm' => 'process', 'nodb' => true, 'name' => 'Image Process' ],
 
 	# Login/Join/Logout
@@ -83,6 +79,16 @@ app::$routes = [
 		=> [ 'c' => 'product_type', 'm' => 'edit', 'section' => 'Product Type' ],
 	'/product-types(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
 		=> [ 'c' => 'product_type', 'm' => 'all', 'name' => 'Product Type Home', 'section' => 'Product Type' ],
+
+	# Product Categories
+	'/product-categories/delete/(?P<id>([0-9]+))' 
+		=> [ 'c' => 'product_category', 'm' => 'delete', 'section' => 'Product Category' ],
+	'/product-categories/add'   
+		=> [ 'c' => 'product_category', 'm' => 'add', 'section' => 'Product Category' ],
+	'/product-categories/edit/(?P<id>([0-9]+))'  
+		=> [ 'c' => 'product_category', 'm' => 'edit', 'section' => 'Product Category' ],
+	'/product-categories(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
+		=> [ 'c' => 'product_category', 'm' => 'all', 'name' => 'Product Category Home', 'section' => 'Product Category' ],
 
 	# Geocoder
 	'/geo' => [ 'c' => 'geo', 'm' => 'code', 'name' => 'Geocode' ],

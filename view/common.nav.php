@@ -25,6 +25,7 @@
 					|| auth::worker_section() 
 					|| auth::user_section()
 					|| auth::product_type_section()
+					|| auth::product_category_section()
 					): ?>
 						<li class="dropdown<? echoif((app::in_section('Cron') || app::in_section('Worker') || app::in_section('User')), ' active') ?>">
 							<a href="#" 
@@ -62,6 +63,14 @@
 									<li>
 										<a href="<?= app::get_path('Product Type Home') ?>">
 											Product Types
+										</a>
+									</li>
+								<? endif ?>
+
+								<? if (auth::product_category_section()): ?>
+									<li>
+										<a href="<?= app::get_path('Product Category Home') ?>">
+											Product Categories
 										</a>
 									</li>
 								<? endif ?>
