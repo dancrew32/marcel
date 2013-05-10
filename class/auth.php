@@ -42,6 +42,10 @@ class auth {
 		return self::admin();
 	}
 
+	static function product_type_section() {
+		return self::admin();
+	}
+
 	static function user_section() {
 		return self::admin();
 	}

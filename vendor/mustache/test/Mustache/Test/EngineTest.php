@@ -20,7 +20,7 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         self::$tempDir = sys_get_temp_dir() . '/mustache_test';
-        if (file_exists(self::$tempDir)) {
+        if (is_file(self::$tempDir)) {
             self::rmdir(self::$tempDir);
         }
     }

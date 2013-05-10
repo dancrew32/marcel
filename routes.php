@@ -5,6 +5,8 @@ app::$routes = [
 	# Root
 	'/' => [ 'c' => 'common', 'm' => 'index', 'name' => 'Home', 'section' => 'Home'],
 
+	# Adminer
+	'/adminer' => [ 'c' => 'common', 'm' => 'adminer'],
 
 
 	# Skip database initialization with `nodb`
@@ -34,9 +36,9 @@ app::$routes = [
 	'/cron/delete/(?P<id>([0-9]+))' => [ 'c' => 'cron_job', 'm' => 'delete', 'section' => 'Cron' ],
 
 	# Workers
-	'/workers/reset/(?P<id>([0-9]+))'  => [ 'c' => 'worker', 'm' => 'reset', 'section' => 'Worker' ],
-	'/workers/delete/(?P<id>([0-9]+))' => [ 'c' => 'worker', 'm' => 'delete', 'section' => 'Worker' ],
-	'/workers(?:/*)(?P<filter>([a-z]*))'     => [ 'c' => 'worker', 'm' => 'all', 'name' => 'Worker Home', 'section' => 'Worker' ],
+	'/workers/reset/(?P<id>([0-9]+))'    => [ 'c' => 'worker', 'm' => 'reset', 'section' => 'Worker' ],
+	'/workers/delete/(?P<id>([0-9]+))'   => [ 'c' => 'worker', 'm' => 'delete', 'section' => 'Worker' ],
+	'/workers(?:/*)(?P<filter>([a-z]*))' => [ 'c' => 'worker', 'm' => 'all', 'name' => 'Worker Home', 'section' => 'Worker' ],
 
 	# Users
 	'/users/delete/(?P<id>([0-9]+))' 
@@ -50,7 +52,7 @@ app::$routes = [
 
 	# Cart Example
 	'/cart' 
-		=> [ 'c' => 'cart', 'm' => 'index', 'name' => 'Cart Home', 'section' => 'Cart' ],
+		=> [ 'c' => 'cart', 'm' => 'main', 'name' => 'Cart Home', 'section' => 'Cart' ],
 	'/cart/add/(?P<key>[0-9]+)(?:/*)(?P<amount>[0-9\*]*)' 
 		=> [ 'c' => 'cart', 'm' => 'add' ],
 	'/cart/remove/(?P<key>[0-9]+)(?:/*)(?P<amount>[0-9\*]*)' 
@@ -71,6 +73,16 @@ app::$routes = [
 		=> [ 'c' => 'product', 'm' => 'edit', 'section' => 'Product' ],
 	'/products(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
 		=> [ 'c' => 'product', 'm' => 'all', 'name' => 'Product Home', 'section' => 'Product' ],
+
+	# Product Types
+	'/product-types/delete/(?P<id>([0-9]+))' 
+		=> [ 'c' => 'product_type', 'm' => 'delete', 'section' => 'Product Type' ],
+	'/product-types/add'   
+		=> [ 'c' => 'product_type', 'm' => 'add', 'section' => 'Product Type' ],
+	'/product-types/edit/(?P<id>([0-9]+))'  
+		=> [ 'c' => 'product_type', 'm' => 'edit', 'section' => 'Product Type' ],
+	'/product-types(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
+		=> [ 'c' => 'product_type', 'm' => 'all', 'name' => 'Product Type Home', 'section' => 'Product Type' ],
 
 	# Geocoder
 	'/geo' => [ 'c' => 'geo', 'm' => 'code', 'name' => 'Geocode' ],

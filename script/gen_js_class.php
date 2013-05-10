@@ -25,7 +25,7 @@ $boilerplate =';(function(NS, MODULE_NAME) {
 $script_name = "{$module_name}.js";
 $full_script_path = PUBLIC_DIR.JS_DIR."/class/{$script_name}";
 
-$exists = file_exists($full_script_path);
+$exists = is_file($full_script_path);
 if ($exists)
 	return red("Module exists.\n");
 

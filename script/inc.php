@@ -3,9 +3,9 @@ if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', realpath(dirname(dirname(__FILE__))));
 require_once(ROOT_DIR.'/public/index.php');
 if (CLI) {
-	db::init();
 	ini_set('mysql.connect_timeout', 300);
 	ini_set('default_socket_timeout', 300);
+	db::init();
 }
 
 # CLI helpers 

@@ -37,7 +37,7 @@ if ($is_cron == 'y')
 
 $full_script_path = SCRIPT_DIR."/{$script_name}";
 
-$exists = file_exists($full_script_path);
+$exists = is_file($full_script_path);
 
 if ($exists) {
 	$overwrite = gets("{$script_name} exists. Overwrite? y/(n)");

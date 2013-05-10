@@ -17,6 +17,13 @@ body { padding-top: 40px; }
 	width: 100%;
 	min-height: 28px;
 	@include box-sizing(border-box);
+	.input-prepend & {
+		width: 89%;	
+		min-height: 30px;
+		.span8 & {
+			width: 95%;	
+		}
+	}
 }
 .row .inner {
 	border: 1px solid #ccc;	

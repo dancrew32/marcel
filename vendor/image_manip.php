@@ -153,7 +153,7 @@ class image_manip {
 		return false;
 	}
 	protected function tryServerCache(){
-		if (file_exists($this->cachefile)){
+		if (is_file($this->cachefile)){
 			if ($this->isURL){
 				if (filesize($this->cachefile) < 1){
 					//Fetching error occured previously
@@ -518,7 +518,7 @@ class image_manip {
 		} //Do not go past this point without docRoot set
 
 		//Try src under docRoot
-		if (file_exists ($this->docRoot . '/' . $src)) {
+		if (is_file($this->docRoot . '/' . $src)) {
 			$real = $this->realpath($this->docRoot . '/' . $src);
 			if (stripos($real, $this->docRoot) === 0){
 				return $real;
@@ -528,7 +528,7 @@ class image_manip {
 		}
 		//Check absolute paths and then verify the real path is under doc root
 		$absolute = $this->realpath('/' . $src);
-		if ($absolute && file_exists($absolute)){ //realpath does file_exists check, so can probably skip the exists check here
+		if ($absolute && is_file($absolute)){ //realpath does file_exists check, so can probably skip the exists check here
 			if (!$this->docRoot){ $this->sanityFail("docRoot not set when checking absolute path."); }
 			if (stripos($absolute, $this->docRoot) === 0){
 				return $absolute;
@@ -548,7 +548,7 @@ class image_manip {
 
 		foreach ($sub_directories as $sub){
 			$base .= $sub . '/';
-			if (file_exists($base . $src)){
+			if (is_file($base . $src)){
 				$real = $this->realpath($base . $src);
 				if (stripos($real, $this->realpath($this->docRoot)) === 0){
 					return $real;

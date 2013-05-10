@@ -133,7 +133,7 @@ class field {
 
 		foreach ($options as $k => $v) {
 			$this->html .= "<option value=\"{$k}\"";
-			if (in_array($k, $selected, true))
+			if (in_array($k, $selected))
 				$this->html .= ' selected';
 			$this->html .= ">{$v}</option>";
 		}
@@ -162,7 +162,7 @@ class field {
  * PRIVATE
  */
 
-	private function pick($to_pick='', $cast = 'string') {
+	private function pick($to_pick='', $cast='string') {
 		try {
 			$attribute = take($this->attrs, $to_pick);
 			settype($attribute, $cast);

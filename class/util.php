@@ -12,7 +12,7 @@ class util {
 
 		# PHP
 		$_view = "{$path}.php";
-		if (file_exists($_view)) {
+		if (is_file($_view)) {
 			ob_start();
 			extract((array)$obj);
 			include $_view;
@@ -21,7 +21,7 @@ class util {
 
 		# Mustache
 		$_view = "{$path}.mustache";
-		if (file_exists($_view)) {
+		if (is_file($_view)) {
 			return stache::render($_view, (array)$obj);
 		}
 	}

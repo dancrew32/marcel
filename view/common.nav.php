@@ -21,7 +21,11 @@
 					</li>
 
 
-					<? if (auth::cron_job_section() || auth::worker_section() || auth::user_section()): ?>
+					<? if (auth::cron_job_section() 
+					|| auth::worker_section() 
+					|| auth::user_section()
+					|| auth::product_type_section()
+					): ?>
 						<li class="dropdown<? echoif((app::in_section('Cron') || app::in_section('Worker') || app::in_section('User')), ' active') ?>">
 							<a href="#" 
 								class="dropdown-toggle" 
@@ -50,6 +54,14 @@
 									<li>
 										<a href="<?= app::get_path('Worker Home') ?>">
 											Workers
+										</a>
+									</li>
+								<? endif ?>
+
+								<? if (auth::product_type_section()): ?>
+									<li>
+										<a href="<?= app::get_path('Product Type Home') ?>">
+											Product Types
 										</a>
 									</li>
 								<? endif ?>

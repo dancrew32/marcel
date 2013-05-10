@@ -46,7 +46,7 @@ class Cron_Job extends model {
 	}
 
 	function script_exists() {
-		return file_exists($this->script);	
+		return is_file($this->script);	
 	}
 
 	function should_run($time = false) {

@@ -149,13 +149,17 @@ class app {
 		$local = "{$path}.{$type}";
 		$test = $type == 'css' ? CSS_DIR : JS_DIR;
 		$path = "{$test}/{$local}";
-		if (!file_exists(PUBLIC_DIR."/{$path}")) return;
+		if (!is_file(PUBLIC_DIR."/{$path}")) return;
 		self::$assets[$type][]= $path;
 	}
 
 	static function redir($url='/') {
 		header("Location: {$url}");
 		exit;
+	}
+
+	static function reload() {
+		self::redir(take($_SERVER, 'REQUEST_URI', '/'));
 	}
 
 	static function get_path($name) {

@@ -14,9 +14,13 @@
 			]) ?>
 		</div>
 
-		<? echoif(note::get('product:add'), html::alert('Successfully added Product', ['type'=>'success'])) ?>
-		<? echoif(note::get('product:edit'), html::alert('Successfully updated Product', ['type'=>'success'])) ?>
-		<? echoif(note::get('product:delete'), html::alert('Successfully deleted Product', ['type'=>'success'])) ?>
+		<? echoif(note::get('product:add'), 
+			html::alert('Successfully added Product', ['type'=>'success'])) ?>
+		<? echoif(note::get('product:edit'), 
+			html::alert('Successfully updated Product', ['type'=>'success'])) ?>
+		<? echoif(note::get('product:delete'), 
+			html::alert('Successfully deleted Product', ['type'=>'success'])) ?>
+
 		<? if ($total): ?>
 			<? if ($output_style == 'table'): ?>
 
@@ -42,6 +46,7 @@
 		<? endif ?>
 		&nbsp;
 		<?= $pager ?>
+
 	</div>
 	<div class="span4">
 		<h2>

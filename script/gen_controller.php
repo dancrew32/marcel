@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__).'/inc.php');
 
 $ok = true;
-$name = preg_replace('/[^a-zA-Z0-9]*/', '', strtolower(gets("Enter Controller name:")));
+$name = preg_replace('/[^a-zA-Z0-9_]*/', '', strtolower(gets("Enter Controller name:")));
 if (!isset($name{0})) return red("Must have a name!\n");
 
 $crud = strtolower(gets("CRUD? [N/y]"));
@@ -131,7 +131,7 @@ $boilerplate .= "
 		if (!\${$model_lower}) app::redir(\$this->root_path);
 
 		\$this->form = new form;
-		\$this->form->open(\"{\$this->root_path}/edit/{\$model_lower}->id}\", 'post', [
+		\$this->form->open(\"{\$this->root_path}/edit/\${$model_lower}->id}\", 'post', [
 			'class' => 'last',
 		]);
 		\$this->_build_form(\${$model_lower});
@@ -152,7 +152,7 @@ $boilerplate .= "}";
 $script_name = "{$name}.php";
 $full_script_path = CONTROLLER_DIR."/{$script_name}";
 
-$exists = file_exists($full_script_path);
+$exists = is_file($full_script_path);
 if ($exists)
 	return red("Controller exists.\n");
 

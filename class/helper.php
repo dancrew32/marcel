@@ -57,9 +57,9 @@ function pr($data) {
 
 # Pretty print
 function pp($data) {
-	echo '<pre>';
-	pr($data);	
-	echo '</pre>';
+	#echo '<pre>';
+	var_dump($data);	
+	#echo '</pre>';
 }
 
 # Pretty die

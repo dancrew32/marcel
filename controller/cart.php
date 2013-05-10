@@ -8,7 +8,9 @@ class controller_cart extends controller_base {
 		parent::__construct($o);
    	}
 
-	function index() {
+	function main() {
+		$this->test_product_id = Product::first()->id; #TODO: delete
+
 		$this->items = [];
 		$cart = Cart::get_type('cart:a');
 
@@ -22,24 +24,21 @@ class controller_cart extends controller_base {
 				continue;
 			}
 
-			//$product = Product::find_by_id($id);
-			$product = new stdClass;
-			$product->id = $id;
-			$product->price = 1350;
-
+			$product = Product::find_by_id($id);
 			if (!$product) continue;
 
 			$this->items[$id] = (object) [
 				'id'       => $product->id,
-				# ... more product attributes ...
+				'name'     => $product->name,
+				'type'     => take($product->type, 'slug'),
 				'quantity' => 1,
 				'price'    => $product->price,
 			];
 			$this->total_items++;
 		}
 
-		$this->has_items =  count($this->items) > 0;
-		$this->shipping = self::SHIPPING;
+		$this->has_items = count($this->items) > 0;
+		$this->shipping  = self::SHIPPING;
 
 		$this->grand_total = 0;
 		foreach ($this->items as $i)
@@ -56,13 +55,12 @@ class controller_cart extends controller_base {
 		$amount = take($o['params'], 'amount', 1);
 
 		$cart = Cart::get_type('cart:a');
-		//$product = Product::find_by_id($key);
-		$product = (object) ['id' => $key];	
-		//if ($product && $product->price) {
+		$product = Product::find_by_id($key);
+		$saved = $product && $product->price;
+		if ($saved) {
 			$cart->add_item($product->id, $amount);
 			$saved = (bool) $cart->save();
-		//} else
-			//$saved = false;	
+		}
 
 		if (util::is_ajax())
 			json(['success' => $saved]);		
@@ -189,6 +187,7 @@ class controller_cart extends controller_base {
 		$total = number_format($total, 2, '.', ''); # to cents
 		$total_cents = $total * 100;
 
+		pd(get_defined_vars());
 		$charge = credit::charge([
 			'card'        => $stripe_token,
 			'amount'      => $total_cents,

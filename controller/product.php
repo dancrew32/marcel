@@ -30,7 +30,6 @@ class controller_product extends controller_base {
 			'suffix' => h($format),
 		]);
 		$this->products = Product::find('all', [
-			//'select' => 'id',
 			'limit'  => $rpp,
 			'offset' => model::get_offset($this->page, $rpp),
 			'order'  => 'id asc',
@@ -42,6 +41,8 @@ class controller_product extends controller_base {
 
 	function view($o) {
 		$this->product = take($o, 'product');	
+		$this->product_type = $this->product->type;
+		$this->product_category = $this->product_type ? $this->product_type->category : null;
 		$this->mode = take($o, 'mode', false);
 	}	
 
@@ -51,11 +52,12 @@ class controller_product extends controller_base {
 
 	function add() {
 		$product = new Product;
-		$product->name        = take($_POST, 'name');
-		$product->active      = take($_POST, 'active', 0);
-		$product->price       = take($_POST, 'price', 0.00);
-		$product->description = take($_POST, 'description');
-		//$product->photo_ids   = take($_POST, 'photo_ids');
+		$product->name                = take($_POST, 'name');
+		$product->active              = take($_POST, 'active', 0);
+		$product->price               = take($_POST, 'price', 0.00);
+		$product->description         = take($_POST, 'description');
+		$product->product_type_id     = take($_POST, 'type');
+		//$product->photo_ids = take($_POST, 'photo_ids');
 		$ok = $product->save();
 		if ($ok) {
 			note::set('product:add', $product->id);
@@ -71,11 +73,12 @@ class controller_product extends controller_base {
 		if (!$this->product) app::redir($this->root_path);
 		if (!$this->is_post) return;
 
-		$this->product->name        = take($_POST, 'name');
-		$this->product->active      = take($_POST, 'active', 0);
-		$this->product->price       = take($_POST, 'price', 0.00);
-		$this->product->description = take($_POST, 'description');
-		//$product->photo_ids   = take($_POST, 'photo_ids');
+		$this->product->name                = take($_POST, 'name');
+		$this->product->active              = take($_POST, 'active', 0);
+		$this->product->price               = take($_POST, 'price', 0.00);
+		$this->product->description         = take($_POST, 'description');
+		$this->product->product_type_id     = take($_POST, 'type');
+		//$product->photo_ids       = take($_POST, 'photo_ids');
 		$ok = $this->product->save();
 		if ($ok) {
 			note::set('product:edit', $this->product->id);
@@ -141,6 +144,7 @@ class controller_product extends controller_base {
 			'name'         => 'name', 
 			'class'        => 'input-block-level required',
 			'autocomplete' => false,
+			'placeholder'  => 'Enter product name',
 			'value'        => take($product, 'name'),
 		]);
 
@@ -151,6 +155,7 @@ class controller_product extends controller_base {
 			'name'         => 'price', 
 			'class'        => 'input-block-level required',
 			'autocomplete' => false,
+			'prepend'      => '$',
 			'value'        => number_format((float)take($product, 'price', 0), 2)
 		]);
 
@@ -161,7 +166,18 @@ class controller_product extends controller_base {
 			'name'         => 'description', 
 			'class'        => 'input-block-level required',
 			'autocomplete' => false,
+			'placeholder'  => 'About your product',
 			'value'        => take($product, 'description'),
+		]);
+
+		# Type
+		$type_group = [ 'label' => 'Type', 'class' => $product->error_class('product_type_id') ]; 
+		$type_help  = new field('help', [ 'text' => $product->take_error('product_type_id') ]);
+		$type_field = new field('select', [ 
+			'name'         => 'type', 
+			'class'        => 'input-block-level required',
+			'value'        => take($product, 'product_type_id'),
+			'options'      => Product_Type::options(),
 		]);
 
 		# Active
@@ -172,11 +188,12 @@ class controller_product extends controller_base {
 			'inline'  => true,
 		]);
 
-
 		$this->form
 			->group($name_group, $name_field, $name_help)
 			->group($price_group, $price_field, $price_help)
 			->group($description_group, $description_field, $description_help)
+			->group($type_group, $type_field, $type_help)
 			->group($active_field);
 	}
+
 }

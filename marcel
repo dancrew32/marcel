@@ -21,6 +21,6 @@ foreach ($scripts as $k => $s) {
 if (!$is_search)
 	$use = gets("Enter number for script to run");
 
-if (!file_exists($scripts[$use])) 
+if (!is_file($scripts[$use])) 
 	return red("No match\n");
 include_once "{$scripts[$use]}";

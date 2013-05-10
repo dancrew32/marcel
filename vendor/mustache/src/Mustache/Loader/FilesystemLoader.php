@@ -94,7 +94,7 @@ class Mustache_Loader_FilesystemLoader implements Mustache_Loader
     {
         $fileName = $this->getFileName($name);
 
-        if (!file_exists($fileName)) {
+        if (!is_file($fileName)) {
             throw new Mustache_Exception_UnknownTemplateException($name);
         }
 

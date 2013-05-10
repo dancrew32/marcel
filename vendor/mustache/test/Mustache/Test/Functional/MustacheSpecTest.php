@@ -31,7 +31,7 @@ class Mustache_Test_Functional_MustacheSpecTest extends PHPUnit_Framework_TestCa
      */
     public function testSpecInitialized()
     {
-        if (!file_exists(dirname(__FILE__).'/../../../../vendor/spec/specs/')) {
+        if (!is_file(dirname(__FILE__).'/../../../../vendor/spec/specs/')) {
             $this->markTestSkipped('Mustache spec submodule not initialized: run "git submodule update --init"');
         }
     }
@@ -138,7 +138,7 @@ class Mustache_Test_Functional_MustacheSpecTest extends PHPUnit_Framework_TestCa
     private function loadSpec($name)
     {
         $filename = dirname(__FILE__) . '/../../../../vendor/spec/specs/' . $name . '.yml';
-        if (!file_exists($filename)) {
+        if (!is_file($filename)) {
             return array();
         }
 

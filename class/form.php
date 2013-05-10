@@ -110,6 +110,31 @@ class form {
 		return $this;
 	}
 
+	//function groupify($vars, &$form) {
+		//$cache = [];
+		//foreach ($vars as $k => $v) {
+			//$parts = explode('_', $k);
+			//$suffix = array_pop($parts);
+			//$name = implode('_', $parts);
+			//if ($
+
+			//$group = null;
+			//$field = null;
+			//$help = null;
+			//switch ($suffix) {
+				//case 'group':	
+					//$
+					//break;
+				//case 'field':	
+					//break;
+				//case 'help':	
+					//break;
+			//}
+		//}
+		//$form	
+			
+	//}
+
 	function actions() {
 
 		if ($this->control_groups)

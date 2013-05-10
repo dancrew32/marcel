@@ -27,7 +27,7 @@ Mustache_Autoloader::register();
 
 // delete the old file
 $file = $baseDir.'/mustache.php';
-if (file_exists($file)) {
+if (is_file($file)) {
     unlink($file);
 }
 

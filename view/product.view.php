@@ -1,10 +1,18 @@
 <div class="media-body">
 	<h4 class="media-heading">
-		<?= $product->name ?>
-		<? /*
+		<?= $product ?>
+
+		<? if ($product_type): ?>
 			<small>
+				(<?= $product_type ?>)
 			</small>
-			*/ ?>
+		<? endif ?>
+
+		<? if ($product_category): ?>
+			<span class="label pull-right product-type-<?= take($product_type, 'slug') ?>">
+				<?= $product_type->category ?>
+			</span>
+		<? endif ?>
 	</h4>
 	<ul class="nav nav-pills last">
 		<? if ($mode != 'edit'): ?>

@@ -99,7 +99,7 @@ class {$name} extends model {
 $script_name = "{$name}.php";
 $full_script_path = MODEL_DIR."/{$script_name}";
 
-$exists = file_exists($full_script_path);
+$exists = is_file($full_script_path);
 if ($exists)
 	return red("Model exists.\n");
 

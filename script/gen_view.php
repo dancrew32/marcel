@@ -21,7 +21,7 @@ $boilerplate ='<div class="row">
 $script_name = "{$controller}.{$method}.php";
 $full_script_path = VIEW_DIR."/{$script_name}";
 
-$exists = file_exists($full_script_path);
+$exists = is_file($full_script_path);
 if ($exists)
 	return red("View exists.\n");
 
