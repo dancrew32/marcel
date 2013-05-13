@@ -62,7 +62,7 @@ class controller_cart extends controller_base {
 			$saved = (bool) $cart->save();
 		}
 
-		if (util::is_ajax())
+		if (AJAX)
 			json(['success' => $saved]);		
 
 		note::set('cart:a:add', $product->id);
@@ -89,7 +89,7 @@ class controller_cart extends controller_base {
 		}
 		$saved = (bool)$cart->save();
 
-		if (util::is_ajax())
+		if (AJAX)
 			json(['success' => $saved]);
 
 		note::set('cart:a:remove', $cart->id);
@@ -108,7 +108,7 @@ class controller_cart extends controller_base {
 	}
 
 	function quantity() {
-		if (!$this->is_post || !util::is_ajax())
+		if (!$this->is_post || !AJAX)
 			json(['success' => false]);
 
 		$id = take($_POST, 'id');

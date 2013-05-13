@@ -21,7 +21,7 @@ class app {
 	];
 
 	static function run() {
-		if (DEBUG && !util::is_ajax()) {
+		if (DEBUG && !AJAX) {
 			# HTML Output Errors
 			ini_set('display_errors', 1);
 			ini_set('html_errors', 1);
@@ -99,7 +99,7 @@ class app {
 
 			# Main render
 			$out = util::render($o, ['params' => $matches]);
-			echo util::is_ajax() ? $out : self::layout($o, $out);
+			echo AJAX ? $out : self::layout($o, $out);
 			break;
 		}
 

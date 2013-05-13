@@ -65,7 +65,6 @@ function pp($data) {
 # Pretty die
 function pd($data) {
 	die(pp($data));
-	exit;
 }
 
 # Die (or echo) JSON

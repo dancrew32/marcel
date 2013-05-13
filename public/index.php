@@ -30,6 +30,9 @@ if (DEBUG)
 	$DEBUG_QUERIES = [];
 define('START_TIME', microtime(true));
 define('CLI', PHP_SAPI == 'cli');
+define('AJAX', (
+	isset($_SERVER['HTTP_X_REQUESTED_WITH']{0}) 
+	&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'));
 
 # Class
 define('CLASS_DIR', ROOT_DIR.'/class');
@@ -45,6 +48,9 @@ define('VENDOR_DIR', ROOT_DIR.'/vendor');
 
 # Script
 define('SCRIPT_DIR', ROOT_DIR.'/script');
+
+# Font
+define('FONT_DIR', ROOT_DIR.'/font');
 
 # Temporary and Cache
 define('TMP_DIR', ROOT_DIR.'/tmp');
@@ -62,7 +68,7 @@ define('JS_DIR',  '/js');
 spl_autoload_register('clsload');
 function clsload($class_name) {
 	$file = CLASS_DIR ."/{$class_name}.php";
-	if (file_exists($file))
+	if (is_file($file))
 		require_once $file;
 }
 

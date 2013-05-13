@@ -19,7 +19,7 @@ class controller_mustachetest extends controller_base {
 				'first' => $u->first,
 				'last'  => $u->last,
 			];
-		if (util::is_ajax())
+		if (AJAX)
 			json($this);
 	}
 

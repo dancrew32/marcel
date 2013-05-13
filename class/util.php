@@ -26,11 +26,6 @@ class util {
 		}
 	}
 
-	static function is_ajax() {
-		return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) 
-			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
-	}
-
 	static function file_up($file, $dir=false) {
 		$dir = $dir ? $dir : UP_DIR;	
 		$path = $dir .'/'. basename($file['name']);		
