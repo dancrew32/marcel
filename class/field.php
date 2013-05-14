@@ -33,6 +33,9 @@ class field {
 			case 'select_multiple':
 				$this->attrs['multiple'] = 'multiple';
 				return $this->select();
+			case 'wysiwyg':
+				app::asset('class/wysiwyg', 'js');
+				return $this->wysiwyg();
 			case 'textarea':
 				return $this->textarea();
 			case 'radio':
@@ -105,6 +108,30 @@ class field {
 		$this->html .= '<textarea'. html::build_attributes($this->attrs) .">{$value}</textarea>";
 		return $this;
 	}
+
+	function wysiwyg() {
+		$id = take($this->attrs, 'id');
+		$toolbar_options = [
+			'class'       => 'btn-toolbar',
+			'data-role'   => 'editor-toolbar',
+			'data-target' => "#{$id}",
+		];
+		
+		$this->html .= '<div'. html::build_attributes($toolbar_options) .'>';
+		$tools = [
+			'undo'      => 'arrow-left',
+			'redo'      => 'arrow-right',
+			'bold'      => 'bold',
+			'italic'    => 'italic',
+		];
+		foreach ($tools as $purpose => $icon)
+			$this->html .= "<a class=\"btn\" data-edit=\"{$purpose}\"><i class=\"icon-{$icon}\"></i></a>";
+
+		$this->html .= '</div>';
+		$this->html .= '<div'. html::build_attributes($this->attrs) .'></div>';
+		return $this;
+	}
+
 
 	function button() {
 		$icon = $this->pick('icon');

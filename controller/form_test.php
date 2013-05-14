@@ -37,6 +37,10 @@ class controller_form_test extends controller_base {
 			])
 		)
 		->add('textarea', new field('textarea', []))
+		->add('wysiwyg', new field('wysiwyg', [
+			'id' => 'editor-1',
+			'class' => 'well',
+		]))
 
 		->fieldset('Groups')
 

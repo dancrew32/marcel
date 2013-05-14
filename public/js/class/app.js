@@ -13,9 +13,11 @@
 	"use strict";
 
 	function addEventListeners() {
+		$('#editor-1').wysiwyg();
 	}
 
 	function init() {
+
 		NS.ELEMENT.win   = $(window);
 		NS.ELEMENT.body  = $(document.body);
 		addEventListeners();
