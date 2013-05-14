@@ -130,6 +130,7 @@ app::$routes = [
 			'get'  => [ 'c' => 'captcha', 'm' => 'get' ],
 			'post' => [ 'c' => 'captcha', 'm' => 'post' ],
 		],
+		'name' => 'Captcha Home',
 	],
 
 	# Error

@@ -25,7 +25,7 @@ view/common.index.php
 			'h'   => 200,
 		], true) ?>
 	</div>
-	<div class="span4">
+	<div class="span4 scrolling">
 		<? if (!User::$logged_in): ?>
 			<h2>Login</h2>
 			<?= r('authentication', 'login', ['simple_mode' => true]) ?>

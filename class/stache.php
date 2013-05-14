@@ -3,24 +3,8 @@ class stache {
 	static $loaded = false;
 	static $templates = [];
 	static function render($view, $vars) {
-		if (!self::$loaded) {
-			$deps = [
-				'Loader',
-				'Logger',
-				'Parser',
-				'Tokenizer',
-				'Compiler',
-				'Template',
-				'Context',
-				'HelperCollection',
-				'LambdaHelper',
-				'Loader/StringLoader',
-				'Engine',
-			];
-			foreach ($deps as $dep)
-				require_once VENDOR_DIR."/mustache/src/Mustache/{$dep}.php";
-			self::$loaded = true;
-		}
+		require_once VENDOR_DIR."/mustache/src/Mustache/Autoloader.php";
+		Mustache_Autoloader::register();
 		$view_hash = md5($view);
 		$script = '';
 		$template = file_get_contents($view);
