@@ -26,6 +26,7 @@
 * [Workers](#workers)
 * [Mail](#mail)
 * [Fake Data](#fake-data)
+* [CAPTCHA](#captcha)
 * [Scraping](#scraping)
 * [Interactive Prompt](#interactive-prompt-with-phpsh)
 * [Vim Interactivity](#vim-interactivity)
@@ -794,6 +795,40 @@ times(250, function() {
 	$u->save();
 });
 ```
+
+## CAPTCHA
+
+The `captcha` class allows you to generate captcha images
+using fonts from the `font` directory, merged on top of
+complex background images in the `public/img/captcha` directory.
+
+```php
+class controller_captcha extends controller_base {
+	function get() {
+		$captcha = captcha::get();
+		header('Content-type: image/png');
+		imagepng($captcha);
+	}
+
+	function post() {
+		$code = take($_POST, 'code');
+		$ok = captcha::test($code);
+		pd($ok);
+	}
+}
+```
+
+```html
+<h2>Captcha</h2>
+<img src="/captcha">
+
+</h2>Solve it</h2>
+<form action="/captcha" method="post">
+<input name="code" >
+<input type="submit" value="solve">
+</form>
+```
+
 
 ## Scraping
 Using [PHPSimpleDom](http://simplehtmldom.sourceforge.net) via `class/dom.php`,
