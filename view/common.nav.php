@@ -90,7 +90,11 @@
 						<a href="<?= app::get_path('Cart Home') ?>">Cart</a>
 					</li>
 						
-					<li class="dropdown<? echoif(app::in_section('Message') || app::in_section('Mustache'), ' active') ?>">
+					<li class="dropdown<? echoif(
+						app::in_section('Message') || 
+						app::in_section('Mustache') ||
+						app::in_section('Markdown')
+						, ' active') ?>">
 						<a href="#" 
 							class="dropdown-toggle" 
 							data-toggle="dropdown">
@@ -103,6 +107,9 @@
 							</li>
 							<li>
 								<a href="<?= app::get_path('Mustache Home') ?>">Mustache</a>
+							</li>
+							<li>
+								<a href="<?= app::get_path('Markdown Home') ?>">Markdown</a>
 							</li>
 							<? /*
 							<li><a href="#">Action</a></li>

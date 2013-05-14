@@ -122,7 +122,10 @@ app::$routes = [
 	],
 
 	# Mustache view test
-	'/mustache' => [ 'c' => 'mustachetest', 'm' => 'main', 'name' => 'Mustache Home', 'section' => 'Mustache' ],
+	'/mustache' => [ 'c' => 'mustachetest', 'm' => 'main', 'name' => 'Mustache Home', 'section' => 'Message' ],
+
+	# Markdown view test
+	'/markdown' => [ 'c' => 'markdowntest', 'm' => 'main', 'name' => 'Markdown Home', 'section' => 'Message' ],
 
 	# CAPTCHA
 	'/captcha' => [ 

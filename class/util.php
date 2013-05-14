@@ -24,6 +24,12 @@ class util {
 		if (is_file($_view)) {
 			return stache::render($_view, (array)$obj);
 		}
+
+		# Markdown
+		$_view = "{$path}.md";
+		if (is_file($_view)) {
+			return markdown::render($_view, (array)$obj);
+		}
 	}
 
 	static function file_up($file, $dir=false) {
