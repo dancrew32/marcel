@@ -20,7 +20,7 @@ class controller_product_category extends controller_base {
 				$this->output_style = 'media';
 				$rpp = 5;
 		}
-		$this->total = Product_Category::total();
+		$this->total = Product_Category::count();
 		$this->pager = r('common', 'pager', [
 			'total'  => $this->total,
 			'rpp'    => $rpp,

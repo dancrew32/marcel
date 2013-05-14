@@ -139,6 +139,7 @@ class chat_server extends socket_server {
 			], $data)),
 		]);
 	}
+
 }
 
 $echo = new chat_server("173.255.209.99","7334");

@@ -21,7 +21,7 @@ class controller_user extends controller_base {
 				$this->output_style = 'media';
 				$rpp = 5;
 		}
-		$this->total = User::total();
+		$this->total = User::count();
 		$this->pager = r('common', 'pager', [
 			'total'  => $this->total,
 			'rpp'    => $rpp,

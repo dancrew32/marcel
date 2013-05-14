@@ -10,7 +10,7 @@ class controller_cron_job extends controller_base {
 	function all($o) {
 		$page = take($o['params'], 'page', 1); 
 		$rpp = 5;
-		$this->total = Cron_Job::total();
+		$this->total = Cron_Job::count();
 		$this->pager = r('common', 'pager', [
 			'total' => $this->total,
 			'rpp'   => $rpp,

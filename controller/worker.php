@@ -11,17 +11,21 @@ class controller_worker extends controller_base {
 		switch ($filter) {
 			case 'scheduled':	
 				$conditions = ['run_at is not null'];
-				$this->total = Worker::total('where run_at is not null');	
+				$this->total = Worker::count([
+					'conditions' => 'run_at is not null'
+				]);	
 				$this->filter = "Scheduled";
 				break;
 			case 'active':	
 				$conditions = ['active = 1'];
-				$this->total = Worker::total('where active = 1');	
+				$this->total = Worker::count([
+					'conditions' => 'active = 1'
+				]);	
 				$this->filter = "Active";
 				break;
 			default:
 				$conditions = [];
-				$this->total = Worker::total();	
+				$this->total = Worker::count();	
 				$this->filter = 'All';
 		}
 		$this->workers = Worker::find('all', [

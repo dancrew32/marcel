@@ -8,7 +8,7 @@ class controller_product_type extends controller_base {
  
 	function all($o) {
 		$page   = take($o['params'], 'page', 1); 
-		$this->total = Product_Type::total();
+		$this->total = Product_Type::count();
 		$rpp = 5;
 		$this->pager = r('common', 'pager', [
 			'total'  => $this->total,

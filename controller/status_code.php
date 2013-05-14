@@ -9,7 +9,7 @@ class controller_status_code extends controller_base {
 		$status = 'Forbidden';
 		header("HTTP/1.1 {$code} {$status}");
 		json([
-			'status'   =>	$status,
+			'status'   => $status,
 			'code'     => $code,
 			'redirect' => '/'
 		]);
@@ -21,7 +21,7 @@ class controller_status_code extends controller_base {
 		$status = 'Not Found';
 		header("HTTP/1.1 {$code} {$status}");
 		json([
-			'status'   =>	$status,
+			'status'   => $status,
 			'code'     => $code,
 			'redirect' => '/'
 		]);

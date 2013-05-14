@@ -37,7 +37,7 @@ $boilerplate .= "
 				\$this->output_style = 'media';
 				\$rpp = 5;
 		}
-		\$this->total = {$model}::total();
+		\$this->total = {$model}::count();
 		\$this->pager = r('common', 'pager', [
 			'total'  => \$this->total,
 			'rpp'    => \$rpp,
