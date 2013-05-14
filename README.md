@@ -12,6 +12,8 @@
 * [Models](#models-m)
 * [Controllers](#controllers-c)
 * [Views](#views-v)
+   * [Mustache](#mustache)
+   * [Markdown](#markdown)
 * [Assets](#assets)
 * [SCSS & Compass](#scss-compass)
 * [Cookies & Notes](#cookies-and-notes)
@@ -308,8 +310,112 @@ class controller_yours extends controller_base {
 }
 ```
 
-### Using Mustache
+## Mustache
 
+You may render [Mustache](mustache.github.io) templates 
+using [Mustache PHP](https://github.com/bobthecow/mustache.php)
+by creating a file in the `view` directory with the the naming convention of:
+`controller.method.mustache`.
+
+### Mustache Example
+
+For `controller/mustachetest.php`:
+
+```php
+class controller_mustachetest extends controller_base {
+	function template() {
+		$this->test = date('H:m:s');
+		$users = User::all();
+		$this->user = [];
+		foreach ($users as $u)
+			$this->user[] = [
+				'first' => $u->first,
+				'last'  => $u->last,
+			];
+		if (AJAX)
+			json($this);
+	}
+}
+```
+
+Create `view/mustachetest.template.mustache`:
+
+```mustache
+{{test}}
+<h3>
+	Users are:
+</h3>
+{{#user}}
+<strong>{{first}}</strong>
+<em>{{last}}</em>
+{{/user}}
+<br>
+```
+
+Render `mustachetest.template`:
+```php
+<?= r('mustachetest', 'template') ?>
+```
+
+Output looks like
+```html
+12:00:00
+<h3>
+	Users are:
+</h3>
+<strong>Marcel</strong>
+<em>Shell</em>
+<strong>Dan</strong>
+<em>Masquelier</em>
+<br>
+<script id="mustachetest-template" type="text/mustache">
+{{test}}
+<h3>
+	Users are:
+</h3>
+{{#user}}
+<strong>{{first}}</strong>
+<em>{{last}}</em>
+{{/user}}
+<br>
+</script>
+```
+
+Now, using [Mustache.js](https://github.com/janl/mustache.js/)
+you can take the provided template from the `<script>` tag
+and use it to render client-side. You'll only have to 
+serve JSON now!
+
+```javascript
+var template = $('#mustachetest-template');
+$.getJSON('/mustache/template', function(json) {
+	var html = Mustache.to_html(template, json);
+	$('body').append(html);
+});
+```
+
+## Markdown
+Using [Markdown PHP](http://michelf.ca/projects/php-markdown/) you may render
+[Markdown](http://daringfireball.net/projects/markdown/syntax) in your views
+by naming them `controller.method.md`.
+
+### Markdown Example
+
+This file would be `view/markdowntest.main.md`:
+
+```markdown
+# Heading 1
+## Heading 2
+
+[Link](/home)
+
+* List 1
+* List 2
+* List 3
+```
+
+See `controller/markdowntest.php` and `view/markdowntest.main.md`
+for more examples
 
 
 ## Assets
