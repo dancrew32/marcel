@@ -124,6 +124,14 @@ app::$routes = [
 	# Mustache view test
 	'/mustache' => [ 'c' => 'mustachetest', 'm' => 'main', 'name' => 'Mustache Home', 'section' => 'Mustache' ],
 
+	# CAPTCHA
+	'/captcha' => [ 
+		'http' => [
+			'get'  => [ 'c' => 'captcha', 'm' => 'get' ],
+			'post' => [ 'c' => 'captcha', 'm' => 'post' ],
+		],
+	],
+
 	# Error
 	'/403' => [ 'c' => 'status_code', 'm' => 'forbidden', 'nodb' => true ],
 	'/404' => [ 'c' => 'status_code', 'm' => 'not_found', 'nodb' => true ],
