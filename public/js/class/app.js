@@ -13,7 +13,8 @@
 	"use strict";
 
 	function addEventListeners() {
-		$('#editor-1').wysiwyg();
+		if ($.wysiwyg)
+			$('#editor-1').wysiwyg();
 	}
 
 	function init() {

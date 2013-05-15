@@ -65,4 +65,4 @@ class aww {
 * * *
 
 ## Images
-![Dr. Who](/captcha);
+![Dr. Who](/captcha)
