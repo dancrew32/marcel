@@ -66,7 +66,11 @@ class app {
 			# DB Bypass? If not, init DB and User Sessions
 			if (!isset($o['nodb'])) {
 				db::init();
-				Session::session_begin();
+				try {
+					Session::session_begin();
+				} catch(Exception $e) {
+					return _500();
+				}
 				User::init();
 			}
 

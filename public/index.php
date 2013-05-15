@@ -3,13 +3,26 @@
 # Time
 date_default_timezone_set('America/Los_Angeles');
 
-# Directories
+# Main Directories
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', realpath(dirname(dirname(__FILE__))));
+define('CONFIG_DIR', ROOT_DIR.'/config');
 
-# App
+# Environment
+if (!defined('ENV'))
+   	define('ENV', (getenv('ENV') ? getenv('ENV') : 'DEV'));
+
+# System
+define('DEBUG', ENV == 'DEV');
+define('CACHE_BUST', false);
+define('START_TIME', microtime(true));
+define('CLI', PHP_SAPI == 'cli');
+define('AJAX', (
+	isset($_SERVER['HTTP_X_REQUESTED_WITH']{0}) 
+	&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'));
+
+# App Specific
 define('APP_NAME', 'Marcel');
-defined('ENV') || define('ENV', (getenv('ENV') ? getenv('ENV') : 'DEV'));
 define('SALT', '<yourGreaterThan21CharacterSalt>'); # must be creater than 21 chars
 define('SESSION_NAME', '<your session name>');
 $IP_WHITELIST = [ ];
@@ -22,17 +35,6 @@ define('DB_NAME', '<dbname>');
 define('DB_DIR', ROOT_DIR.'/db');
 define('SCHEMA_DIR', DB_DIR.'/schema');
 define('DUMP_DIR', DB_DIR.'/dump');
-
-# System
-define('DEBUG', ENV == 'DEV');
-define('CACHE_BUST', false);
-if (DEBUG)
-	$DEBUG_QUERIES = [];
-define('START_TIME', microtime(true));
-define('CLI', PHP_SAPI == 'cli');
-define('AJAX', (
-	isset($_SERVER['HTTP_X_REQUESTED_WITH']{0}) 
-	&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'));
 
 # Class
 define('CLASS_DIR', ROOT_DIR.'/class');
@@ -76,6 +78,6 @@ function clsload($class_name) {
 require_once CLASS_DIR.'/helper.php';
 require_once CONTROLLER_DIR.'/base.php';
 require_once CLASS_DIR.'/app.php';
-require_once ROOT_DIR.'/api.php'; # API keys
-require_once ROOT_DIR.'/routes.php'; # Routes
+require_once CONFIG_DIR.'/api.php'; # API keys
+require_once CONFIG_DIR.'/routes.php'; # Routes
 app::run();
