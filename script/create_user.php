@@ -9,9 +9,9 @@ $pass = prompt_silent("Password:");
 $u->password = $pass;
 $u->active = 1;
 $user_type_id = gets('User Type Id:');
-if (!isset($user_id{0}))
+if (!isset($user_type_id{0}))
 	$user_id = User_Type::default_id();
-$u->user_type_id = $user_id;
+$u->user_type_id = $user_type_id;
 $u->first = gets('First name:');
 $u->last = gets('Last name:');
 $u->username = gets('Username:');
