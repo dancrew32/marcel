@@ -851,7 +851,7 @@ you may interactively run the framework.
 Install PHPSH:
 ```bash
 cd ~
-git@github.com:facebook/phpsh.git
+git clone git@github.com:facebook/phpsh.git
 cd phpsh
 python setup.py build
 sudo python setup.py install

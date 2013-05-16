@@ -21,11 +21,13 @@
 					</li>
 
 
-					<? if (auth::cron_job_section() 
-					|| auth::worker_section() 
-					|| auth::user_section()
-					|| auth::product_type_section()
-					|| auth::product_category_section()
+					<? if (
+					auth::cron_job_section() ||
+					auth::worker_section() ||
+					auth::user_section() ||
+					auth::user_type_section() ||
+					auth::product_type_section() ||
+					auth::product_category_section()
 					): ?>
 						<li class="dropdown<? echoif((app::in_section('Cron') || app::in_section('Worker') || app::in_section('User')), ' active') ?>">
 							<a href="#" 

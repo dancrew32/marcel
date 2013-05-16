@@ -19,6 +19,13 @@ function take($array, $key, $default = '') {
 	return $default;
 }
 
+function take_post($key, $default='') {
+	return take($_POST, $key, $default);
+}
+
+function take_get($key, $default='') {
+	return take($_GET, $key, $default);
+}
 
 # Conditional echo
 function echoif($condition, $true, $false = '') {

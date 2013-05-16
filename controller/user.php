@@ -51,13 +51,13 @@ class controller_user extends controller_base {
 
 	function add($o) {
 		$user = new User;
-		$user->first        = take($_POST, 'first');
-		$user->last         = take($_POST, 'last');
-		$user->email        = take($_POST, 'email');
-		$user->username     = take($_POST, 'username');
-		$user->password     = take($_POST, 'password');
-		$user->user_type_id = take($_POST, 'user_type_id');
-		$user->active       = take($_POST, 'active', 0);
+		$user->first        = take_post('first');
+		$user->last         = take_post('last');
+		$user->email        = take_post('email');
+		$user->username     = take_post('username');
+		$user->password     = take_post('password');
+		$user->user_type_id = take_post('user_type_id');
+		$user->active       = take_post('active', 0);
 		$ok = $user->save();
 		if ($ok) {
 			note::set('user:add', $user->id);
@@ -73,14 +73,14 @@ class controller_user extends controller_base {
 		if (!$this->user) app::redir($this->root_path);
 		if (!$this->is_post) return;
 
-		$this->user->first    = take($_POST, 'first');
-		$this->user->last     = take($_POST, 'last');
-		$this->user->email    = take($_POST, 'email');
-		$this->user->username = take($_POST, 'username');
+		$this->user->first    = take_post('first');
+		$this->user->last     = take_post('last');
+		$this->user->email    = take_post('email');
+		$this->user->username = take_post('username');
 		if (isset($_POST['password']{0}))
-			$this->user->password = take($_POST, 'password');
-		$this->user->user_type_id = take($_POST, 'user_type_id');
-		$this->user->active       = take($_POST, 'active', 0);
+			$this->user->password = take_post('password');
+		$this->user->user_type_id = take_post('user_type_id');
+		$this->user->active       = take_post('active', 0);
 
 		$ok = $this->user->save();
 		if ($ok) {

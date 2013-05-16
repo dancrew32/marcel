@@ -2,6 +2,7 @@
 class controller_user_type extends controller_base {
 	function __construct($o) {
 		$this->root_path = app::get_path('User Type Home');
+		auth::check('user_type_section');
 		parent::__construct($o);
    	}
  

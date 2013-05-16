@@ -22,9 +22,9 @@ class controller_authentication extends controller_base {
 	function login($o) {
 		if (!auth::login()) app::redir(app::get_path('Home'));
 		$action   = app::get_path('Login');
-		$user     = take($_POST, 'user');
-		$pass     = take($_POST, 'pass');
-		$remember = take($_POST, 'remember', 0);
+		$user     = take_post('user');
+		$pass     = take_post('pass');
+		$remember = take_post('remember', 0);
 
 		# Toggle help links
 		$this->simple_mode = take($o, 'simple_mode', false);
@@ -62,27 +62,27 @@ class controller_authentication extends controller_base {
 
 	# no view
 	function login_try($o) {
-		$action = app::get_path('Login');
-		$user = take($_POST, 'user');
-		$pass = take($_POST, 'pass');
-		$remember = take($_POST, 'remember', 0);
+		$action   = 
+		$user     = take_post('user');
+		$pass     = take_post('pass');
+		$remember = take_post('remember', 0);
 
 		$ok = User::login($user, $pass);
-		if ($ok)
+		if ($ok) {
 			note::set('login:success', 1);
-		else {
-			note::set('login:failure', [
-				'user'     => $user,
-				'remember' => $remember,
-			], true);
+			return app::redir(app::get_path('Home'));
 		}
-		app::redir($ok ? app::get_path('Home') : $action);
+		note::set('login:failure', [
+			'user'     => $user,
+			'remember' => $remember,
+		], true);
+		app::redir(app::get_path('Login'));
 	}
 
 	# no view
 	function create_user($o) {
-		$email = take($_POST, 'email');
-		$pass  = take($_POST, 'password');
+		$email = take_post('email');
+		$pass  = take_post('password');
 
 		$user = new User;
 		$user->email = $email;

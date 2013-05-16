@@ -5,11 +5,6 @@ class User extends model {
 	const BCRYPT_COST = 10; # 4 min, 31 max
 	static $logged_in = false;
 	static $user = [];
-	static $roles = [
-		'admin'   => 'Admin',
-		'manager' => 'Manager',
-		'user'    => 'User',
-	];
 
 	static $safe_columns = [
 		'id',
