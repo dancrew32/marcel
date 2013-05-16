@@ -46,6 +46,16 @@ app::$routes = [
 	'/users(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
 		=> [ 'c' => 'user', 'm' => 'all', 'name' => 'User Home', 'section' => 'User' ],
 
+	# User Types
+	'/user-types/delete/(?P<id>([0-9]+))' 
+		=> [ 'c' => 'user_type', 'm' => 'delete', 'section' => 'User Types' ],
+	'/user-types/add'   
+		=> [ 'c' => 'user_type', 'm' => 'add', 'section' => 'User Types' ],
+	'/user-types/edit/(?P<id>([0-9]+))'  
+		=> [ 'c' => 'user_type', 'm' => 'edit', 'section' => 'User Types' ],
+	'/user-types(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
+		=> [ 'c' => 'user_type', 'm' => 'all', 'name' => 'User Type Home', 'section' => 'User Types' ],
+
 	# Cart Example
 	'/cart' 
 		=> [ 'c' => 'cart', 'm' => 'main', 'name' => 'Cart Home', 'section' => 'Cart' ],

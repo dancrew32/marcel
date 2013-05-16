@@ -89,7 +89,7 @@ class controller_authentication extends controller_base {
 		if (isset($pass{0}))
 			$user->password = $pass;
 		$user->active = 1;
-		$user->role = 'user';
+		$user->user_type_id = User_Type::find_by_slug('user')->id;
 		$ok = $user->save();
 		if ($ok) {
 			User::login($user->email, $pass);
@@ -155,15 +155,9 @@ class controller_authentication extends controller_base {
 		# Flash message
 		$failure = note::get('join:failure');
 		if ($failure) {
-			$reasons = [];
-			if ($user->errors) {
-				foreach ((array) $user->errors as $e)
-					foreach ($e as $v)
-						$reasons[] = strtolower(" {$v}");
-			}
-			$reasons = count($reasons) ? (" because ". implode(",", $reasons)) : '';
+			$reasons = util::list_english($user->errors);
 			$this->form->custom(
-				html::alert("Can't join{$reasons}.", [ 'type' => 'error' ])
+				html::alert("Can't join because {$reasons}.", [ 'type' => 'error' ])
 			);
 		}
 

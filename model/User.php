@@ -13,10 +13,10 @@ class User extends model {
 
 	static $safe_columns = [
 		'id',
+		'user_type_id',
 		'email',
 		'username',
 		'active',
-		'role',
 		'first',
 		'last',
 		'created_at',
@@ -34,6 +34,10 @@ class User extends model {
 		[ 'cart' ],
 	];
 
+	static $belongs_to = [
+		[ 'user_type', 'class_name' => 'User_Type' ]	
+	];
+
 
 /*
  * EVENTS
@@ -45,18 +49,10 @@ class User extends model {
 /*
  * VALIDATION
  */
-	static $validates_inclusion_of = [
-		['role', 'in' => [
-			'admin', 
-			'manager', 
-			'user'
-		], 'message' => 'Invalid user role'],
-	];
-
 	static $validates_presence_of = [
 		['email'],
 		['password'],
-		['role'],
+		['user_type_id'],
 	];
 
 	static $validates_uniqueness_of = [

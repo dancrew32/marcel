@@ -8,9 +8,12 @@ if (User::find_by_email($u->email))
 $pass = prompt_silent("Password:");
 $u->password = $pass;
 $u->active = 1;
-$u->role = gets('Role:');
+$user_type_id = gets('User Type Id:');
+if (!isset($user_id{0}))
+	$user_id = User_Type::default_id();
+$u->user_type_id = $user_id;
 $u->first = gets('First name:');
 $u->last = gets('Last name:');
-$u->login_count = 0;
+$u->username = gets('Username:');
 if ($u->save())
 	green("User:{$u->id} created.\n");

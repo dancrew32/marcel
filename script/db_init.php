@@ -41,4 +41,24 @@ if ($apply_schemas != 'n') {
 	$pdo = null;
 }
 
+$default_user_types = strtolower(gets("Set default user types? [Y/n]"));
+if ($default_user_types) {
+	db::init();	
+	try {
+		User_Type::create(['name' => 'Admin', 'slug' => 'admin']);
+	} catch(Exception $e) {
+		yellow("Admin already exists");	
+	}
+	try {
+		User_Type::create(['name' => 'Manager', 'slug' => 'user']);
+	} catch(Exception $e) {
+		yellow("Manager already exists");	
+	}
+	try {
+		User_Type::create(['name' => 'User', 'slug' => 'user']);
+	} catch(Exception $e) {
+		yellow("UseUser already exists");	
+	}
+}
+
 green("DB INIT Complete.\n");

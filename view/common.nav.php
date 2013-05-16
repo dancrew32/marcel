@@ -68,6 +68,14 @@
 									</li>
 								<? endif ?>
 
+								<? if (auth::user_type_section()): ?>
+									<li>
+										<a href="<?= app::get_path('User Type Home') ?>">
+											User Types
+										</a>
+									</li>
+								<? endif ?>
+
 								<? if (auth::worker_section()): ?>
 									<li>
 										<a href="<?= app::get_path('Worker Home') ?>">
@@ -142,7 +150,7 @@
 									<i class="icon-user"></i>
 									<? if (User::$user->full_name()): ?>
 										<?= User::$user->full_name() ?>
-										[<?= User::$user->role ?>]
+										[<?= take(User::$user->user_type, 'name') ?>]
 									<? else: ?>
 										Logged In
 									<? endif ?>

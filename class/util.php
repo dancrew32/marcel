@@ -38,12 +38,12 @@ class util {
 		return move_uploaded_file($file['tmp_name'], $path);
 	}
 
-	public static function explode_pop($delimiter, $str) {
+	static function explode_pop($delimiter, $str) {
 		$delimiter = '/.*'. preg_quote($delimiter, '/') .'/';
 		return preg_replace($delimiter, '', $str);
 	}
 
-	public static function explode_shift($delimiter, $str) {
+	static function explode_shift($delimiter, $str) {
 		$delimiter = "/". preg_quote($delimiter, '/') .".*/";
 		return preg_replace($delimiter, '', $str);
 	}
@@ -62,18 +62,32 @@ class util {
 		return substr($string, 0, strlen($start)) == $start;
 	}
 
-	public static function ends_with($string, $end) {
+	static function ends_with($string, $end) {
 		$end_len = strlen($end);
 		return (substr($string, strlen($string) - $end_len, $end_len) == $end);
 	}
 
-	static function list_english(array $items=[]) {
+	static function array_flatten($array) {
+		$arrayValues = [];
+		foreach ($array as $value) {
+			if (is_scalar($value) || is_resource($value))
+				$arrayValues[] = $value;
+			elseif (is_array($value))
+				$arrayValues = array_merge($arrayValues, util::array_flatten($value));
+		}
+		return $arrayValues;
+	}
+
+	static function list_english($items=[]) {
+		$items = (array) $items;
+		$items = self::array_flatten($items);
 		$count = count($items);
 		if (!$count) 
 			return '';
 		if ($count == 1)
 			return $items[0];
 		$last = $count - 1;
+		$items = array_map('strtolower', $items);
 		return implode(', ', array_slice($items, 0, $last)) . ' and ' . $items[$last];
 	}
 

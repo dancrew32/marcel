@@ -51,13 +51,13 @@ class controller_user extends controller_base {
 
 	function add($o) {
 		$user = new User;
-		$user->first    = take($_POST, 'first');
-		$user->last     = take($_POST, 'last');
-		$user->email    = take($_POST, 'email');
-		$user->username = take($_POST, 'username');
-		$user->password = take($_POST, 'password');
-		$user->role     = take($_POST, 'role');
-		$user->active   = take($_POST, 'active', 0);
+		$user->first        = take($_POST, 'first');
+		$user->last         = take($_POST, 'last');
+		$user->email        = take($_POST, 'email');
+		$user->username     = take($_POST, 'username');
+		$user->password     = take($_POST, 'password');
+		$user->user_type_id = take($_POST, 'user_type_id');
+		$user->active       = take($_POST, 'active', 0);
 		$ok = $user->save();
 		if ($ok) {
 			note::set('user:add', $user->id);
@@ -79,8 +79,8 @@ class controller_user extends controller_base {
 		$this->user->username = take($_POST, 'username');
 		if (isset($_POST['password']{0}))
 			$this->user->password = take($_POST, 'password');
-		$this->user->role     = take($_POST, 'role');
-		$this->user->active   = take($_POST, 'active', 0);
+		$this->user->user_type_id = take($_POST, 'user_type_id');
+		$this->user->active       = take($_POST, 'active', 0);
 
 		$ok = $this->user->save();
 		if ($ok) {
@@ -187,20 +187,20 @@ class controller_user extends controller_base {
 		$password_group = [ 'label' => 'Password', 'class' => $user->error_class('password') ];
 		$password_help  = new field('help', [ 'text' => $user->take_error('password') ]);
 		$password_field = new field('password', [ 
-			'name'        => 'password', 
-			'class'       => 'input-block-level',
+			'name'         => 'password', 
+			'class'        => 'input-block-level',
 			'autocomplete' => false,
 		]);
 
 
-		# Role
-		$role_group = [ 'label' => 'Role', 'class' => $user->error_class('role') ]; 
-		$role_help  = new field('help', [ 'text' => $user->take_error('role') ]);
-		$role_field = new field('select', [ 
-			'name'        => 'role', 
+		# User Type
+		$user_type_group = [ 'label' => 'User Type', 'class' => $user->error_class('user_type_id') ]; 
+		$user_type_help  = new field('help', [ 'text' => $user->take_error('user_type_id') ]);
+		$user_type_field = new field('select', [ 
+			'name'        => 'user_type_id', 
 			'class'       => 'input-block-level',
-			'options'     => User::$roles,
-			'value'       => take($user, 'role', 'user'),
+			'options'     => User_Type::options(),
+			'value'       => take($user, 'user_type_id') ? $user->user_type_id : User_Type::default_id(),
 		]);
 
 
@@ -219,7 +219,7 @@ class controller_user extends controller_base {
 			->group($email_group, $email_field, $email_help)
 			->group($username_group, $username_field, $username_help)
 			->group($password_group, $password_field, $password_help)
-			->group($role_group, $role_field, $role_help)
+			->group($user_type_group, $user_type_field, $user_type_help)
 			->group($active_field);
 	}
 }
