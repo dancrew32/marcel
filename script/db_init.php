@@ -4,6 +4,9 @@ require_once(dirname(__FILE__).'/inc.php');
 $ok = true;
 $db_name = gets("Enter database name:");
 $db_user = gets("Enter database user:");
+$db_host = gets("Enter database host: (localhost)");
+if (!isset($db_host{0}))
+	$db_host = 'localhost';
 $db_pass = prompt_silent("Enter database password:");
 
 
@@ -20,7 +23,7 @@ if (!$ok) return red("FAIL");
 $index_file = PUBLIC_DIR.'/index.php';	
 replace_line_with_match($index_file, "define('DB_USER'", "define('DB_USER', '{$db_user}');\n");
 replace_line_with_match($index_file, "define('DB_PASS'", "define('DB_PASS', '{$db_pass}');\n");
-//replace_line_with_match($index_file, "define('DB_HOST'", "define('DB_HOST', '{$db_host}');\n");
+replace_line_with_match($index_file, "define('DB_HOST'", "define('DB_HOST', '{$db_host}');\n");
 replace_line_with_match($index_file, "define('DB_NAME'", "define('DB_NAME', '{$db_name}');\n");
 green("DB Constants updated in {$index_file}.\n");
 
@@ -41,24 +44,15 @@ if ($apply_schemas != 'n') {
 	$pdo = null;
 }
 
-$default_user_types = strtolower(gets("Set default user types? [Y/n]"));
-if ($default_user_types) {
-	db::init();	
-	try {
-		User_Type::create(['name' => 'Admin', 'slug' => 'admin']);
-	} catch(Exception $e) {
-		yellow("Admin already exists");	
-	}
-	try {
-		User_Type::create(['name' => 'Manager', 'slug' => 'user']);
-	} catch(Exception $e) {
-		yellow("Manager already exists");	
-	}
-	try {
-		User_Type::create(['name' => 'User', 'slug' => 'user']);
-	} catch(Exception $e) {
-		yellow("UseUser already exists");	
-	}
-}
+
+
+ActiveRecord\Config::initialize(function($cfg) {
+	$cfg->set_model_directory(MODEL_DIR);
+	$cfg->set_connections([
+		'default' => "mysql://{$GLOBALS['db_user']}:{$GLOBALS['db_pass']}@{$GLOBALS['db_host']}/{$GLOBALS['db_name']}",
+	]);
+	$cfg->set_default_connection('default');
+});
+include_once SCRIPT_DIR.'/db_default_user_types.php';
 
 green("DB INIT Complete.\n");
