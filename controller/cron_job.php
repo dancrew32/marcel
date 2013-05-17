@@ -43,14 +43,8 @@ class controller_cron_job extends controller_base {
 	}
 
 	function add() {
-		$cron = new Cron_Job;
-		$cron->name        = take($_POST, 'name');
-		$cron->script      = take($_POST, 'script');
-		$cron->frequency   = take($_POST, 'frequency');
-		$cron->description = take($_POST, 'description');
-		$cron->active      = take($_POST, 'active', 0);
-		$ok = $cron->save();
-		if ($ok) {
+		$cron = Cron_Job::create($_POST);
+		if ($cron) {
 			note::set('cron_job:add', $cron->id);
 			app::redir($this->root_path);
 		}
@@ -62,14 +56,9 @@ class controller_cron_job extends controller_base {
 	function edit($o) {
 		$this->cron = Cron_Job::find_by_id(take($o['params'], 'id'));
 		if (!$this->cron) app::redir($this->root_path);
-		if (!$this->is_post) return;
+		if (!POST) return;
 
-		$this->cron->name        = take($_POST, 'name');
-		$this->cron->script      = take($_POST, 'script');
-		$this->cron->frequency   = take($_POST, 'frequency');
-		$this->cron->description = take($_POST, 'description');
-		$this->cron->active      = take($_POST, 'active', 0);
-		$ok = $this->cron->save();
+		$ok = $this->cron->update_attributes($_POST);
 		if ($ok) {
 			note::set('cron_job:edit', $this->cron->id);
 			app::redir($this->root_path);

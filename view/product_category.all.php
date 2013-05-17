@@ -41,21 +41,6 @@
 			<?= r('product_category', 'add_form') ?>
 		</div>
 
-		<ul class="nav nav-tabs nav-stacked">
-			<li>
-				<?= html::a([
-					'href' => app::get_path('Product Type Home'),
-					'text' => "View Product Types",
-					'icon' => 'eye-open',
-				]) ?>
-			</li>
-			<li>
-				<?= html::a([
-					'href' => app::get_path('Product Home'),
-					'text' => "View All Products",
-					'icon' => 'eye-open',
-				]) ?>
-			</li>
-		</ul>
+		<?= r('product', 'sub_nav') ?>
 	</div>
 </div>

@@ -5,7 +5,7 @@ CREATE TABLE `products` (
   `product_type_id` int(10) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `name` varchar(255) NOT NULL,
-  `price` float NOT NULL,
+  `price` double NOT NULL,
   `description` text,
   `photo_ids` text,
   `updated_at` datetime DEFAULT NULL,

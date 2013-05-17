@@ -15,21 +15,6 @@
 			<?= r('product_category', 'view', [ 'product_category' => $product_category, 'mode' => 'edit' ]) ?>
 		</div>
 
-		<ul class="nav nav-tabs nav-stacked">
-			<li>
-				<?= html::a([
-					'href' => "{$root_path}",
-					'text' => "View All Product Categories",
-					'icon' => 'eye-open',
-				]) ?>
-			</li>
-			<li>
-				<?= html::a([
-					'href' => app::get_path('Product Home'),
-					'text' => "View All Products",
-					'icon' => 'eye-open',
-				]) ?>
-			</li>
-		</ul>
+		<?= r('product', 'sub_nav') ?>
 	</div>
 </div>

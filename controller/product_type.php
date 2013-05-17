@@ -30,17 +30,9 @@ class controller_product_type extends controller_base {
 		$this->mode = take($o, 'mode', false);
 	}	
 
-	//function table($o) {
-		//$this->product_types = take($o, 'product_types');	
-	//}
-
 	function add() {
-		$product_type = new Product_Type;
-		$product_type->name                = take($_POST, 'name');
-		$product_type->slug                = take($_POST, 'slug');
-		$product_type->product_category_id = take($_POST, 'category');
-		$ok = $product_type->save();
-		if ($ok) {
+		$product_type = Product_Type::create($_POST);
+		if ($product_type) {
 			note::set('product_type:add', $product_type->id);
 			app::redir($this->root_path);
 		}
@@ -52,12 +44,9 @@ class controller_product_type extends controller_base {
 	function edit($o) {
 		$this->product_type = Product_Type::find_by_id(take($o['params'], 'id'));
 		if (!$this->product_type) app::redir($this->root_path);
-		if (!$this->is_post) return;
+		if (!POST) return;
 
-		$this->product_type->name                = take($_POST, 'name');
-		$this->product_type->slug                = take($_POST, 'slug');
-		$this->product_type->product_category_id = take($_POST, 'category');
-		$ok = $this->product_type->save();
+		$ok = $this->product_type->update_attributes($_POST);
 		if ($ok) {
 			note::set('product_type:edit', $this->product_type->id);
 			app::redir($this->root_path);
@@ -141,7 +130,7 @@ class controller_product_type extends controller_base {
 		$category_group = [ 'label' => 'Category', 'class' => $o->error_class('product_category_id') ]; 
 		$category_help  = new field('help', [ 'text' => $o->take_error('product_category_id') ]);
 		$category_field = new field('select', [ 
-			'name'         => 'category', 
+			'name'         => 'product_category_id', 
 			'class'        => 'input-block-level',
 			'value'        => take($o, 'product_category_id'),
 			'options'      => Product_Category::options(),

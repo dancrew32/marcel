@@ -9,7 +9,10 @@ class controller_cart extends controller_base {
    	}
 
 	function main() {
-		$this->test_product_id = Product::first()->id; #TODO: delete
+
+		# Arbitrary test product
+		$first_product = Product::first();
+		$this->test_product_id = take($first_product, 'id', 1);
 
 		$this->items = [];
 		$cart = Cart::get_type('cart:a');
@@ -108,7 +111,7 @@ class controller_cart extends controller_base {
 	}
 
 	function quantity() {
-		if (!$this->is_post || !AJAX)
+		if (!POST || !AJAX)
 			json(['success' => false]);
 
 		$id = take($_POST, 'id');

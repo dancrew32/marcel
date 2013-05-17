@@ -33,11 +33,8 @@ class controller_user_type extends controller_base {
 	}
 
 	function add() {
-		$user_type = new User_Type;
-		$user_type->name = take($_POST, 'name');
-		$user_type->slug = take($_POST, 'slug');
-		$ok = $user_type->save();
-		if ($ok) {
+		$user_type = User_Type::create($_POST);
+		if ($user_type) {
 			note::set('user_type:add', $user_type->id);
 			app::redir($this->root_path);
 		}
@@ -49,11 +46,9 @@ class controller_user_type extends controller_base {
 	function edit($o) {
 		$this->user_type = User_Type::find_by_id(take($o['params'], 'id'));
 		if (!$this->user_type) app::redir($this->root_path);
-		if (!$this->is_post) return;
+		if (!POST) return;
 
-		$this->user_type->name = take($_POST, 'name');
-		$this->user_type->slug = take($_POST, 'slug');
-		$ok = $this->user_type->save();
+		$ok = $this->user_type->update_attributes($_POST);
 		if ($ok) {
 			note::set('user_type:edit', $this->user_type->id);
 			app::redir($this->root_path);

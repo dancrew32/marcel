@@ -50,16 +50,29 @@ class controller_product extends controller_base {
 		$this->products = take($o, 'products');	
 	}
 
+	function sub_nav() {
+		$this->items = [
+			[
+				'href' => app::get_path('Product Home'),
+				'text' => "View All Products",
+				'icon' => 'eye-open',
+			],
+			[
+				'href' => app::get_path('Product Type Home'),
+				'text' => "View All Product Types",
+				'icon' => 'eye-open',
+			],
+			[
+				'href' => app::get_path('Product Category Home'),
+				'text' => "View All Product Categories",
+				'icon' => 'eye-open',
+			],
+		];
+   	}
+
 	function add() {
-		$product = new Product;
-		$product->name                = take($_POST, 'name');
-		$product->active              = take($_POST, 'active', 0);
-		$product->price               = take($_POST, 'price', 0.00);
-		$product->description         = take($_POST, 'description');
-		$product->product_type_id     = take($_POST, 'type');
-		//$product->photo_ids = take($_POST, 'photo_ids');
-		$ok = $product->save();
-		if ($ok) {
+		$product = Product::create($_POST);
+		if ($product) {
 			note::set('product:add', $product->id);
 			app::redir($this->root_path);
 		}
@@ -71,15 +84,9 @@ class controller_product extends controller_base {
 	function edit($o) {
 		$this->product = Product::find_by_id(take($o['params'], 'id'));
 		if (!$this->product) app::redir($this->root_path);
-		if (!$this->is_post) return;
+		if (!POST) return;
 
-		$this->product->name                = take($_POST, 'name');
-		$this->product->active              = take($_POST, 'active', 0);
-		$this->product->price               = take($_POST, 'price', 0.00);
-		$this->product->description         = take($_POST, 'description');
-		$this->product->product_type_id     = take($_POST, 'type');
-		//$product->photo_ids       = take($_POST, 'photo_ids');
-		$ok = $this->product->save();
+		$ok = $this->product->update_attributes($_POST);
 		if ($ok) {
 			note::set('product:edit', $this->product->id);
 			app::redir($this->root_path);
@@ -156,7 +163,7 @@ class controller_product extends controller_base {
 			'class'        => 'input-block-level required',
 			'autocomplete' => false,
 			'prepend'      => '$',
-			'value'        => number_format((float)take($product, 'price', 0), 2)
+			'value'        => take($product, 'price'),
 		]);
 
 		# Description
@@ -174,7 +181,7 @@ class controller_product extends controller_base {
 		$type_group = [ 'label' => 'Type', 'class' => $product->error_class('product_type_id') ]; 
 		$type_help  = new field('help', [ 'text' => $product->take_error('product_type_id') ]);
 		$type_field = new field('select', [ 
-			'name'         => 'type', 
+			'name'         => 'product_type_id', 
 			'class'        => 'input-block-level',
 			'value'        => take($product, 'product_type_id'),
 			'options'      => Product_Type::options(),

@@ -40,6 +40,7 @@ class app {
 
 		# HTTP Method
 		self::$req_type = strtolower(take($_SERVER, 'REQUEST_METHOD', 'get'));
+		define('POST', self::$req_type == 'post');
 
 		# Route
 		$found = false;
@@ -66,11 +67,7 @@ class app {
 			# DB Bypass? If not, init DB and User Sessions
 			if (!isset($o['nodb'])) {
 				db::init();
-				try {
-					Session::session_begin();
-				} catch(Exception $e) {
-					return _500();
-				}
+				Session::session_begin();
 				User::init();
 			}
 

@@ -1,12 +1,17 @@
 <? app::asset('view/mustachetest.main', 'js') ?>
 <div class="row">
-	<div class="span6 offset3">
+	<div class="span6">
 		<h1>
 			Mustache Rendering
 		</h1>
-<pre>
-<?= h("<?= r('mustachetest', 'template') ?>") ?>
-</pre>
+	</div>
+	<div class="span6" style="margin-top: 10px;">
+<pre><?= h("<?= r('mustachetest', 'template') ?>") ?></pre>
+	</div>
+</div>
+
+<div class="row">
+	<div class="span6">
 		<h2>
 			PHP Rendered
 		</h2>
@@ -18,6 +23,9 @@
 		<div class="well">
 			<?= r('mustachetest', 'template') ?>
 		</div>
+	</div>
+
+	<div class="span6">
 		<h2>
 			JavaScript Rendered
 		</h2>

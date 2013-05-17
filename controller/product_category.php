@@ -51,11 +51,8 @@ class controller_product_category extends controller_base {
 	//}
 
 	function add() {
-		$product_category = new Product_Category;
-		$product_category->name = take($_POST, 'name');
-		$product_category->slug = take($_POST, 'slug');
-		$ok = $product_category->save();
-		if ($ok) {
+		$product_category = Product_Category::create($_POST);
+		if ($product_category) {
 			note::set('product_category:add', $product_category->id);
 			app::redir($this->root_path);
 		}
@@ -67,11 +64,9 @@ class controller_product_category extends controller_base {
 	function edit($o) {
 		$this->product_category = Product_Category::find_by_id(take($o['params'], 'id'));
 		if (!$this->product_category) app::redir($this->root_path);
-		if (!$this->is_post) return;
+		if (!POST) return;
 
-		$this->product_category->name = take($_POST, 'name');
-		$this->product_category->slug = take($_POST, 'slug');
-		$ok = $this->product_category->save();
+		$ok = $this->product_category->update_attributes($_POST);
 		if ($ok) {
 			note::set('product_category:edit', $this->product_category->id);
 			app::redir($this->root_path);

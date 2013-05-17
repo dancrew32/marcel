@@ -66,10 +66,8 @@ $boilerplate .= "
 	}
 
 	function add() {
-		\${$model_lower} = new {$model};
-		# \${$model_lower}->property = take(\$_POST, 'property');
-		\$ok = \${$model_lower}->save();
-		if (\$ok) {
+		\${$model_lower} = {$model}::create(\$_POST);
+		if (\${$model_lower}) {
 			note::set('{$model_lower}:add', \${$model_lower}->id);
 			app::redir(\$this->root_path);
 		}
@@ -81,10 +79,9 @@ $boilerplate .= "
 	function edit(\$o) {
 		\$this->{$model_lower} = {$model}::find_by_id(take(\$o['params'], 'id'));
 		if (!\$this->{$model_lower}) app::redir(\$this->root_path);
-		if (!\$this->is_post) return;
+		if (!POST) return;
 
-		# \$this->{$model_lower}->property = take(\$_POST, 'property');
-		\$ok = \$this->{$model_lower}->save();
+		\$ok = \$this->{$model_lower}->update_attributes(\$_POST);
 		if (\$ok) {
 			note::set('{$model_lower}:edit', \$this->{$model_lower}->id);
 			app::redir(\$this->root_path);

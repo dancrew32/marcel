@@ -50,16 +50,8 @@ class controller_user extends controller_base {
 	}
 
 	function add($o) {
-		$user = new User;
-		$user->first        = take_post('first');
-		$user->last         = take_post('last');
-		$user->email        = take_post('email');
-		$user->username     = take_post('username');
-		$user->password     = take_post('password');
-		$user->user_type_id = take_post('user_type_id');
-		$user->active       = take_post('active', 0);
-		$ok = $user->save();
-		if ($ok) {
+		$user = User::create($_POST);
+		if ($user) {
 			note::set('user:add', $user->id);
 			app::redir($this->root_path);
 		}
@@ -71,18 +63,13 @@ class controller_user extends controller_base {
 	function edit($o) {
 		$this->user = User::find_by_id(take($o['params'], 'id'));
 		if (!$this->user) app::redir($this->root_path);
-		if (!$this->is_post) return;
+		if (!POST) return;
 
-		$this->user->first    = take_post('first');
-		$this->user->last     = take_post('last');
-		$this->user->email    = take_post('email');
-		$this->user->username = take_post('username');
-		if (isset($_POST['password']{0}))
-			$this->user->password = take_post('password');
-		$this->user->user_type_id = take_post('user_type_id');
-		$this->user->active       = take_post('active', 0);
+		# Don't change password if it's blank
+		if (!isset($_POST['password']{0}))
+			unset($_POST['password']);
 
-		$ok = $this->user->save();
+		$ok = $this->user->update_attributes($_POST);
 		if ($ok) {
 			note::set('user:edit', $this->user->id);
 			app::redir($this->root_path);

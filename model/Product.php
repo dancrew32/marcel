@@ -40,10 +40,17 @@ class Product extends model {
 		}
 	}
 
+	function price_pretty() {
+		return number_format($this->read_attribute('price'), 2);
+	}
+
 	function &__get($name) {
 		switch ($name) {
 			case 'type':
 				return $this->read_attribute($name);
+			case 'price':
+				$out = number_format($this->read_attribute($name), 2, '.', '');
+				break;
 			default:
 				$out = h($this->read_attribute($name));
 		}

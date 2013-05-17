@@ -24,7 +24,7 @@
 		<strong>	
 			Price:
 		</strong>
-		$<?= number_format($product->price, 2) ?>
+		$<?= $product->price_pretty() ?>
 	</p>
 
 	<p<? echoif(!$product->active, ' class="muted"')?>>
