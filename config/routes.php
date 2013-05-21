@@ -100,6 +100,9 @@ app::$routes = [
 	'/product-categories(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
 		=> [ 'c' => 'product_category', 'm' => 'all', 'name' => 'Product Category Home', 'section' => 'Product Category' ],
 
+	# Stocks
+	'/stocks' => [ 'c' => 'stock', 'm' => 'main', 'name' => 'Stock Home' ],
+
 	# Geocoder
 	'/geo' => [ 'c' => 'geo', 'm' => 'code', 'name' => 'Geocode' ],
 

@@ -21,7 +21,6 @@ class controller_authentication extends controller_base {
 	# no view
 	function login($o) {
 		if (!auth::login()) app::redir(app::get_path('Home'));
-		$action   = app::get_path('Login');
 		$user     = take_post('user');
 		$pass     = take_post('pass');
 		$remember = take_post('remember', 0);
@@ -31,7 +30,7 @@ class controller_authentication extends controller_base {
 
 		# Form
 		$this->form = new form;
-		$this->form->open($action, 'post', [ 'class' => 'last' ]);
+		$this->form->open(app::get_path('Login'), 'post', [ 'class' => 'last' ]);
 		$this->_build_login_form();
 		$this->form->actions(
 			new field('submit', [
@@ -62,7 +61,6 @@ class controller_authentication extends controller_base {
 
 	# no view
 	function login_try($o) {
-		$action   = 
 		$user     = take_post('user');
 		$pass     = take_post('pass');
 		$remember = take_post('remember', 0);

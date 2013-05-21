@@ -48,7 +48,6 @@ class util {
 		return preg_replace($delimiter, '', $str);
 	}
 
-
 	# recursive glob
 	static function rglob($pattern='*', $flags = 0, $path='') {
 		$paths = glob($path.'*', GLOB_MARK|GLOB_ONLYDIR|GLOB_NOSORT);
@@ -108,19 +107,27 @@ class util {
 	}
 
     static function array_sort(&$array, $order_by = array()) {
-        if (count($array)) {
-            $sortcols = array();
-            foreach ($array as $key => $row)
-                foreach ($order_by as $col => $direction)
-                    $sortcols[$col][$key] = take($row, $col, null);
+        if (!count($array)) return false;
+		$sortcols = array();
+		foreach ($array as $key => $row)
+			foreach ($order_by as $col => $direction)
+				$sortcols[$col][$key] = take($row, $col, null);
 
-            foreach ($order_by as $col => $direction)
-                $params[] = '$sortcols["'.$col.'"], SORT_'.(strtoupper($direction) == 'ASC' ? 'ASC' : 'DESC');
+		foreach ($order_by as $col => $direction)
+			$params[] = '$sortcols["'.$col.'"], SORT_'.(strtoupper($direction) == 'ASC' ? 'ASC' : 'DESC');
 
-            $cmd = 'array_multisort('.implode(',', $params).', $array);';
-            eval($cmd);
-        }   
+		$cmd = 'array_multisort('.implode(',', $params).', $array);';
+		eval($cmd);
     }
+
+	static function to_snake($str) {
+		return preg_replace_callback('/[A-Z]/', create_function('$match', 'return "_" . strtolower($match[0]);'),  $str);  
+	}
+
+	static function to_camel($str) {
+		$str = str_replace(' ', '', ucwords(str_replace('_', ' ', $str)));  
+		return strtolower(substr($str, 0, 1)) . substr($str, 1);  
+	}
 
     static function truncate($text, $max_chars, $preserve_words = false, $trailing_string = '...') {
         if (!isset($text{$max_chars}))

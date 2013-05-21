@@ -15,6 +15,7 @@
 		<div id="stripe-data"
 			data-pub-key="<?= credit::get_public_key() ?>"></div>
 	</div>
+
 	<div class="span4">
 		<h2>
 			Add Items

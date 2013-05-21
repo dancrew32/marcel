@@ -25,6 +25,10 @@ class app {
 			# HTML Output Errors
 			ini_set('display_errors', 1);
 			ini_set('html_errors', 1);
+
+			# http://xdebug.org/docs/display
+			ini_set('xdebug.var_display_max_data', 1024);
+			ini_set('xdebug.var_display_max_depth', 10);
 		}
 
 		# IP Limit
