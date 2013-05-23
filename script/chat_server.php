@@ -113,18 +113,16 @@ class chat_server extends socket_server {
 		$text = preg_replace(array_keys($tag_subs), array_values($tag_subs), $text); 
 
 		# Image
-		if (auth::admin($user->user)) {
-			$img_regex = '/(https?:\/\/.*\.(?:png|jpg))/i';
-			if (preg_match($img_regex, $text, $match)) {
-				$text .= "<br><div class=\"thumbnail\">";
-				$text .= image::get([
-					'src' => $match[1],
-					'w' => 720,
-					'h' => 405,
-					'q' => 10,
-				], true, 'my image');
-				$text .= "</div>";
-			}
+		$img_regex = '/(https?:\/\/.*\.(?:png|jpg))/i';
+		if (preg_match($img_regex, $text, $match)) {
+			$text .= "<br><div class=\"thumbnail\">";
+			$text .= image::get([
+				'src' => $match[1],
+				'w' => 720,
+				'h' => 405,
+				'q' => 10,
+			], true, 'my image');
+			$text .= "</div>";
 		}
 
 		$data = [

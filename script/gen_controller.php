@@ -17,13 +17,14 @@ $boilerplate = "<?
 class controller_{$name} extends controller_base {
 	function __construct(\$o) {
 		\$this->root_path = app::get_path('". ucfirst(preg_replace("/[^a-zA-Z]+/", "", $name)) ." Home');
+		# auth::only(['{$name}']);
 		parent::__construct(\$o);
    	}
 ";
 if (isset($model{0})) {
 $boilerplate .= " 
 	function all(\$o) {
-		\$page   = take(\$o['params'], 'page', 1); 
+		\$this->page   = take(\$o['params'], 'page', 1); 
 		\$format = take(\$o['params'], 'format');
 		switch (\$format) {
 			case '.table':
@@ -41,14 +42,14 @@ $boilerplate .= "
 		\$this->pager = r('common', 'pager', [
 			'total'  => \$this->total,
 			'rpp'    => \$rpp,
-			'page'   => \$page,
+			'page'   => \$this->page,
 			'base'   => \"{\$this->root_path}/\",
 			'suffix' => h(\$format),
 		]);
 		\$this->{$model_lower}s = {$model}::find('all', [
 			//'select' => 'id',
 			'limit'  => \$rpp,
-			'offset' => model::get_offset(\$page, \$rpp),
+			'offset' => model::get_offset(\$this->page, \$rpp),
 			'order'  => 'id asc',
 		]);
 

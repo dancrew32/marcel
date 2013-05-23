@@ -11,6 +11,49 @@ class controller_common extends controller_base {
 
 	function nav() {
 		$this->logged_in = User::$logged_in;	
+		$this->admin_nav_sections = [
+			'Cron', 
+			'Feature',
+			'Product Type', 
+			'User', 
+			'User Permission',
+			'User Type',
+			'Worker',
+		];
+		$this->admin_nav = [
+			'cron_job' => [
+				'text' => 'Cron Manager', 
+				'path' => 'Cron Home',
+			],
+			'feature' => [
+				'text' => 'Features', 
+				'path' => 'Feature Home',
+			],
+			'product_category' => [
+				'text' => 'Product Categories', 
+				'path' => 'Product Category Home',
+			],
+			'product_type' => [
+				'text' => 'Product Types', 
+				'path' => 'Product Type Home',
+			],
+			'user' => [
+				'text' => 'Users', 
+				'path' => 'User Home',
+			],
+			'user_permission' => [
+				'text' => 'User Permissions', 
+				'path' => 'User Permission Home',
+			],
+			'user_type' => [
+				'text' => 'User Types', 
+				'path' => 'User Type Home',
+			],
+			'worker' => [
+				'text' => 'Workers', 
+				'path' => 'Worker Home',
+			],
+		];
 	}
 
 	function debug($o) {

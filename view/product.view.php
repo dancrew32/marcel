@@ -40,21 +40,23 @@
 		</p>
 	<? endif ?>
 
-	<ul class="nav nav-pills last">
-		<? if ($mode != 'edit'): ?>
-			<li>
+	<? if (auth::can(['product'])): ?>
+		<ul class="nav nav-pills last">
+			<? if ($mode != 'edit'): ?>
+				<li>
+					<?= html::a([
+						'href' => "{$root_path}/edit/{$product->id}", 
+						'text' => "Edit",
+						'icon' => 'edit',
+					]) ?>
+				<li>
+			<? endif ?>
 				<?= html::a([
-					'href' => "{$root_path}/edit/{$product->id}", 
-					'text' => "Edit",
-					'icon' => 'edit',
+					'href' => "{$root_path}/delete/{$product->id}", 
+					'text' => "Delete",
+					'icon' => 'trash',
 				]) ?>
-			<li>
-		<? endif ?>
-			<?= html::a([
-				'href' => "{$root_path}/delete/{$product->id}", 
-				'text' => "Delete",
-				'icon' => 'trash',
-			]) ?>
-		</li>
-	</ul>
+			</li>
+		</ul>
+	<? endif ?>
 </div>

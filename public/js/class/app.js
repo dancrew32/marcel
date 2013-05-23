@@ -15,6 +15,9 @@
 	function addEventListeners() {
 		if ($.wysiwyg)
 			$('#editor-1').wysiwyg();
+
+		$('#my-tip').tooltip({ selector: 'a' });
+		$('#popit button').popover();
 	}
 
 	function init() {

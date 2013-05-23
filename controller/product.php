@@ -2,7 +2,6 @@
 class controller_product extends controller_base {
 	function __construct($o) {
 		$this->root_path = app::get_path('Product Home');
-		auth::check('product_section');
 		parent::__construct($o);
    	}
  
@@ -71,6 +70,7 @@ class controller_product extends controller_base {
    	}
 
 	function add() {
+		auth::only(['product']);
 		$product = Product::create($_POST);
 		if ($product) {
 			note::set('product:add', $product->id);
@@ -82,6 +82,7 @@ class controller_product extends controller_base {
 	}	
 
 	function edit($o) {
+		auth::only(['product']);
 		$this->product = Product::find_by_id(take($o['params'], 'id'));
 		if (!$this->product) app::redir($this->root_path);
 		if (!POST) return;
@@ -97,6 +98,7 @@ class controller_product extends controller_base {
 	}	
 
 	function delete($o) {
+		auth::only(['product']);
 		$id = take($o['params'], 'id');
 		if (!$id) app::redir($this->root_path);
 

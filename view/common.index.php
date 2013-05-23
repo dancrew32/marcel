@@ -591,11 +591,6 @@ view/common.index.php
 		<p>
 		This has to be initialized in JavaScript (no magic data-attribute binding)
 		<code>$('#my-tip').tooltip({ selector: 'a' });</code>
-		<script>
-			setTimeout(function() {
-				$('#my-tip').tooltip({ selector: 'a' });
-			}, 350);
-		</script>
 		</p>
 		<ul id="my-tip">
 			<li><a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">Tooltip on top</a></li>
@@ -637,11 +632,6 @@ view/common.index.php
 		This has to be initialized in JavaScript (no magic data-attribute binding)
 		<code>$('#popit button').popover();</code>
 		This doesn't delegate like tooltip, so use it sparingly
-		<script>
-			setTimeout(function() {
-				$('#popit button').popover();
-			}, 350);
-		</script>
 		</p>
 		<ul id="popit">
 			<li><button class="btn" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="" data-original-title="Popover on top">Popover on top</button></li>

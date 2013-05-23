@@ -68,26 +68,22 @@ class app {
 				$o = $o['http'][self::$req_type]; # override
 			}
 
-			# DB Bypass? If not, init DB and User Sessions
+			# DB Bypass? If not, init DB & User Data
 			if (!isset($o['nodb'])) {
 				db::init();
-				Session::session_begin();
+				Session::init();
 				User::init();
+				User_Permission::init();
 			}
 
 			# Router Auth (Phase 2) (optional)
 			if ($global_auth || isset($o['auth'])) {
 				$allowed = false;
 				if (isset($o['auth']))
-					$global_auth = array_merge((
+					$allowed = auth::can(array_merge((
 						is_array($global_auth) ? $global_auth : []
-					), $o['auth']);
-				foreach($global_auth as $ga) {
-					if (auth::$ga()) {
-						$allowed = true;
-						break; 	  
-					}
-				}
+					), $o['auth']));
+
 				if (!$allowed) {
 					$found = false;	
 					break;
@@ -176,6 +172,10 @@ class app {
 
 	static function in_section($section) {
 		return self::$section_name == $section;
+	}
+
+	static function in_sections($sections=[]) {
+		return in_array(self::$section_name, $sections);
 	}
 
 	static function title($title) {

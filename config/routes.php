@@ -48,13 +48,29 @@ app::$routes = [
 
 	# User Types
 	'/user-types/delete/(?P<id>([0-9]+))' 
-		=> [ 'c' => 'user_type', 'm' => 'delete', 'section' => 'User Types' ],
+		=> [ 'c' => 'user_type', 'm' => 'delete', 'section' => 'User Type' ],
 	'/user-types/add'   
-		=> [ 'c' => 'user_type', 'm' => 'add', 'section' => 'User Types' ],
+		=> [ 'c' => 'user_type', 'm' => 'add', 'section' => 'User Type' ],
 	'/user-types/edit/(?P<id>([0-9]+))'  
-		=> [ 'c' => 'user_type', 'm' => 'edit', 'section' => 'User Types' ],
+		=> [ 'c' => 'user_type', 'm' => 'edit', 'section' => 'User Type' ],
 	'/user-types(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
-		=> [ 'c' => 'user_type', 'm' => 'all', 'name' => 'User Type Home', 'section' => 'User Types' ],
+		=> [ 'c' => 'user_type', 'm' => 'all', 'name' => 'User Type Home', 'section' => 'User Type' ],
+
+	# Features
+	'/features/delete/(?P<id>([0-9]+))' 
+		=> [ 'c' => 'feature', 'm' => 'delete', 'section' => 'Feature' ],
+	'/features/add'   
+		=> [ 'c' => 'feature', 'm' => 'add', 'section' => 'Feature' ],
+	'/features/edit/(?P<id>([0-9]+))'  
+		=> [ 'c' => 'feature', 'm' => 'edit', 'section' => 'Feature' ],
+	'/features(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
+		=> [ 'c' => 'feature', 'm' => 'all', 'name' => 'Feature Home', 'section' => 'Feature' ],
+
+	# User Permissions
+	'/user-permissions/update' 
+		=> [ 'c' => 'user_permission', 'm' => 'update', ],
+	'/user-permissions(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
+		=> [ 'c' => 'user_permission', 'm' => 'all', 'name' => 'User Permission Home', 'section' => 'User Types' ],
 
 	# Cart Example
 	'/cart' 

@@ -2,7 +2,7 @@
 class Session extends model {
 	static $table_name = 'sessions';
 
-	static function session_begin() {
+	static function init() {
 		$cls = __CLASS__;
 		session_set_save_handler(
 			"{$cls}::open",

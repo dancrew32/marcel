@@ -40,8 +40,10 @@
 		<? else: ?>
 			<p class="lead">
 				No products yet!
-				<br>
-				Use the "Add Product" form to create a new product!
+				<? if (auth::can(['product'])): ?>
+					<br>
+					Use the "Add Product" form to create a new product!
+				<? endif ?>
 			</p>
 		<? endif ?>
 		&nbsp;
@@ -52,9 +54,12 @@
 		<h2>
 			Add Product
 		</h2>
-		<div class="well">
-			<?= r('product', 'add_form') ?>
-		</div>
+
+		<? if (auth::can(['product'])): ?>
+			<div class="well">
+				<?= r('product', 'add_form') ?>
+			</div>
+		<? endif ?>
 
 		<?= r('product', 'sub_nav') ?>
 	</div>

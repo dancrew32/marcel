@@ -20,7 +20,6 @@ class controller_authentication extends controller_base {
 
 	# no view
 	function login($o) {
-		if (!auth::login()) app::redir(app::get_path('Home'));
 		$user     = take_post('user');
 		$pass     = take_post('pass');
 		$remember = take_post('remember', 0);
@@ -44,8 +43,6 @@ class controller_authentication extends controller_base {
 
 	# no view
 	function join($o) {
-		if (!auth::join()) app::redir(app::get_path('Home'));
-		
 		$this->form = new form;
 		$this->form->open(app::get_path('Join'), 'post', [ 'class' => 'last' ]);
 		$this->_build_join_form();

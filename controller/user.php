@@ -2,7 +2,7 @@
 class controller_user extends controller_base {
 	function __construct($o) {
 		$this->root_path = app::get_path('User Home');
-		auth::check('user_section');
+		auth::only(['user']);
 		parent::__construct($o);
    	}
  

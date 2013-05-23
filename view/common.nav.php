@@ -20,16 +20,8 @@
 						<a href="<?= app::get_path('Home')?>">Home</a>
 					</li>
 
-
-					<? if (
-					auth::cron_job_section() ||
-					auth::worker_section() ||
-					auth::user_section() ||
-					auth::user_type_section() ||
-					auth::product_type_section() ||
-					auth::product_category_section()
-					): ?>
-						<li class="dropdown<? echoif((app::in_section('Cron') || app::in_section('Worker') || app::in_section('User')), ' active') ?>">
+					<? if (auth::can(array_keys($admin_nav))): ?>
+						<li class="dropdown<? echoif(app::in_sections($admin_nav_sections), ' active') ?>">
 							<a href="#" 
 								class="dropdown-toggle" 
 								data-toggle="dropdown">
@@ -38,77 +30,34 @@
 							</a>
 							<ul class="dropdown-menu">
 
-								<? if (auth::cron_job_section()): ?>
-									<li>
-										<a href="<?= app::get_path('Cron Home') ?>">
-											Cron
-										</a>
-									</li>
-								<? endif ?>
+								<? foreach ($admin_nav as $auth => $nav): ?>
+									<? if (!auth::can([$auth])) { continue; } ?>
 
-								<? if (auth::product_category_section()): ?>
 									<li>
-										<a href="<?= app::get_path('Product Category Home') ?>">
-											Product Categories
+										<a href="<?= app::get_path($nav['path']) ?>">
+											<?= $nav['text'] ?>
 										</a>
 									</li>
-								<? endif ?>
 
-								<? if (auth::product_type_section()): ?>
-									<li>
-										<a href="<?= app::get_path('Product Type Home') ?>">
-											Product Types
-										</a>
-									</li>
-								<? endif ?>
-
-								<? if (auth::user_section()): ?>
-									<li>
-										<a href="<?= app::get_path('User Home') ?>">
-											Users
-										</a>
-									</li>
-								<? endif ?>
-
-								<? if (auth::user_type_section()): ?>
-									<li>
-										<a href="<?= app::get_path('User Type Home') ?>">
-											User Types
-										</a>
-									</li>
-								<? endif ?>
-
-								<? if (auth::worker_section()): ?>
-									<li>
-										<a href="<?= app::get_path('Worker Home') ?>">
-											Workers
-										</a>
-									</li>
-								<? endif ?>
+								<? endforeach ?>
 
 							</ul>
 						</li>
 					<? endif ?>
 
-					<? if (auth::product_section()): ?>
-						<li<? echoif(app::in_section('Product'), ' class="active"') ?>>
-							<a href="<?= app::get_path('Product Home') ?>">Products</a>
-						</li>
-					<? endif ?>
+					<li<? echoif(app::in_section('Product'), ' class="active"') ?>>
+						<a href="<?= app::get_path('Product Home') ?>">Products</a>
+					</li>
 
 					<li<? echoif(app::in_section('Cart'), ' class="active"') ?>>
 						<a href="<?= app::get_path('Cart Home') ?>">Cart</a>
 					</li>
 						
-					<li class="dropdown<? echoif(
-						app::in_section('Message') || 
-						app::in_section('Mustache') ||
-						app::in_section('Markdown')
-						, ' active') ?>">
+					<li class="dropdown<? echoif(app::in_sections(['Message', 'Mustache', 'Markdown']), ' active') ?>">
 						<a href="#" 
 							class="dropdown-toggle" 
 							data-toggle="dropdown">
-							Chat Test
+							Tests
 							<b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu">

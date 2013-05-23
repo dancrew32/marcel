@@ -49,7 +49,7 @@ Word
 <?
 class aww {
 	public static function yeah() {
-		echo 'Awwwwww yeah...';	
+		echo __CLASS__ .' '. __FUNCTION__;
 	}
 }
 ~~~
