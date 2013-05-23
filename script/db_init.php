@@ -73,4 +73,9 @@ if ($seed != 'n') {
 	green("Seeding Complete.\n");
 }
 
+$user_create = strtolower(gets("Create first user? [Y/n]"));
+if ($user_create != 'n')
+	include_once SCRIPT_DIR.'/create_user.php';
+
 green("DB INIT Complete.\n");
+
