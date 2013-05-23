@@ -29,6 +29,18 @@ class User_Permission extends model {
 		return APP_NAME.__CLASS__.__FUNCTION__;
 	}
 
+	static function seed() {
+		$features = Feature::all();
+		$admin = User_Type::find_by_slug('admin');
+		# enable all features for admin
+		foreach ($features as $feature) {
+			self::create([
+				'feature_id'   => $feature->id,
+				'user_type_id' => $admin->id,
+			]);
+		}
+	}
+
 	static $belongs_to = [
 		[ 'feature', 'class_name' => 'Feature' ]	
 	];

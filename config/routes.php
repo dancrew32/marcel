@@ -70,7 +70,7 @@ app::$routes = [
 	'/user-permissions/update' 
 		=> [ 'c' => 'user_permission', 'm' => 'update', ],
 	'/user-permissions(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
-		=> [ 'c' => 'user_permission', 'm' => 'all', 'name' => 'User Permission Home', 'section' => 'User Types' ],
+		=> [ 'c' => 'user_permission', 'm' => 'all', 'name' => 'User Permission Home', 'section' => 'User Permission' ],
 
 	# Cart Example
 	'/cart' 

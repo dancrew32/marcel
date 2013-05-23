@@ -15,6 +15,7 @@ class controller_common extends controller_base {
 			'Cron', 
 			'Feature',
 			'Product Type', 
+			'Product Category', 
 			'User', 
 			'User Permission',
 			'User Type',

@@ -45,7 +45,6 @@ if ($apply_schemas != 'n') {
 }
 
 
-
 ActiveRecord\Config::initialize(function($cfg) {
 	$cfg->set_model_directory(MODEL_DIR);
 	$cfg->set_connections([
@@ -53,6 +52,25 @@ ActiveRecord\Config::initialize(function($cfg) {
 	]);
 	$cfg->set_default_connection('default');
 });
-include_once SCRIPT_DIR.'/db_default_user_types.php';
+
+$seed = strtolower(gets("Seed database with defaults? [Y/n]"));
+if ($seed != 'n') {
+	$seed_models = [
+		'User_Type',
+		'Feature',
+		'User_Permission',
+	];
+	green("Now Seeding...\n");
+	foreach ($seed_models as $sm) {
+		echo " seeding {$sm}...";
+		try {
+			$sm::seed();
+			green(" Done.\n");
+		} catch (Exception $e) {
+			red(" FAIL.\n");	
+		}
+	}
+	green("Seeding Complete.\n");
+}
 
 green("DB INIT Complete.\n");

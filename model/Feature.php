@@ -3,6 +3,29 @@ class Feature extends model {
 	static $table_name = 'features';
 
 /*
+ * STATIC
+ */
+	static function seed() {
+		$data = [
+			'Cron Job'         => 'cron_job',
+			'Join'             => 'join',
+			'Login'            => 'login',
+			'Product'          => 'product',
+			'Product Type'     => 'product_type',
+			'Product Category' => 'product_category',
+			'User'             => 'user',
+			'User Type'        => 'user_type',
+			'User Permission'  => 'user_permission',
+			'Feature'          => 'feature',
+			'Worker'           => 'worker',
+		];
+
+		foreach ($data as $k => $v)
+			self::create(['name' => $k, 'slug' => $v]);
+	}
+
+
+/*
  * INSTANCE
  */
 
