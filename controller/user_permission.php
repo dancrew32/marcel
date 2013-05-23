@@ -13,7 +13,7 @@ class controller_user_permission extends controller_base {
 	}	
 
 	function update() {
-		User_Permission::delete_all();
+		User_Permission::delete_all(['conditions' => []]);
 
 		foreach ($_POST as $key => $val) {
 			$parts = explode('|', $key);
