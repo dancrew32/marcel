@@ -111,7 +111,6 @@ class User extends model {
 		return $html;
 	}
 
-
 	function delete_cache() {
 		return cache::delete(self::cache_key($this->id));
 	}
