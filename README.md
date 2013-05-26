@@ -35,6 +35,12 @@
 * [WebSocket Server](#websocket-server)
 * [Profiling](#profiling-with-xhprof)
 * [XDebug](#xdebug)
+* USPS 
+* Geolocation
+* Stocks
+* OCR
+* Cart
+   * Stripe
 
 ## Requirements
 * PHP 5.4
@@ -63,7 +69,8 @@ php script/db_init.php
 chmod 777 -R tmp
 chmod 777 marcel
 ```
-After install, you may want to create your first user: `php script/create_user.php`
+After install, it will prompt you to seed the database with defaults
+and create your first user.
 
 ## VirtualHost Setup
 ```htaccess
@@ -138,7 +145,7 @@ Key | Description
 `c` | Controller *required*
 `m` | Method *required*
 `l` | Layout (`foo` would be `view/layout/foo.php`)
-`auth` | Authorization method in `class/auth.php` to gate access with
+`auth` | Authorization method via `class/auth.php` to gate access with
 `name` | Unique name for this route (see `app::get_path($name)` useful when url paths change)
 `section` | Name for grouping routes together (e.g. `Portfolio`)
 `http` | for nested [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) routing (e.g. `get`, `post`, `put`, `delete`)
@@ -176,20 +183,20 @@ app::$routes = [
 	# Auth (optional)
 	'/auth-test-simple' => [ 
 		'c' => 'common', 'm' => 'auth_test',
-		'auth' => ['user'], # users only
+		'auth' => ['feature_name'], # only users who can do "feature_name"
 	],
 	'/auth-test-complex' => [ 
 		'http' => [
 			'get' => [
 				'c' => 'common', 'm' => 'auth_test',
-				'auth' => ['anon'], # users and anons may GET
+				'auth' => ['thing_a'], # only "thing_a" feature-allowed users may GET
 			],
 			'post' => [
 				'c' => 'common', 'm' => 'auth_test',
-				'auth' => ['user'], # only users may POST
+				'auth' => ['thing_b'], # only "thing_b" feature-allowed users may POST
 			],
 		],
-		'auth' => ['manager'], # managers may GET and POST
+		'auth' => ['thing_c'], # "thing_c" may GET and POST
 	],
 
 
@@ -486,55 +493,18 @@ Layout rendering is automatically *skipped* by [XHR](http://en.wikipedia.org/wik
 updating [views](#views-v) easier. 
 
 ## Auth
-In `class/auth.php`, you may *optionally* define `User` permissions for 
-use in [controllers](#controllers-c) or [routes](#routes).
+Via `auth::can()` in `class/auth.php`, using `model/Feature.php`
+in comparison with `model/User.php`'s `user_type_id`,
+you may gate access to features (which are loosely defined for
+flexibility) via `model/User_Permission.php`.
 
-To test, use `model.User`'s `role` attribute 
-(like the example auth class below) to gate [controller](#controllers-c) method access.
+### Auth Example
+Create a `Feature` called `buy_book`,
+set what users may access `buy_book`'s `$feature->id`
+via `User_Permission`, then test with `auth::can(['buy_book'])`
+to allow specific users the ability to buy books.
 
-A scalable paradigm would be to write *feature-named* methods
-that contain `User` `role` tests.
-```php
-<?
-class auth {
-
-/*
- * USERS
- */
-	static function admin() {
-		return take(User::$user, 'role') == 'admin';
-	}	
-
-	static function manager() {
-		$role = take(User::$user, 'role');
-		return in_array($role, ['manager', 'admin']);
-	}
-
-	static function user() {
-		$role = take(User::$user, 'role');
-		return in_array($role, ['user', 'manager', 'admin']);
-	}
-
-	static function anon() {
-		return !User::$logged_in;
-	}	
-
-
-/*
- * FEATURES
- */
-
-	# Users that may send email
-	static function email_send() {
-		# only admins and managers may send email
-		return self::manager();
-	}
-}
-```
-Now you can test in the [controller](#controllers-c) for `auth::email_send()`
-to keep non-managers/non-admins from sending email.
-
-You may also test in the [routes](#routes) (`routes.php`) with `'auth' => ['email_send']`
+You may also test in the [routes](#routes) (`routes.php`) with `'auth' => ['buy_book']`
 
 ## Cookies (and Notes)
 Standard [API](http://en.wikipedia.org/wiki/Application_programming_interface) 
