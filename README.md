@@ -70,7 +70,8 @@ chmod 777 -R tmp
 chmod 777 marcel
 ```
 After install, it will prompt you to seed the database with defaults
-and create your first user.
+and create your first user. You should also set your 
+`public/index.php` `BASE_URL`.
 
 ## VirtualHost Setup
 ```htaccess
