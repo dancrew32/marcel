@@ -1,5 +1,5 @@
 <?
-class stock {
+class stock_market {
 	static $instance = false;
 
 	static function init() {

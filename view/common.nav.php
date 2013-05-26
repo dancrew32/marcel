@@ -45,13 +45,17 @@
 						</li>
 					<? endif ?>
 
-					<li<? echoif(app::in_section('Product'), ' class="active"') ?>>
-						<a href="<?= app::get_path('Product Home') ?>">Products</a>
-					</li>
+					<? if (auth::can(['product'])): ?>
+						<li<? echoif(app::in_section('Product'), ' class="active"') ?>>
+							<a href="<?= app::get_path('Product Home') ?>">Products</a>
+						</li>
+					<? endif ?>
 
-					<li<? echoif(app::in_section('Cart'), ' class="active"') ?>>
-						<a href="<?= app::get_path('Cart Home') ?>">Cart</a>
-					</li>
+					<? if (auth::can(['cart'])): ?>
+						<li<? echoif(app::in_section('Cart'), ' class="active"') ?>>
+							<a href="<?= app::get_path('Cart Home') ?>"><?= Cart::NAME ?></a>
+						</li>
+					<? endif ?>
 						
 					<li class="dropdown<? echoif(app::in_sections(['Message', 'Mustache', 'Markdown']), ' active') ?>">
 						<a href="#" 
@@ -70,6 +74,11 @@
 							<li>
 								<a href="<?= app::get_path('Markdown Home') ?>">Markdown</a>
 							</li>
+							<? if (auth::can(['stock'])): ?>
+								<li>
+									<a href="<?= app::get_path('Stock Home') ?>">Stocks</a>
+								</li>
+							<? endif ?>
 							<? /*
 							<li><a href="#">Action</a></li>
 							<li><a href="#">Another action</a></li>

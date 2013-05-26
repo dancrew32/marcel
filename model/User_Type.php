@@ -46,9 +46,10 @@ class User_Type extends model {
 
 	static function seed() {
 		$data = [
-			'Admin'   => 'admin',
-			'Manager' => 'manager',
-			'User'    => 'user',
+			'Admin'     => 'admin',
+			'Manager'   => 'manager',
+			'User'      => 'user',
+			'Anonymous' => 'anonymous', // TODO: auto set user_type_id in auth::can()
 		];
 
 		foreach ($data as $k => $v)

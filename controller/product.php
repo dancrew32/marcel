@@ -182,12 +182,19 @@ class controller_product extends controller_base {
 		# Type
 		$type_group = [ 'label' => 'Type', 'class' => $product->error_class('product_type_id') ]; 
 		$type_help  = new field('help', [ 'text' => $product->take_error('product_type_id') ]);
-		$type_field = new field('select', [ 
-			'name'         => 'product_type_id', 
-			'class'        => 'input-block-level',
-			'value'        => take($product, 'product_type_id'),
-			'options'      => Product_Type::options(),
-		]);
+		$type_options = Product_Type::options();
+		if ($type_options) {
+			$type_field = new field('select', [ 
+				'name'    => 'product_type_id', 
+				'class'   => 'input-block-level',
+				'value'   => take($product, 'product_type_id'),
+				'options' => $type_options,
+			]);
+		} else {
+			$type_field = new field('custom', [
+				'text' => html::btn(app::get_path('Product Type Home'), 'Add a "Product Type"', 'plus'),
+			]);
+		}
 
 		# Active
 		$active_field = new field('checkbox', [ 

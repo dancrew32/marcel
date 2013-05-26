@@ -85,6 +85,10 @@ app::$routes = [
 		=> [ 'c' => 'cart', 'm' => 'quantity' ],
 	'/cart/thank-you' 
 		=> [ 'c' => 'cart', 'm' => 'success', 'name' => 'Checkout Success' ],
+	
+	# Shipping
+	'/shipping'
+		=> [ 'c' => 'shipping', 'm' => 'main', 'name' => 'Shipping Home' ],
 
 	# Product
 	'/products/delete/(?P<id>([0-9]+))' 
@@ -117,7 +121,7 @@ app::$routes = [
 		=> [ 'c' => 'product_category', 'm' => 'all', 'name' => 'Product Category Home', 'section' => 'Product Category' ],
 
 	# Stocks
-	'/stocks' => [ 'c' => 'stock', 'm' => 'main', 'name' => 'Stock Home' ],
+	'/stocks/(?<symbols>[a-zA-Z,]+)' => [ 'c' => 'stock', 'm' => 'main', 'name' => 'Stock Home' ],
 
 	# Geocoder
 	'/geo' => [ 'c' => 'geo', 'm' => 'code', 'name' => 'Geocode' ],
@@ -165,9 +169,14 @@ app::$routes = [
 		'name' => 'Captcha Home',
 	],
 
+
+	# Routes
+	//'/routes' => [ 'c' => 'common', 'm' => 'routes', 'nodb' => true ],
+
 	# Error
 	'/403' => [ 'c' => 'status_code', 'm' => 'forbidden', 'nodb' => true ],
 	'/404' => [ 'c' => 'status_code', 'm' => 'not_found', 'nodb' => true ],
 	'/500' => [ 'c' => 'status_code', 'm' => 'fatal_error', 'nodb' => true ],
+
 
 ];

@@ -40,10 +40,6 @@ class Product extends model {
 		}
 	}
 
-	function price_pretty() {
-		return number_format($this->read_attribute('price'), 2);
-	}
-
 	function &__get($name) {
 		switch ($name) {
 			case 'type':
@@ -55,6 +51,18 @@ class Product extends model {
 				$out = h($this->read_attribute($name));
 		}
 		return $out;
+	}
+
+	function price_pretty() {
+		return number_format($this->read_attribute('price'), 2);
+	}
+
+	function add_url() {
+		return app::get_path('Cart Home')."/add/{$this->id}";
+	}
+
+	function remove_url() {
+		return app::get_path('Cart Home')."/remove/{$this->id}";
 	}
 
 }

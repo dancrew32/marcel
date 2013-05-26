@@ -3,8 +3,8 @@ class auth {
 
 	static function can(array $features, $user=null) {
 		$user = $user ? $user : User::$user;
-		if (!$user) return false;
-		$set = take(User_Permission::$instance, take($user, 'user_type_id', false));
+		$user_type_id = $user ? take($user, 'user_type_id', false) : 4;
+		$set = take(User_Permission::$instance, $user_type_id);
 		if (!$set) return false;
 		return count(array_intersect($set, $features));
 	}

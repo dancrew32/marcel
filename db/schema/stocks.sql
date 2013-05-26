@@ -3,7 +3,7 @@ CREATE TABLE `stocks` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `symbol` varchar(6) NOT NULL,
   `name` varchar(128) NOT NULL,
-  `price` double DEFAULT NULL,
+  `data` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `symbol` (`symbol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

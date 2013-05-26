@@ -16,6 +16,7 @@ class controller_common extends controller_base {
 			'Feature',
 			'Product Type', 
 			'Product Category', 
+			'Shipping', 
 			'User', 
 			'User Permission',
 			'User Type',
@@ -37,6 +38,10 @@ class controller_common extends controller_base {
 			'product_type' => [
 				'text' => 'Product Types', 
 				'path' => 'Product Type Home',
+			],
+			'shipping' => [
+				'text' => 'Shipping', 
+				'path' => 'Shipping Home',
 			],
 			'user' => [
 				'text' => 'Users', 
@@ -109,6 +114,10 @@ class controller_common extends controller_base {
 		$this->output_style = take($o, 'output_style');
 		$this->root_path    = take($o, 'root_path');
 		$this->page         = take($o, 'page');
+	}
+
+	function routes() {
+		json(app::$routes);
 	}
 
 }

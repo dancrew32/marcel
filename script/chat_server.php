@@ -3,6 +3,7 @@ require_once(dirname(__FILE__).'/inc.php');
 
 class chat_server extends socket_server {
 	
+	static $pinging = false;
 	static $text_class = [
 		'muted'   => 'muted',
 		'info'    => 'text-info',
@@ -30,7 +31,7 @@ class chat_server extends socket_server {
 
 		//$this->stdout(print_r($user->user, true));
 	}
-	
+
 	protected function connected($user) {
 		# Match socket_user to actual user
 		$session_id = $user->get_session_id();
@@ -140,4 +141,11 @@ class chat_server extends socket_server {
 
 }
 
-$echo = new chat_server("173.255.209.99","7334");
+$echo = new chat_server('173.255.209.99', '7334');
+function shutdown() {
+	db::init();
+	$echo = new chat_server('173.255.209.99', '7334');
+}
+register_shutdown_function('shutdown');
+
+

@@ -16,7 +16,7 @@ class time {
 	static function ago($date) {
 		if (!$date) return '';
 		$periods = ["second", "minute", "hour", "day", "week", "month", "year", "decade"];
-		$lengths = ["60","60","24","7","4.35","12","10"];
+		$lengths = [60, 60, 24, 7, 4.35, 12, 10];
 		$now = time();
 		$unix_date = is_string($date) ? strtotime($date) : $date->getTimestamp();
 		$tense = 'ago';

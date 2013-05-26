@@ -5,17 +5,18 @@ class controller_cart extends controller_base {
 
 	function __construct($o) {
 		$this->root_path = app::get_path('Cart Home');
+		auth::only(['cart']);
 		parent::__construct($o);
    	}
 
 	function main() {
 
 		# Arbitrary test product
-		$first_product = Product::first();
-		$this->test_product_id = take($first_product, 'id', 1);
+		//$first_product = Product::first();
+		//$this->test_product_id = take($first_product, 'id', 1);
 
 		$this->items = [];
-		$cart = Cart::get_type('cart:a');
+		$cart = Cart::get_type(Cart::MAIN);
 
 		$items = $cart->get_items();
 		$this->items = [];
@@ -32,10 +33,8 @@ class controller_cart extends controller_base {
 
 			$this->items[$id] = (object) [
 				'id'       => $product->id,
-				'name'     => $product->name,
-				'type'     => take($product->type, 'slug'),
+				'product'  => $product,
 				'quantity' => 1,
-				'price'    => $product->price,
 			];
 			$this->total_items++;
 		}
@@ -45,7 +44,21 @@ class controller_cart extends controller_base {
 
 		$this->grand_total = 0;
 		foreach ($this->items as $i)
-			$this->grand_total += number_format($i->price * $i->quantity, 2, '.', '');
+			$this->grand_total += number_format($i->product->price * $i->quantity, 2, '.', '');
+
+		$this->grand_total += $this->shipping;
+		$this->grand_total = number_format($this->grand_total, 2, '.', '');
+	}
+
+	function view($o) {
+		$this->items = take($o, 'items');
+		$this->items_count = count($this->items);
+
+		$this->shipping  = self::SHIPPING;
+
+		$this->grand_total = 0;
+		foreach ($this->items as $i)
+			$this->grand_total += number_format($i->product->price * $i->quantity, 2, '.', '');
 
 		$this->grand_total += $this->shipping;
 		$this->grand_total = number_format($this->grand_total, 2, '.', '');
@@ -57,7 +70,7 @@ class controller_cart extends controller_base {
 
 		$amount = take($o['params'], 'amount', 1);
 
-		$cart = Cart::get_type('cart:a');
+		$cart = Cart::get_type(Cart::MAIN);
 		$product = Product::find_by_id($key);
 		$saved = $product && $product->price;
 		if ($saved) {
@@ -68,7 +81,7 @@ class controller_cart extends controller_base {
 		if (AJAX)
 			json(['success' => $saved]);		
 
-		note::set('cart:a:add', $product->id);
+		note::set(Cart::MAIN.':add', $product->id);
 		app::redir($this->root_path);
 	}
 
@@ -78,7 +91,7 @@ class controller_cart extends controller_base {
 		if (!$key) _404();
 
 		$amount = take($o['params'], 'amount', 1);
-		$cart = Cart::get_type('cart:a');
+		$cart = Cart::get_type(Cart::MAIN);
 		if ($amount == '*') {
 			$items = $cart->get_items();
 			$data = [];
@@ -95,7 +108,7 @@ class controller_cart extends controller_base {
 		if (AJAX)
 			json(['success' => $saved]);
 
-		note::set('cart:a:remove', $cart->id);
+		note::set(Cart::MAIN.':remove', $cart->id);
 		app::redir($this->root_path);
 	}
 
@@ -121,7 +134,7 @@ class controller_cart extends controller_base {
 		if (!$product)
 			json(['success' => false]);
 
-		$cart = Cart::get_type('cart:a');
+		$cart = Cart::get_type(Cart::MAIN);
 		$items = $cart->get_items();
 
 		$data = [];
@@ -154,10 +167,11 @@ class controller_cart extends controller_base {
 
 		$stripe_token = take($_POST, 'stripe_token', false);
 
+		pd(get_defined_vars());
 		if (!$email || !$address || !$stripe_token)
 			app::redir($this->root_path);
 
-		$cart = Cart::get_type('cart:a');
+		$cart = Cart::get_type(Cart::MAIN);
 		if (!$cart || $cart->complete)
 			app::redir($this->root_path);
 
@@ -171,6 +185,7 @@ class controller_cart extends controller_base {
 
 			$product = Product::find_by_id($id);
 			if (!$product) continue;
+			# TODO: prevent purchase of inactive products
 
 			$this->items[$id] = (object) [
 				'id'       => $product->id,
@@ -183,7 +198,7 @@ class controller_cart extends controller_base {
 		foreach ($this->items as $item)
 			$total += ($item->price * $item->quantity);
 
-		// discounts/tax/shipping
+		# discounts/tax/shipping
 		if ($total > 0)
 			$total += self::SHIPPING;
 
@@ -224,7 +239,7 @@ class controller_cart extends controller_base {
 			//$t->save();
 			
 			# Delete cart
-			cookie::delete('cart:a');
+			cookie::delete(Cart::MAIN);
 
 			//note::set('thank-you', json_encode([
 				//'cardtype'  => $card->type,

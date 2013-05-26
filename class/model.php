@@ -9,10 +9,9 @@ class model extends ActiveRecord\Model {
 	}
 
 	static function collection_to_json($collection) {
-		$out = [];
-		foreach ($collection as $model)
-			$out[] = $model->to_json();
-		return $out;
+		return array_map(function($model) {
+			return $this->to_json();
+		}, $collection);
 	}
 
 /*

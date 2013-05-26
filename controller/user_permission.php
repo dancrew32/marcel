@@ -7,7 +7,9 @@ class controller_user_permission extends controller_base {
    	}
  
 	function all($o) {
-		$this->features = Feature::all();
+		$this->features = Feature::all([
+			'order' => 'name asc',
+		]);
 		$this->user_types = User_Type::all();
 		$this->action = "{$this->root_path}/update";
 	}	

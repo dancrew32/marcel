@@ -159,3 +159,18 @@ if ($ok)
 	green("Successfully created controller: {$script_name}\n");
 else
 	red("WRITE FAIL\n");
+
+
+$feature = strtolower(gets("Add Feature? [N/y]"));
+if ($feature != 'y') return green("No feature will be added. Now Exiting.\n");
+
+$feature = Feature::create([
+	'name' => gets("Feature Name: e.g. ".ucwords($name)),
+	'slug' => gets("Feature slug: e.g. {$name}"),
+]);
+
+if ($feature)
+	green("Created Feature id: {$feature->id}\n");
+else 
+	red("FAILED to create feature.\n");
+

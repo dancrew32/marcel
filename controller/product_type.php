@@ -130,12 +130,19 @@ class controller_product_type extends controller_base {
 		# Category
 		$category_group = [ 'label' => 'Category', 'class' => $o->error_class('product_category_id') ]; 
 		$category_help  = new field('help', [ 'text' => $o->take_error('product_category_id') ]);
-		$category_field = new field('select', [ 
-			'name'         => 'product_category_id', 
-			'class'        => 'input-block-level',
-			'value'        => take($o, 'product_category_id'),
-			'options'      => Product_Category::options(),
-		]);
+		$category_options = Product_Category::options();
+		if ($category_options) {
+			$category_field = new field('select', [ 
+				'name'         => 'product_category_id', 
+				'class'        => 'input-block-level',
+				'value'        => take($o, 'product_category_id'),
+				'options'      => $category_options,
+			]);
+		} else {
+			$category_field = new field('custom', [
+				'text' => html::btn(app::get_path('Product Category Home'), 'Add a "Product Category"', 'plus'),
+			]);
+		}
 
 		 $this->form
 		   ->group($name_group, $name_field, $name_help)

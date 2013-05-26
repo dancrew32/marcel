@@ -2,6 +2,9 @@
 class Cart extends model {
 	static $table_name = 'carts';
 
+	const NAME = 'Cart'; # or Basket, Bag, etc..
+	const MAIN = 'cart:a'; # default cart
+
 
 /*
  * INSTANCE

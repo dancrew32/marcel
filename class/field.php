@@ -74,6 +74,8 @@ class field {
 				return $this->input();
 			case 'help':
 				return $this->help();
+			case 'custom':
+				return $this->custom();
 			default: 
 				return $this->input();
 		}
@@ -176,6 +178,11 @@ class field {
 			$this->html .= ' inline';
 		$this->html .= '"><input type="radio"'. html::build_attributes($this->attrs);
 		$this->html .= " />{$label}</label>";
+		return $this;
+	}
+
+	function custom() {
+		$this->html .= take($this->attrs, 'text');
 		return $this;
 	}
 

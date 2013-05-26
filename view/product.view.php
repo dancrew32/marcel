@@ -40,8 +40,8 @@
 		</p>
 	<? endif ?>
 
-	<? if (auth::can(['product'])): ?>
-		<ul class="nav nav-pills last">
+	<ul class="nav nav-pills last">
+		<? if (auth::can(['product'])): ?>
 			<? if ($mode != 'edit'): ?>
 				<li>
 					<?= html::a([
@@ -57,6 +57,16 @@
 					'icon' => 'trash',
 				]) ?>
 			</li>
-		</ul>
-	<? endif ?>
+		<? endif ?>
+
+		<? if (auth::can(['cart'])): ?>
+			<li>
+				<?= html::a([
+					'href' => $product->add_url(),
+					'text' => "Add to ". Cart::NAME,
+					'icon' => 'plus-sign',
+				]) ?>
+			<li>
+		<? endif ?>
+	</ul>
 </div>

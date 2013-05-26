@@ -4,6 +4,10 @@ class User_Permission extends model {
 
 	static $instance = [];
 
+	static $belongs_to = [
+		[ 'feature', 'class_name' => 'Feature' ]	
+	];
+
 	# Callbacks 
 	static $after_save = ['reload_cache'];
 
@@ -13,7 +17,7 @@ class User_Permission extends model {
 
 	static function init() {
 		$cache_key = self::cache_key();
-		self::$instance = cache::get($cache_key, $found, true);
+		self::$instance = json_decode(cache::get($cache_key, $found));
 		if (!$found) {
 			$up = self::find('all', [
 				'select' => 'user_type_id, slug',
@@ -21,7 +25,7 @@ class User_Permission extends model {
 			]);
 			foreach ($up as $p)
 				self::$instance[$p->user_type_id][] = $p->slug;
-			cache::set($cache_key, self::$instance, time::ONE_HOUR, true);
+			cache::set($cache_key, json_encode(self::$instance), time::ONE_HOUR);
 		}
 	}
 
@@ -41,17 +45,9 @@ class User_Permission extends model {
 		}
 	}
 
-	static $belongs_to = [
-		[ 'feature', 'class_name' => 'Feature' ]	
-	];
-
 /*
  * INSTANCE
  */
-
-	//function __toString() {
-		//return $this->feature->name;
-	//}
 
 	function __set($name, $value) {
 		switch ($name) {
