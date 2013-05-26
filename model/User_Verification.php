@@ -37,12 +37,13 @@ class User_Verification extends model {
 			'cost' => self::BCRYPT_COST,
 			'salt' => md5(SALT.time()),
 		]);
-		return str_replace('/', '|', $hash);
+		return str_replace('/', '-', $hash); # for simple route regexp
 	}
 
 	static function verify(array $o) {
 		$hash = take($o, 'hash');
-		$user_id = take($o, 'user_id');
+		$user_id = take($o, 'user_id', false);
+
 		$user = User::find_by_id($user_id);
 		if (!$user) 
 			return false;
@@ -51,7 +52,7 @@ class User_Verification extends model {
 
 		$uv = self::find('first', [
 			'conditions' => [
-				'user_id = ? and hash = ?', $user_id, $hash
+				'user_id = ? and hash = ?', $user->id, $hash
 			]
 		]);
 		if (!$uv) 
