@@ -82,6 +82,9 @@ $boilerplate .= "
 		if (!\$this->{$model_lower}) app::redir(\$this->root_path);
 		if (!POST) return;
 
+		# handle booleans
+		# \$_POST['active'] = take_post('active', 0);
+
 		\$ok = \$this->{$model_lower}->update_attributes(\$_POST);
 		if (\$ok) {
 			note::set('{$model_lower}:edit', \$this->{$model_lower}->id);

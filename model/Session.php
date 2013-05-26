@@ -54,6 +54,24 @@ class Session extends model {
 		return $s->delete();
 	}
 
+	static function queue_delete_user_by_id($id) {
+		return Worker::add([
+			'class' => __CLASS__,
+			'method' => 'delete_by_user_id',
+			'args' => [
+				'id' => $id,
+			],
+		]);
+	}
+
+	# queued to avoid table lock
+	static function delete_by_user_id(array $args) {
+		$id = take($args, 'id');
+		return Session::delete_all([
+			'conditions' => [ "data is not null and data like '%id|i:{$id}%'" ],
+		]);
+	}
+
 
 
 	/**
@@ -91,9 +109,8 @@ class Session extends model {
         $return_data = array();
         $offset = 0;
         while ($offset < strlen($session_data)) {
-            if (!strstr(substr($session_data, $offset), "|")) {
+            if (!strstr(substr($session_data, $offset), "|"))
                 throw new Exception("invalid data, remaining: " . substr($session_data, $offset));
-            }
             $pos = strpos($session_data, "|", $offset);
             $num = $pos - $offset;
             $varname = substr($session_data, $offset, $num);

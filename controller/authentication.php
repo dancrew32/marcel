@@ -88,6 +88,8 @@ class controller_authentication extends controller_base {
 		$ok = $user->save();
 		if ($ok) {
 			User::login($user->email, $pass);
+			$user->join_worker();
+
 			note::set('join:success', $user->id);
 			app::redir(app::get_path('Home'));
 		}

@@ -23,7 +23,7 @@ class mail extends PHPMailer {
 		//$this->WordWrap = 50;                                 // Set word wrap to 50 characters
 		//$this->AddAttachment('/var/tmp/file.tar.gz');         // Add attachments
 		//$this->AddAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-		//$this->IsHTML(true);                                  // Set email format to HTML
+		$this->IsHTML(true);                                  // Set email format to HTML
 
 		//$this->Subject = 'Here is the subject';
 		//$this->Body    = 'This is the HTML message body <b>in bold!</b>';

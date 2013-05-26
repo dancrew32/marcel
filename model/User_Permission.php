@@ -30,7 +30,7 @@ class User_Permission extends model {
 	}
 
 	static function cache_key() {
-		return APP_NAME.__CLASS__.__FUNCTION__;
+		return cache::keygen(__CLASS__, __FUNCTION__); # global (no unique id)
 	}
 
 	static function seed() {

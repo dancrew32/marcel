@@ -46,6 +46,12 @@ app::$routes = [
 	'/users(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
 		=> [ 'c' => 'user', 'm' => 'all', 'name' => 'User Home', 'section' => 'User' ],
 
+	# User Verification
+	'/verify/user/resend(?:/*)(?P<id>[0-9]*)' 
+		=> [ 'c' => 'user_verification', 'm' => 'resend', 'name' => 'User Verification Resend' ], 
+	'/verify/user(?:/*)(?P<hash>[^/]*)(?:/*)(?P<user_id>[0-9]+)' 
+		=> [ 'c' => 'user_verification', 'm' => 'verify', 'name' => 'User Verification' ], 
+
 	# User Types
 	'/user-types/delete/(?P<id>([0-9]+))' 
 		=> [ 'c' => 'user_type', 'm' => 'delete', 'section' => 'User Type' ],

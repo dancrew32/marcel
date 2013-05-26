@@ -87,6 +87,9 @@ class controller_product extends controller_base {
 		if (!$this->product) app::redir($this->root_path);
 		if (!POST) return;
 
+		# handle booleans
+		$_POST['active'] = take_post('active', 0);
+
 		$ok = $this->product->update_attributes($_POST);
 		if ($ok) {
 			note::set('product:edit', $this->product->id);

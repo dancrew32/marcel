@@ -4,6 +4,7 @@ $bodyBackground: #f8f8f8;
 $textColor: #666;
 $linkColor: green;
 $linkColorHover: darken(green, 20%);
+$gutter: 20px;
 
 // Bootstrap includes
 @import 'compass';
@@ -37,7 +38,8 @@ legend {
 }
 
 .media {
-	margin-top: 10px;
+	margin-top: 0;
+	margin-bottom: $gutter;
 }
 
 .word-wrap {

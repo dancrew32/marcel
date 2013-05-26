@@ -51,7 +51,7 @@ class Stock extends model {
 	}
 
 	static function cache_key($symbol) {
-		return APP_NAME.__CLASS__.__FUNCTION__.$symbol;
+		return cache::keygen(__CLASS__, __FUNCTION__, $symbol);
 	}
 
 /*

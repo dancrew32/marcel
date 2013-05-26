@@ -90,7 +90,7 @@ class Worker extends model {
 			return $this->delete();
 		} catch (Exception $e) {
 			if (CLI)
-				red("{$thread_id}: FAILED {$this->class}::{$this->method}\n");
+				red("{$thread_id}: FAILED {$this->class}::{$this->method}\n{$e->getMessage()}\n");
 			$this->active = 0;
 			# TODO: increment fails
 			$this->save();

@@ -12,6 +12,7 @@ class User extends model {
 		'email',
 		'username',
 		'active',
+		'verified',
 		'first',
 		'last',
 		'created_at',
@@ -29,16 +30,21 @@ class User extends model {
 		[ 'cart' ],
 	];
 
+	static $has_many = [
+		[ 'user_verification', 'class_name' => 'User_Verification' ]	
+	];
+
 	static $belongs_to = [
 		[ 'user_type', 'class_name' => 'User_Type' ]	
 	];
+
 
 
 /*
  * EVENTS
  */
 	static $after_update  = ['update_cache'];
-	static $after_destroy = ['delete_cache'];
+	static $after_destroy = ['after_destroy'];
 
 
 /*
@@ -98,12 +104,19 @@ class User extends model {
 		return trim($name);
 	}
 
+	function email_domain() {
+		return util::explode_pop('@', $this->email);
+	}
+
 	function badge($cls='') {
 		$cls = isset($cls{0}) ? " {$cls}" : '';
 		$html = "<span class=\"label{$cls}";
 		$badge_class = self::badge_class($this->active);
 		if ($this->active) {
-			$html .= " {$badge_class}\">Active</span>";		
+			if ($this->verified)
+				$html .= " {$badge_class}\">Active</span>";		
+			else
+				$html .= " label-warning\">Not Verified</span>";		
 		} else {
 			# TODO: banned
 			$html .= '">Inactive</span>';		
@@ -111,12 +124,50 @@ class User extends model {
 		return $html;
 	}
 
-	function delete_cache() {
-		return cache::delete(self::cache_key($this->id));
+	# worker
+	function join_worker() {
+		return Worker::add([
+			'class'  => __CLASS__,
+			'method' => 'join_process',
+			'args'   => [
+				'user_id' => $this->id,
+			],
+		]);
+	}
+
+	function send_verification_email() {
+		$uv = User_Verification::create([ 
+			'user_id' => $this->id,
+		   	'hash'    => User_Verification::generate_hash($this),
+		]);
+
+		$m = new mail;
+		$m->From = 'dan@l.danmasq.com';
+		$m->FromName = 'Dan Masquelier';
+		$m->AddAddress($this->email);
+		$m->Subject = 'Thanks for joining! Please verify your address.';
+		$m->Body = r('user', 'email_join', [
+			'verification_url' => $uv->url(),
+		]);
+		$m->Queue();
+		return true;
+	}
+
+	function after_destroy() {
+		# delete cache
+		cache::delete(self::cache_key($this->id));
+
+		# log user out (must queue to avoid table lock)
+		Session::queue_delete_user_by_id($this->id);
+
+		# clean up unused verifications
+		User_Verification::queue_delete_by_user_id($this->id);
+
+		return true;
 	}
 
 	function update_cache() {
-		self::$user = $this;
+		self::refresh_session($this->id);
 		return cache::set(self::cache_key($this->id), self::$user, time::ONE_HOUR, true);
 	}
 
@@ -128,6 +179,13 @@ class User extends model {
 		return cache::keygen(__CLASS__, __FUNCTION__, $id);
 	}
 
+	static function refresh_session($id) {
+		self::$user = User::find('first', [
+			'select' => implode(', ', self::$safe_columns),
+			'conditions' => [ 'id = ?', $id ],
+		]);
+	}
+
 	static function init() {
 		self::$logged_in = take($_SESSION, 'in', false);
 		if (!self::$logged_in) return false;
@@ -136,10 +194,7 @@ class User extends model {
 		$cache_key  = self::cache_key($id);
 		self::$user = cache::get($cache_key, $found, true);
 		if (!$found) {
-			self::$user = User::find('first', [
-				'select' => implode(', ', self::$safe_columns),
-				'conditions' => [ 'id = ?', $id ],
-			]);
+			self::refresh_session($id);
 			cache::set($cache_key, self::$user, time::ONE_HOUR, true);
 		}
 	}
@@ -209,5 +264,13 @@ class User extends model {
 	static function badge_class($status) {
 		return $status ? 'label-success' : '';
 	}
+
+	static function join_process(array $args) {
+		$user_id = take($args, 'user_id');
+		$user = self::find_by_id($user_id);
+
+		return $user->send_verification_email();
+	}
+
 
 }

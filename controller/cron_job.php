@@ -58,6 +58,9 @@ class controller_cron_job extends controller_base {
 		if (!$this->cron) app::redir($this->root_path);
 		if (!POST) return;
 
+		# handle booleans
+		$_POST['active'] = take_post('active', 0);
+
 		$ok = $this->cron->update_attributes($_POST);
 		if ($ok) {
 			note::set('cron_job:edit', $this->cron->id);

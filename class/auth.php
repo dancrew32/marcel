@@ -10,7 +10,7 @@ class auth {
 	}
 
 	static function only(array $features, $user=null) {
-		if (!self::can($features)) _403();
+		if (!CLI && !self::can($features)) _403();
 	}
 
 	static function check($method, $fail='_403') {

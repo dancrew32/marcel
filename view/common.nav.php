@@ -108,7 +108,7 @@
 									data-toggle="dropdown">
 
 									<i class="icon-user"></i>
-									<? if (User::$user->full_name()): ?>
+									<? if (strlen(User::$user->full_name())): ?>
 										<?= User::$user->full_name() ?>
 										[<?= take(User::$user->user_type, 'name') ?>]
 									<? else: ?>
@@ -163,5 +163,34 @@
 <? if (note::get('logout:success')): ?>
 	<div class="container">
 		<?= html::alert("You're now logged out.", ['type'=>'success']) ?>
+	</div>
+<? endif ?>
+
+<? if (note::get('user_verification:success')): ?>
+	<div class="container">
+		<?= html::alert("Thanks for verifiying your email address!", ['type'=>'success']) ?>
+	</div>
+<? endif ?>
+
+<? if (note::get('user_verification:sent')): ?>
+	<div class="container">
+		<?= html::alert(
+			"We just sent you a verfication email. ".
+			html::btn('https://'.User::$user->email_domain(), 'Go to '. User::$user->email_domain(), 'globe'),
+			['type'=>'success']
+		) ?>
+	</div>
+<? endif ?>
+
+<? if (note::get('user_verification:failure')): ?>
+	<div class="container">
+		<?= html::alert(
+			"We were unable to verify your email address. ". 
+			html::btn(
+				app::get_path('User Verification Resend'), 
+				'Resend Verification Email', 
+				'envelope'
+			), ['type'=>'error']) 
+		?>
 	</div>
 <? endif ?>

@@ -10,7 +10,7 @@ class model extends ActiveRecord\Model {
 
 	static function collection_to_json($collection) {
 		return array_map(function($model) {
-			return $this->to_json();
+			return $model->to_json();
 		}, $collection);
 	}
 

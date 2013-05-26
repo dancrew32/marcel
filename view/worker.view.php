@@ -16,19 +16,28 @@
 		</strong>
 		<?= time::ago($worker->created_at) ?>
 		<? if ($worker->active): ?>
-			and
+			&amp;	
 			<strong class="text-success">
 				Processing
 			</strong>
-			since <?= time::ago($worker->updated_at) ?>
+			since <?= time::ago($worker->updated_at) ?>.
 		<? elseif ($worker->run_at): ?>
-			and
+			&amp;
 			<strong class="text-info">
 				scheduled to run in
 			</strong>
-			<?= time::ago($worker->run_at) ?>
+			<?= time::ago($worker->run_at) ?>.
 		<? endif ?>
 	</p>
+
+	<p class="scrolling">
+		<? if (isset($worker->args{0})): ?>
+			<? pp(unserialize($worker->args)) ?>
+		<? else: ?>
+			<em class="muted">No Args</em>
+		<? endif ?>
+	</p>
+
 	<ul class="nav nav-pills last">
 		<li>
 			<?= html::a([

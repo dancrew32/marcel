@@ -30,7 +30,8 @@ class controller_user extends controller_base {
 			'suffix' => h($format),
 		]);
 		$this->users = User::find('all', [
-			'select' => 'id, first, last, email, username, active, last_login',
+			# Use select to avoid exposing passwords
+			'select' => 'id, first, last, email, username, active, verified, last_login',
 			'limit'  => $rpp,
 			'offset' => model::get_offset($this->page, $rpp),
 			'order'  => 'id asc',
@@ -69,6 +70,10 @@ class controller_user extends controller_base {
 		if (!isset($_POST['password']{0}))
 			unset($_POST['password']);
 
+		# handle booleans
+		$_POST['verified'] = take_post('verified', 0);
+		$_POST['active']   = take_post('active', 0);
+
 		$ok = $this->user->update_attributes($_POST);
 		if ($ok) {
 			note::set('user:edit', $this->user->id);
@@ -89,6 +94,13 @@ class controller_user extends controller_base {
 		$user->delete();
 		note::set('user:delete', $user->id);
 		app::redir($this->root_path);
+	}
+
+/*
+ * EMAILS
+ */
+	function email_join($o) {
+		$this->verification_url = take($o, 'verification_url');
 	}
 
 /*
@@ -131,7 +143,7 @@ class controller_user extends controller_base {
 		$first_name_help  = new field('help', [ 'text' => $user->take_error('first') ]);
 		$first_name_field = new field('input', [ 
 			'name'         => 'first', 
-			'class'        => 'input-block-level required',
+			'class'        => 'input-block-level',
 			'value'        => take($user, 'first'),
 			'autocomplete' => false,
 		]);
@@ -142,7 +154,7 @@ class controller_user extends controller_base {
 		$last_name_help  = new field('help', [ 'text' => $user->take_error('last') ]);
 		$last_name_field = new field('input', [ 
 			'name'         => 'last', 
-			'class'        => 'input-block-level required',
+			'class'        => 'input-block-level',
 			'value'        => take($user, 'last'),
 			'autocomplete' => false,
 		]);
@@ -195,7 +207,15 @@ class controller_user extends controller_base {
 		$active_field = new field('checkbox', [ 
 			'name'    => 'active',
 			'checked' => take($user, 'active'),
-			'label'   => 'Activate',
+			'label'   => 'Activated',
+			'inline'  => true,
+		]);
+
+		# Verified
+		$verified_field = new field('checkbox', [ 
+			'name'    => 'verified',
+			'checked' => take($user, 'verified'),
+			'label'   => 'Verified',
 			'inline'  => true,
 		]);
 
@@ -207,6 +227,7 @@ class controller_user extends controller_base {
 			->group($username_group, $username_field, $username_help)
 			->group($password_group, $password_field, $password_help)
 			->group($user_type_group, $user_type_field, $user_type_help)
-			->group($active_field);
+			->group($active_field, $verified_field)
+			;
 	}
 }
