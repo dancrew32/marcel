@@ -176,6 +176,9 @@ app::$routes = [
 	],
 
 
+	# OCR
+	'/ocr' => [ 'c' => 'common', 'm' => 'ocr' ],
+
 	# Routes
 	//'/routes' => [ 'c' => 'common', 'm' => 'routes', 'nodb' => true ],
 
