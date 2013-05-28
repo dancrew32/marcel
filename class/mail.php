@@ -31,8 +31,23 @@ class mail extends PHPMailer {
 		//$this->Send();
 	}	
 
+	function __set($name, $value) {
+		$name = util::to_title($name);
+		return $this->{$name} = $value;
+	}   
+
+	function __get($name) {
+		$name = util::to_title($name);
+		return $this->{$name};
+	}   
+
+	function __call($name, $args) {
+        $name = util::to_title($name);
+        return call_user_func_array([$this, $name], $args);
+    } 
+
 	function Queue() {
-		Worker::add([
+		return Worker::add([
 			'class'  => 'mail',
 			'method' => 'process',
 			'args' => [
@@ -43,6 +58,6 @@ class mail extends PHPMailer {
 
 	static function process($args) {
 		$email = take($args, 'email');
-		return $email->Send();
+		return $email->send();
 	}
 }

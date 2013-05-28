@@ -142,14 +142,14 @@ class User extends model {
 		]);
 
 		$m = new mail;
-		$m->From = 'dan@l.danmasq.com';
-		$m->FromName = 'Dan Masquelier';
-		$m->AddAddress($this->email);
-		$m->Subject = 'Thanks for joining! Please verify your address.';
-		$m->Body = r('user', 'email_join', [
+		$m->from = 'dan@l.danmasq.com';
+		$m->from_name = 'Dan Masquelier';
+		$m->add_address($this->email);
+		$m->subject = 'Thanks for joining! Please verify your address.';
+		$m->body = r('user', 'email_join', [
 			'verification_url' => $uv->url(),
 		]);
-		$m->Queue();
+		$m->queue();
 		return true;
 	}
 

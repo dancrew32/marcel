@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/svn/!svn/ver/22/trunk/examples
+END
+example1.php
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/14/trunk/examples/example1.php
+END
+example2.php
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/22/trunk/examples/example2.php
+END

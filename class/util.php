@@ -124,6 +124,10 @@ class util {
 		return preg_replace_callback('/[A-Z]/', create_function('$match', 'return "_" . strtolower($match[0]);'),  $str);  
 	}
 
+	static function to_title($str) {
+		return implode('', array_map('ucwords', explode('_', $str)));
+	}
+
 	static function to_camel($str) {
 		$str = str_replace(' ', '', ucwords(str_replace('_', ' ', $str)));  
 		return strtolower(substr($str, 0, 1)) . substr($str, 1);  

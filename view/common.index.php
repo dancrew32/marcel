@@ -15,6 +15,7 @@
 controller/common.php#index
 view/common.index.php	
 </pre>
+
 	</div>
 	<div class="span4">
 		<h2>Image Cache</h2>

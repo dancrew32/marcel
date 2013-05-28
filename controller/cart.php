@@ -248,12 +248,12 @@ class controller_cart extends controller_base {
 			//]));
 
 			//$mail = new mail;
-			//$mail->From  = 'admin@site.com';
-			//$mail->FromName = APP_NAME;
-			//$mail->AddAddress($email, 'Example User');
-			//$mail->Subject  = "Thanks for your purchase!";
-			//$mail->Body     = "Thanks for your purchase of X. \${$total} was charged to your {$card->type}!.";
-			//$mail->Queue();
+			//$mail->from  = 'admin@site.com';
+			//$mail->from_name = APP_NAME;
+			//$mail->add_address($email, 'Example User');
+			//$mail->subject  = "Thanks for your purchase!";
+			//$mail->body     = "Thanks for your purchase of X. \${$total} was charged to your {$card->type}!.";
+			//$mail->queue();
 
 			app::redir(app::get_path('Checkout Success'));
 

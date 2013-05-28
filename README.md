@@ -737,17 +737,17 @@ Check out `class/mail.php` to see everything you can do.
 
 ```php
 $m = new mail;
-$m->From     = 'you@example.com';
-$m->FromName = 'Marcel';
-$m->AddAddress('user@example.com', 'Example User');
-$m->Subject  = "Queue Test";
-$m->Body     = "This concludes the test!";
+$m->from     = 'you@example.com';
+$m->from_name = 'Marcel';
+$m->add_address('user@example.com', 'Example User');
+$m->subject  = "Queue Test";
+$m->body     = "This concludes the test!";
 
 # Add it to the worker queue
-$m->Queue();
+$m->queue();
 
 # Or just send it
-$m->Send();
+$m->send();
 ```
 
 ## Fake Data
@@ -762,7 +762,7 @@ times(250, function() {
 	$u->email    = fake::safeEmail(); # marcel@example.com
 	$u->username = fake::userName(); # dorito_hanglider7
 	$u->role     = 'user';
-	$u->password = User::spass('testing');
+	$u->password = 'testing';
 	$u->save();
 });
 ```

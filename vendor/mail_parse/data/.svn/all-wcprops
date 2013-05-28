@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 27
+/svn/!svn/ver/14/trunk/data
+END
+mail.txt
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/14/trunk/data/mail.txt
+END
+text-mail.txt
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/14/trunk/data/text-mail.txt
+END
+attachments-mail.txt
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/14/trunk/data/attachments-mail.txt
+END

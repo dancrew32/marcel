@@ -11,8 +11,8 @@ class controller_common extends controller_base {
 
 	function ocr() {
 		//$img = file_get_contents(IMAGE_DIR.'/ocr/foo.png');
-		$img = file_get_contents('http://l.danmasq.com/img/ocr/test.jpg');
-		//$img = file_get_contents('http://l.danmasq.com/captcha');
+		//$img = file_get_contents('http://l.danmasq.com/img/ocr/test.jpg');
+		$img = file_get_contents('http://l.danmasq.com/captcha');
 		//$img = file_get_contents('http://www.google.com/recaptcha/static/images/recaptcha-example.gif');
 		//$img = file_get_contents('https://www.google.com/recaptcha/api/image?c=03AHJ_VutYzGVKMOVUT1PL3OVWnLETuVG_e_ghv5TaZ-5svD_pa_fNvboMdxaQOf1_TJUGebg6Fpps6uBE0wmu50f998YpbPTGFc3V250terylAL2Quf7KbCrODCR2DhDHE50DCLqxxCgAcbIrVm4N9IGAclijx8uIG9_9UeSqzuCPUF9q2enLixw');
 		$tmp = TMP_DIR.'/ocr/temp.png';

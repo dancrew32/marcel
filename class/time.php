@@ -9,8 +9,12 @@ class time {
 		return date('Y-m-d H:i:s');	
 	}
 
-	static function date() {
-		return date('Y-m-d');	
+	static function date($strtime='now') {
+		return date('Y-m-d', strtotime($strtime));	
+	}
+
+	static function stardate($strtime='now') {
+		return date('ym.d', strtotime($strtime));
 	}
 
 	static function ago($date) {
