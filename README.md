@@ -787,7 +787,7 @@ to a script in Marcel. In this example, we route incoming
 emails to our `script/email_incoming.php`
 
 ```bash
-/etc/aliases # site: "| /usr/bin/php /var/www/site/script/email_incoming.php" 
+site: "| /usr/bin/php /var/www/site/script/email_incoming.php" 
 ```
 
 After saving, the last step is to reload `/etc/aliases` and restart Postfix.
