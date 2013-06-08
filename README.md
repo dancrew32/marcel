@@ -3,7 +3,7 @@
 
 ![Marcel](http://i.danmasq.com/marcel.jpg)
 
-## Contents (stable)
+## Contents *stable*
 * [Requirements](#requirements)
 * [Install](#install)
 * [VirtualHost Setup](#virtualhost-setup)
@@ -33,15 +33,32 @@
 * [Interactive Prompt](#interactive-prompt-with-phpsh)
 * [Vim Interactivity](#vim-interactivity)
 
-### Contents (unstable)
+### Contents *unstable*
 * [WebSocket Server](#websocket-server)
 * [Profiling](#profiling-with-xhprof)
 * [XDebug](#xdebug)
+
+### Contents *future*
 * USPS 
 * Geolocation
 * Stocks
 * Cart
    * Stripe
+* FFMPEG
+* Waveform Generation
+* Geometry
+* Git
+* Vimeo/Youtube
+* Instagram
+* Facebook
+* Twitter
+* Bitcoin
+* Travis CI
+* RSS
+* Emoji
+* Color Manipulation
+* IRC/Jabber
+* Face Detection
 
 ## Requirements
 * PHP 5.4
@@ -71,6 +88,7 @@ chmod 777 -R tmp
 chmod 777 marcel
 cat config/api.php.example > config/api.php 
 ```
+
 After install, it will prompt you to seed the database with defaults
 and create your first user. You should also set your 
 `public/index.php` `BASE_URL`.
@@ -964,7 +982,7 @@ While in your current Vim session:
 5. Observe output: e.g. something like: `admin@example.com`
 6. `fg` to get back into your original Vim session
 
-Example `tmp/vim-output.php` in step *4* above:
+Example `tmp/vim-output.php` in step *3* above:
 ```php
 <?
 $users = User::find('all', [
@@ -983,7 +1001,6 @@ map <silent> <Leader>x :!./marcel vim<cr><cr>
 ```
 So, if your [Leader](http://vimdoc.sourceforge.net/htmldoc/map.html#<Leader>) key 
 is `,` then `,x` will launch the Marcel Vim buffer.
-
 
 
 ## WebSocket Server
