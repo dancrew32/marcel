@@ -28,7 +28,10 @@ class ocr {
 	#10 = Treat the image as a single character.
 	const SINGLE_CHAR = 10;
 
-	static function get($file_path) {
+	static function get($file_path, array $o=[]) {
+		$o = array_merge([
+			'method' => self::FULL_AUTO_NO_OSD,
+		], $o);
 
 		$ocr_dir = TMP_DIR.'/ocr'; 
 		$rand = rand();
@@ -50,7 +53,7 @@ class ocr {
 		# Interpret file
 		$outfile = "{$ocr_dir}/out";
 		# -l lang and/or -psm pagesegmode must occur before anyconfigfile.
-		$cmd = "tesseract {$flat} {$outfile} -l eng -psm 8 nobatch {$conf} 2> /dev/null";
+		$cmd = "tesseract {$flat} {$outfile} -l eng -psm {$o['method']} nobatch {$conf} 2> /dev/null";
 		exec($cmd);
 
 		$outfile .= ".txt";

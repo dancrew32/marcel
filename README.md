@@ -27,6 +27,7 @@
 * [Mail](#mail)
 * [Fake Data](#fake-data)
 * [CAPTCHA](#captcha)
+* [OCR](#ocr)
 * [Scraping](#scraping)
 * [Interactive Prompt](#interactive-prompt-with-phpsh)
 * [Vim Interactivity](#vim-interactivity)
@@ -38,7 +39,6 @@
 * USPS 
 * Geolocation
 * Stocks
-* OCR
 * Cart
    * Stripe
 
@@ -391,16 +391,16 @@ Output looks like
 </script>
 ```
 
-Now, using [Mustache.js](https://github.com/janl/mustache.js/)
+Now, using [Hogan.js](https://github.com/twitter/hogan.js)
 you can take the provided template from the `<script>` tag
 and use it to render client-side. You'll only have to 
 serve JSON now!
 
 ```javascript
-var template = $('#mustachetest-template');
+var template = Hogan.compile($('#mustachetest-template').html());
 $.getJSON('/mustache/template', function(json) {
-	var html = Mustache.to_html(template, json);
-	$('body').append(html);
+	var html = template.render(json);
+	$(document.body).append(html);
 });
 ```
 
@@ -800,6 +800,37 @@ class controller_captcha extends controller_base {
 <input type="submit" value="solve">
 </form>
 ```
+
+## OCR
+You may use `ocr::get($file_path)` to perform 
+![OCR](http://en.wikipedia.org/wiki/Optical_character_recognition).
+```bash
+# install this first
+sudo apt-get install tesseract-ocr
+```
+
+### OCR Example
+```php
+$img = file_get_contents('http://.../some_image.jpg');
+echo ocr::get($img); # returns text from image
+# or use a different tesseract method
+echo ocr::get($img, [ 'method' => ocr::SINGLE_COLUMN_VARIABLE_SIZE ]);
+```
+
+### OCR Methods
+`method` | Description
+--- | ---
+`ocr::ORIENTATION_SCRIPT_ONLY` | Orientation and script detection (OSD) only
+`ocr::AUTO_PAGE_SEG_OSD` | Automatic page segmentation with OSD
+`ocr::AUTO_PAGE_SEG_NO_OSD` | Automatic page segmentation, but no OSD, or OCR 
+`ocr::FULL_AUTO_NO_OSD` | Fully automatic page segmentation, but no OSD **Default**
+`ocr::SINGLE_COLUMN_VARIABLE_SIZE` | Assume a single column of text of variable sizes
+`ocr::UNIFORM_BLOCK_VERTICAL` | Assume a single uniform block of vertically aligned text
+`ocr::UNIFORM_BLOCK` | Assume a single uniform block of text
+`ocr::SINGLE_LINE` | Treat the image as a single text line
+`ocr::SINGLE_WORD` | Treat the image as a single word
+`ocr::SINGLE_WORD_CIRCLE` | Treat the image as a single word in a circle
+`ocr::SINGLE_CHAR` | Treat the image as a single character
 
 
 ## Scraping
