@@ -1,0 +1,3 @@
+[submodule "vendor/activerecord"]
+	path = vendor/activerecord
+	url = git@github.com:kla/php-activerecord.git

@@ -25,6 +25,7 @@
 * [Cron](#cron)
 * [Workers](#workers)
 * [Mail](#mail)
+* [Mail Parsing](#mail-parsing)
 * [Fake Data](#fake-data)
 * [CAPTCHA](#captcha)
 * [OCR](#ocr)
@@ -750,6 +751,75 @@ $m->queue();
 # Or just send it
 $m->send();
 ```
+
+## Mail Parsing
+Using [PHP MIME Mail Parser](https://code.google.com/p/php-mime-mail-parser/)
+you may read inbound emails and parse out specific sections of the email
+like `subject`, `to`, `cc`, `body` (`html` or `text`) and any other headers
+you might like. Check out `class/mail_parse.php` to see everything you can do.
+
+### Mail Parser Install
+
+```bash
+sudo pecl install mailparse
+sudo apt-get install postfix
+sudo echo "\nextension=mailparse.so" >> /etc/php5/cli/php.ini
+sudo service apache restart
+```
+
+### Mail Parser Setup
+Using [Postfix](http://www.postfix.org/) will allow you to create 
+[virtual maps](http://www.berkes.ca/guides/postfix_virtual.html] 
+that will let you route wildcard email
+addresses for specific domain(s) to hit specified aliases 
+in your `/etc/aliases`.
+
+`/etc/postfix/virtual` *will be a new file*. In this example,
+we route all emails that go to site.com to `/etc/aliases`
+alias named `site`
+
+```bash
+@site.com site
+```
+
+Then setup your new `/etc/aliases` alias of `site` and pipe the output
+to a script in Marcel. In this example, we route incoming
+emails to our `script/email_incoming.php`
+
+```bash
+/etc/aliases # site: "| /usr/bin/php /var/www/site/script/email_incoming.php" 
+```
+
+After saving, the last step is to reload `/etc/aliases` and restart Postfix.
+
+```bash
+newaliases
+service postfix reload
+```
+
+Now if you send an email to `foo@site.com`, the contents of that email
+will route to `script/email_incoming.php` via `php:://stdin`. In this example,
+`$data` becomes the raw contents of the email we just sent.
+
+```php
+$data = file_get_contents('php://stdin');
+```
+
+### Parsing an Email
+Now to actually extract the contents of the email, 
+you may leverage `mail_parse` of `class/mail_parse.php`.
+See that class for more info.
+
+```php
+$mp = new mail_parse(file_get_contents('php://stdin'));
+$to        = $mp->to();        # foo@site.com
+$from      = $mp->from();      # you@yourmail.com
+$from_name = $mp->from_name(); # Your Name (if exists)
+$cc        = $mp->cc();        # if you cc'd people it would show up here 
+$subject   = $mp->subject(); 
+$body      = $mp->body();
+```
+
 
 ## Fake Data
 Using [Faker](https://github.com/fzaninotto/Faker) via the `class/fake.php` class,
