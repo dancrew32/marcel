@@ -803,7 +803,7 @@ class controller_captcha extends controller_base {
 
 ## OCR
 You may use `ocr::get($file_path)` to perform 
-![OCR](http://en.wikipedia.org/wiki/Optical_character_recognition).
+[OCR](http://en.wikipedia.org/wiki/Optical_character_recognition).
 ```bash
 # install this first
 sudo apt-get install tesseract-ocr
