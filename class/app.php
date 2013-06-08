@@ -46,6 +46,9 @@ class app {
 		self::$req_type = strtolower(take($_SERVER, 'REQUEST_METHOD', 'get'));
 		define('POST', self::$req_type == 'post');
 
+		# User Agent
+		define('USER_AGENT', take($_SERVER, 'HTTP_USER_AGENT'));
+
 		# Route
 		$found = false;
 		foreach (self::$routes as $regex => $o) {

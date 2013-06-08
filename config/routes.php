@@ -135,6 +135,10 @@ app::$routes = [
 	# Messaging
 	'/message' => [ 'c' => 'message', 'm' => 'main', 'name' => 'Message Home', 'section' => 'Message' ],
 
+	# Phone Test
+	'/phone'         => [ 'c' => 'phonetest', 'm' => 'phone', 'name' => 'Phone Home', 'section' => 'Test' ],
+	'/phone/program' => [ 'c' => 'phonetest', 'm' => 'program', 'name' => 'Twilio Read' ],
+
 	# HTTP Example
 	'/http' => [
 		'http' => [
@@ -177,7 +181,7 @@ app::$routes = [
 
 
 	# OCR
-	'/ocr' => [ 'c' => 'common', 'm' => 'ocr' ],
+	'/ocr' => [ 'c' => 'ocr', 'm' => 'get', 'name' => 'OCR Home', 'section' => 'Test' ],
 
 	# Routes
 	//'/routes' => [ 'c' => 'common', 'm' => 'routes', 'nodb' => true ],

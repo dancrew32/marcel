@@ -1,0 +1,15 @@
+https://github.com/afreiday/php-waveform-png
+https://github.com/phayes/geoPHP
+https://github.com/libgit2/php-git
+https://github.com/debuggable/php_arrays # useful data
+https://github.com/vimeo/vimeo-php-lib
+https://github.com/cosenary/Instagram-PHP-API
+https://github.com/mikegogulski/bitcoin-php
+https://github.com/jlogsdon/php-cli-tools
+https://github.com/travis-ci/travis-ci-php-example
+https://github.com/simplepie/simplepie
+https://github.com/iamcal/php-emoji
+https://github.com/mexitek/phpColors
+https://github.com/phergie/phergie
+https://github.com/chregu/GoogleAuthenticator.php
+pecl facedetect

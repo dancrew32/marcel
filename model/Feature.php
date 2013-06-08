@@ -10,6 +10,8 @@ class Feature extends model {
 			'Cron Job'         => 'cron_job',
 			'Join'             => 'join',
 			'Login'            => 'login',
+			'OCR'              => 'ocr',
+			'Phone'            => 'phone',
 			'Product'          => 'product',
 			'Product Type'     => 'product_type',
 			'Product Category' => 'product_category',

@@ -34,6 +34,7 @@ class socket_user {
 	function try_set_user($session_id) {
 		if (!$session_id) return false;
 		$session = Session::find_by_id($session_id);
+		if (!$session) return false;
 		$session_data = Session::unserialize($session->data);
 		if (take($session_data, 'in') != 1) return false;
 		$user_id = take($session_data, 'id');

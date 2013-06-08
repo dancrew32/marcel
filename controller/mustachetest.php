@@ -3,7 +3,7 @@ class controller_mustachetest extends controller_base {
 	function __construct($o) {
 		parent::__construct($o);
 		app::asset('class/json', 'js');
-		app::asset('class/mustache', 'js');
+		app::asset('class/hogan', 'js');
    	}
 
 	function main() {

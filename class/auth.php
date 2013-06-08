@@ -13,10 +13,7 @@ class auth {
 		if (!CLI && !self::can($features)) _403();
 	}
 
-	static function check($method, $fail='_403') {
-		if (!method_exists(__CLASS__, $method)) 
-			return true;
-		$allowed = self::$method();
+	static function check($allowed, $fail='_403') {
 		if (!$allowed) $fail();
 	}
 

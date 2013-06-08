@@ -1,0 +1,53 @@
+<?
+api::$keys = [
+	'stripe' => [ # https://manage.stripe.com/account/apikeys
+		'DEV' => [
+			'secret' => 'sk_test_',
+			'public' => 'pk_test_',
+		],
+		'LIVE' => [
+			'secret' => 'sk_live_',
+			'public' => 'pk_live_',
+		],
+	],
+	'google_maps' => [ # https://code.google.com/apis/console/b/0/
+		'DEV'  => '',
+		'LIVE' => '',
+	],
+	'usps' => [ # https://secure.shippingapis.com/registration/
+		'DEV' => [
+			'username' => '123USERN1234',
+			'password' => '',
+		],
+		'LIVE' => [
+			'username' => '123USERN1234',
+			'password' => '',
+		],
+	],
+	'avin' => [ # http://www.avin.cc
+		'DEV'  => '',
+		'LIVE' => '',
+	],
+	'flickr' => [ # http://www.flickr.com/services/apps/create/apply/
+		'DEV'  => [
+			'key'    => '',
+			'secret' => '',
+		],
+		'LIVE' => [
+			'key'    => '',
+			'secret' => '',
+		],
+	],
+	'twilio' => [ # https://www.twilio.com/user/account
+		'DEV'  => [
+			'key'    => '',
+			'secret' => '',
+			'phone'  => '', # if you have one main phone number
+		],
+		'LIVE' => [
+			'key'    => '',
+			'secret' => '',
+			'phone'  => '',
+		],
+	],
+];

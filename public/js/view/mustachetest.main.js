@@ -4,7 +4,7 @@
 
 	function mustacheTest() {
 		$.get('/mustache', function(data) {
-			var html = Mustache.to_html(NS.TEMPLATE.mustache_test, data);
+			var html = NS.TEMPLATE.mustache_test.render(data);
 			var el = $('#append-to-me');
 			el.append(html);
 			el.animate({
@@ -14,8 +14,8 @@
 	}
 
 	function addEventListeners() {
-		if (typeof Mustache !== 'undefined') {
-			NS.TEMPLATE.mustache_test = $('#mustachetest-template').html(); 
+		if (typeof Hogan !== 'undefined') {
+			NS.TEMPLATE.mustache_test = Hogan.compile($('#mustachetest-template').html()); 
 			mustacheTest();
 			setInterval(mustacheTest, 1000);
 		}

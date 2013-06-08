@@ -9,31 +9,25 @@ class controller_common extends controller_base {
 		die('allowed');
 	}
 
-	function ocr() {
-		//$img = file_get_contents(IMAGE_DIR.'/ocr/foo.png');
-		//$img = file_get_contents('http://l.danmasq.com/img/ocr/test.jpg');
-		$img = file_get_contents('http://l.danmasq.com/captcha');
-		//$img = file_get_contents('http://www.google.com/recaptcha/static/images/recaptcha-example.gif');
-		//$img = file_get_contents('https://www.google.com/recaptcha/api/image?c=03AHJ_VutYzGVKMOVUT1PL3OVWnLETuVG_e_ghv5TaZ-5svD_pa_fNvboMdxaQOf1_TJUGebg6Fpps6uBE0wmu50f998YpbPTGFc3V250terylAL2Quf7KbCrODCR2DhDHE50DCLqxxCgAcbIrVm4N9IGAclijx8uIG9_9UeSqzuCPUF9q2enLixw');
-		$tmp = TMP_DIR.'/ocr/temp.png';
-		file_put_contents($tmp, $img);
-		echo ocr::get($tmp);
-		unlink($tmp);
+	function nav() { }
+
+	function nav_collapse() { }
+
+	function nav_test() {
+		$this->in_section = app::in_sections([
+			'Message', 
+			'Mustache', 
+			'Markdown',
+			'Test',
+		]);
 	}
 
-	function nav() {
+	function nav_user() {
 		$this->logged_in = User::$logged_in;	
-		$this->admin_nav_sections = [
-			'Cron', 
-			'Feature',
-			'Product Type', 
-			'Product Category', 
-			'Shipping', 
-			'User', 
-			'User Permission',
-			'User Type',
-			'Worker',
-		];
+		$this->user = User::$user;
+	}
+
+	function nav_admin() {
 		$this->admin_nav = [
 			'cron_job' => [
 				'text' => 'Cron Manager', 
@@ -72,6 +66,21 @@ class controller_common extends controller_base {
 				'path' => 'Worker Home',
 			],
 		];
+
+		if (!auth::can(array_keys($this->admin_nav))) 
+			return $this->skip();
+
+		$this->in_section = app::in_sections([
+			'Cron', 
+			'Feature',
+			'Product Type', 
+			'Product Category', 
+			'Shipping', 
+			'User', 
+			'User Permission',
+			'User Type',
+			'Worker',
+		]);
 	}
 
 	function debug($o) {

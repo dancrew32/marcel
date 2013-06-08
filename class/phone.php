@@ -13,12 +13,16 @@ class phone {
 		'Alltel'        => 'alltel.com',
 	];
 
+	static $user_agents = [
+		'twilio' => 'TwilioProxy'
+	];
+
+	# ghetto send text
 	static function text_address($options) {
 		$options = array_merge([
-			'phone'   => '',
+			'phone'    => '',
 			'provider' => '',
 		], $options);	
-
 
 		$number = preg_replace('/[^0-9]/', '', $options['number']);
 		if (!strlen($number) >= 10)
@@ -27,6 +31,54 @@ class phone {
 		if (!$domain) 
 			return false;
 		return "{$number}@{$domain}";
+	}
+
+	static function text($to, $text) {
+		if (!isset($text{0})) return false;
+
+		require_once VENDOR_DIR.'/twilio/Services/Twilio.php';
+		$api = api::get_key('twilio');
+		$client = new Services_Twilio($api['key'], $api['secret']);
+
+		$message = $client->account->sms_messages->create(
+			$api['phone'], # from
+			$to, # to
+			$text
+		);
+		return $message;
+	}
+
+	static function program() {
+		require_once VENDOR_DIR.'/twilio/Services/Twilio.php';
+		return new Services_Twilio_Twiml();
+	}
+
+	static function call($to, $program, array $params=[]) {
+		if (!$program) return false;
+		require_once VENDOR_DIR.'/twilio/Services/Twilio.php';
+		$api = api::get_key('twilio');
+		$client = new Services_Twilio($api['key'], $api['secret']);
+
+		$call = $client->account->calls->create(
+			$api['phone'], # from
+			$to, # to
+			$program, # twiml
+			$params
+		);
+		return $call;
+	}
+
+	static function hangup($call) {
+		$api = api::get_key('twilio');
+		$client = new Services_Twilio($api['key'], $api['secret']);
+		$call->update([
+			'Status' => 'completed'
+		]);
+		return $call;
+	}
+
+	static function is_twilio() {
+		return strpos(USER_AGENT, self::$user_agents['twilio']) !== false;
 	}
 
 }

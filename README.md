@@ -68,6 +68,7 @@ cd site
 php script/db_init.php
 chmod 777 -R tmp
 chmod 777 marcel
+cat config/api.php.example > config/api.php 
 ```
 After install, it will prompt you to seed the database with defaults
 and create your first user. You should also set your 
