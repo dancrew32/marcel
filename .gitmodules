@@ -16,3 +16,6 @@
 [submodule "vendor/markdown"]
 	path = vendor/markdown
 	url = git@github.com:michelf/php-markdown.git
+[submodule "vendor/stripe"]
+	path = vendor/stripe
+	url = git@github.com:stripe/stripe-php.git
