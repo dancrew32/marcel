@@ -159,6 +159,8 @@ You may capture parameters using regular expressions with
 [named subpatterns](http://us1.php.net/manual/en/function.preg-match.php#example-4666)
 e.g. `'/(?P<word>\w+)/(?P<digit>\d+)'` would match `/blogs/2`.
 
+Take a look at `class/route.php` to see all of the possibilities.
+
 ### Route Keys
 
 Key | Description
@@ -224,10 +226,15 @@ route::$routes = [
 	# Named-Routes & Sections (optional)
 	'/changes-frequently' =>
 		[ 'c' => 'thing' => 'm' => 'index', 'name' => 'Things Home', 'section' => 'Things' ],
-		# route::get('Things Home') returns '/changes-frequently'
+		# route::get('Things Home') 
+		#   returns '/changes-frequently'
+
 	'/changes-as-well(?:/*)(?P<url_slug>\d+)' =>
 		[ 'c' => 'thing' => 'm' => 'secondary', 'name' => 'Things Secondary', 'section' => 'Things' ],
-		# route::get('Things Secondary', ['url_slug' => 'true-story']) returns '/changes-as-well/true-story'
+		# route::get('Things Secondary', ['url_slug' => 'true-story']) 
+		#   returns '/changes-as-well/true-story'
+		# route::get('Things Secondary', ['url_slug' => 'true-story', 'foo' => 'bar']) 
+		#   returns '/changes-as-well/true-story?foo=bar'
 
 ];
 ```
@@ -236,6 +243,7 @@ route::$routes = [
 Uses [PHPActiveRecord](http://www.phpactiverecord.org)
 (see [Basic CRUD](http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD) to learn more).
 Get started with a new Model using the `php script/gen_model.php` [Script](#scripts).
+
 ```php
 <?
 class Thing extends ActiveRecord\Model {
@@ -267,6 +275,8 @@ $b->delete();
 * `$o` contains optional parameters passed in the `3rd` argument of `r('controller', 'method', [ 'thing' => 'dorito' ])`
    * if your [route](#routing) captures url parameters, they're available through `$o['params']`
 
+Get started with a new Controller using the `php script/gen_controller.php` [Script](#scripts).
+
 ```php
 <?
 class controller_yours extends controller_base {
@@ -291,6 +301,8 @@ Everything you declare in your [controller](#controllers-c)
 with `$this->...` is available in your view.
 Based on our [example controller](#controllers-c) above,
 these would be some example views:
+
+Get started with a new View using the `php script/gen_view.php` [Script](#scripts).
 
 ```php
 # views/yours.foo.php
