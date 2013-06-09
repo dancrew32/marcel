@@ -3,12 +3,6 @@ class app {
 
 	# layout title
 	static $title = APP_NAME;
-
-	# routing
-	static $routes = [];
-	static $path; # e.g. "/my/url"
-	static $route_name; # e.g. "User Home"
-	static $section_name; # e.g. "user"
 	static $req_type; # e.g. "post"
 
 	# assets
@@ -39,7 +33,7 @@ class app {
 
 		# Path
 		$path_parts = explode('?', take($_SERVER, 'REQUEST_URI'));
-		self::$path = reset($path_parts);
+		route::$path = reset($path_parts);
 		unset($path_parts);
 
 		# HTTP Method
@@ -51,9 +45,12 @@ class app {
 
 		# Route
 		$found = false;
-		foreach (self::$routes as $regex => $o) {
+		route::init();
+		require_once CONTROLLER_DIR.'/base.php';
+
+		foreach (route::$routes as $regex => $o) {
 			$regex = str_replace('/', '\/', $regex);
-			$found = preg_match("/^{$regex}\/?$/i", self::$path, $matches);
+			$found = preg_match("/^{$regex}\/?$/i", route::$path, $matches);
 			if (!$found) continue;
 
 			# Purge Empty Matches
@@ -94,12 +91,10 @@ class app {
 			}
 
 			# Route Name 
-			if (isset($o['name']{0}))
-				self::$route_name = $o['name'];
+			route::$route_name = take($o, 'name');
 
 			# Route Section 
-			if (isset($o['section']{0}))
-				self::$section_name = $o['section'];
+			route::$section_name = take($o, 'section');
 
 			# Main render
 			$out = util::render($o, ['params' => $matches]);
@@ -164,21 +159,6 @@ class app {
 
 	static function reload() {
 		self::redir(take($_SERVER, 'REQUEST_URI', '/'));
-	}
-
-	static function get_path($name) {
-		# TODO: instance cache for route path/name key/value
-		$found = util::pluck_key($name, 'name', self::$routes);
-		if (!$found) return false;
-		return preg_replace('/\(.*\)/', '', $found); # ignore captures
-	}
-
-	static function in_section($section) {
-		return self::$section_name == $section;
-	}
-
-	static function in_sections($sections=[]) {
-		return in_array(self::$section_name, $sections);
 	}
 
 	static function title($title) {

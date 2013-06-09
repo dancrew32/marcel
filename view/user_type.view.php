@@ -9,14 +9,14 @@
 		<? if ($mode != 'edit'): ?>
 			<li>
 				<?= html::a([
-					'href' => "{$root_path}/edit/{$user_type->id}", 
+					'href' => route::get('User Type Edit', ['id' => $user_type->id]),
 					'text' => "Edit",
 					'icon' => 'edit',
 				]) ?>
 			<li>
 		<? endif ?>
 			<?= html::a([
-				'href' => "{$root_path}/delete/{$user_type->id}", 
+				'href' => route::get('User Type Delete', ['id' => $user_type->id]),
 				'text' => "Delete",
 				'icon' => 'trash',
 			]) ?>

@@ -1,7 +1,7 @@
 <?
 class controller_feature extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('Feature Home');
+		$this->root_path = route::get('Feature Home');
 		auth::only(['feature']);
 		parent::__construct($o);
    	}

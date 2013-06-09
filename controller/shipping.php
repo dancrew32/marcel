@@ -1,7 +1,7 @@
 <?
 class controller_shipping extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('Shipping Home');
+		$this->root_path = route::get('Shipping Home');
 		auth::only(['shipping']);
 		parent::__construct($o);
    	}

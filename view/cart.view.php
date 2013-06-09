@@ -57,7 +57,7 @@
 		No products in your <?= strtolower(Cart::NAME) ?>.
 		<? if (auth::can(['product'])): ?>
 			<br>
-			<?= html::btn(app::get_path('Product Home'), 'Add Some Products', 'plus') ?>
+			<?= html::btn(route::get('Product Home'), 'Add Some Products', 'plus') ?>
 		<? endif ?>
 	</p>
 <? endif ?>

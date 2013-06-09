@@ -166,9 +166,9 @@ Key | Description
 `c` | Controller *required*
 `m` | Method *required*
 `l` | Layout (`foo` would be `view/layout/foo.php`)
-`auth` | Authorization method via `class/auth.php` to gate access with
-`name` | Unique name for this route (see `app::get_path($name)` useful when url paths change)
-`section` | Name for grouping routes together (e.g. `Portfolio`)
+`auth` | Authorization `Feature->slug` via `class/auth.php` to gate access with
+`name` | Unique name for this route (see `route::get($name, $params)` useful when URL paths change)
+`section` | Name for grouping routes together (e.g. `Portfolio`) (see `route::in_sections(['A', 'B']))
 `http` | for nested [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) routing (e.g. `get`, `post`, `put`, `delete`)
 `nodb` | if `true`, skip any database connections for this execution
 
@@ -176,7 +176,7 @@ Key | Description
 
 ```php
 <?
-app::$routes = [
+route::$routes = [
 
 	# Site base url leads to controller_yours::foo
 	'/' => ['c' => 'yours', 'm' => 'foo'],
@@ -224,10 +224,10 @@ app::$routes = [
 	# Named-Routes & Sections (optional)
 	'/changes-frequently' =>
 		[ 'c' => 'thing' => 'm' => 'index', 'name' => 'Things Home', 'section' => 'Things' ],
-		# app::get_path('Things Home') returns '/changes-frequently'
+		# route::get('Things Home') returns '/changes-frequently'
 	'/changes-as-well(?:/*)(?P<url_slug>\d+)' =>
 		[ 'c' => 'thing' => 'm' => 'secondary', 'name' => 'Things Secondary', 'section' => 'Things' ],
-		# app::get_path('Things Secondary') returns '/changes-as-well'
+		# route::get('Things Secondary', ['url_slug' => 'true-story']) returns '/changes-as-well/true-story'
 
 ];
 ```
@@ -499,7 +499,7 @@ If you want to use an alternative layout,
 request the "layout name" (`l` in [Routes](#routes)) in `routes.php`:
 ```php
 <?
-app::$routes = [
+route::$routes = [
 
 	# Uses views/layouts/mylayout.php
 	'/section' => ['c' => 'foo', 'm' => 'bar', 'l' => 'mylayout' ],
@@ -612,7 +612,7 @@ Using a modified version of [TimThumb](http://www.binarymoon.co.uk/projects/timt
 we can manipulate our images on the fly!
 
 ```php
-app::$routes = [
+route::$routes = [
 	'/i' => ['c' => 'image', 'm' => 'process', 'nodb' => true, 'name' => 'Image Process' ],
 	# Note: if you change 'name' from "Image Process"
 	# make sure you update image::$process_path

@@ -11,21 +11,21 @@
 			<div class="nav-collapse collapse">
 				<ul class="nav">
 
-					<li<? echoif(app::in_section('Home'), ' class="active"') ?>>
-						<a href="<?= app::get_path('Home')?>">Home</a>
+					<li<? echoif(route::in_section('Home'), ' class="active"') ?>>
+						<a href="<?= route::get('Home')?>">Home</a>
 					</li>
 
 					<?= r('common', 'nav_admin') ?>
 
 					<? if (auth::can(['product'])): ?>
-						<li<? echoif(app::in_section('Product'), ' class="active"') ?>>
-							<a href="<?= app::get_path('Product Home') ?>">Products</a>
+						<li<? echoif(route::in_section('Product'), ' class="active"') ?>>
+							<a href="<?= route::get('Product Home') ?>">Products</a>
 						</li>
 					<? endif ?>
 
 					<? if (auth::can(['cart'])): ?>
-						<li<? echoif(app::in_section('Cart'), ' class="active"') ?>>
-							<a href="<?= app::get_path('Cart Home') ?>"><?= Cart::NAME ?></a>
+						<li<? echoif(route::in_section('Cart'), ' class="active"') ?>>
+							<a href="<?= route::get('Cart Home') ?>"><?= Cart::NAME ?></a>
 						</li>
 					<? endif ?>
 						
@@ -76,7 +76,7 @@
 		<?= html::alert(
 			"We were unable to verify your email address. ". 
 			html::btn(
-				app::get_path('User Verification Resend'), 
+				route::get('User Verification Resend'), 
 				'Resend Verification Email', 
 				'envelope'
 			), ['type'=>'error']) 

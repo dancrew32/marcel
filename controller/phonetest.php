@@ -1,7 +1,7 @@
 <?
 class controller_phonetest extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('Phone Home');
+		$this->root_path = route::get('Phone Home');
 		parent::__construct($o);
    	}
  
@@ -10,7 +10,7 @@ class controller_phonetest extends controller_base {
 		$test_phone_number = '5555555555';
 		//phone::text($test_phone_number, 'Hey there, Marcel!');
 
-		$uri = BASE_URL . app::get_path('Twilio Read');
+		$uri = BASE_URL . route::get('Twilio Read');
 		$a = phone::call($test_phone_number, $uri);
 
 		//phone::hangup($a);

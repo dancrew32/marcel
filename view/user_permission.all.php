@@ -26,7 +26,7 @@
 						<tr<? echoif(auth::can([$feature->slug]), ' class="success"') ?>>
 							<td>
 								<?= $feature ?>
-								<?= html::a(app::get_path('Feature Home')."/edit/{$feature->id}", 'Edit', 'edit') ?>
+								<?= html::a(route::get('Feature Home')."/edit/{$feature->id}", 'Edit', 'edit') ?>
 							</td>
 							<? foreach ($user_types as $user_type): ?>
 								<td class="text-center">
@@ -54,7 +54,7 @@
 	<div class="span4">
 		<ul class="nav nav-tabs nav-stacked">
 			<li>
-				<?= html::a(app::get_path('Feature Home'), 'View All Features', 'eye-open') ?>
+				<?= html::a(route::get('Feature Home'), 'View All Features', 'eye-open') ?>
 			</li>
 		</ul>
 

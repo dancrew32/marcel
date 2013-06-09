@@ -2,7 +2,7 @@
 class controller_cron_job extends controller_base {
 
 	function __construct($o) {
-		$this->root_path = app::get_path('Cron Home');
+		$this->root_path = route::get('Cron Home');
 		auth::only(['cron_job']);
 		parent::__construct($o);
    	}

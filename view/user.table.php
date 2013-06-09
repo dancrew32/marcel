@@ -17,7 +17,7 @@
 		<td class="hidden-phone"><?= time::ago($u->last_login) ?></td>
 		<td class="hidden-phone"><?= $u->badge() ?></td>
 		<td>
-			<?= html::a("{$root_path}/edit/{$u->id}", 'Edit', 'edit');?>
+			<?= html::a(route::get('User Edit', ['id' => $u->id]));?>
 		</td>
 	</tr>
 <? endforeach ?>

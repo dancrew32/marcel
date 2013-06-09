@@ -1,7 +1,7 @@
 <?
 class controller_stock extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('Stock Home');
+		$this->root_path = route::get('Stock Home');
 		auth::only(['stock']);
 		parent::__construct($o);
    	}

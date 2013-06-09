@@ -5,16 +5,12 @@ class controller_common extends controller_base {
 		// see views/common.index.php
 	}
 
-	function auth_test() {
-		die('allowed');
-	}
-
 	function nav() { }
 
 	function nav_collapse() { }
 
 	function nav_test() {
-		$this->in_section = app::in_sections([
+		$this->in_section = route::in_sections([
 			'Message', 
 			'Mustache', 
 			'Markdown',
@@ -70,7 +66,7 @@ class controller_common extends controller_base {
 		if (!auth::can(array_keys($this->admin_nav))) 
 			return $this->skip();
 
-		$this->in_section = app::in_sections([
+		$this->in_section = route::in_sections([
 			'Cron', 
 			'Feature',
 			'Product Type', 
@@ -138,7 +134,7 @@ class controller_common extends controller_base {
 	}
 
 	function routes() {
-		json(app::$routes);
+		json(route::$routes);
 	}
 
 }

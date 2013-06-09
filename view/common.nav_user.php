@@ -14,18 +14,18 @@
 		</a>
 		<ul class="dropdown-menu">
 			<li>
-				<a href="<?= app::get_path('Logout') ?>">Log Out</a>
+				<a href="<?= route::get('Logout') ?>">Log Out</a>
 			</li>
 		</ul>
 	</li>
 <? else: ?>
 	<li>
-		<a href="<?= app::get_path('Login') ?>">
+		<a href="<?= route::get('Login') ?>">
 			Login
 		</a>
 	</li>
 	<li>
-		<a href="<?= app::get_path('Join') ?>">
+		<a href="<?= route::get('Join') ?>">
 			Join	
 		</a>
 	</li>

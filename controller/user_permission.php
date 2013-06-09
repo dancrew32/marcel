@@ -1,7 +1,7 @@
 <?
 class controller_user_permission extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('User Permission Home');
+		$this->root_path = route::get('User Permission Home');
 		auth::only(['user_permission']);
 		parent::__construct($o);
    	}

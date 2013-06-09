@@ -58,11 +58,11 @@ class Product extends model {
 	}
 
 	function add_url() {
-		return app::get_path('Cart Home')."/add/{$this->id}";
+		return route::get('Cart Add', ['key' => $this->id]);
 	}
 
 	function remove_url() {
-		return app::get_path('Cart Home')."/remove/{$this->id}";
+		return route::get('Cart Remove', ['key' => $this->id]);
 	}
 
 }

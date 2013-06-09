@@ -1,6 +1,7 @@
 <?
+
 # Routes
-app::$routes = [
+route::$routes = [
 	
 	# Root
 	'/' => [ 'c' => 'common', 'm' => 'index', 'name' => 'Home', 'section' => 'Home'],
@@ -24,110 +25,77 @@ app::$routes = [
 	],
 	'/logout' => [ 'c' => 'authentication', 'm' => 'logout', 'name' => 'Logout' ],
 
-	# Cron Jobs
-	'/cron(?:/*)(?P<page>[0-9]*)'   => [ 'c' => 'cron_job', 'm' => 'all', 'name' => 'Cron Home', 'section' => 'Cron' ],
-	'/cron/add'                     => [ 'c' => 'cron_job', 'm' => 'add', 'section' => 'Cron' ],
-	'/cron/scripts'                 => [ 'c' => 'cron_job', 'm' => 'scripts', 'section' => 'Cron' ],
-	'/cron/edit/(?P<id>([0-9]+))'   => [ 'c' => 'cron_job', 'm' => 'edit', 'section' => 'Cron' ],
-	'/cron/delete/(?P<id>([0-9]+))' => [ 'c' => 'cron_job', 'm' => 'delete', 'section' => 'Cron' ],
+];
 
-	# Workers
-	'/workers/reset/(?P<id>([0-9]+))'    => [ 'c' => 'worker', 'm' => 'reset', 'section' => 'Worker' ],
-	'/workers/delete/(?P<id>([0-9]+))'   => [ 'c' => 'worker', 'm' => 'delete', 'section' => 'Worker' ],
-	'/workers(?:/*)(?P<filter>([a-z]*))' => [ 'c' => 'worker', 'm' => 'all', 'name' => 'Worker Home', 'section' => 'Worker' ],
+# Workers
+route::$routes += [
+	"/workers/reset/". route::ID 
+		=> [ 'c' => 'worker', 'm' => 'reset', 'section' => 'Worker' ],
+	"/workers/delete/". route::ID 
+		=> [ 'c' => 'worker', 'm' => 'delete', 'section' => 'Worker' ],
+	'/workers(?:/*)(?P<filter>([a-z]*))' 
+		=> [ 'c' => 'worker', 'm' => 'all', 'name' => 'Worker Home', 'section' => 'Worker' ],
+];
 
-	# Users
-	'/users/delete/(?P<id>([0-9]+))' 
-		=> [ 'c' => 'user', 'm' => 'delete', 'section' => 'User' ],
-	'/users/add'   
-		=> [ 'c' => 'user', 'm' => 'add', 'section' => 'User' ],
-	'/users/edit/(?P<id>([0-9]+))'  
-		=> [ 'c' => 'user', 'm' => 'edit', 'section' => 'User' ],
-	'/users(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
-		=> [ 'c' => 'user', 'm' => 'all', 'name' => 'User Home', 'section' => 'User' ],
 
-	# User Verification
+# Cron Jobs
+route::$routes += ['/cron/scripts' => [ 'c' => 'cron_job', 'm' => 'scripts', 'section' => 'Cron' ]];
+route::$routes += route::crud('/cron', 'cron_job', 'Cron', 'Cron');
+
+# Users
+route::$routes += route::crud('/users', 'user', 'User', 'User');
+
+# User Types
+route::$routes += route::crud('/user-types', 'user_type', 'User Type', 'User Type');
+
+# Features
+route::$routes += route::crud('/features', 'feature', 'Feature', 'Features');
+
+# Product
+route::$routes += route::crud('/products', 'product', 'Product', 'Product');
+
+# Product Types
+route::$routes += route::crud('/product-types', 'product_type', 'Product Type', 'Product Type');
+
+# Product Categories
+route::$routes += route::crud('/product-categories', 'product_category', 'Product Category', 'Product Category');
+
+# User Verification
+route::$routes += [
 	'/verify/user/resend(?:/*)(?P<id>[0-9]*)' 
 		=> [ 'c' => 'user_verification', 'm' => 'resend', 'name' => 'User Verification Resend' ], 
 	'/verify/user(?:/*)(?P<hash>[^/]*)(?:/*)(?P<user_id>[0-9]+)' 
 		=> [ 'c' => 'user_verification', 'm' => 'verify', 'name' => 'User Verification' ], 
+];
 
-	# User Types
-	'/user-types/delete/(?P<id>([0-9]+))' 
-		=> [ 'c' => 'user_type', 'm' => 'delete', 'section' => 'User Type' ],
-	'/user-types/add'   
-		=> [ 'c' => 'user_type', 'm' => 'add', 'section' => 'User Type' ],
-	'/user-types/edit/(?P<id>([0-9]+))'  
-		=> [ 'c' => 'user_type', 'm' => 'edit', 'section' => 'User Type' ],
-	'/user-types(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
-		=> [ 'c' => 'user_type', 'm' => 'all', 'name' => 'User Type Home', 'section' => 'User Type' ],
-
-	# Features
-	'/features/delete/(?P<id>([0-9]+))' 
-		=> [ 'c' => 'feature', 'm' => 'delete', 'section' => 'Feature' ],
-	'/features/add'   
-		=> [ 'c' => 'feature', 'm' => 'add', 'section' => 'Feature' ],
-	'/features/edit/(?P<id>([0-9]+))'  
-		=> [ 'c' => 'feature', 'm' => 'edit', 'section' => 'Feature' ],
-	'/features(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
-		=> [ 'c' => 'feature', 'm' => 'all', 'name' => 'Feature Home', 'section' => 'Feature' ],
+route::$routes += [
 
 	# User Permissions
 	'/user-permissions/update' 
 		=> [ 'c' => 'user_permission', 'm' => 'update', ],
-	'/user-permissions(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
+	"/user-permissions". route::PAGE_FILTER_FORMAT
 		=> [ 'c' => 'user_permission', 'm' => 'all', 'name' => 'User Permission Home', 'section' => 'User Permission' ],
 
 	# Cart Example
 	'/cart' 
 		=> [ 'c' => 'cart', 'm' => 'main', 'name' => 'Cart Home', 'section' => 'Cart' ],
 	'/cart/add/(?P<key>[0-9]+)(?:/*)(?P<amount>[0-9\*]*)' 
-		=> [ 'c' => 'cart', 'm' => 'add' ],
+		=> [ 'c' => 'cart', 'm' => 'add', 'name' => 'Cart Add', 'section' => 'Cart' ],
 	'/cart/remove/(?P<key>[0-9]+)(?:/*)(?P<amount>[0-9\*]*)' 
-		=> [ 'c' => 'cart', 'm' => 'remove' ],
+		=> [ 'c' => 'cart', 'm' => 'remove', 'name' => 'Cart Remove', 'section' => 'Cart' ],
 	'/cart/checkout' 
-		=> [ 'c' => 'cart', 'm' => 'checkout' ],
+		=> [ 'c' => 'cart', 'm' => 'checkout', 'name' => 'Cart Checkout', 'section' => 'Cart' ],
 	'/cart/quantity' 
-		=> [ 'c' => 'cart', 'm' => 'quantity' ],
+		=> [ 'c' => 'cart', 'm' => 'quantity', 'name' => 'Cart Quantity', 'section' => 'Cart' ],
 	'/cart/thank-you' 
-		=> [ 'c' => 'cart', 'm' => 'success', 'name' => 'Checkout Success' ],
+		=> [ 'c' => 'cart', 'm' => 'success', 'name' => 'Checkout Success', 'section' => 'Cart' ],
 	
 	# Shipping
 	'/shipping'
 		=> [ 'c' => 'shipping', 'm' => 'main', 'name' => 'Shipping Home' ],
 
-	# Product
-	'/products/delete/(?P<id>([0-9]+))' 
-		=> [ 'c' => 'product', 'm' => 'delete', 'section' => 'Product' ],
-	'/products/add'   
-		=> [ 'c' => 'product', 'm' => 'add', 'section' => 'Product' ],
-	'/products/edit/(?P<id>([0-9]+))'  
-		=> [ 'c' => 'product', 'm' => 'edit', 'section' => 'Product' ],
-	'/products(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
-		=> [ 'c' => 'product', 'm' => 'all', 'name' => 'Product Home', 'section' => 'Product' ],
-
-	# Product Types
-	'/product-types/delete/(?P<id>([0-9]+))' 
-		=> [ 'c' => 'product_type', 'm' => 'delete', 'section' => 'Product Type' ],
-	'/product-types/add'   
-		=> [ 'c' => 'product_type', 'm' => 'add', 'section' => 'Product Type' ],
-	'/product-types/edit/(?P<id>([0-9]+))'  
-		=> [ 'c' => 'product_type', 'm' => 'edit', 'section' => 'Product Type' ],
-	'/product-types(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
-		=> [ 'c' => 'product_type', 'm' => 'all', 'name' => 'Product Type Home', 'section' => 'Product Type' ],
-
-	# Product Categories
-	'/product-categories/delete/(?P<id>([0-9]+))' 
-		=> [ 'c' => 'product_category', 'm' => 'delete', 'section' => 'Product Category' ],
-	'/product-categories/add'   
-		=> [ 'c' => 'product_category', 'm' => 'add', 'section' => 'Product Category' ],
-	'/product-categories/edit/(?P<id>([0-9]+))'  
-		=> [ 'c' => 'product_category', 'm' => 'edit', 'section' => 'Product Category' ],
-	'/product-categories(?:/*)(?P<page>[0-9]*)(?:/*)(?P<filter>([a-z]*))(?P<format>\.*[a-z]*)' 
-		=> [ 'c' => 'product_category', 'm' => 'all', 'name' => 'Product Category Home', 'section' => 'Product Category' ],
-
 	# Stocks
-	'/stocks/(?<symbols>[a-zA-Z,]+)' => [ 'c' => 'stock', 'm' => 'main', 'name' => 'Stock Home' ],
+	'/stocks/(?P<symbols>[a-zA-Z,]+)' => [ 'c' => 'stock', 'm' => 'main', 'name' => 'Stock Home' ],
 
 	# Geocoder
 	'/geo' => [ 'c' => 'geo', 'm' => 'code', 'name' => 'Geocode' ],
@@ -149,21 +117,6 @@ app::$routes = [
 		],
 	],
 
-	# Auth Example (anons not allowed)
-	'/auth-test-simple' => [ 
-		'c' => 'common', 'm' => 'auth_test',
-		'auth' => ['user'],
-	],
-	'/auth-test-complex' => [ 
-		'http' => [
-			'get' => [
-				'c' => 'common', 'm' => 'auth_test',
-				'auth' => ['user'],
-			],
-		],
-		'auth' => ['anon'],
-	],
-
 	# Mustache view test
 	'/mustache' => [ 'c' => 'mustachetest', 'm' => 'main', 'name' => 'Mustache Home', 'section' => 'Message' ],
 
@@ -179,7 +132,6 @@ app::$routes = [
 		'name' => 'Captcha Home',
 	],
 
-
 	# OCR
 	'/ocr' => [ 'c' => 'ocr', 'm' => 'get', 'name' => 'OCR Home', 'section' => 'Test' ],
 
@@ -190,6 +142,5 @@ app::$routes = [
 	'/403' => [ 'c' => 'status_code', 'm' => 'forbidden', 'nodb' => true ],
 	'/404' => [ 'c' => 'status_code', 'm' => 'not_found', 'nodb' => true ],
 	'/500' => [ 'c' => 'status_code', 'm' => 'fatal_error', 'nodb' => true ],
-
 
 ];

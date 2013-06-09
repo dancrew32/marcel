@@ -13,7 +13,7 @@
 		<td><?= $f ?></td>
 		<td><?= $f->slug ?></td>
 		<td>
-			<?= html::a("{$root_path}/edit/{$f->id}", 'Edit', 'edit');?>
+			<?= html::a(route::get('Feature Edit', ['id' => $f->id]), 'Edit', 'edit');?>
 		</td>
 	</tr>
 <? endforeach ?>

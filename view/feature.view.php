@@ -9,14 +9,14 @@
 		<? if ($mode != 'edit'): ?>
 			<li>
 				<?= html::a([
-					'href' => "{$root_path}/edit/{$feature->id}", 
+					'href' => route::get('Feature Edit', [ 'id' => $feature->id ]), 
 					'text' => "Edit",
 					'icon' => 'edit',
 				]) ?>
 			<li>
 		<? endif ?>
 			<?= html::a([
-				'href' => "{$root_path}/delete/{$feature->id}", 
+				'href' => route::get('Feature Delete', [ 'id' => $feature->id ]), 
 				'text' => "Delete",
 				'icon' => 'trash',
 			]) ?>

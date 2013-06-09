@@ -7,27 +7,27 @@
 	</a>
 	<ul class="dropdown-menu">
 		<li>
-			<a href="<?= app::get_path('Message Home') ?>">Message</a>
+			<a href="<?= route::get('Message Home') ?>">Message</a>
 		</li>
 		<li>
-			<a href="<?= app::get_path('Mustache Home') ?>">Mustache</a>
+			<a href="<?= route::get('Mustache Home') ?>">Mustache</a>
 		</li>
 		<li>
-			<a href="<?= app::get_path('Markdown Home') ?>">Markdown</a>
+			<a href="<?= route::get('Markdown Home') ?>">Markdown</a>
 		</li>
 		<? if (auth::can(['phone'])): ?>
 			<li>
-				<a href="<?= app::get_path('Phone Home') ?>">Call Phone</a>
+				<a href="<?= route::get('Phone Home') ?>">Call Phone</a>
 			</li>
 		<? endif ?>
 		<? if (auth::can(['ocr'])): ?>
 			<li>
-				<a href="<?= app::get_path('OCR Home') ?>">OCR</a>
+				<a href="<?= route::get('OCR Home') ?>">OCR</a>
 			</li>
 		<? endif ?>
 		<? if (auth::can(['stock'])): ?>
 			<li>
-				<a href="<?= app::get_path('Stock Home') ?>">Stocks</a>
+				<a href="<?= route::get('Stock Home', ['symbols' => 'Z,AMD,ZNGA,SQNM']) ?>">Stocks</a>
 			</li>
 		<? endif ?>
 	</ul>

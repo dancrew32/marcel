@@ -1,7 +1,7 @@
 <?
 class controller_product_type extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('Product Type Home');
+		$this->root_path = route::get('Product Type Home');
 		auth::only(['product_type']);
 		app::title('Product Types');
 		parent::__construct($o);
@@ -140,7 +140,7 @@ class controller_product_type extends controller_base {
 			]);
 		} else {
 			$category_field = new field('custom', [
-				'text' => html::btn(app::get_path('Product Category Home'), 'Add a "Product Category"', 'plus'),
+				'text' => html::btn(route::get('Product Category Home'), 'Add a "Product Category"', 'plus'),
 			]);
 		}
 

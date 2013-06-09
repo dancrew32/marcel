@@ -11,7 +11,7 @@
 			<? if (!auth::can([$auth])) { continue; } ?>
 
 			<li>
-				<a href="<?= app::get_path($nav['path']) ?>">
+				<a href="<?= route::get($nav['path']) ?>">
 					<?= $nav['text'] ?>
 				</a>
 			</li>

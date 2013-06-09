@@ -57,7 +57,7 @@
 
 		<ul class="nav nav-tabs nav-stacked">
 			<li>
-				<?= html::a(app::get_path('User Permission Home'), 'View User Permissions', 'eye-open') ?>
+				<?= html::a(route::get('User Permission Home'), 'View User Permissions', 'eye-open') ?>
 			</li>
 		</ul>
 	</div>

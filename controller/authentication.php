@@ -1,21 +1,21 @@
 <?
 class controller_authentication extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('Login');
+		$this->root_path = route::get('Login');
 		parent::__construct($o);
    	}
 
 	function main() {
 		if (User::$logged_in) 
-			app::redir(app::get_path('Home'));
-		$this->version = app::$path == app::get_path('Join') ? 'join' : 'login';
+			app::redir(route::get('Home'));
+		$this->version = app::$path == aproute::get('Join') ? 'join' : 'login';
    	}
 
 	# no view
 	function logout() {
 		$ok = User::logout();
 		note::set('logout:success', (int)$ok);
-		app::redir(app::get_path('Home'));
+		app::redir(route::get('Home'));
 	}
 
 	# no view
@@ -29,7 +29,7 @@ class controller_authentication extends controller_base {
 
 		# Form
 		$this->form = new form;
-		$this->form->open(app::get_path('Login'), 'post', [ 'class' => 'last' ]);
+		$this->form->open(route::get('Login'), 'post', [ 'class' => 'last' ]);
 		$this->_build_login_form();
 		$this->form->actions(
 			new field('submit', [
@@ -44,7 +44,7 @@ class controller_authentication extends controller_base {
 	# no view
 	function join($o) {
 		$this->form = new form;
-		$this->form->open(app::get_path('Join'), 'post', [ 'class' => 'last' ]);
+		$this->form->open(route::get('Join'), 'post', [ 'class' => 'last' ]);
 		$this->_build_join_form();
 		$this->form->actions(
 			new field('submit', [
@@ -65,13 +65,13 @@ class controller_authentication extends controller_base {
 		$ok = User::login($user, $pass);
 		if ($ok) {
 			note::set('login:success', 1);
-			return app::redir(app::get_path('Home'));
+			return app::redir(route::get('Home'));
 		}
 		note::set('login:failure', [
 			'user'     => $user,
 			'remember' => $remember,
 		], true);
-		app::redir(app::get_path('Login'));
+		app::redir(route::get('Login'));
 	}
 
 	# no view
@@ -91,12 +91,12 @@ class controller_authentication extends controller_base {
 			$user->join_worker();
 
 			note::set('join:success', $user->id);
-			app::redir(app::get_path('Home'));
+			app::redir(route::get('Home'));
 		}
 
 		$user->to_note();
 		note::set('join:failure', 1);
-		app::redir(app::get_path('Login'));
+		app::redir(route::get('Login'));
 	}
 
 

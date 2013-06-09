@@ -18,7 +18,7 @@ class image {
 
 	static function set_process_path() {
 		if (!self::$process_path)
-			self::$process_path = app::get_path("Image Process");
+			self::$process_path = route::get("Image Process");
 	}
 
 	static function process() {

@@ -24,7 +24,7 @@ class User_Verification extends model {
  * INSTANCE
  */
 	function url() {
-		$uv_path = BASE_URL . app::get_path('User Verification');
+		$uv_path = BASE_URL . route::get('User Verification');
 		return "{$uv_path}/{$this->hash}/{$this->user_id}";
 	}
 

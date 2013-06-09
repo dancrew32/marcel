@@ -1,7 +1,7 @@
 <?
 class controller_user_type extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('User Type Home');
+		$this->root_path = route::get('User Type Home');
 		auth::only(['user_type']);
 		parent::__construct($o);
    	}

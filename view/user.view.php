@@ -16,7 +16,7 @@
 		<? if ($mode != 'edit'): ?>
 			<li>
 				<?= html::a([
-					'href' => "{$root_path}/edit/{$user->id}", 
+					'href' => route::get('User Edit', [ 'id' => $user->id ]), 
 					'text' => "Edit",
 					'icon' => 'edit',
 				]) ?>
@@ -24,7 +24,7 @@
 		<? endif ?>
 		<li>
 			<?= html::a([
-				'href' => "{$root_path}/delete/{$user->id}", 
+				'href' => route::get('User Delete', [ 'id' => $user->id ]), 
 				'text' => "Delete",
 				'icon' => 'trash',
 			]) ?>
@@ -32,7 +32,7 @@
 		<? if (!$user->verified): ?>
 			<li>
 				<?= html::a([
-					'href' => app::get_path('User Verification Resend')."/{$user->id}?r={$root_path}",
+					'href' => route::get('User Verification Resend', ['id' => $user->id, 'r' => $root_path]),
 					'text' => "Retry Verification",
 					'icon' => 'envelope',
 				]) ?>

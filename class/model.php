@@ -39,7 +39,7 @@ class model extends ActiveRecord\Model {
 	function from_note() {
 		$note = note::get($this->note_key(), true);
 		if (!$note) return $this;
-		$json = (array) json_decode($note); 
+		$json = json_decode($note, true); 
 		return new $this($json);
 	}
 

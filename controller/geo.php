@@ -1,7 +1,7 @@
 <?
 class controller_geo extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('Geocode');
+		$this->root_path = route::get('Geocode');
 		# auth::only(['geocode']); # TODO: maybe restrict this
 		parent::__construct($o);
    	}

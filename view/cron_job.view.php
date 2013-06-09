@@ -30,7 +30,7 @@
 		<? if ($mode != 'edit'): ?>
 			<li>
 				<?= html::a([
-					'href' => "{$root_path}/edit/{$cron->id}", 
+					'href' => route::get('Cron Edit', [ 'id' => $cron->id ]), 
 					'text' => "Edit",
 					'icon' => 'edit',
 				]) ?>
@@ -38,7 +38,7 @@
 		<? endif ?>
 		<li>
 			<?= html::a([
-				'href' => "{$root_path}/delete/{$cron->id}", 
+				'href' => route::get('Cron Delete', [ 'id' => $cron->id ]), 
 				'text' => "Delete",
 				'icon' => 'trash',
 			]) ?>

@@ -4,12 +4,12 @@
 
 		<? if ($product_type): ?>
 			<small>
-				(<?= html::a(app::get_path('Product Type Home') ."/edit/{$product_type->id}", $product_type) ?>)
+				(<?= html::a(route::get('Product Type Edit', ['id' => $product_type->id]), $product_type) ?>)
 			</small>
 		<? endif ?>
 
 		<? if ($product_category): ?>
-			<a href="<?= app::get_path('Product Category Home') ."/edit/{$product_category->id}" ?>"
+			<a href="<?= route::get('Product Category Edit', ['id' => $product_category->id]) ?>"
 				class="label pull-right product-category-<?= take($product_category, 'slug') ?>">
 				<?= $product_category ?>
 			</a>
@@ -45,14 +45,14 @@
 			<? if ($mode != 'edit'): ?>
 				<li>
 					<?= html::a([
-						'href' => "{$root_path}/edit/{$product->id}", 
+						'href' => route::get('Product Edit', ['id' => $product->id]),
 						'text' => "Edit",
 						'icon' => 'edit',
 					]) ?>
 				<li>
 			<? endif ?>
 				<?= html::a([
-					'href' => "{$root_path}/delete/{$product->id}", 
+					'href' => route::get('Product Delete', ['id' => $product->id]),
 					'text' => "Delete",
 					'icon' => 'trash',
 				]) ?>

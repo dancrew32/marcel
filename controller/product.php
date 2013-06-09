@@ -1,7 +1,7 @@
 <?
 class controller_product extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('Product Home');
+		$this->root_path = route::get('Product Home');
 		parent::__construct($o);
    	}
  
@@ -52,17 +52,17 @@ class controller_product extends controller_base {
 	function sub_nav() {
 		$this->items = [
 			[
-				'href' => app::get_path('Product Home'),
+				'href' => route::get('Product Home'),
 				'text' => "View All Products",
 				'icon' => 'eye-open',
 			],
 			[
-				'href' => app::get_path('Product Type Home'),
+				'href' => route::get('Product Type Home'),
 				'text' => "View All Product Types",
 				'icon' => 'eye-open',
 			],
 			[
-				'href' => app::get_path('Product Category Home'),
+				'href' => route::get('Product Category Home'),
 				'text' => "View All Product Categories",
 				'icon' => 'eye-open',
 			],
@@ -195,7 +195,7 @@ class controller_product extends controller_base {
 			]);
 		} else {
 			$type_field = new field('custom', [
-				'text' => html::btn(app::get_path('Product Type Home'), 'Add a "Product Type"', 'plus'),
+				'text' => html::btn(route::get('Product Type Home'), 'Add a "Product Type"', 'plus'),
 			]);
 		}
 

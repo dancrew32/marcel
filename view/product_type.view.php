@@ -7,7 +7,7 @@
 		</small>
 		
 		<? if ($product_category): ?>
-			<a href="<?= app::get_path('Product Category Home') ."/edit/{$product_category->id}" ?>" 
+			<a href="<?= route::get('Product Category Home') ."/edit/{$product_category->id}" ?>" 
 				class="label pull-right product-category-<?= take($product_type, 'slug') ?>">
 				<?= $product_type->category ?>
 			</a>
@@ -35,14 +35,14 @@
 		<? if ($mode != 'edit'): ?>
 			<li>
 				<?= html::a([
-					'href' => "{$root_path}/edit/{$product_type->id}", 
+					'href' => route::get('Product Type Edit', ['id' => $product_type->id]),
 					'text' => "Edit",
 					'icon' => 'edit',
 				]) ?>
 			<li>
 		<? endif ?>
 			<?= html::a([
-				'href' => "{$root_path}/delete/{$product_type->id}", 
+				'href' => route::get('Product Type Delete', ['id' => $product_type->id]),
 				'text' => "Delete",
 				'icon' => 'trash',
 			]) ?>

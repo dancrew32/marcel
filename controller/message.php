@@ -1,7 +1,7 @@
 <?
 class controller_message extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('Message Home');
+		$this->root_path = route::get('Message Home');
 		parent::__construct($o);
    	}
 	

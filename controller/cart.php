@@ -4,7 +4,7 @@ class controller_cart extends controller_base {
 	const SHIPPING = 10.00;
 
 	function __construct($o) {
-		$this->root_path = app::get_path('Cart Home');
+		$this->root_path = route::get('Cart Home');
 		auth::only(['cart']);
 		parent::__construct($o);
    	}
@@ -255,7 +255,7 @@ class controller_cart extends controller_base {
 			//$mail->body     = "Thanks for your purchase of X. \${$total} was charged to your {$card->type}!.";
 			//$mail->queue();
 
-			app::redir(app::get_path('Checkout Success'));
+			app::redir(route::get('Checkout Success'));
 
 		} 
 
@@ -334,7 +334,7 @@ class controller_cart extends controller_base {
 			'id'             => 'cart-address',
 			'value'          => take($cart, 'address'),
 			'placeholder'    => 'E.g. "123 Anywhere St., San Francisco, CA 94121"',
-			'data-api'       => app::get_path('Geocode'),
+			'data-api'       => route::get('Geocode'),
 			'data-items'     => 5,
 			'data-minLength' => 20,
 		]);

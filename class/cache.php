@@ -16,6 +16,8 @@ class cache {
 
 	static function get($key, &$found=false, $unserialize=false) {
 		$found = false;
+		if (CACHE_BUST) 
+			return null;
 		$key = md5($key);
 		$mc = self::mc();
 		$data = $mc->get($key);

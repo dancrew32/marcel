@@ -1,7 +1,7 @@
 <?
 class controller_user_verification extends controller_base {
 	function __construct($o) {
-		$this->root_path = app::get_path('User Verification');
+		$this->root_path = route::get('User Verification');
 		parent::__construct($o);
    	}
 
@@ -12,13 +12,13 @@ class controller_user_verification extends controller_base {
 		else 
 			note::set('user_verification:failure', 1);
 
-		app::redir(app::get_path('Home'));
+		app::redir(route::get('Home'));
 	}
 
 	function resend($o) {
-		if (!User::$user) app::redir(app::get_path('Home'));
+		if (!User::$user) app::redir(route::get('Home'));
 
-		$home = app::get_path('Home');
+		$home = route::get('Home');
 
 		# Admin resend
 		$uid_param = take($o['params'], 'id', false);

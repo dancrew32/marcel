@@ -77,8 +77,4 @@ function clsload($class_name) {
 
 # Core
 require_once CLASS_DIR.'/helper.php';
-require_once CONTROLLER_DIR.'/base.php';
-require_once CLASS_DIR.'/app.php';
-require_once CONFIG_DIR.'/api.php'; # API keys
-require_once CONFIG_DIR.'/routes.php'; # Routes
 app::run();

@@ -11,7 +11,7 @@
 		<td class="hidden-phone"><?= $p->id ?></td>
 		<td><?= $p->name ?></td>
 		<td>
-			<?= html::a("{$root_path}/edit/{$p->id}", 'Edit', 'edit');?>
+			<?= html::a(route::get('Product Edit', ['id' => $p->id]), 'Edit', 'edit');?>
 		</td>
 	</tr>
 <? endforeach ?>
