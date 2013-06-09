@@ -3,7 +3,6 @@ require_once(dirname(__FILE__).'/inc.php');
 
 class chat_server extends socket_server {
 	
-	static $pinging = false;
 	static $text_class = [
 		'muted'   => 'muted',
 		'info'    => 'text-info',

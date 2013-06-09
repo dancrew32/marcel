@@ -32,9 +32,9 @@
 * [Scraping](#scraping)
 * [Interactive Prompt](#interactive-prompt-with-phpsh)
 * [Vim Interactivity](#vim-interactivity)
+* [WebSocket Server](#websocket-server)
 
 ### Contents *unstable*
-* [WebSocket Server](#websocket-server)
 * [Profiling](#profiling-with-xhprof)
 * [XDebug](#xdebug)
 
@@ -1026,9 +1026,165 @@ is `,` then `,x` will launch the Marcel Vim buffer.
 
 
 ## WebSocket Server
-Running `php -q script/socket_server.php` will start up a websocket server
-that has access to all of the framework methods. 
-TODO: working on getting User sessions data in the `socket_user` constructor.
+You may create [scripts](#scripts) that run a WebSocket server using
+`class/socket_server.php` and `class/socket_user.php`.
+
+### Example Chat Server
+In this example, we'll create a chat server called `script/chat_server.php` where
+`chat_server` will extend `socket_server`. Run it via `./marcel chat` or 
+`php script/chat_server.php`.
+
+```php
+<?
+require_once(dirname(__FILE__).'/inc.php');
+
+class chat_server extends socket_server {
+
+	protected $maxBufferSize = size::ONE_MB; # could be anything
+
+	# When a user connects
+	protected function connected($user) {
+		# Match socket_user to actual User
+		$session_id = $user->get_session_id();
+
+		# Apply user to socket user
+		$user->try_set_user($session_id);
+
+		# Trigger our connect event
+		$this->event_connect($user);
+	}
+	
+	# When a user sends a message
+	protected function process($user, $message) {
+		$data = json_decode($message);
+
+		switch ($data->event) {
+			case 'foo::bar':	
+				$this->event_foo_bar($user, $data);
+				break;
+		}
+	}
+
+	# When a user closes their connection
+	protected function closed($user) {
+		# Tell everyone that this user left
+		$this->event_disconnect($user);
+
+		$user->destroy(); # clean up
+
+		# Tell everyone how many users are left
+		$this->event_user_total($user);
+		$data = $this->get_user_total_data($user);
+		$this->send_all(json_encode($data)); # sends message to all users
+	}
+
+
+/*
+ * EVENTS
+ */
+	function event_connect($user) {
+		# $user->user is where we store our model/User.php object
+		$name = $user->user ? $user->user->full_name() : 'Anonymous';
+
+		$data = [
+			'event' => 'foo::bar::response',
+			'text'  => "{$name}: Joined the room.",
+		];
+
+		# Tell everyone this user joined
+		$this->send_all(json_encode($data));
+
+		# Tell only this user who is in the room
+		$data = $this->get_user_total_data($user);
+		$this->send($user, json_encode($data));
+	}
+
+	# Tell everyone when someone disconnects
+	function event_disconnect($user) {
+		$data = [
+			'event' => 'foo::bar::response',
+			'text' => "{$user->full_name()}: Left the room.",
+		];
+
+		$this->send_all(json_encode($data));
+	}
+
+	# Respond to specific event "foo::bar"
+	function event_foo_bar($user, $data) {
+		$text = h(trim(take($data, 'text'))); # sanitize
+
+		if (!isset($text{0})) return false; # don't send blank messages
+
+		$data = [
+			'event' => 'foo::bar::response',
+			'text' => "{$user->full_name()} says: {$text}",
+		];
+
+		$this->send_all(json_encode($data), [
+			'sender' => $user,
+			'sender_message' => json_encode($data),
+		]);
+	}
+
+
+/*
+ * DATA
+ */
+	# Get socket_user count stats
+	function get_user_total_data($user) {
+		$user_count = $this->user_count() - 1;
+
+		if ($user_count) {
+			$user_list = [];
+			foreach ($this->users as $u)
+				$user_list[] = $u->full_name();
+
+			$user_list = util::list_english($user_list);
+
+			$user_suffix = $user_count == 1 ? 'person' : 'people';
+			$text = "Looks like there's {$user_count} {$user_suffix} here ({$user_list}).";
+		} else {
+			$text = "Looks like you're the only one here.";
+		}
+
+		return [
+			'event' => 'foo::bar::response',
+			'text'  => $text,
+		];
+	}
+}
+
+# Connect
+function connect() {
+	# if you were connecting to ws://site.com:7334
+	new chat_server('site.com', '7334'); 
+}
+
+function shutdown() {
+	db::init(); # Handle DB failures gracefully
+	connect();
+}
+register_shutdown_function('shutdown');
+```
+
+I'll leave the JavaScript up to you, but here is a simple
+example:
+
+```javascript
+var ws = new WebSocket('ws://site.com:7334');
+ws.onopen = function() { };
+ws.onclose = function() {};
+ws.onmessage = function(msg) { 
+	var data = $.parseJSON(msg.data)
+
+	switch (data.event) {
+		case 'foo::bar::response':
+			console.log(data.text);
+		break;
+	}
+};
+
+```
 
 ## Profiling with XHProf
 **TODO**: create the interface for running tests
