@@ -10,3 +10,6 @@
 [submodule "vendor/twilio"]
 	path = vendor/twilio
 	url = git@github.com:twilio/twilio-php.git
+[submodule "vendor/mailer"]
+	path = vendor/mailer
+	url = git@github.com:Synchro/PHPMailer.git
