@@ -28,3 +28,6 @@
 [submodule "vendor/faker"]
 	path = vendor/faker
 	url = git@github.com:fzaninotto/Faker.git
+[submodule "vendor/email_templates"]
+	path = vendor/email_templates
+	url = git@github.com:mailchimp/email-blueprints.git
