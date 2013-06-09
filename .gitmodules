@@ -1,3 +1,6 @@
 [submodule "vendor/activerecord"]
 	path = vendor/activerecord
 	url = git@github.com:kla/php-activerecord.git
+[submodule "vendor/password_compat"]
+	path = vendor/password_compat
+	url = git@github.com:ircmaxell/password_compat.git
