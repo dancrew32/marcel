@@ -4,3 +4,6 @@
 [submodule "vendor/password_compat"]
 	path = vendor/password_compat
 	url = git@github.com:ircmaxell/password_compat.git
+[submodule "vendor/mustache"]
+	path = vendor/mustache
+	url = git@github.com:bobthecow/mustache.php.git
