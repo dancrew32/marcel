@@ -1,0 +1,18 @@
+*|MC:SUBJECT|*
+*|IFNOT:ARCHIVE_PAGE|*
+*|ARCHIVE|* 
+*|TWITTER:PROFILEURL|*
+*|FACEBOOK:PROFILEURL|*
+*|FORWARD|*
+*|CURRENT_YEAR|*
+*|LIST:COMPANY|*
+*|HTML:LIST_ADDRESS_HTML|*
+*|LIST:DESCRIPTION|*
+*|UNSUB|*
+*|UPDATE_PROFILE|*
+*|IF:REWARDS|* 
+*|HTML:REWARDS|* 
+*|END:IF|*
+
+template parser.. break out template into stylesheet and view include,
+str_replace vars above ^ and strip out mailchimp images.
