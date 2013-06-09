@@ -19,3 +19,6 @@
 [submodule "vendor/stripe"]
 	path = vendor/stripe
 	url = git@github.com:stripe/stripe-php.git
+[submodule "vendor/yahoo_finance"]
+	path = vendor/yahoo_finance
+	url = git://github.com/aygee/yahoo-finance-api
