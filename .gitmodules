@@ -25,3 +25,6 @@
 [submodule "vendor/facebook"]
 	path = vendor/facebook
 	url = git@github.com:facebook/facebook-php-sdk.git
+[submodule "vendor/faker"]
+	path = vendor/faker
+	url = git@github.com:fzaninotto/Faker.git
