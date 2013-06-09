@@ -22,3 +22,6 @@
 [submodule "vendor/yahoo_finance"]
 	path = vendor/yahoo_finance
 	url = git://github.com/aygee/yahoo-finance-api
+[submodule "vendor/facebook"]
+	path = vendor/facebook
+	url = git@github.com:facebook/php-sdk.git
