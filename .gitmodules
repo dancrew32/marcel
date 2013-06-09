@@ -13,3 +13,6 @@
 [submodule "vendor/mailer"]
 	path = vendor/mailer
 	url = git@github.com:Synchro/PHPMailer.git
+[submodule "vendor/markdown"]
+	path = vendor/markdown
+	url = git@github.com:michelf/php-markdown.git
