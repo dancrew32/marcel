@@ -26,7 +26,7 @@
 						<tr<? echoif(auth::can([$feature->slug]), ' class="success"') ?>>
 							<td>
 								<?= $feature ?>
-								<?= html::a(route::get('Feature Home')."/edit/{$feature->id}", 'Edit', 'edit') ?>
+								<?= html::a(route::get('Feature Edit', ['id' => $feature->id]), 'Edit', 'edit') ?>
 							</td>
 							<? foreach ($user_types as $user_type): ?>
 								<td class="text-center">

@@ -27,7 +27,7 @@ Email_Thread::create($mail_data);
 
 //print_r($mp->parts());
 
-$domain     = 'l.danmasq.com';
+$domain     = preg_replace('#\/\/#', '', BASE_URL);
 $to_address = $thread ? $thread->from : 'dancrew32@gmail.com';
 $to_name    = $thread ? $thread->from_name : 'Dan Masquelier';
 

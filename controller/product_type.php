@@ -54,7 +54,7 @@ class controller_product_type extends controller_base {
 		}
 
 		$this->product_type->to_note();
-		app::redir("{$this->root_path}/edit/{$this->product_type->id}");
+		app::redir(route::get('Product Type Edit', ['id' => $this->product_type->id]));
 	}	
 
 	function delete($o) {
@@ -78,7 +78,7 @@ class controller_product_type extends controller_base {
 		$product_type = $product_type->from_note();
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/add", 'post', [
+		$this->form->open(route::get('Product Type Add'), 'post', [
 			'class' => 'last',
 		]);
 		$this->_build_form($product_type);
@@ -94,7 +94,7 @@ class controller_product_type extends controller_base {
 		if (!$product_type) app::redir($this->root_path);
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/edit/{$product_type->id}", 'post', [
+		$this->form->open(route::get('Product Type Edit', ['id' => $product_type->id]), 'post', [
 			'class' => 'last',
 		]);
 		$this->_build_form($product_type);

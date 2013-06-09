@@ -30,9 +30,9 @@ route::$routes = [
 # Workers
 route::$routes += [
 	"/workers/reset/". route::ID 
-		=> [ 'c' => 'worker', 'm' => 'reset', 'section' => 'Worker' ],
+		=> [ 'c' => 'worker', 'm' => 'reset', 'name' => 'Worker Reset', 'section' => 'Worker' ],
 	"/workers/delete/". route::ID 
-		=> [ 'c' => 'worker', 'm' => 'delete', 'section' => 'Worker' ],
+		=> [ 'c' => 'worker', 'm' => 'delete', 'name' => 'Worker Delete', 'section' => 'Worker' ],
 	'/workers(?:/*)(?P<filter>([a-z]*))' 
 		=> [ 'c' => 'worker', 'm' => 'all', 'name' => 'Worker Home', 'section' => 'Worker' ],
 ];

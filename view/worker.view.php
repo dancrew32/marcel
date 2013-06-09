@@ -41,14 +41,14 @@
 	<ul class="nav nav-pills last">
 		<li>
 			<?= html::a([
-				'href' => "{$root_path}/reset/{$worker->id}", 
+				'href' => route::get('Worker Reset', ['id' => $worker->id]), 
 				'text' => "Reset",
 				'icon' => 'refresh',
 			]) ?>
 		</li>
 		<li>
 			<?= html::a([
-				'href' => "{$root_path}/delete/{$worker->id}", 
+				'href' => route::get('Worker Delete', ['id' => $worker->id]), 
 				'text' => "Delete",
 				'icon' => 'trash',
 			]) ?>

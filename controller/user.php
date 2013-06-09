@@ -81,7 +81,7 @@ class controller_user extends controller_base {
 		}
 
 		$this->user->to_note();
-		app::redir("{$this->root_path}/edit/{$this->user->id}");
+		app::redir(route::get('User Edit', ['id' => $this->user->id]));
 	}
 
 	function delete($o) {
@@ -112,7 +112,7 @@ class controller_user extends controller_base {
 		$user = $user->from_note();
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/add", 'post', [
+		$this->form->open(route::get('User Add'), 'post', [
 			'class' => 'last',
 			'id'    => 'user-add',
 		]);
@@ -128,7 +128,7 @@ class controller_user extends controller_base {
 		if (!$user) app::redir($this->root_path);
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/edit/{$user->id}", 'post', [
+		$this->form->open(route::get('User Edit', ['id' => $user->id]), 'post', [
 			'class' => 'last', 
 		]);
 		$this->_build_form($user);

@@ -7,7 +7,7 @@
 		</small>
 		
 		<? if ($product_category): ?>
-			<a href="<?= route::get('Product Category Home') ."/edit/{$product_category->id}" ?>" 
+			<a href="<?= route::get('Product Category Edit', ['id' => $product_category->id]) ?>" 
 				class="label pull-right product-category-<?= take($product_type, 'slug') ?>">
 				<?= $product_type->category ?>
 			</a>
@@ -22,7 +22,7 @@
 		<? foreach ($products as $product): ?>
 			<li>
 				<?= html::a([
-					'href'  => app::get_path('Product Home') ."/edit/{$product->id}", 
+					'href'  => route::get('Product Edit', ['id' => $product->id]), 
 					'text'  => $product, 
 					'icon'  => 'gift', 
 					'class' => $product->active ? '' : 'muted',

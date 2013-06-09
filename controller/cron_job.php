@@ -68,7 +68,7 @@ class controller_cron_job extends controller_base {
 		}
 
 		$this->cron->to_note();
-		app::redir("{$this->root_path}/edit/{$this->cron->id}");
+		app::redir(route::get('Cron Edit', ['id' => $this->cron->id]));
 	}
 
 	function delete($o) {
@@ -99,7 +99,7 @@ class controller_cron_job extends controller_base {
 		$cron = $cron->from_note();
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/add#cron-add", 'post', [
+		$this->form->open(route::get('Cron Add'), 'post', [
 			'class' => 'last',
 			'id'    => 'cron-add',
 		]);
@@ -115,7 +115,7 @@ class controller_cron_job extends controller_base {
 		if (!$cron) app::redir($this->root_path);
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/edit/{$cron->id}", 'post', [
+		$this->form->open(route::get('Cron Edit', ['id' => $cron->id]), 'post', [
 			'class' => 'last', 
 		]);
 		$this->_build_form($cron);

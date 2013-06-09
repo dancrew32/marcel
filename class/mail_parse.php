@@ -4,7 +4,7 @@ class mail_parse {
 	# sudo pecl install mailparse
 	# vi /etc/php5/cli/php.ini (add extension=mailparse.so)
 	# http://www.berkes.ca/guides/postfix_virtual.html (Postfix virtual mapping)
-	# vi /etc/aliases # user: "| /usr/bin/php /var/www/host/danmasq.com/l/script/email_incoming.php" 
+	# vi /etc/aliases # user: "| /usr/bin/php /var/www/site/script/email_incoming.php" 
 	# vi /etc/postfix/virtual 
 
 	public $parsed;

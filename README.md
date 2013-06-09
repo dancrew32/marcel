@@ -800,6 +800,16 @@ alias named `site`
 @site.com site
 ```
 
+Then you'll edit `/etc/postfix/main.cf` adding your `site.com` domain to
+the `mydestination` list and adding the new line
+
+```cf
+#...
+mydestination = site.com, localhost
+#...
+virtual_alias_maps = hash:/etc/postfix/virtual
+```
+
 Then setup your new `/etc/aliases` alias of `site` and pipe the output
 to a script in Marcel. In this example, we route incoming
 emails to our `script/email_incoming.php`

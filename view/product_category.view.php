@@ -12,21 +12,21 @@
 	</h4>
 
 	<p>
-		<?= html::btn(app::get_path('Product Type Home'), 'Add Some Types', 'plus') ?>
+		<?= html::btn(route::get('Product Type Home'), 'Add Some Types', 'plus') ?>
 	</p>
 
 	<? if ($type_count): ?>
 		<ul class="nav nav-pills">
 			<? foreach ($types as $type): ?>
 				<li>
-					<?= html::a(app::get_path('Product Type Home') ."/edit/{$type->id}", $type, 'tag') ?>
+					<?= html::a(route::get('Product Type Edit', ['id' => $type->id]), $type, 'tag') ?>
 				</li>
 			<? endforeach ?>
 		</ul>
 	<? else: ?>
 		<p class="text-warning">
 			This category has no types and is safe to 
-			<?= html::a("{$root_path}/delete/{$product_category->id}", 'delete') ?>.
+			<?= html::a(route::get('Product Category Delete', ['id' => $product_category->id]), 'delete') ?>.
 		</p>
 	<? endif ?>
 
@@ -34,14 +34,14 @@
 		<? if ($mode != 'edit'): ?>
 			<li>
 				<?= html::a([
-					'href' => "{$root_path}/edit/{$product_category->id}", 
+					'href' => route::get('Product Category Edit', ['id' => $product_category->id]), 
 					'text' => "Edit",
 					'icon' => 'edit',
 				]) ?>
 			<li>
 		<? endif ?>
 			<?= html::a([
-				'href' => "{$root_path}/delete/{$product_category->id}", 
+				'href' => route::get('Product Category Delete', ['id' => $product_category->id]), 
 				'text' => "Delete",
 				'icon' => 'trash',
 			]) ?>

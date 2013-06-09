@@ -1,10 +1,7 @@
 <?
-/*
- * Helpers for database stuff
- */
 class db {
 	static function init() {
-		require_once VENDOR_DIR.'/activerecord-dev/ActiveRecord.php';
+		require_once VENDOR_DIR.'/activerecord/ActiveRecord.php';
 		ActiveRecord\Config::initialize(function($cfg) {
 			$cfg->set_model_directory(MODEL_DIR);
 			$cfg->set_connections([

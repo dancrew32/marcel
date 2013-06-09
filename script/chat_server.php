@@ -141,10 +141,10 @@ class chat_server extends socket_server {
 
 }
 
-$echo = new chat_server('173.255.209.99', '7334');
+$echo = new chat_server(preg_replace('#\/\/#', '', BASE_URL), '7334');
 function shutdown() {
 	db::init();
-	$echo = new chat_server('173.255.209.99', '7334');
+	$echo = new chat_server(preg_replace('#\/\/#', '', BASE_URL), '7334');
 }
 register_shutdown_function('shutdown');
 

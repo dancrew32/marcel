@@ -97,7 +97,7 @@ class controller_product extends controller_base {
 		}
 
 		$this->product->to_note();
-		app::redir("{$this->root_path}/edit/{$this->product->id}");
+		app::redir(route::get('Product Edit', ['id' => $this->product->id]));
 	}	
 
 	function delete($o) {
@@ -122,7 +122,7 @@ class controller_product extends controller_base {
 		$product = $product->from_note();
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/add", 'post', [
+		$this->form->open(route::get('Product Add'), 'post', [
 			'class' => 'last',
 		]);
 		$this->_build_form($product);
@@ -138,7 +138,7 @@ class controller_product extends controller_base {
 		if (!$product) app::redir($this->root_path);
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/edit/{$product->id}", 'post', [
+		$this->form->open(route::get('Product Edit', ['id' => $product->id]), 'post', [
 			'class' => 'last',
 		]);
 		$this->_build_form($product);

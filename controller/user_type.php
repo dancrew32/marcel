@@ -55,7 +55,7 @@ class controller_user_type extends controller_base {
 		}
 
 		$this->user_type->to_note();
-		app::redir("{$this->root_path}/edit/{$this->user_type->id}");
+		app::redir(route::get('User Type Edit', ['id' => $this->user_type->id]));
 	}	
 
 	function delete($o) {
@@ -79,7 +79,7 @@ class controller_user_type extends controller_base {
 		$user_type = $user_type->from_note();
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/add", 'post', [
+		$this->form->open(route::get('User Type Add'), 'post', [
 			'class' => 'last',
 		]);
 		$this->_build_form($user_type);
@@ -95,7 +95,7 @@ class controller_user_type extends controller_base {
 		if (!$user_type) app::redir($this->root_path);
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/edit/{$user_type->id}", 'post', [
+		$this->form->open(route::get('User Type Edit', ['id' => $user_type->id]), 'post', [
 			'class' => 'last',
 		]);
 		$this->_build_form($user_type);

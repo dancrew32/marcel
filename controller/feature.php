@@ -72,7 +72,7 @@ class controller_feature extends controller_base {
 		}
 
 		$this->feature->to_note();
-		app::redir("{$this->root_path}/edit/{$this->feature->id}");
+		app::redir(route::get('Feature Edit', ['id' => $this->feature->id]));
 	}	
 
 	function delete($o) {
@@ -96,7 +96,7 @@ class controller_feature extends controller_base {
 		$feature = $feature->from_note();
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/add", 'post', [
+		$this->form->open(route::get('Feature Add'), 'post', [
 			'class' => 'last',
 		]);
 		$this->_build_form($feature);
@@ -112,7 +112,7 @@ class controller_feature extends controller_base {
 		if (!$feature) app::redir($this->root_path);
 
 		$this->form = new form;
-		$this->form->open("{$this->root_path}/edit/{$feature->id}", 'post', [
+		$this->form->open(route::get('Feature Edit', [ 'id' => $feature->id ]), 'post', [
 			'class' => 'last',
 		]);
 		$this->_build_form($feature);

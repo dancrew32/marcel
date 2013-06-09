@@ -13,10 +13,12 @@ if ($crud == 'y') {
 	$model_lower = strtolower($model);
 }
 
+$english_name = ucfirst(preg_replace("/[^a-zA-Z]+/", "", preg_replace("/_/", ' ', $name)));
+
 $boilerplate = "<?
 class controller_{$name} extends controller_base {
 	function __construct(\$o) {
-		\$this->root_path = route::get('". ucfirst(preg_replace("/[^a-zA-Z]+/", "", $name)) ." Home');
+		\$this->root_path = route::get('{$english_name} Home');
 		# auth::only(['{$name}']);
 		parent::__construct(\$o);
    	}
@@ -92,7 +94,7 @@ $boilerplate .= "
 		}
 
 		\$this->{$model_lower}->to_note();
-		app::redir(\"{\$this->root_path}/edit/{\$this->{$model_lower}->id}\");
+		app::redir(route::get('{$english_name} Edit', ['id' => \$this->{$model_lower}->id]));
 	}	
 
 	function delete(\$o) {
@@ -116,7 +118,7 @@ $boilerplate .= "
 		\${$model_lower} = \${$model_lower}->from_note();
 
 		\$this->form = new form;
-		\$this->form->open(\"{\$this->root_path}/add\", 'post', [
+		\$this->form->open(route::get('{$english_name} Add'), 'post', [
 			'class' => 'last',
 		]);
 		\$this->_build_form(\${$model_lower});
@@ -132,7 +134,7 @@ $boilerplate .= "
 		if (!\${$model_lower}) app::redir(\$this->root_path);
 
 		\$this->form = new form;
-		\$this->form->open(\"{\$this->root_path}/edit/{\${$model_lower}->id}\", 'post', [
+		\$this->form->open(route::get('{$english_name} Edit', ['id' => \${$model_lower}->id])\", 'post', [
 			'class' => 'last',
 		]);
 		\$this->_build_form(\${$model_lower});

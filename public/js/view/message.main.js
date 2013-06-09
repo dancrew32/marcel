@@ -24,7 +24,7 @@
 	};
 
 	function websocketInit(event) {
-		NS.TEMPLATE.chatMessage = $('#message-message').html();
+		NS.TEMPLATE.chatMessage = Hogan.compile($('#message-message').html());
 		NS.SOCKETS.main.onmessage = onMessage;
 		EL.chatForm.on('submit', chatSubmit);
 		EL.chatForm.find('input:first').focus();
@@ -76,7 +76,7 @@
 	}
 
 	function handleChat(event, data) {
-		var html = Mustache.to_html(NS.TEMPLATE.chatMessage, {
+		var html = NS.TEMPLATE.chatMessage.render({
 			message: data.text,
 			cls: data.cls
 		});
