@@ -14,5 +14,7 @@
 		<? pp($k.' &middot; '.implode(', ', (array)$v)) ?>
 	<? endforeach ?>
 <? endif ?>
+<? if (isset($route_cache)): ?>
 <h3>Lookups <code>route::get</code></h3>
-<? pp(route::$get_cache) ?>
+<? pp($route_cache) ?>
+<? endif ?>

@@ -35,22 +35,22 @@ class controller_product_type extends controller_base {
 		$product_type = Product_Type::create($_POST);
 		if ($product_type) {
 			note::set('product_type:add', $product_type->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$product_type->to_note();
-		app::redir($this->root_path);
+		$this->redir();
 	}	
 
 	function edit($o) {
 		$this->product_type = Product_Type::find_by_id(take($o['params'], 'id'));
-		if (!$this->product_type) app::redir($this->root_path);
+		if (!$this->product_type) $this->redir();
 		if (!POST) return;
 
 		$ok = $this->product_type->update_attributes($_POST);
 		if ($ok) {
 			note::set('product_type:edit', $this->product_type->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$this->product_type->to_note();
@@ -59,14 +59,14 @@ class controller_product_type extends controller_base {
 
 	function delete($o) {
 		$id = take($o['params'], 'id');
-		if (!$id) app::redir($this->root_path);
+		if (!$id) $this->redir();
 
 		$product_type = Product_Type::find_by_id($id);
-		if (!$product_type) app::redir($this->root_path);
+		if (!$product_type) $this->redir();
 
 		$product_type->delete();
 		note::set('product_type:delete', $product_type->id);
-		app::redir($this->root_path);
+		$this->redir();
 	}	
 
 /*
@@ -91,7 +91,7 @@ class controller_product_type extends controller_base {
 	function edit_form($o) {
 		$product_type = take($o, 'product_type');
 		$product_type = $product_type->from_note();
-		if (!$product_type) app::redir($this->root_path);
+		if (!$product_type) $this->redir();
 
 		$this->form = new form;
 		$this->form->open(route::get('Product Type Edit', ['id' => $product_type->id]), 'post', [

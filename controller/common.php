@@ -86,6 +86,7 @@ class controller_common extends controller_base {
 		$this->runtime = (round(microtime(true) - START_TIME, 4)).'s';
 		//$this->memcache_stats = cache::mc()->getStats();
 		//$this->queries = $GLOBALS['DEBUG_QUERIES'];
+		//$this->route_cache = route::$get_cache;
 	}
 
 	function pager($o) {

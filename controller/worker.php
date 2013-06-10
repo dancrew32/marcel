@@ -35,6 +35,27 @@ class controller_worker extends controller_base {
 		]);
 	}
 
+	function nav_filter($o) {
+		$this->filter = take($o, 'filter', 'All');
+		$this->links = [
+			'All' => [
+				'href' => route::get('Worker Home'),
+				'text' => "All",
+				'icon' => 'eye-open',
+			],
+			'Active' => [
+				'href' => route::get('Worker Home', ['filter' => 'active']),
+				'text' => "Active",
+				'icon' => 'ok-circle',
+			],
+			'Scheduled' => [
+				'href' => route::get('Worker Home', ['filter' => 'scheduled']),
+				'text' => "Scheduled",
+				'icon' => 'calendar',
+			],
+		];
+	}
+
 	function view($o) {
 		$this->worker = take($o, 'worker');
 		$this->filter = take($o, 'filter');
@@ -42,26 +63,26 @@ class controller_worker extends controller_base {
 
 	function reset($o) {
 		$id = take($o['params'], 'id');
-		if (!$id) app::redir($this->root_path);
+		if (!$id) $this->redir();
 
 		$worker = Worker::find_by_id($id);
-		if (!$worker) app::redir($this->root_path);
+		if (!$worker) $this->redir();
 		$worker->active = 0;
 		$worker->save();
 
 		note::set('worker:reset', $worker->id);
-		app::redir($this->root_path);
+		$this->redir();
 	}
 
 	function delete($o) {
 		$id = take($o['params'], 'id');
-		if (!$id) app::redir($this->root_path);
+		if (!$id) $this->redir();
 
 		$worker = Worker::find_by_id($id);
-		if (!$worker) app::redir($this->root_path);
+		if (!$worker) $this->redir();
 		$worker->delete();
 
 		note::set('worker:delete', $worker->id);
-		app::redir($this->root_path);
+		$this->redir();
 	}
 }

@@ -46,16 +46,16 @@ class controller_cron_job extends controller_base {
 		$cron = Cron_Job::create($_POST);
 		if ($cron) {
 			note::set('cron_job:add', $cron->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$cron->to_note();
-		app::redir($this->root_path);
+		$this->redir();
 	}
 
 	function edit($o) {
 		$this->cron = Cron_Job::find_by_id(take($o['params'], 'id'));
-		if (!$this->cron) app::redir($this->root_path);
+		if (!$this->cron) $this->redir();
 		if (!POST) return;
 
 		# handle booleans
@@ -64,7 +64,7 @@ class controller_cron_job extends controller_base {
 		$ok = $this->cron->update_attributes($_POST);
 		if ($ok) {
 			note::set('cron_job:edit', $this->cron->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$this->cron->to_note();
@@ -73,14 +73,14 @@ class controller_cron_job extends controller_base {
 
 	function delete($o) {
 		$id = take($o['params'], 'id');
-		if (!$id) app::redir($this->root_path);
+		if (!$id) $this->redir();
 
 		$cron = Cron_Job::find_by_id($id);
-		if (!$cron) app::redir($this->root_path);
+		if (!$cron) $this->redir();
 
 		$cron->delete();
 		note::set('cron_job:delete', $cron->id);
-		app::redir($this->root_path);
+		$this->redir();
 	}
 
 	function scripts() {
@@ -112,7 +112,7 @@ class controller_cron_job extends controller_base {
 	function edit_form($o) {
 		$cron = take($o, 'cron');
 		$cron = $cron->from_note();
-		if (!$cron) app::redir($this->root_path);
+		if (!$cron) $this->redir();
 
 		$this->form = new form;
 		$this->form->open(route::get('Cron Edit', ['id' => $cron->id]), 'post', [

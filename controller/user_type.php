@@ -36,38 +36,38 @@ class controller_user_type extends controller_base {
 		$user_type = User_Type::create($_POST);
 		if ($user_type) {
 			note::set('user_type:add', $user_type->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$user_type->to_note();
-		app::redir($this->root_path);
+		$this->redir();
 	}	
 
 	function edit($o) {
 		$this->user_type = User_Type::find_by_id(take($o['params'], 'id'));
-		if (!$this->user_type) app::redir($this->root_path);
+		if (!$this->user_type) $this->redir();
 		if (!POST) return;
 
 		$ok = $this->user_type->update_attributes($_POST);
 		if ($ok) {
 			note::set('user_type:edit', $this->user_type->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$this->user_type->to_note();
-		app::redir(route::get('User Type Edit', ['id' => $this->user_type->id]));
+		$this->redir();
 	}	
 
 	function delete($o) {
 		$id = take($o['params'], 'id');
-		if (!$id) app::redir($this->root_path);
+		if (!$id) $this->redir();
 
 		$user_type = User_Type::find_by_id($id);
-		if (!$user_type) app::redir($this->root_path);
+		if (!$user_type) $this->redir();
 
 		$user_type->delete();
 		note::set('user_type:delete', $user_type->id);
-		app::redir($this->root_path);
+		$this->redir();
 	}	
 
 /*
@@ -92,7 +92,7 @@ class controller_user_type extends controller_base {
 	function edit_form($o) {
 		$user_type = take($o, 'user_type');
 		$user_type = $user_type->from_note();
-		if (!$user_type) app::redir($this->root_path);
+		if (!$user_type) $this->redir();
 
 		$this->form = new form;
 		$this->form->open(route::get('User Type Edit', ['id' => $user_type->id]), 'post', [

@@ -55,22 +55,22 @@ class controller_product_category extends controller_base {
 		$product_category = Product_Category::create($_POST);
 		if ($product_category) {
 			note::set('product_category:add', $product_category->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$product_category->to_note();
-		app::redir($this->root_path);
+		$this->redir();
 	}	
 
 	function edit($o) {
 		$this->product_category = Product_Category::find_by_id(take($o['params'], 'id'));
-		if (!$this->product_category) app::redir($this->root_path);
+		if (!$this->product_category) $this->redir();
 		if (!POST) return;
 
 		$ok = $this->product_category->update_attributes($_POST);
 		if ($ok) {
 			note::set('product_category:edit', $this->product_category->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$this->product_category->to_note();
@@ -79,14 +79,14 @@ class controller_product_category extends controller_base {
 
 	function delete($o) {
 		$id = take($o['params'], 'id');
-		if (!$id) app::redir($this->root_path);
+		if (!$id) $this->redir();
 
 		$product_category = Product_Category::find_by_id($id);
-		if (!$product_category) app::redir($this->root_path);
+		if (!$product_category) $this->redir();
 
 		$product_category->delete();
 		note::set('product_category:delete', $product_category->id);
-		app::redir($this->root_path);
+		$this->redir();
 	}	
 
 /*
@@ -111,7 +111,7 @@ class controller_product_category extends controller_base {
 	function edit_form($o) {
 		$product_category = take($o, 'product_category');
 		$product_category = $product_category->from_note();
-		if (!$product_category) app::redir($this->root_path);
+		if (!$product_category) $this->redir();
 
 		$this->form = new form;
 		$this->form->open(route::get('Product Category Edit', ['id'=> $product_category->id]), 'post', [

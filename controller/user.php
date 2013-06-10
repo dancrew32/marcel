@@ -54,16 +54,16 @@ class controller_user extends controller_base {
 		$user = User::create($_POST);
 		if ($user) {
 			note::set('user:add', $user->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$user->to_note();
-		app::redir($this->root_path);
+		$this->redir();
 	}
 
 	function edit($o) {
 		$this->user = User::find_by_id(take($o['params'], 'id'));
-		if (!$this->user) app::redir($this->root_path);
+		if (!$this->user) $this->redir();
 		if (!POST) return;
 
 		# Don't change password if it's blank
@@ -77,7 +77,7 @@ class controller_user extends controller_base {
 		$ok = $this->user->update_attributes($_POST);
 		if ($ok) {
 			note::set('user:edit', $this->user->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$this->user->to_note();
@@ -86,14 +86,14 @@ class controller_user extends controller_base {
 
 	function delete($o) {
 		$id = take($o['params'], 'id');
-		if (!$id) app::redir($this->root_path);
+		if (!$id) $this->redir();
 
 		$user = User::find_by_id($id);
-		if (!$user) app::redir($this->root_path);
+		if (!$user) $this->redir();
 
 		$user->delete();
 		note::set('user:delete', $user->id);
-		app::redir($this->root_path);
+		$this->redir();
 	}
 
 /*
@@ -125,7 +125,7 @@ class controller_user extends controller_base {
 	function edit_form($o) {
 		$user = take($o, 'user');
 		$user = $user->from_note();
-		if (!$user) app::redir($this->root_path);
+		if (!$user) $this->redir();
 
 		$this->form = new form;
 		$this->form->open(route::get('User Edit', ['id' => $user->id]), 'post', [

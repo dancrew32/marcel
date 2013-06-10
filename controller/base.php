@@ -5,4 +5,7 @@ class controller_base {
 	function skip() {
 		$this->skip = true;	
 	}
+	function redir($url=null) {
+		app::redir($url ? $url : $this->root_path);
+	}
 }

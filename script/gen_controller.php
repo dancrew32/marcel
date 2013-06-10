@@ -72,16 +72,16 @@ $boilerplate .= "
 		\${$model_lower} = {$model}::create(\$_POST);
 		if (\${$model_lower}) {
 			note::set('{$model_lower}:add', \${$model_lower}->id);
-			app::redir(\$this->root_path);
+			\$this->redir();
 		}
 
 		\${$model_lower}->to_note();
-		app::redir(\$this->root_path);
+		\$this->redir();
 	}	
 
 	function edit(\$o) {
 		\$this->{$model_lower} = {$model}::find_by_id(take(\$o['params'], 'id'));
-		if (!\$this->{$model_lower}) app::redir(\$this->root_path);
+		if (!\$this->{$model_lower}) \$this->redir();
 		if (!POST) return;
 
 		# handle booleans
@@ -90,7 +90,7 @@ $boilerplate .= "
 		\$ok = \$this->{$model_lower}->update_attributes(\$_POST);
 		if (\$ok) {
 			note::set('{$model_lower}:edit', \$this->{$model_lower}->id);
-			app::redir(\$this->root_path);
+			\$this->redir();
 		}
 
 		\$this->{$model_lower}->to_note();
@@ -99,14 +99,14 @@ $boilerplate .= "
 
 	function delete(\$o) {
 		\$id = take(\$o['params'], 'id');
-		if (!\$id) app::redir(\$this->root_path);
+		if (!\$id) \$this->redir();
 
 		\${$model_lower} = {$model}::find_by_id(\$id);
-		if (!\${$model_lower}) app::redir(\$this->root_path);
+		if (!\${$model_lower}) \$this->redir();
 
 		\${$model_lower}->delete();
 		note::set('{$model_lower}:delete', \${$model_lower}->id);
-		app::redir(\$this->root_path);
+		\$this->redir();
 	}	
 
 /*
@@ -131,7 +131,7 @@ $boilerplate .= "
 	function edit_form(\$o) {
 		\${$model_lower} = take(\$o, '{$model_lower}');
 		\${$model_lower} = \${$model_lower}->from_note();
-		if (!\${$model_lower}) app::redir(\$this->root_path);
+		if (!\${$model_lower}) \$this->redir();
 
 		\$this->form = new form;
 		\$this->form->open(route::get('{$english_name} Edit', ['id' => \${$model_lower}->id])\", 'post', [

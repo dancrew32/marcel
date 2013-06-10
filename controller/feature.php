@@ -53,22 +53,22 @@ class controller_feature extends controller_base {
 		$feature = Feature::create($_POST);
 		if ($feature) {
 			note::set('feature:add', $feature->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$feature->to_note();
-		app::redir($this->root_path);
+		$this->redir();
 	}	
 
 	function edit($o) {
 		$this->feature = Feature::find_by_id(take($o['params'], 'id'));
-		if (!$this->feature) app::redir($this->root_path);
+		if (!$this->feature) $this->redir();
 		if (!POST) return;
 
 		$ok = $this->feature->update_attributes($_POST);
 		if ($ok) {
 			note::set('feature:edit', $this->feature->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$this->feature->to_note();
@@ -77,14 +77,14 @@ class controller_feature extends controller_base {
 
 	function delete($o) {
 		$id = take($o['params'], 'id');
-		if (!$id) app::redir($this->root_path);
+		if (!$id) $this->redir();
 
 		$feature = Feature::find_by_id($id);
-		if (!$feature) app::redir($this->root_path);
+		if (!$feature) $this->redir();
 
 		$feature->delete();
 		note::set('feature:delete', $feature->id);
-		app::redir($this->root_path);
+		$this->redir();
 	}	
 
 /*
@@ -109,7 +109,7 @@ class controller_feature extends controller_base {
 	function edit_form($o) {
 		$feature = take($o, 'feature');
 		$feature = $feature->from_note();
-		if (!$feature) app::redir($this->root_path);
+		if (!$feature) $this->redir();
 
 		$this->form = new form;
 		$this->form->open(route::get('Feature Edit', [ 'id' => $feature->id ]), 'post', [

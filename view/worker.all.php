@@ -25,27 +25,7 @@
 			Filter Workers
 		</h2>
 		<ul class="nav nav-tabs nav-stacked">
-			<li<? echoif($filter == 'All', ' class="active"') ?>>
-				<?= html::a([
-					'href' => "{$root_path}",
-					'text' => "All",
-					'icon' => 'eye-open',
-				]) ?>
-			</li>
-			<li<? echoif($filter == 'Active', ' class="active"') ?>>
-				<?= html::a([
-					'href' => "{$root_path}/active",
-					'text' => "Active",
-					'icon' => 'ok-circle',
-				]) ?>
-			</li>
-			<li<? echoif($filter == 'Scheduled', ' class="active"') ?>>
-				<?= html::a([
-					'href' => "{$root_path}/scheduled",
-					'text' => "Scheduled",
-					'icon' => 'calendar',
-				]) ?>
-			</li>
+			<?= r('worker', 'nav_filter', ['filter' => $filter]) ?>
 		</ul>
 	</div>
 

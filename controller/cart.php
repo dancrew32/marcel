@@ -82,7 +82,7 @@ class controller_cart extends controller_base {
 			json(['success' => $saved]);		
 
 		note::set(Cart::MAIN.':add', $product->id);
-		app::redir($this->root_path);
+		$this->redir();
 	}
 
 
@@ -109,7 +109,7 @@ class controller_cart extends controller_base {
 			json(['success' => $saved]);
 
 		note::set(Cart::MAIN.':remove', $cart->id);
-		app::redir($this->root_path);
+		$this->redir();
 	}
 
 	function success() {
@@ -169,11 +169,11 @@ class controller_cart extends controller_base {
 
 		pd(get_defined_vars());
 		if (!$email || !$address || !$stripe_token)
-			app::redir($this->root_path);
+			$this->redir();
 
 		$cart = Cart::get_type(Cart::MAIN);
 		if (!$cart || $cart->complete)
-			app::redir($this->root_path);
+			$this->redir();
 
 		$items = $cart->get_items();
 		$this->items = [];

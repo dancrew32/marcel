@@ -74,17 +74,17 @@ class controller_product extends controller_base {
 		$product = Product::create($_POST);
 		if ($product) {
 			note::set('product:add', $product->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$product->to_note();
-		app::redir($this->root_path);
+		$this->redir();
 	}	
 
 	function edit($o) {
 		auth::only(['product']);
 		$this->product = Product::find_by_id(take($o['params'], 'id'));
-		if (!$this->product) app::redir($this->root_path);
+		if (!$this->product) $this->redir();
 		if (!POST) return;
 
 		# handle booleans
@@ -93,7 +93,7 @@ class controller_product extends controller_base {
 		$ok = $this->product->update_attributes($_POST);
 		if ($ok) {
 			note::set('product:edit', $this->product->id);
-			app::redir($this->root_path);
+			$this->redir();
 		}
 
 		$this->product->to_note();
@@ -103,14 +103,14 @@ class controller_product extends controller_base {
 	function delete($o) {
 		auth::only(['product']);
 		$id = take($o['params'], 'id');
-		if (!$id) app::redir($this->root_path);
+		if (!$id) $this->redir();
 
 		$product = Product::find_by_id($id);
-		if (!$product) app::redir($this->root_path);
+		if (!$product) $this->redir();
 
 		$product->delete();
 		note::set('product:delete', $product->id);
-		app::redir($this->root_path);
+		$this->redir();
 	}	
 
 /*
@@ -135,7 +135,7 @@ class controller_product extends controller_base {
 	function edit_form($o) {
 		$product = take($o, 'product');
 		$product = $product->from_note();
-		if (!$product) app::redir($this->root_path);
+		if (!$product) $this->redir();
 
 		$this->form = new form;
 		$this->form->open(route::get('Product Edit', ['id' => $product->id]), 'post', [

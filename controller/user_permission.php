@@ -25,7 +25,7 @@ class controller_user_permission extends controller_base {
 			$up->save();
 		}
 
-		app::redir($this->root_path);
+		$this->redir();
 	}
 
 }
