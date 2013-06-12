@@ -1,7 +1,7 @@
 # Marcel
 **The MVC with Shoes On**
 
-![Marcel](http://i.danmasq.com/marcel.jpg)
+![Marcel](http://i.danmasq.com/marcelmvc.png)
 
 ## Contents *stable*
 * [Requirements](#requirements)
