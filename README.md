@@ -245,27 +245,182 @@ Uses [PHPActiveRecord](http://www.phpactiverecord.org)
 (see [Basic CRUD](http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD) to learn more).
 Get started with a new Model using the `php script/gen_model.php` [Script](#scripts).
 
+### Simple Model Example
 ```php
 <?
-class Thing extends ActiveRecord\Model {
+class Thing extends model {
 	static $table_name = 'things';
 }
 
-# Create
+# Create: http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD#create
 $t = new Thing;
 $t->stuff = "raisin";
 $t->save();
 
-# Read
+# Read: http://www.phpactiverecord.org/projects/main/wiki/Finders
 $b = Thing::find(1);
 echo $b->stuff; # "raisin"
 
-# Update
+# Update: http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD#update
 $b->stuff = "dorito";
 $b->save();
 
-# Destroy
+# Destroy: http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD#update
 $b->delete();
+```
+
+### Complex Model Example
+```php
+<?
+class Stuff extends model {
+	static $table_name = 'stuff';
+
+
+/*
+ * RELATIONSHIPS
+ * Read More: http://www.phpactiverecord.org/projects/main/wiki/Associations
+ */
+	static $has_one = [
+		[ 'type', 'class_name' => 'Stuff_Type' ], # $stuff->type (Stuff_Type object)
+	];
+	static $has_many = [
+		[ 'owners', 'class_name' => 'Owner' ], # $stuff->owners (collection of Owner objects)
+	];
+	static $belongs_to = [
+		[ 'thing', 'class_name' => 'Thing' ], # `thing_id` from `stuff` (Thing object)
+	];
+
+
+/*
+ * VALIDATION
+ * Read More: http://www.phpactiverecord.org/projects/main/wiki/Validations
+ */
+	# Existence
+	static $validates_presence_of = [
+		['name', 
+			'message' => 'must be present!'], # "Name must be present!"
+	];
+
+	# Length
+	static $validates_size_of = [
+		# Exact
+		['field_a', 
+			'is'      => 42, 
+			'message' => 'must be exactly 42 chars'], # "Field_a must be exactly 42 chars"
+
+		# Minimum
+		['field_b', 
+			'minimum'   => 9, 
+			'too_short' => 'must be at least 9 characters long'],
+
+		# Maximum
+		['field_c', 
+			'maximum'  => 20, 
+			'too_long' => 'is too long!'],
+
+		# Min/Max
+		['field_d', 
+			'within'    => [5-10],
+			'too_short' => 'must be longer than 5 (less than 10)',
+			'too_long'  => 'must be less than 10 (greater than 5 though)!'
+		],
+	];
+
+	# Includes
+	static $validates_inclusion_of = [
+		['types', 
+			'in' => ['list', 'of', 'allowed', 'types'], ], # "Allowed is not included in the list"
+	];
+
+	# Exclude
+	static $validates_exclusion_of = [
+		['password', 
+			'in'      => ['list', 'of', 'bad', 'passwords'],
+			'message' => 'is weak'], # "Password is weak"
+	];
+
+	# Numbers
+	static $validates_numericality_of = [
+		['price',    'greater_than' => 0.01], # Things must be > a penny
+		['quantity', 'only_integer' => true], # Prevent ordering 4.199 shoes.
+		['shipping', 'greater_than_or_equal_to' => 0], # No negative shipping
+		['discount', 
+			'less_than_or_equal_to'    => 5, 
+			'greater_than_or_equal_to' => 0],
+	];
+
+	# Unique
+	static $validates_uniqueness_of = [
+		['email', 
+			'message' => 'Sorry that email is taken'],
+	];
+
+	# Regular Expression
+	static $validates_format_of = [
+		['email', 'with' =>
+			'/^[^0-9][A-z0-9_]+([.][A-z0-9_]+)*[@][A-z0-9_]+([.][A-z0-9_]+)*[.][A-z]{2,4}$/'],
+		['password', 'with' =>
+			'/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/', 
+			'message' => 'is too weak'],
+	];
+
+/*
+ * CALLBACKS
+ * Read More: http://www.phpactiverecord.org/projects/main/wiki/Callbacks
+ * all take array of instance method names
+ */
+	static $before_save = ['before_save'];     # called before a model is saved
+	static $before_create = [];                # called before a NEW model is to be inserted into the database
+	static $before_update = [];                # called before an existing model has been saved
+	static $before_validation = [];            # called before running validators
+	static $before_validation_on_create = [];  # called before validation on a NEW model being inserted
+	static $before_validation_on_update = [];  # same as above except for an existing model being saved
+	static $before_destroy = [];               # called after a model has been deleted
+	static $after_save = [];                   # called after a model is saved
+	static $after_create = [];                 # called after a NEW model has been inserted into the database
+	static $after_update = [];                 # called after an existing model has been saved
+	static $after_validation = [];             # called after running validators
+	static $after_validation_on_create = [];   # called after validation on a NEW model being inserted
+	static $after_validation_on_update = [];   # same as above except for an existing model being saved
+	static $after_destroy = ['after_destroy']; # called after a model has been deleted
+
+	function before_save() {
+		$this->saved++; # increment a saved column
+	}
+
+	function after_destroy() {
+		$thing = Thing::find($this->thing_id); # find some related thing
+		$thing->destroy(); # destroy it
+	}
+
+/*
+ * GETTERS
+ * Read More: http://www.phpactiverecord.org/projects/main/wiki/Utilities#attribute-getters
+ * Make sure to use $this->read_attribute($name)
+ */
+	function &__get($name) { # observe pass-by-reference
+		switch ($name) {
+			default:
+				$out = h($this->read_attribute($name));
+		}
+		return $out;
+	}
+
+/*
+ * SETTERS
+ * Read More: http://www.phpactiverecord.org/projects/main/wiki/Utilities#attribute-setters
+ * Make sure to use $this->assign_attribute($name, $value);
+ */
+	function __set($name, $value) {
+		switch ($name) {
+			case 'special_column':
+				$value = preg_replace('/[^0-9]/', '', $value); # strip non-numeric
+				break;
+		}
+		return $this->assign_attribute($name, $value);
+	}
+
+}
 ```
 
 ## Controllers (C)
