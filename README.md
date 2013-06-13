@@ -37,6 +37,7 @@
 ### Contents *unstable*
 * [Profiling](#profiling-with-xhprof)
 * [XDebug](#xdebug)
+* [Linode](#linode)
 
 ### Contents *future*
 * USPS 
@@ -59,6 +60,8 @@
 * Color Manipulation
 * IRC/Jabber
 * Face Detection
+* AWS
+* App Engine
 
 ## Requirements
 * PHP 5.4
@@ -1377,3 +1380,60 @@ make
 sudo cp modules/xdebug.so /usr/lib/php5/20100525
 # zend_extension = /usr/lib/php5/20100525/xdebug.so
 ```
+
+## Linode
+If you want to create manipulate & destroy servers,
+you will enjoy hosting your websites on [Linode](http://www.linode.com/?r=42a13dd06a660e6330f596950ebfaade7f8b2f1d).
+
+[Linode](http://www.linode.com/?r=42a13dd06a660e6330f596950ebfaade7f8b2f1d)'s awesome [API](https://www.linode.com/api/)
+allows you to control your servers, load-balancers, setup-scripts, DNS, and general account data
+all from marcel via `class/linode.php`.
+
+To get started using the Linode API, you must first 
+[obtain your API key](https://manager.linode.com/profile/index#apikey) 
+and add it to `linode` in `/config/api.php`. Then you must run a few
+`pear` installs:
+
+```bash
+sudo pear install Net_URL2-0.3.1
+sudo pear install HTTP_Request2-0.5.2
+sudo pear channel-discover pear.keremdurmus.com
+sudo pear install krmdrms/Services_Linode
+```
+
+Now that the setup is complete, you may call linode api methods
+through `class/linode.php` like so:
+
+```php
+# List of your servers
+$linodes        = linode::_list();
+$linode_options = ['LinodeID' => 11111];
+$linode_configs = linode::config_list($linode_options);
+$linode_disks   = linode::disk_list($linode_options);
+$linode_ips     = linode::ip_list($linode_options);
+$linode_jobs    = linode::job_list($linode_options);
+
+# List of your domains 
+$domains          = linode::domain_list();
+
+# Resources for a specific domain (IP, port, domain name, record type, etc...) 
+$domain_resources = linode::resource_list(['DomainID' => 111111]);
+
+# List of your load balancers (NodeBalancer)
+$balancers        = linode::balance_list();
+$balancer_configs = linode::balance_config_list();
+$balancer_nodes   = linode::balance_node_list();
+
+# List of your configuration scripts (StackScript)
+$scripts = linode::script_list();
+
+# Account Stuff
+$plans       = linode::plans();
+$datacenters = linode::datacenters();
+$distros     = linode::distros();
+$kernels     = linode::kernels();
+$api_key     = linode::api_key(['username' => '...', 'password' => '...']);
+```
+
+There are plenty more things you can do (just see `class/linode.php`) from
+creating/deleteing/booting/rebooting/shutting-down/resizing/cloning etc...

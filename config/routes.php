@@ -138,6 +138,9 @@ route::$routes += [
 	# Routes
 	//'/routes' => [ 'c' => 'common', 'm' => 'routes', 'nodb' => true ],
 
+	# Linode
+	'/linode' => [ 'c' => 'linode', 'm' => 'main', 'name' => 'Linode Home', 'section' => 'Linode' ],
+
 	# Error
 	'/403' => [ 'c' => 'status_code', 'm' => 'forbidden', 'nodb' => true ],
 	'/404' => [ 'c' => 'status_code', 'm' => 'not_found', 'nodb' => true ],

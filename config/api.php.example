@@ -50,4 +50,12 @@ api::$keys = [
 			'phone'  => '',
 		],
 	],
+	'linode' => [ # https://manager.linode.com/profile/index#apikey
+		'DEV' => [
+			'key' => '',
+		],
+		'LIVE' => [
+			'key' => '',
+		],
+	],
 ];

@@ -48,7 +48,7 @@ class mail extends PHPMailer {
 
 	function Queue() {
 		return Worker::add([
-			'class'  => 'mail',
+			'class'  => __CLASS__,
 			'method' => 'process',
 			'args' => [
 				'email' => $this, #serialize email

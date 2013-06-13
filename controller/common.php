@@ -33,6 +33,10 @@ class controller_common extends controller_base {
 				'text' => 'Features', 
 				'path' => 'Feature Home',
 			],
+			'linode' => [
+				'text' => 'Linode', 
+				'path' => 'Linode Home',
+			],
 			'product_category' => [
 				'text' => 'Product Categories', 
 				'path' => 'Product Category Home',
@@ -69,6 +73,7 @@ class controller_common extends controller_base {
 		$this->in_section = route::in_sections([
 			'Cron', 
 			'Feature',
+			'Linode',
 			'Product Type', 
 			'Product Category', 
 			'Shipping', 

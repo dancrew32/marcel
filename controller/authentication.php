@@ -8,7 +8,7 @@ class controller_authentication extends controller_base {
 	function main() {
 		if (User::$logged_in) 
 			app::redir(route::get('Home'));
-		$this->version = app::$path == aproute::get('Join') ? 'join' : 'login';
+		$this->version = route::$path == route::get('Join') ? 'join' : 'login';
    	}
 
 	# no view
