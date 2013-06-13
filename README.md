@@ -265,7 +265,7 @@ echo $b->stuff; # "raisin"
 $b->stuff = "dorito";
 $b->save();
 
-# Destroy: http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD#update
+# Destroy: http://www.phpactiverecord.org/projects/main/wiki/Basic_CRUD#delete
 $b->delete();
 ```
 
@@ -280,14 +280,20 @@ class Stuff extends model {
  * RELATIONSHIPS
  * Read More: http://www.phpactiverecord.org/projects/main/wiki/Associations
  */
+
+	# `thing_id` in `stuff_types` table: $stuff->type (Stuff_Type object)
 	static $has_one = [
-		[ 'type', 'class_name' => 'Stuff_Type' ], # $stuff->type (Stuff_Type object)
+		[ 'type', 'class_name' => 'Stuff_Type' ], 
 	];
+
+	# `thing_id` in `owners` table: $stuff->owners (collection of Owner objects)
 	static $has_many = [
-		[ 'owners', 'class_name' => 'Owner' ], # $stuff->owners (collection of Owner objects)
+		[ 'owners', 'class_name' => 'Owner' ], 
 	];
+
+	# `thing_id` in `stuff` table: $stuff->thing (Thing object)
 	static $belongs_to = [
-		[ 'thing', 'class_name' => 'Thing' ], # `thing_id` from `stuff` (Thing object)
+		[ 'thing', 'class_name' => 'Thing' ], # 
 	];
 
 
@@ -320,7 +326,7 @@ class Stuff extends model {
 
 		# Min/Max
 		['field_d', 
-			'within'    => [5-10],
+			'within'    => [5, 10],
 			'too_short' => 'must be longer than 5 (less than 10)',
 			'too_long'  => 'must be less than 10 (greater than 5 though)!'
 		],
@@ -328,8 +334,8 @@ class Stuff extends model {
 
 	# Includes
 	static $validates_inclusion_of = [
-		['types', 
-			'in' => ['list', 'of', 'allowed', 'types'], ], # "Allowed is not included in the list"
+		['categories', 
+			'in' => ['list', 'of', 'allowed', 'categories'], ], # "list is not included in the categories"
 	];
 
 	# Exclude
@@ -364,6 +370,7 @@ class Stuff extends model {
 			'message' => 'is too weak'],
 	];
 
+
 /*
  * CALLBACKS
  * Read More: http://www.phpactiverecord.org/projects/main/wiki/Callbacks
@@ -393,6 +400,7 @@ class Stuff extends model {
 		$thing->destroy(); # destroy it
 	}
 
+
 /*
  * GETTERS
  * Read More: http://www.phpactiverecord.org/projects/main/wiki/Utilities#attribute-getters
@@ -405,6 +413,7 @@ class Stuff extends model {
 		}
 		return $out;
 	}
+
 
 /*
  * SETTERS

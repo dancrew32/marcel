@@ -31,7 +31,7 @@ class {$name} extends model {
 		['fieldz', 'is' => 42, 'message' => 'must be exactly 42 chars'],
 		['fielda', 'minimum' => 9, 'too_short' => 'must be at least 9 characters long'],
 		['fieldb', 'maximum' => 20, 'too_long' => 'is too long!'],
-		['fieldc', 'within' => [5-10], 
+		['fieldc', 'within' => [5, 10], 
 			'too_short' => 'must be longer than 5 (less than 10)', 
 			'too_long' => 'must be less than 10 (greater than 5 though)!'
 		],
