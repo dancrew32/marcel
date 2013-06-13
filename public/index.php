@@ -23,6 +23,7 @@ define('AJAX', (
 
 # App Specific
 define('BASE_URL', "http://<yoursite.com>");
+define('ADMIN_EMAIL', "admin@site.com");
 define('APP_NAME', 'Marcel');
 define('SALT', '<yourGreaterThan21CharacterSalt>'); # must be creater than 21 chars
 define('SESSION_NAME', '<your session name>');
