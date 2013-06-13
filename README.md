@@ -293,7 +293,7 @@ class Stuff extends model {
 
 	# `thing_id` in `stuff` table: $stuff->thing (Thing object)
 	static $belongs_to = [
-		[ 'thing', 'class_name' => 'Thing' ], # 
+		[ 'thing', 'class_name' => 'Thing' ],
 	];
 
 
