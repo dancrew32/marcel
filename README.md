@@ -33,11 +33,11 @@
 * [Interactive Prompt](#interactive-prompt-with-phpsh)
 * [Vim Interactivity](#vim-interactivity)
 * [WebSocket Server](#websocket-server)
+* [Linode](#linode)
 
 ### Contents *unstable*
 * [Profiling](#profiling-with-xhprof)
 * [XDebug](#xdebug)
-* [Linode](#linode)
 
 ### Contents *future*
 * USPS 
@@ -1351,34 +1351,6 @@ ws.onmessage = function(msg) {
 		break;
 	}
 };
-
-```
-
-## Profiling with XHProf
-**TODO**: create the interface for running tests
-```bash
-wget https://github.com/facebook/xhprof/archive/master.zip
-unzip master.zip
-cd xhprof-master/extension/
-phpize
-./configure
-make
-sudo make install
-# update xhprof.ini
-# extension=xhprof.so
-# xhprof.output_dir="/home/<you>/www/xhprof"</you>
-```
-
-## XDebug
-```bash
-wget http://xdebug.org/files/xdebug-2.2.1.tgz
-tar -xvzf xdebug-2.2.1.tgz
-cd xdebug-2.2.1
-phpize
-./configure
-make
-sudo cp modules/xdebug.so /usr/lib/php5/20100525
-# zend_extension = /usr/lib/php5/20100525/xdebug.so
 ```
 
 ## Linode
@@ -1436,4 +1408,33 @@ $api_key     = linode::api_key(['username' => '...', 'password' => '...']);
 ```
 
 There are plenty more things you can do (just see `class/linode.php`) from
-creating/deleteing/booting/rebooting/shutting-down/resizing/cloning etc...
+creating/deleteing/booting/rebooting/shutting-down/resizing/cloning etc.
+See an example implementation of the methods in `controller/linode.php`.
+
+
+## Profiling with XHProf
+**TODO**: create the interface for running tests
+```bash
+wget https://github.com/facebook/xhprof/archive/master.zip
+unzip master.zip
+cd xhprof-master/extension/
+phpize
+./configure
+make
+sudo make install
+# update xhprof.ini
+# extension=xhprof.so
+# xhprof.output_dir="/home/<you>/www/xhprof"</you>
+```
+
+## XDebug
+```bash
+wget http://xdebug.org/files/xdebug-2.2.1.tgz
+tar -xvzf xdebug-2.2.1.tgz
+cd xdebug-2.2.1
+phpize
+./configure
+make
+sudo cp modules/xdebug.so /usr/lib/php5/20100525
+# zend_extension = /usr/lib/php5/20100525/xdebug.so
+```

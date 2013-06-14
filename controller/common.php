@@ -34,7 +34,7 @@ class controller_common extends controller_base {
 				'path' => 'Feature Home',
 			],
 			'linode' => [
-				'text' => 'Linode', 
+				'text' => 'Linodes', 
 				'path' => 'Linode Home',
 			],
 			'product_category' => [

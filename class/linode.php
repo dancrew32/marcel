@@ -64,7 +64,7 @@ class linode {
 		], $o);
 
 		$l = self::init();
-		return $l->user_getapikey($o);
+		return self::get_data($l->avail_linodeplans($o));
 	}
 
 	# https://www.linode.com/api/utility/avail.datacenters
@@ -812,7 +812,7 @@ class linode {
 
 	private static function get_data($o) {
 		try {
-			return $o['DATA']['API_KEY'];
+			return $o['DATA'];
 		} catch(Services_Linode_Exception $e) {
 			throw $e;
 		}

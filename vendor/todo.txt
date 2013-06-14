@@ -13,3 +13,4 @@ https://github.com/mexitek/phpColors
 https://github.com/phergie/phergie
 https://github.com/chregu/GoogleAuthenticator.php
 pecl facedetect
+git@github.com:felixkoch/PHP-FaceDetector.git
