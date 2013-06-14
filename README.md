@@ -787,7 +787,7 @@ $form->open('/login', 'post')
 echo $form;
 ```
 
-### Example Implementation
+### Real-World Implementation
 In this example, we want an `add` and an `edit` form.
 We'll render them in our view using:
 ```php
