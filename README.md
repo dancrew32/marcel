@@ -30,6 +30,7 @@
 * [CAPTCHA](#captcha)
 * [OCR](#ocr)
 * [Scraping](#scraping)
+* [Phone Calls & Text Messaging](#phone-calls-text-messaging)
 * [Interactive Prompt](#interactive-prompt-with-phpsh)
 * [Vim Interactivity](#vim-interactivity)
 * [WebSocket Server](#websocket-server)
@@ -1281,6 +1282,52 @@ foreach ($images as $i)
 	$sources[] = $i->src;
 
 pr($sources); # array of <img> "src" attribute values
+```
+
+
+## Phone Calls & Text Messaging
+Using [Twilio](http://www.twilio.com/), you may place phone calls
+and send text messages. Once you've set your [API](https://www.twilio.com/user/account)
+credentials and Twilio phone number in `config/api.php` for `twilio`, you may use methods in `class/phone.php`
+to make calls and send text messages.
+
+See `controller/phonetest.php` for more examples.
+
+### Example Phone Call
+```php
+<?
+class controller_phonetest extends controller_base {
+
+	function call() {
+		$phone_number = '555555555';
+
+		# publicly-accessible url where Twilio may parse a TwiML file
+		$program_url = route::get_absolute('Twilio Read');
+
+		phone::queue_call($phone_number, $program_url); # or phone::call()
+	}
+
+	# This route name would be 'Twilio Read'
+	function program() {
+		# Only let twilio read this
+		auth::check(phone::is_twilio());
+
+		# say random text and hang up
+		$text = fake::paragraph(rand(2,3)); # random text
+		$p = phone::program();
+		$p->say($text);
+		$p->hangup();
+		die($p); # Twilio reads TwiML (XML)
+	}
+
+}
+```
+
+### Example Text Message
+```php
+$phone_number = '5555555555';
+$message = "Hi, my name is Marcel!";
+phone::queue_text($phone_number, $message); # or phone::text()
 ```
 
 
