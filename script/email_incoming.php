@@ -28,8 +28,8 @@ Email_Thread::create($mail_data);
 //print_r($mp->parts());
 
 $domain     = preg_replace('#\/\/#', '', BASE_URL);
-$to_address = $thread ? $thread->from : 'dancrew32@gmail.com';
-$to_name    = $thread ? $thread->from_name : 'Dan Masquelier';
+$to_address = $thread ? $thread->from : ADMIN_EMAIL;
+$to_name    = $thread ? $thread->from_name : 'Marcel the Shell';
 
 $m = new mail;
 $m->from      = "hit-reply@{$domain}";
