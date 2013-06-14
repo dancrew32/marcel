@@ -30,7 +30,7 @@
 * [CAPTCHA](#captcha)
 * [OCR](#ocr)
 * [Scraping](#scraping)
-* [Phone Calls & Text Messaging](#phone-calls-text-messaging)
+* [Phone Calls & Text Messaging](#phone-calls--text-messaging)
 * [Interactive Prompt](#interactive-prompt-with-phpsh)
 * [Vim Interactivity](#vim-interactivity)
 * [WebSocket Server](#websocket-server)
