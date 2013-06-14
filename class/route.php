@@ -64,6 +64,10 @@ class route {
 		return $found;
 	}
 
+	static function get_absolute($name=null, $protocol='http:', array $params=[]) {
+		return $protocol.BASE_URL.self::get($name, $params);
+	}
+
 	static function in_section($section) {
 		return self::$section_name == $section;
 	}

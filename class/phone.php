@@ -17,6 +17,9 @@ class phone {
 		'twilio' => 'TwilioProxy'
 	];
 
+/*
+ * TEXT MESSAGE
+ */
 	# ghetto send text
 	static function text_address($options) {
 		$options = array_merge([
@@ -33,6 +36,7 @@ class phone {
 		return "{$number}@{$domain}";
 	}
 
+	# Twilio text message
 	static function text($to, $text) {
 		if (!isset($text{0})) return false;
 
@@ -48,11 +52,35 @@ class phone {
 		return $message;
 	}
 
+	static function handle_queue_text($args) {
+		$to = take($args, 'to');
+		$text = take($args, 'text');
+		return self::text($to, $text);
+	}
+
+	# worker
+	static function queue_text($to, $text) {
+		return Worker::add([
+			'class'  => __CLASS__,
+			'method' => 'handle_queue_text',
+			'args' => [
+				'to'   => $to,
+				'text' => $text,
+			],
+		]);
+	}
+
+/*
+ * TwiML builder
+ */
 	static function program() {
 		require_once VENDOR_DIR.'/twilio/Services/Twilio.php';
 		return new Services_Twilio_Twiml();
 	}
 
+/*
+ * Phone Call
+ */
 	static function call($to, $program, array $params=[]) {
 		if (!$program) return false;
 		require_once VENDOR_DIR.'/twilio/Services/Twilio.php';
@@ -68,9 +96,27 @@ class phone {
 		return $call;
 	}
 
+	static function handle_queue_call($args) {
+		$to = take($args, 'to');
+		$program = take($args, 'program');
+		$params = unserialize(take($args, 'params'));
+		return self::call($to, $program, $params);
+	}
+
+	# worker
+	static function queue_call($to, $program, array $params=[]) {
+		return Worker::add([
+			'class'  => __CLASS__,
+			'method' => 'handle_queue_call',
+			'args' => [
+				'to' => $to,
+				'program' => $program,
+				'params' => serialize($params),
+			],
+		]);
+	}
+
 	static function hangup($call) {
-		$api = api::get_key('twilio');
-		$client = new Services_Twilio($api['key'], $api['secret']);
 		$call->update([
 			'Status' => 'completed'
 		]);

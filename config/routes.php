@@ -106,6 +106,7 @@ route::$routes += [
 	# Phone Test
 	'/phone'         => [ 'c' => 'phonetest', 'm' => 'phone', 'name' => 'Phone Home', 'section' => 'Test' ],
 	'/phone/program' => [ 'c' => 'phonetest', 'm' => 'program', 'name' => 'Twilio Read' ],
+	'/phone/record'  => [ 'c' => 'phonetest', 'm' => 'recording', 'name' => 'Twilio Record' ],
 
 	# HTTP Example
 	'/http' => [
