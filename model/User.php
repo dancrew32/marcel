@@ -31,11 +31,11 @@ class User extends model {
 	];
 
 	static $has_many = [
-		[ 'user_verification', 'class_name' => 'User_Verification' ]	
+		[ 'user_verification', 'class_name' => 'User_Verification' ],
 	];
 
 	static $belongs_to = [
-		[ 'user_type', 'class_name' => 'User_Type' ]	
+		[ 'user_type', 'class_name' => 'User_Type' ],
 	];
 
 

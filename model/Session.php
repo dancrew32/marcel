@@ -20,11 +20,13 @@ class Session extends model {
 	static function open() {
 		//delete old session handlers
 		$limit = time() - (3600 * 24);
-		$s = Session::all(['conditions' => "timestamp < {$limit}"]);
-		if (count($s)) {
-			foreach($s as $sesh)
+		if (rand(0, 25)) 
+			return true;
+		$conditions = ['conditions' => "timestamp < {$limit}"];
+		$s = (int) Session::count($conditions);
+		if ($s)
+			foreach(Session::all($conditions) as $sesh)
 				$sesh->delete();
-		}
 		return true;
 	}
 
@@ -33,7 +35,7 @@ class Session extends model {
 	}
 
 	static function read($id) {
-		$result = Session::find_by_id($id);
+		$result = Session::find_by_id($id, [ 'select' => 'data' ]);
 		return $result ? $result->data : false;
 	}
 

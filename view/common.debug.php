@@ -10,11 +10,15 @@
 	<? pp($memcache_stats) ?>
 <? endif ?>
 <? if (isset($queries)): ?>
-	<? foreach($queries as $k => $v): ?>
-		<? pp($k.' &middot; '.implode(', ', (array)$v)) ?>
-	<? endforeach ?>
+<? pp($queries) ?>
 <? endif ?>
 <? if (isset($route_cache)): ?>
 <h3>Lookups <code>route::get</code></h3>
 <? pp($route_cache) ?>
+<? endif ?>
+<? if (isset($git)): ?>
+<h3>Git</h3>
+<ul>
+	<li><strong>Branch</strong>: <?= $git->active_branch() ?></li>
+</ul>
 <? endif ?>

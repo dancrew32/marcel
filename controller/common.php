@@ -33,6 +33,10 @@ class controller_common extends controller_base {
 				'text' => 'Features', 
 				'path' => 'Feature Home',
 			],
+			'git' => [
+				'text' => 'Git', 
+				'path' => 'Git Home',
+			],
 			'linode' => [
 				'text' => 'Linodes', 
 				'path' => 'Linode Home',
@@ -73,6 +77,7 @@ class controller_common extends controller_base {
 		$this->in_section = route::in_sections([
 			'Cron', 
 			'Feature',
+			'Git',
 			'Linode',
 			'Product Type', 
 			'Product Category', 
@@ -89,8 +94,9 @@ class controller_common extends controller_base {
 		$this->memory = round(memory_get_usage(false) / 1000);
 		$this->unit = "Kb";
 		$this->runtime = (round(microtime(true) - START_TIME, 4)).'s';
+		$this->git = git::open(ROOT_DIR);
 		//$this->memcache_stats = cache::mc()->getStats();
-		//$this->queries = $GLOBALS['DEBUG_QUERIES'];
+		//$this->queries = $GLOBALS['_db_queries'];
 		//$this->route_cache = route::$get_cache;
 	}
 

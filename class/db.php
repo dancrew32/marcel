@@ -1,4 +1,5 @@
 <?
+$GLOBALS['_db_queries'] = [];
 class db {
 	static function init() {
 		require_once VENDOR_DIR.'/activerecord/ActiveRecord.php';

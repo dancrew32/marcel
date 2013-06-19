@@ -17,12 +17,16 @@ class app {
 	static function run() {
 		if (DEBUG && !AJAX) {
 			# HTML Output Errors
-			ini_set('display_errors', 1);
 			ini_set('html_errors', 1);
+			ini_set('display_errors', 1);
 
 			# http://xdebug.org/docs/display
 			ini_set('xdebug.var_display_max_data', 1024);
 			ini_set('xdebug.var_display_max_depth', 10);
+
+			# xhprof
+			ini_set('xhprof.output_dir', TMP_DIR.'/xhprof'); 
+			profile::start();
 		}
 
 		# IP Limit
@@ -104,6 +108,10 @@ class app {
 
 		if (!$found && !CLI) 
 			echo r('status_code', 'not_found');		
+
+		if (DEBUG && !AJAX)
+			profile::stop();
+
 	}
 
 	static function layout($o, $yield) {

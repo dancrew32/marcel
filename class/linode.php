@@ -24,6 +24,10 @@ class linode {
 		41 => 'Linode must have no disks before delete',
 	];
 
+	private static function cache_key($function, $id) {
+		return cache::keygen(__CLASS__, $function, $id);
+	}
+
 	static function init() {
 		//require_once VENDOR_DIR.'/linode/Linode.php';
 		require_once 'Services/Linode.php';
@@ -63,8 +67,14 @@ class linode {
 			'PlanID' => null,
 		], $o);
 
-		$l = self::init();
-		return self::get_data($l->avail_linodeplans($o));
+		$key = self::cache_key(__FUNCTION__, $o['PlanID']);
+		$data = cache::get($key, $found, true);
+		if (!$found) {
+			$l = self::init();
+			$data = self::get_data($l->avail_linodeplans($o));
+			cache::set($key, $data, time::ONE_DAY, true);
+		}
+		return $data;
 	}
 
 	# https://www.linode.com/api/utility/avail.datacenters
@@ -151,8 +161,14 @@ class linode {
 			'DomainID' => null,
 		], $o);
 
-		$l = self::init();
-		return self::get_data($l->domain_list($o));
+		$key = self::cache_key(__FUNCTION__, $o['DomainID']);
+		$data = cache::get($key, $found, true);
+		if (!$found) {
+			$l = self::init();
+			$data = self::get_data($l->domain_list($o));
+			cache::set($key, $data, time::ONE_MINUTE, true);
+		}
+		return $data;
 	}
 
 	# https://www.linode.com/api/dns/domain.update 
@@ -216,8 +232,14 @@ class linode {
 			'ResourceID' => null,
 		], $o);
 
-		$l = self::init();
-		return self::get_data($l->domain_resource_list($o));
+		$key = self::cache_key(__FUNCTION__, "{$o['DomainID']}::{$o['ResourceID']}");
+		$data = cache::get($key, $found, true);
+		if (!$found) {
+			$l = self::init();
+			$data = self::get_data($l->domain_resource_list($o));
+			cache::set($key, $data, time::ONE_MINUTE * 15, true);
+		}
+		return $data;
 	}
 
 	# https://www.linode.com/api/dns/domain.resource.update
@@ -515,8 +537,14 @@ class linode {
 			'LinodeID'    => null,
 		], $o);
 
-		$l = self::init();
-		return self::get_data($l->linode_list($o));
+		$key = self::cache_key(__FUNCTION__, $o['LinodeID']);
+		$data = cache::get($key, $found, true);
+		if (!$found) {
+			$l = self::init();
+			$data = self::get_data($l->linode_list($o));
+			cache::set($key, $data, time::ONE_DAY, true);
+		}
+		return $data;
 	}
 
 	# https://www.linode.com/api/linode/linode.reboot 

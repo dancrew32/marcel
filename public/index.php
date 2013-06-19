@@ -14,7 +14,7 @@ if (!defined('ENV'))
 
 # System
 define('DEBUG', ENV == 'DEV');
-define('CACHE_BUST', true);
+define('CACHE_BUST', false);
 define('START_TIME', microtime(true));
 define('CLI', PHP_SAPI == 'cli');
 define('AJAX', (

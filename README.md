@@ -1634,12 +1634,13 @@ sudo make install
 
 ## XDebug
 ```bash
-wget http://xdebug.org/files/xdebug-2.2.1.tgz
-tar -xvzf xdebug-2.2.1.tgz
-cd xdebug-2.2.1
+wget http://xdebug.org/files/xdebug-2.2.3.tgz
+tar -xvzf xdebug-2.2.3.tgz
+cd xdebug-2.2.3
 phpize
 ./configure
 make
-sudo cp modules/xdebug.so /usr/lib/php5/20100525
+sudo cp modules/xdebug.so /usr/lib/php5/20100525+lfs/
+# add to /etc/php5/apache2/php.ini:
 # zend_extension = /usr/lib/php5/20100525/xdebug.so
 ```

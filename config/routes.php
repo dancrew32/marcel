@@ -142,6 +142,9 @@ route::$routes += [
 	# Linode
 	'/linode' => [ 'c' => 'linode', 'm' => 'main', 'name' => 'Linode Home', 'section' => 'Linode' ],
 
+	# Git
+	'/git' => [ 'c' => 'git', 'm' => 'main', 'name' => 'Git Home', 'section' => 'Git' ],
+
 	# Error
 	'/403' => [ 'c' => 'status_code', 'm' => 'forbidden', 'nodb' => true ],
 	'/404' => [ 'c' => 'status_code', 'm' => 'not_found', 'nodb' => true ],
