@@ -259,7 +259,7 @@ class gitrepo {
 	private function revoke_marcel_remote() {
 		$key = self::MARCEL_REMOTE_KEY;
 		try {
-			$this->run("remote remove {$key}");
+			$this->run("remote rm {$key}");
 		} catch(Exception $e) {
 			# didn't exist, ignore
 	   	}
