@@ -14,5 +14,5 @@
 		<?= r('git', 'status_untracked', ['paths' => $untracked]) ?>
 	<? endif ?>
 <? else: ?>
-	<p class="lead">Nothing changed yet!</p>
+	<p class="lead">No changes.</p>
 <? endif ?>
