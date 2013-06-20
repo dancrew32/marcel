@@ -139,7 +139,7 @@ class gitrepo {
 	public function unstage($files = "*") {
 		if (is_array($files))
 			$files = '"'.implode('" "', $files).'"';
-		return $this->run("rm --cached $files -f");
+		return $this->run("checkout --rm $files");
 	}
 
 	public function commit($message = "") {
@@ -241,6 +241,7 @@ class gitrepo {
 		preg_match('/ahead (?P<ahead>[0-9]+)/', $this->run('branch -v -v'), $matches);
 		return take($matches, 'ahead', 0);
 	}
+
 	public function log_simple($limit=5) {
 		$log = $this->run("log --pretty=oneline --abbrev-commit -{$limit}");
 		$lines = explode("\n", $log);

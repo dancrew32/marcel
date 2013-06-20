@@ -13,12 +13,30 @@ class controller_git extends controller_base {
 		$this->status = $this->git->status();
 	}
 
+	function status_staged($o) {
+		$this->paths  = take($o, 'paths');
+		$this->status = 'staged';
+		$this->color_class = 'success';
+	}
+
+	function status_modified($o) {
+		$this->paths  = take($o, 'paths');
+		$this->status = 'modified';
+		$this->color_class = 'plain';
+	}
+
+	function status_untracked($o) {
+		$this->paths  = take($o, 'paths');
+		$this->status = 'untracked';
+		$this->color_class = 'error';
+	}
+
 	function origin() {
-		echo $this->git->ahead_origin() .' commit ahead of origin'; 
+		$this->ahead = $this->git->ahead_origin();
 	}
 
 	function log_simple() {
-		$this->commits = $this->git->log_simple(25);
+		$this->commits = $this->git->log_simple(20);
 		$this->after_head = false;
 	}
 
@@ -38,8 +56,7 @@ class controller_git extends controller_base {
 		$this->path = take($o, 'path');
 		$this->path_trunc = util::truncate($this->path, 20);
 
-		$this->stage   = false;
-		$this->unstage = false;
+		$this->stage = $this->unstage = false;
 
 		switch(take($o, 'status')) {
 			case 'staged':

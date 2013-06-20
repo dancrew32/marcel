@@ -4,7 +4,7 @@
 		<h3>Commit</h3>
 		<?= r('git', 'commit_form') ?>
 
-		<h3>Commit</h3>
+		<h3>Origin</h3>
 		<?= r('git', 'origin') ?>
 
 		<h3>Log</h3>
@@ -12,6 +12,8 @@
 
 	</div>
 	<div class="span4">
+
 		<?= r('git', 'status') ?>
+
 	</div>
 </div>
