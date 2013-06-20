@@ -9,6 +9,10 @@
 			<? endif ?>
 		</h1>
 
+		<? if (!$count): ?>
+			<p class="lead">Your origin/master is empty. Push some code!</p>
+		<? endif ?>
+
 		<h3>Commit</h3>
 		<?= r('git', 'commit_form') ?>
 
