@@ -37,6 +37,7 @@ class controller_git extends controller_base {
 	function origin() {
 		$this->ahead = $this->git->ahead_origin();
 		$this->push_url = route::get('Git Push', ['branch' => 'master']);
+		$this->pull_url = route::get('Git Pull', ['branch' => 'master']);
 	}
 
 	function push($o) {
@@ -45,6 +46,21 @@ class controller_git extends controller_base {
 			$this->redir();
 
 		$ok = $this->git->push($branch);
+		if ($ok) {
+			# TODO: note
+			$this->redir();
+		}
+
+		# TODO: note
+		$this->redir();
+	}
+
+	function pull($o) {
+		$branch = take($o['params'], 'branch');	
+		if (!$branch)
+			$this->redir();
+
+		$ok = $this->git->pull($branch);
 		if ($ok) {
 			# TODO: note
 			$this->redir();
@@ -159,24 +175,33 @@ class controller_git extends controller_base {
 		$this->form->open(route::get('Git Commit'), 'post', [
 			'class' => 'last', 
 		]);
-		$this->_build_commit_form();
-		$this->form->add(new field('submit', [
+		$status = $this->git->status();
+		$staged_count = count(take($status, 'staged', []));
+		$this->_build_commit_form($staged_count);
+		$submit_options = [
 			'text' => 'Commit',
 			'icon' => 'ok',
 			'data-loading-text' => html::verb_icon('Committing', 'ok'),
-		]));
+		];
+		if (!$staged_count)
+			$submit_options['disabled'] = true;
+		$this->form->add(new field('submit', $submit_options));
 		echo $this->form;
 	}
 
-	private function _build_commit_form() {
+	private function _build_commit_form($staged_count) {
+
 		# Commit Message
 		$commit_group = [ 'label' => 'Message', 'class' => null ];
 		$commit_help  = new field('help', [ 'text' => null ]);
-		$commit_field = new field('textarea', [ 
+		$commit_field_options = [
 			'name'         => 'commit', 
 			'class'        => 'input-block-level',
 			'autocomplete' => false,
-		]);
+		];
+		if (!$staged_count)
+			$commit_field_options['disabled'] = true;
+		$commit_field = new field('textarea', $commit_field_options);
 
 		# Build Form
 		$this->form

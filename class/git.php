@@ -276,8 +276,15 @@ class gitrepo {
 		return $out;
 	}
 	
-	public function pull($remote='origin', $branch) {
-		return $this->run("pull $remote $branch");
+	public function pull($branch) {
+		$api = api::get_key('github');
+		$credentials = "{$api['username']}:{$api['password']}@";
+		$remote = $this->github_url($credentials);
+		$this->establish_marcel_remote($remote);
+		$key = self::MARCEL_REMOTE_KEY;
+		$out = $this->run("pull {$key} {$branch}");
+		$this->revoke_marcel_remote();
+		return $out;
 	}
 
 	public function ahead_origin() {
