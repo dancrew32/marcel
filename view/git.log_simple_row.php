@@ -1,6 +1,6 @@
-<div>
+<div class="commit">
 	<? if ($is_head || $after_head): ?>
-		<a href="<?= $hash_url ?>" class="label label-<?= $label_class ?> pull-right">
+		<a href="<?= $hash_url ?>" target="_blank" class="label label-<?= $label_class ?> pull-right">
 			<?= $hash ?>
 		</a>
 	<? else: ?>

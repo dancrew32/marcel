@@ -147,6 +147,8 @@ route::$routes += [
 		=> [ 'c' => 'git', 'm' => 'main', 'name' => 'Git Home', 'section' => 'Git' ],
 	'/git/commit' 
 		=> [ 'c' => 'git', 'm' => 'commit', 'name' => 'Git Commit', 'section' => 'Git' ],
+	'/git/commit/edit' 
+		=> [ 'c' => 'git', 'm' => 'commit_edit', 'name' => 'Git Commit Edit', 'section' => 'Git' ],
 	'/git/stage/(?P<files>[a-zA-Z0-9/_\.\-,]+)' 
 		=> [ 'c' => 'git', 'm' => 'stage', 'name' => 'Git Stage', 'section' => 'Git' ],
 	'/git/unstage/(?P<files>[a-zA-Z0-9/_\.\-,]+)'

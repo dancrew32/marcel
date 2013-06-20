@@ -7,8 +7,11 @@ class Feature extends model {
  */
 	static function seed() {
 		$data = [
+			'Audio'            => 'audio',
 			'Cron Job'         => 'cron_job',
+			'Git'              => 'git',
 			'Join'             => 'join',
+			'Linode'           => 'linode',
 			'Login'            => 'login',
 			'OCR'              => 'ocr',
 			'Phone'            => 'phone',
@@ -20,6 +23,7 @@ class Feature extends model {
 			'User Permission'  => 'user_permission',
 			'Feature'          => 'feature',
 			'Worker'           => 'worker',
+			'Shipping'         => 'shipping',
 		];
 
 		foreach ($data as $k => $v)
