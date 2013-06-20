@@ -61,13 +61,11 @@ api::$keys = [
 	'github' => [ # https://github.com/settings/applications
 		'DEV' => [
 			'username' => '',
-			'password' => '',
-			'key' => '',
+			'key'      => '',
 		],
 		'LIVE' => [
 			'username' => '',
-			'password' => '',
-			'key' => '',
+			'key'      => '',
 		],
 	],
 ];
