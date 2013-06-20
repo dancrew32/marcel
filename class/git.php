@@ -300,6 +300,10 @@ class gitrepo {
 		return take($matches, 'ahead', 0);
 	}
 
+	public function commit_count() {
+		return $this->run('rev-list HEAD --count');
+	}
+
 	public function log_simple($limit=5) {
 		$log = $this->run("log --pretty=oneline --abbrev-commit -{$limit}");
 		$lines = explode("\n", $log);

@@ -7,7 +7,9 @@ class controller_git extends controller_base {
 		parent::__construct($o);
    	}
 
-	function main() { }
+	function main() {
+		$this->count = $this->git->commit_count();
+   	}
 
 	function status() {
 		$status = $this->git->status();
