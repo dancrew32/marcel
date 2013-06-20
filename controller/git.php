@@ -10,7 +10,10 @@ class controller_git extends controller_base {
 	function main() { }
 
 	function status() {
-		$this->status = $this->git->status();
+		$status = $this->git->status();
+		$this->staged    = take($status, 'staged');
+		$this->modified  = take($status, 'modified');
+		$this->untracked = take($status, 'untracked');
 	}
 
 	function status_staged($o) {

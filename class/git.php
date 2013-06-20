@@ -264,11 +264,7 @@ class gitrepo {
 	public function status() {
 		$status = $this->run('status --porcelain');
 		$status = explode("\n", $status);
-		$out = [
-			'modified'  => [],
-			'untracked' => [],
-			'staged'    => [],
-		];
+		$out = [];
 
 		foreach ($status as $s) {
 			if (!isset($s{0}) && !isset($s{1})) continue;
