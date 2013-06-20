@@ -266,8 +266,7 @@ class gitrepo {
 	}
 
 	public function push($branch) {
-		$api = api::get_key('github');
-		$credentials = "{$api['username']}:{$api['password']}@";
+		$credentials = $this->build_credentials();
 		$remote = $this->github_url($credentials);
 		$this->establish_marcel_remote($remote);
 		$key = self::MARCEL_REMOTE_KEY;
@@ -279,10 +278,16 @@ class gitrepo {
 		$this->revoke_marcel_remote();
 		return $out;
 	}
+
+	private function build_credentials() {
+		$api = api::get_key('github');
+		//$credentials = "{$api['username']}:{$api['password']}@";
+		$credentials = "{$api['key']}@";
+		return $credentials;
+	}
 	
 	public function pull($branch) {
-		$api = api::get_key('github');
-		$credentials = "{$api['username']}:{$api['password']}@";
+		$credentials = $this->build_credentials();
 		$remote = $this->github_url($credentials);
 		$this->establish_marcel_remote($remote);
 		$key = self::MARCEL_REMOTE_KEY;
