@@ -237,21 +237,26 @@ class gitrepo {
 		return $this->run("pull $remote $branch");
 	}
 
+	public function ahead_origin() {
+		preg_match('/ahead (?P<ahead>[0-9]+)/', $this->run('branch -v -v'), $matches);
+		return take($matches, 'ahead', 0);
+	}
 	public function log_simple($limit=5) {
 		$log = $this->run("log --pretty=oneline --abbrev-commit -{$limit}");
 		$lines = explode("\n", $log);
+		$ahead = $this->ahead_origin();
 		array_pop($lines);
-		$head_commit = substr($this->run('rev-parse HEAD'), 0, 7);
-		$commits = array_map(function($line) use ($head_commit) {
+		$commits = [];
+		foreach ($lines as $k => $line) {
 			$parts = explode(' ', $line);
 			$hash = array_shift($parts);
-			$is_head = $hash == $head_commit;
-			return [
+			$is_head = $k == $ahead;
+			$commits[] = [
 				'is_head' => $is_head, 
 				'hash'    => $hash,
 				'message' => implode(' ', $parts),
 			];
-		}, $lines);
+		}
 		return $commits;
 	}
 

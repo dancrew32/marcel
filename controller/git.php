@@ -13,6 +13,10 @@ class controller_git extends controller_base {
 		$this->status = $this->git->status();
 	}
 
+	function origin() {
+		echo $this->git->ahead_origin() .' commit ahead of origin'; 
+	}
+
 	function log_simple() {
 		$this->commits = $this->git->log_simple(25);
 		$this->after_head = false;

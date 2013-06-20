@@ -151,6 +151,8 @@ route::$routes += [
 		=> [ 'c' => 'git', 'm' => 'stage', 'name' => 'Git Stage', 'section' => 'Git' ],
 	'/git/unstage/(?P<files>[a-zA-Z0-9/_\.\-,]+)'
 		=> [ 'c' => 'git', 'm' => 'unstage', 'name' => 'Git Unstage', 'section' => 'Git' ],
+	'/git/push/(?P<type>[a-z]+)'
+		=> [ 'c' => 'git', 'm' => 'unstage', 'name' => 'Git Unstage', 'section' => 'Git' ],
 	# reset not working yet
 	//'/git/reset/(?P<files>[a-zA-Z0-9/_\.\-,]+)'
 		//=> [ 'c' => 'git', 'm' => 'reset', 'name' => 'Git Reset', 'section' => 'Git' ],
