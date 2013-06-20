@@ -1,10 +1,9 @@
-<? if (isset($memory) && isset($unit)): ?>
-	<?= $memory ?><?= $unit ?>
-	<br>
-<? endif ?>
-<? if (isset($runtime)): ?>
-	<?= $runtime ?>
-	<br>
+<? if (isset($memory) && isset($unit) && isset($runtime)): ?>
+<h3>Memory</h3>
+<ul>
+	<li><?= $memory ?><?= $unit ?></li>
+	<li><?= $runtime ?></li>
+</ul>
 <? endif ?>
 <? if (isset($memcache_stats)): ?>
 	<? pp($memcache_stats) ?>
@@ -19,6 +18,8 @@
 <? if (isset($git)): ?>
 <h3>Git</h3>
 <ul>
-	<li><strong>Branch</strong>: <?= $git->active_branch() ?></li>
+	<li><strong>Branch</strong>:
+	<?= html::a($branch_url, $branch) ?></li>
+	<li><strong>Diff</strong>: <?= $git->diff_stat() ?></li>
 </ul>
 <? endif ?>

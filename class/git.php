@@ -125,15 +125,22 @@ class gitrepo {
 		return $this->run_command(Git::get_bin()." ".$command);
 	}
 
-	public function add($files = "*") {
+	public function stage($files = "*") {
 		if (is_array($files)) {
 			$files = '"'.implode('" "', $files).'"';
 		}
 		return $this->run("add $files -v");
 	}
 
+	public function unstage($files = "*") {
+		if (is_array($files)) {
+			$files = '"'.implode('" "', $files).'"';
+		}
+		return $this->run("rm --cached $files -f");
+	}
+
 	public function commit($message = "") {
-		return $this->run("commit -av -m ".escapeshellarg($message));
+		return $this->run("commit -v -m ".escapeshellarg($message));
 	}
 
 	public function clone_to($target) {
@@ -160,6 +167,9 @@ class gitrepo {
 		return $this->run("branch ".(($force) ? '-D' : '-d')." $branch");
 	}
 
+	public function diff_stat() {
+		 return $this->run('diff --shortstat');
+	}
 	public function list_branches($keep_asterisk = false) {
 		$branchArray = explode("\n", $this->run("branch"));
 		foreach($branchArray as $i => &$branch) {
@@ -204,6 +214,13 @@ class gitrepo {
 		return $this->run("tag -a $tag -m $message");
 	}
 
+	public function remote_url() {
+		return $this->run('config --get remote.origin.url');
+	}
+	public function github_url() {
+		$out = util::explode_pop(':', $this->remote_url());
+		return util::explode_shift('.git', "https://github.com/{$out}");
+	}
 	public function push($remote, $branch) {
 		return $this->run("push --tags $remote $branch");
 	}
@@ -212,8 +229,39 @@ class gitrepo {
 		return $this->run("pull $remote $branch");
 	}
 
+	public function status() {
+		$status = $this->run('status --porcelain');
+		$status = explode("\n", $status);
+		# modified
+		$out = [
+			'modified'  => [],
+			'untracked' => [],
+			'staged'    => [],
+		];
+		foreach ($status as $s) {
+			$s = trim($s);
+			if (!$s) continue;
+			$file = util::explode_pop(' ', $s);
+			switch ($s{0}) {
+				case 'M':
+					$type = ($s{1} == 'M') ? 'staged' : 'modified';
+				break;
+				case 'A':
+					$type = 'staged';
+					break;
+				case '?':
+					$type = 'untracked';
+				break;
+			}
+			if (!isset($type)) continue;
+			$out[$type][] = $file;
+		}
+		return $out;
+	}
+
 	public function set_description($new) {
-		file_put_contents($this->repo_path."/.git/description", $new);
+		$file = "{$this->repo_path}/.git/description";
+		file_put_contents($file, $new);
 	}
 
 	public function get_description() {
