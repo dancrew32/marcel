@@ -44,7 +44,7 @@ class controller_git extends controller_base {
 		if (!$branch)
 			$this->redir();
 
-		$ok = $this->git->push('origin', $branch);
+		$ok = $this->git->push($branch);
 		if ($ok) {
 			# TODO: note
 			$this->redir();
@@ -86,7 +86,9 @@ class controller_git extends controller_base {
 			case 'modified':
 				$this->stage = route::get('Git Stage', ['files' => $this->path]);
 				//$this->reset = route::get('Git Reset', ['files' => $this->path]);
-				$this->title = h($this->git->run("diff {$this->path}"));
+				$diff = $this->git->diff($this->path);
+				if ($diff)
+					$this->title = h($diff);
 				break;
 		}
 	}

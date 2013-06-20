@@ -1,4 +1,4 @@
-<div class="git-file" title="<?= $title ?>">
+<div class="git-file"<?= isset($title{0}) ? " title=\"{$title}\"" : '' ?>>
 	<?= $path_trunc ?>
 	<? if ($stage): ?>
 		<? if (isset($reset)): ?>

@@ -25,6 +25,8 @@ class git {
 
 class gitrepo {
 
+	const MARCEL_REMOTE_KEY = 'marcel';
+
 	protected $repo_path = null;
 
 	public static function &create_new($repo_path, $source = null) {
@@ -119,8 +121,11 @@ class gitrepo {
 		return $stdout;
 	}
 
-	public function run($command) {
-		return $this->run_command(Git::get_bin()." ".$command);
+	public function run($command, $debug=false) {
+		$cmd = Git::get_bin()." ".$command;
+		if ($debug)
+			pd($cmd);
+		return $this->run_command($cmd);
 	}
 
 	public function reset($files) {
@@ -173,6 +178,15 @@ class gitrepo {
 	public function diff_stat() {
 		 return $this->run('diff --shortstat');
 	}
+
+	public function diff($file) {
+		try {
+			return $this->run("diff {$file}");
+		} catch(Exception $e) {
+			return null;
+		}
+	}
+
 	public function list_branches($keep_asterisk = false) {
 		$branchArray = explode("\n", $this->run("branch"));
 		foreach($branchArray as $i => &$branch) {
@@ -220,17 +234,46 @@ class gitrepo {
 	public function remote_url() {
 		return $this->run('config --get remote.origin.url');
 	}
-	public function github_url() {
+
+	public function github_url($credentials='') {
 		$out = util::explode_pop(':', $this->remote_url());
-		return util::explode_shift('.git', "https://github.com/{$out}");
+		$out = util::explode_shift('.git', "https://{$credentials}github.com/{$out}");
+		return $out;
 	}
 
 	public function github_commit_url($hash) {
 		return "{$this->github_url()}/commit/{$hash}";
 	}
 
-	public function push($remote, $branch) {
-		return $this->run("push $remote $branch");
+	private function establish_marcel_remote($remote) {
+		$key = self::MARCEL_REMOTE_KEY;
+		try {
+			$this->run("remote add {$key} {$remote}");
+			$origin_fetch = $this->run("config --get remote.origin.fetch");
+			$this->run("config remote.{$key}.fetch {$origin_fetch}");
+		} catch(Exception $e) {
+			# already exists, ignore
+	   	}
+	}
+
+	private function revoke_marcel_remote() {
+		$key = self::MARCEL_REMOTE_KEY;
+		try {
+			$this->run("remote remove {$key}");
+		} catch(Exception $e) {
+			# didn't exist, ignore
+	   	}
+	}
+
+	public function push($branch) {
+		$api = api::get_key('github');
+		$credentials = "{$api['username']}:{$api['password']}@";
+		$remote = $this->github_url($credentials);
+		$this->establish_marcel_remote($remote);
+		$key = self::MARCEL_REMOTE_KEY;
+		$out = $this->run("push {$key} {$branch}");
+		$this->revoke_marcel_remote();
+		return $out;
 	}
 	
 	public function pull($remote='origin', $branch) {
