@@ -3,8 +3,8 @@ class controller_git extends controller_base {
 	function __construct($o) {
 		$this->root_path = route::get('Git Home');
 		auth::only(['git']);
-		parent::__construct($o);
 		$this->git = git::open(ROOT_DIR);
+		parent::__construct($o);
    	}
 
 	function main() { }
