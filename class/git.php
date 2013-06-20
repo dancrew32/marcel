@@ -110,9 +110,8 @@ class gitrepo {
 
 		$stdout = stream_get_contents($pipes[1]);
 		$stderr = stream_get_contents($pipes[2]);
-		foreach ($pipes as $pipe) {
+		foreach ($pipes as $pipe)
 			fclose($pipe);
-		}
 
 		$status = trim(proc_close($resource));
 		if ($status) throw new Exception($stderr);
@@ -124,17 +123,22 @@ class gitrepo {
 		return $this->run_command(Git::get_bin()." ".$command);
 	}
 
-	public function stage($files = "*") {
-		if (is_array($files)) {
+	public function reset($files) {
+		if (is_array($files))
 			$files = '"'.implode('" "', $files).'"';
-		}
+		# TODO: permissions issues
+		return $this->run("checkout HEAD -- $files");
+	}
+
+	public function stage($files = "*") {
+		if (is_array($files))
+			$files = '"'.implode('" "', $files).'"';
 		return $this->run("add $files -v");
 	}
 
 	public function unstage($files = "*") {
-		if (is_array($files)) {
+		if (is_array($files))
 			$files = '"'.implode('" "', $files).'"';
-		}
 		return $this->run("rm --cached $files -f");
 	}
 
@@ -237,10 +241,14 @@ class gitrepo {
 		$log = $this->run("log --pretty=oneline --abbrev-commit -{$limit}");
 		$lines = explode("\n", $log);
 		array_pop($lines);
-		$commits = array_map(function($line) {
+		$head_commit = substr($this->run('rev-parse HEAD'), 0, 7);
+		$commits = array_map(function($line) use ($head_commit) {
 			$parts = explode(' ', $line);
+			$hash = array_shift($parts);
+			$is_head = $hash == $head_commit;
 			return [
-				'hash'    => array_shift($parts),
+				'is_head' => $is_head, 
+				'hash'    => $hash,
 				'message' => implode(' ', $parts),
 			];
 		}, $lines);

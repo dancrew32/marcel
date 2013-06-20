@@ -15,17 +15,24 @@ class controller_git extends controller_base {
 
 	function log_simple() {
 		$this->commits = $this->git->log_simple(25);
+		$this->after_head = false;
 	}
 
 	function log_simple_row($o) {
 		$commit = take($o, 'commit');
-		$this->hash     = take($commit, 'hash');
-		$this->hash_url = $this->git->github_commit_url($this->hash);
-		$this->message  = take($commit, 'message');
+		$this->after_head  = take($o, 'after_head', false);
+		$this->hash        = take($commit, 'hash');
+		$this->hash_url    = $this->git->github_commit_url($this->hash);
+		$this->is_head     = take($commit, 'is_head', false);
+		$this->message     = take($commit, 'message');
+		$this->label_class = $this->is_head 
+			? 'success' 
+			: ($this->after_head ? 'muted' : 'warning');
 	}
 
 	function file($o) {
 		$this->path = take($o, 'path');
+		$this->path_trunc = util::truncate($this->path, 20);
 
 		$this->stage   = false;
 		$this->unstage = false;
@@ -33,10 +40,13 @@ class controller_git extends controller_base {
 		switch(take($o, 'status')) {
 			case 'staged':
 				$this->unstage = route::get('Git Unstage', ['files' => $this->path]);
+				$this->title = $this->path;
 				break;
 			case 'untracked':
 			case 'modified':
 				$this->stage = route::get('Git Stage', ['files' => $this->path]);
+				//$this->reset = route::get('Git Reset', ['files' => $this->path]);
+				$this->title = h($this->git->run("diff {$this->path}"));
 				break;
 		}
 	}
@@ -62,6 +72,21 @@ class controller_git extends controller_base {
 			$this->redir();
 
 		$ok = $this->git->unstage(explode(',', $files));
+		if ($ok) {
+			# TODO: note
+			$this->redir();
+		}
+
+		# TODO: note
+		$this->redir();
+	}
+
+	function reset($o) {
+		$files = take($o['params'], 'files');
+		if (!$files)
+			$this->redir();
+
+		$ok = $this->git->reset(explode(',', $files));
 		if ($ok) {
 			# TODO: note
 			$this->redir();
