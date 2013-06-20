@@ -143,7 +143,14 @@ route::$routes += [
 	'/linode' => [ 'c' => 'linode', 'm' => 'main', 'name' => 'Linode Home', 'section' => 'Linode' ],
 
 	# Git
-	'/git' => [ 'c' => 'git', 'm' => 'main', 'name' => 'Git Home', 'section' => 'Git' ],
+	'/git' 
+		=> [ 'c' => 'git', 'm' => 'main', 'name' => 'Git Home', 'section' => 'Git' ],
+	'/git/commit' 
+		=> [ 'c' => 'git', 'm' => 'commit', 'name' => 'Git Commit', 'section' => 'Git' ],
+	'/git/stage/(?P<files>[a-zA-Z0-9/_\.\-,]+)' 
+		=> [ 'c' => 'git', 'm' => 'stage', 'name' => 'Git Stage', 'section' => 'Git' ],
+	'/git/unstage/(?P<files>[a-zA-Z0-9/_\.\-,]+)'
+		=> [ 'c' => 'git', 'm' => 'unstage', 'name' => 'Git Unstage', 'section' => 'Git' ],
 
 	# Error
 	'/403' => [ 'c' => 'status_code', 'm' => 'forbidden', 'nodb' => true ],

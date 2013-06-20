@@ -93,9 +93,8 @@ class gitrepo {
 
 		$stdout = stream_get_contents($pipes[1]);
 		$stderr = stream_get_contents($pipes[2]);
-		foreach ($pipes as $pipe) {
+		foreach ($pipes as $pipe)
 			fclose($pipe);
-		}
 
 		$status = trim(proc_close($resource));
 		return ($status != 127);
@@ -221,6 +220,11 @@ class gitrepo {
 		$out = util::explode_pop(':', $this->remote_url());
 		return util::explode_shift('.git', "https://github.com/{$out}");
 	}
+
+	public function github_commit_url($hash) {
+		return "{$this->github_url()}/commit/{$hash}";
+	}
+
 	public function push($remote, $branch) {
 		return $this->run("push --tags $remote $branch");
 	}
@@ -229,27 +233,41 @@ class gitrepo {
 		return $this->run("pull $remote $branch");
 	}
 
+	public function log_simple($limit=5) {
+		$log = $this->run("log --pretty=oneline --abbrev-commit -{$limit}");
+		$lines = explode("\n", $log);
+		array_pop($lines);
+		$commits = array_map(function($line) {
+			$parts = explode(' ', $line);
+			return [
+				'hash'    => array_shift($parts),
+				'message' => implode(' ', $parts),
+			];
+		}, $lines);
+		return $commits;
+	}
+
 	public function status() {
 		$status = $this->run('status --porcelain');
 		$status = explode("\n", $status);
-		# modified
 		$out = [
 			'modified'  => [],
 			'untracked' => [],
 			'staged'    => [],
 		];
+
 		foreach ($status as $s) {
-			$s = trim($s);
-			if (!$s) continue;
+			if (!isset($s{0}) && !isset($s{1})) continue;
 			$file = util::explode_pop(' ', $s);
-			switch ($s{0}) {
-				case 'M':
-					$type = ($s{1} == 'M') ? 'staged' : 'modified';
-				break;
-				case 'A':
+			switch ($s{0}.$s{1}) {
+				case 'M ':
+				case 'A ':
 					$type = 'staged';
-					break;
-				case '?':
+				break;
+				case ' M':
+					 $type = 'modified';
+				break;
+				case '??':
 					$type = 'untracked';
 				break;
 			}
