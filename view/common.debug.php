@@ -20,6 +20,8 @@
 <ul>
 	<li><strong>Branch</strong>:
 	<?= html::a($branch_url, $branch) ?></li>
-	<li><strong>Diff</strong>: <?= $git->diff_stat() ?></li>
+	<? if (isset($diff_stat{0})): ?>
+	<li><strong>Diff</strong>: <?= $diff_stat ?></li>
+	<? endif ?>
 </ul>
 <? endif ?>

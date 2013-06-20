@@ -97,6 +97,7 @@ class controller_common extends controller_base {
 		$this->git = git::open(ROOT_DIR);
 		$this->branch = $this->git->active_branch();
 		$this->branch_url = "{$this->git->github_url()}/tree/{$this->branch}";
+		$this->diff_stat = $this->git->diff_stat();
 		//$this->memcache_stats = cache::mc()->getStats();
 		//$this->queries = $GLOBALS['_db_queries'];
 		//$this->route_cache = route::$get_cache;
