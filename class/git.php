@@ -230,10 +230,10 @@ class gitrepo {
 	}
 
 	public function push($remote, $branch) {
-		return $this->run("push --tags $remote $branch");
+		return $this->run("push $remote $branch");
 	}
 	
-	public function pull($remote, $branch) {
+	public function pull($remote='origin', $branch) {
 		return $this->run("pull $remote $branch");
 	}
 

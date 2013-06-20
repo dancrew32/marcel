@@ -36,6 +36,22 @@ class controller_git extends controller_base {
 
 	function origin() {
 		$this->ahead = $this->git->ahead_origin();
+		$this->push_url = route::get('Git Push', ['branch' => 'master']);
+	}
+
+	function push($o) {
+		$branch = take($o['params'], 'branch');	
+		if (!$branch)
+			$this->redir();
+
+		$ok = $this->git->push('origin', $branch);
+		if ($ok) {
+			# TODO: note
+			$this->redir();
+		}
+
+		# TODO: note
+		$this->redir();
 	}
 
 	function log_simple() {
