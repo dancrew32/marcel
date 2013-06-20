@@ -144,7 +144,7 @@ class gitrepo {
 	public function unstage($files = "*") {
 		if (is_array($files))
 			$files = '"'.implode('" "', $files).'"';
-		return $this->run("checkout --rm $files");
+		return $this->run("reset HEAD $files -q");
 	}
 
 	public function commit($message = "") {
@@ -271,7 +271,11 @@ class gitrepo {
 		$remote = $this->github_url($credentials);
 		$this->establish_marcel_remote($remote);
 		$key = self::MARCEL_REMOTE_KEY;
-		$out = $this->run("push {$key} {$branch}");
+		try {
+			$out = $this->run("push {$key} {$branch}");
+		} catch(Exception $e) {
+			$out = false;
+		}
 		$this->revoke_marcel_remote();
 		return $out;
 	}
@@ -282,7 +286,11 @@ class gitrepo {
 		$remote = $this->github_url($credentials);
 		$this->establish_marcel_remote($remote);
 		$key = self::MARCEL_REMOTE_KEY;
-		$out = $this->run("pull {$key} {$branch}");
+		try {
+			$out = $this->run("pull {$key} {$branch}");
+		} catch(Exception $e) {
+			$out = false;
+		}
 		$this->revoke_marcel_remote();
 		return $out;
 	}
