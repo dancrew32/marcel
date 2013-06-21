@@ -43,6 +43,10 @@ route::$routes += ['/cron/scripts' => [ 'c' => 'cron_job', 'm' => 'scripts', 'se
 route::$routes += route::crud('/cron', 'cron_job', 'Cron', 'Cron');
 
 # Users
+route::$routes += ['/users/masquerade/begin/'. route::ID =>
+	[ 'c' => 'user', 'm' => 'masquerade_begin', 'name' => 'User Masquerade Begin', 'section' => 'User' ]];
+route::$routes += ['/users/masquerade/end/' =>
+	[ 'c' => 'user', 'm' => 'masquerade_end', 'name' => 'User Masquerade End', 'section' => 'User' ]];
 route::$routes += route::crud('/users', 'user', 'User', 'User');
 
 # User Types

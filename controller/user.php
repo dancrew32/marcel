@@ -2,11 +2,11 @@
 class controller_user extends controller_base {
 	function __construct($o) {
 		$this->root_path = route::get('User Home');
-		auth::only(['user']);
 		parent::__construct($o);
    	}
  
 	function all($o) {
+		auth::only(['user']);
 		$this->page = take($o['params'], 'page', 1); 
 		$format = take($o['params'], 'format');
 		switch ($format) {
@@ -42,15 +42,18 @@ class controller_user extends controller_base {
 	}
 
 	function view($o) {
+		auth::only(['user']);
 		$this->user = take($o, 'user');	
 		$this->mode = take($o, 'mode', false);
 	}
 
 	function table($o) {
+		auth::only(['user']);
 		$this->users = take($o, 'users');	
 	}
 
 	function add($o) {
+		auth::only(['user']);
 		$user = User::create($_POST);
 		if ($user) {
 			note::set('user:add', $user->id);
@@ -62,6 +65,7 @@ class controller_user extends controller_base {
 	}
 
 	function edit($o) {
+		auth::only(['user']);
 		$this->user = User::find_by_id(take($o['params'], 'id'));
 		if (!$this->user) $this->redir();
 		if (!POST) return;
@@ -85,6 +89,7 @@ class controller_user extends controller_base {
 	}
 
 	function delete($o) {
+		auth::only(['user']);
 		$id = take($o['params'], 'id');
 		if (!$id) $this->redir();
 
@@ -97,9 +102,32 @@ class controller_user extends controller_base {
 	}
 
 /*
+ * MASQUERADE
+ * (become a user, 
+ */
+	function masquerade_begin($o) {
+		auth::only(['user']);
+		$id = take($o['params'], 'id');
+		$_SESSION['masquerader'] = take(User::$user, 'id');
+		$_SESSION['id'] = $id;
+		$this->redir(route::get('Home'));
+	}
+
+	function masquerade_end() {
+		$id = take($_SESSION, 'masquerader');
+		if (!$id)
+			$this->redir(route::get('Home'));
+		$user_id = take($_SESSION, 'id');
+		unset($_SESSION['masquerader']);
+		$_SESSION['id'] = $id;
+		$this->redir(route::get('User Edit', ['id' => $user_id]));
+	}
+
+/*
  * EMAILS
  */
 	function email_join($o) {
+		//auth::only(['user']);
 		$this->verification_url = take($o, 'verification_url');
 	}
 
@@ -108,6 +136,7 @@ class controller_user extends controller_base {
  */
 	# no view
 	function add_form() {
+		auth::only(['user']);
 		$user = new User;
 		$user = $user->from_note();
 
@@ -123,6 +152,7 @@ class controller_user extends controller_base {
 
 	# no view
 	function edit_form($o) {
+		auth::only(['user']);
 		$user = take($o, 'user');
 		$user = $user->from_note();
 		if (!$user) $this->redir();
@@ -137,6 +167,7 @@ class controller_user extends controller_base {
 	}
 
 	private function _build_form($user) {
+		auth::only(['user']);
 
 		# First name
 		$first_name_group = [ 'label' => 'First Name', 'class' => $user->error_class('first') ];

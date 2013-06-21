@@ -19,6 +19,7 @@
 	<?= $yield ?>
 </div>
 
+<hr>
 <div class="container">
 	<?= r('common', 'debug') ?>
 </div>

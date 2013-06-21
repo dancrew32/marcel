@@ -18,10 +18,9 @@
 <? if (isset($git)): ?>
 <h3>Git</h3>
 <ul>
-	<li><strong>Branch</strong>:
-	<?= html::a($branch_url, $branch) ?></li>
+	<li><strong>Branch</strong>: <?= html::a($branch_url, $branch) ?></li>
 	<? if (isset($diff_stat{0})): ?>
-	<li><strong>Diff</strong>: <?= $diff_stat ?></li>
+		<li><strong>Diff</strong>: <?= $diff_stat ?></li>
 	<? endif ?>
 </ul>
 <? endif ?>

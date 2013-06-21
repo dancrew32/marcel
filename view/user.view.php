@@ -38,5 +38,14 @@
 				]) ?>
 			</li>
 		<? endif ?>
+		<? if (User::$user->id != $user->id): ?>
+			<li>
+				<?= html::a([
+					'href' => route::get('User Masquerade Begin', ['id' => $user->id]),
+					'text' => "Masquerade",
+					'icon' => 'user',
+				]) ?>
+			</li>
+		<? endif ?>
 	</ul>
 </div>

@@ -1,4 +1,4 @@
-<? if ($logged_in): ?>
+<? if ($user && $logged_in): ?>
 	<li class="dropdown">
 		<a href="#"
 			data-toggle="dropdown">

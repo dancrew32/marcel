@@ -29,7 +29,18 @@
 						</li>
 					<? endif ?>
 						
+
 					<?= r('common', 'nav_test') ?>
+
+					<? if ($is_masquerading): ?>
+						<li>
+							<?= html::a([
+								'href' => route::get('User Masquerade End'),
+								'text' => "End Masquerade",
+								'icon' => 'user',
+							]) ?>
+						</li>
+					<? endif ?>
 
 				</ul>
 

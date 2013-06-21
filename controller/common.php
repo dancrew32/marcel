@@ -5,7 +5,9 @@ class controller_common extends controller_base {
 		// see views/common.index.php
 	}
 
-	function nav() { }
+	function nav() {
+		$this->is_masquerading = take($_SESSION, 'masquerader');
+   	}
 
 	function nav_collapse() { }
 
@@ -94,10 +96,12 @@ class controller_common extends controller_base {
 		$this->memory = round(memory_get_usage(false) / 1000);
 		$this->unit = "Kb";
 		$this->runtime = (round(microtime(true) - START_TIME, 4)).'s';
-		$this->git = git::open(ROOT_DIR);
-		$this->branch = $this->git->active_branch();
-		$this->branch_url = "{$this->git->github_url()}/tree/{$this->branch}";
-		$this->diff_stat = $this->git->diff_stat();
+		if (auth::can(['git'])) {
+			$this->git = git::open(ROOT_DIR);
+			$this->branch = $this->git->active_branch();
+			$this->branch_url = "{$this->git->github_url()}/tree/{$this->branch}";
+			$this->diff_stat = $this->git->diff_stat();
+		}
 		//$this->memcache_stats = cache::mc()->getStats();
 		//$this->queries = $GLOBALS['_db_queries'];
 		//$this->route_cache = route::$get_cache;
