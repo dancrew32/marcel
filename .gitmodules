@@ -34,3 +34,6 @@
 [submodule "vendor/gitter"]
 	path = vendor/gitter
 	url = git@github.com:klaussilveira/gitter.git
+[submodule "vendor/diff"]
+	path = vendor/diff
+	url = git@github.com:chrisboulton/php-diff.git
