@@ -59,7 +59,7 @@ class User_Type extends model {
 				replace_line_with_match(
 					$auth_file, 
 					"const ANONYMOUS_USER_TYPE_ID", 
-					"const ANONYMOUS_USER_TYPE_ID = {$ut->id};\n"
+					"\tconst ANONYMOUS_USER_TYPE_ID = {$ut->id};\n"
 				);
 			}
 		}

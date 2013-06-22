@@ -35,7 +35,11 @@ class Session extends model {
 	}
 
 	static function read($id) {
-		$result = Session::find_by_id($id, [ 'select' => 'data' ]);
+		try {
+			$result = Session::find_by_id($id, [ 'select' => 'data' ]);
+		} catch (Exception $e) {
+			return _500(); # would be first DB section to fail
+		}
 		return $result ? $result->data : false;
 	}
 

@@ -63,7 +63,7 @@ class Cron_Job extends model {
 		$data = [
 			'MySQL Optimize Database' => [
 				'active'      => 0,
-				'script'      => '',
+				'script'      => util::best_array_match('optimize_tables', $scripts),
 				'frequency'   => '0 0 1 * *',
 				'description' => 'optimize database every month one the first at midnight',
 			],

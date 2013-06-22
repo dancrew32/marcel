@@ -160,6 +160,17 @@ class util {
 		}
 		return 'th';
 	}
+
+	static function best_array_match($search, $array) {
+		$percent = 0;
+		$out = false;
+		foreach ($array as $value) {
+			similar_text($search, $value, $match);
+			if ($match <= $percent) continue;
+			$out = $value;
+		}
+		return $out;
+	}
 }
 
 
