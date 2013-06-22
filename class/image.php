@@ -1,6 +1,7 @@
 <?
 class image {
 
+	const BLANK = '/img/blank.gif';
 	static $process_path = false;
 
 	static $ALLOWED_SITES = array (
@@ -110,6 +111,7 @@ class image {
 		$path .= '&amp;sig='.self::keygen($o);
 
 		if (!$html) return $path;
+		app::asset('class/unveil', 'js');
 		$attrs = '';
 		# always needs alt
 		$alt = isset($alt{0}) ? $alt : $o['src'];
@@ -118,7 +120,7 @@ class image {
 			$attrs .= " width=\"{$o['w']}\"";
 		if ($o['h'])
 			$attrs .= " height=\"{$o['h']}\"";
-		return '<img src="'. $path .'"'. $attrs .'>';
+		return '<img src='. self::BLANK .' data-src="'. $path .'"'. $attrs .'>';
 	}
 
 	static function keygen($o) {

@@ -15,9 +15,12 @@
 	function addEventListeners() {
 		if ($.wysiwyg)
 			$('#editor-1').wysiwyg();
-
 		$('#my-tip').tooltip({ selector: 'a' });
 		$('#popit button').popover();
+		if ($.fn.unveil)
+			$('img').unveil(100);
+		if (FastClick)
+			FastClick.attach(document.body);
 	}
 
 	function init() {
@@ -27,6 +30,6 @@
 		addEventListeners();
 	}
 
-	$(init);
+	$LAB.script('/js/fastclick.js').wait(init);
 
 }(window.APP));

@@ -54,6 +54,5 @@
 		addEventListeners();
 	}
 
-	$(init);
-
+	$LAB.script('/js/validate.min.js').wait(init);
 }(APP));

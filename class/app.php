@@ -139,7 +139,7 @@ class app {
 		$cdn = '//ajax.googleapis.com/ajax/libs';
 		$out = '<script src="'.JS_DIR.'/loader.js"></script>';
 		$out .= '<script>$LAB.script("'. $cdn .'/jquery/'.self::JQUERY_VERSION.'/jquery.min.js")
-			.script("/js/bootstrap.min.js").wait()';
+			.script("/js/bootstrap.js").wait()';
 		foreach (array_unique(self::$assets['js']) as $j) {
 			$delim = strpos($j, '?') ? '&' : '?';
 			$j = CACHE_BUST ? $j.$delim.'d='.date('U') : $j;

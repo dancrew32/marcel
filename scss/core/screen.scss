@@ -1,31 +1,10 @@
-// Bootstrap variable overrides
-// http://twitter.github.io/bootstrap/customize.html
-$bodyBackground: #f8f8f8;
-$textColor: #666;
-$linkColor: green;
-$linkColorHover: darken(green, 20%);
-$gutter: 20px;
-
-// Bootstrap includes
 @import 'compass';
-@import 'compass_twitter_bootstrap';
-body { padding-top: 40px; }
-@import 'compass_twitter_bootstrap_responsive';
+@import 'bootstrap/_bootstrap';
 
-// All yours!
-.input-block-level {
-	display: block;
-	width: 100%;
-	min-height: 28px;
-	@include box-sizing(border-box);
-	.input-prepend & {
-		width: 89%;	
-		min-height: 30px;
-		.span8 & {
-			width: 95%;	
-		}
-	}
+.alpha-container {
+	margin-top: 40px;
 }
+
 .row .inner {
 	border: 1px solid #ccc;	
 	padding:40px 0 20px;
@@ -39,7 +18,7 @@ legend {
 
 .media {
 	margin-top: 0;
-	margin-bottom: $gutter;
+	margin-bottom: 20px;
 }
 
 .word-wrap {
@@ -92,9 +71,3 @@ legend {
 	background-color: #fcf8e3;
 	border: 1px solid #fbeed5;
 }
-/*	
-.pagination {
-	span,
-	a { min-width: 30px; text-align:center; }
-}
-*/

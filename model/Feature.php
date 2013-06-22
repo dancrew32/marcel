@@ -8,6 +8,7 @@ class Feature extends model {
 	static function seed() {
 		$data = [
 			'Audio'            => 'audio',
+			'Cart'             => 'cart',
 			'Cron Job'         => 'cron_job',
 			'Git'              => 'git',
 			'Join'             => 'join',

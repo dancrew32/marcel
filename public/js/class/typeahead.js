@@ -70,19 +70,6 @@
 		}, 400);
 	}
 	
-	//function handleHighlighter(item) {
-		//var p = users[ item ];
-		//var itm = ''
-		//+ "<div class='typeahead_wrapper'>"
-		//+ "<img class='typeahead_photo' src='" + p.photo + "' />"
-		//+ "<div class='typeahead_labels'>"
-		//+ "<div class='typeahead_primary'>" + p.name + "</div>"
-		//+ "<div class='typeahead_secondary'>" + p.dept + "</div>"
-		//+ "</div>"
-		//+ "</div>";
-		//return item;
-	//}
-	
 	function handleTypeaheads() {
 		NS.ELEMENT.typeaheads.typeahead({
 			//minLength: $(this).data('minlength'),
@@ -98,7 +85,7 @@
 	}
 
 	function init() {
-		NS.ELEMENT.typeaheads = $('input.typeahead', NS.body);
+		NS.ELEMENT.typeaheads = $('input.typeahead[data-api]', NS.body);
 		addEventListeners();
 	}
 

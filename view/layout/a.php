@@ -16,7 +16,7 @@
 	<?= r('common', 'nav') ?>
 </div>
 
-<div class="container">
+<div class="container alpha-container">
 	<?= $yield ?>
 </div>
 
