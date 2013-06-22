@@ -8,5 +8,7 @@
 			<?= $hash ?>
 		</span>
 	<? endif ?>
+	<span class="word-wrap">
 	<?= $message ?>
+	</span>
 </div>

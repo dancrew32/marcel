@@ -1,5 +1,8 @@
 @import 'compass';
 @import 'bootstrap/_bootstrap';
+html {
+	-webkit-tap-highlight-color: rgba(255, 255, 255, .1);
+}
 
 .alpha-container {
 	margin-top: 40px;
