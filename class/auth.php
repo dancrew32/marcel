@@ -1,9 +1,11 @@
 <?
 class auth {
 
+	const ANONYMOUS_USER_TYPE_ID = 4;
+
 	static function can(array $features, $user=null) {
 		$user = $user ? $user : User::$user;
-		$user_type_id = $user ? take($user, 'user_type_id', false) : 4;
+		$user_type_id = $user ? take($user, 'user_type_id', false) : self::ANONYMOUS_USER_TYPE_ID;
 		$set = take(User_Permission::$instance, $user_type_id);
 		if (!$set) return false;
 		return count(array_intersect($set, $features));

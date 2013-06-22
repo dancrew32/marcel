@@ -49,11 +49,20 @@ class User_Type extends model {
 			'Admin'     => 'admin',
 			'Manager'   => 'manager',
 			'User'      => 'user',
-			'Anonymous' => 'anonymous', // TODO: auto set user_type_id in auth::can()
+			'Anonymous' => 'anonymous',
 		];
 
-		foreach ($data as $k => $v)
-			self::create(['name' => $k, 'slug' => $v ]);
+		foreach ($data as $k => $v) {
+			$ut = self::create(['name' => $k, 'slug' => $v ]);
+			if ($v == 'anonymous') {
+				$auth_file = CLASS_DIR.'/auth.php';	
+				replace_line_with_match(
+					$auth_file, 
+					"const ANONYMOUS_USER_TYPE_ID", 
+					"const ANONYMOUS_USER_TYPE_ID = {$ut->id};\n"
+				);
+			}
+		}
 	}
 
 /*

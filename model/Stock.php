@@ -13,6 +13,17 @@ class Stock extends model {
 /*
  * STATIC
  */
+	static function seed() {
+		$data = [
+			'Z', # Zillow
+			'AMD', # AMD
+			'SQNM', # Sequenom
+			'ZNGA', # Zynga
+		];
+
+		self::symbols($data);
+	}
+
 	static function create_symbol($symbol) {
 		$data = (array) stock_market::quote($symbol);
 		if (!count($data)) return false;

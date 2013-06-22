@@ -58,6 +58,25 @@ class Cron_Job extends model {
 /*
  * STATIC
  */
+	static function seed() {
+		$scripts = glob(SCRIPT_DIR.'/cron.*.php');
+		$data = [
+			'MySQL Optimize Database' => [
+				'active'      => 0,
+				'script'      => '',
+				'frequency'   => '0 0 1 * *',
+				'description' => 'optimize database every month one the first at midnight',
+			],
+		];
+		foreach ($data as $k => $v)
+			self::create([
+				'name'        => $k, 
+				'active'      => take($v, 'active'),
+				'frequency'   => take($v, 'frequency'),
+				'description' => take($v, 'description'),
+			]);
+	}
+
 	static function build_cron_expression($frequency, $time) {
 		$time = is_string($time) ? strtotime($time) : time();
 		$time = explode(' ', date('i G j n w', $time));
