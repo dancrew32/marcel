@@ -221,7 +221,17 @@ class gitrepo {
 	}
 
 	public function fetch() {
-		return $this->run("fetch");
+		$credentials = $this->build_credentials();
+		$remote = $this->github_url($credentials);
+		$this->establish_marcel_remote($remote);
+		$key = self::MARCEL_REMOTE_KEY;
+		try {
+			$out = $this->run("fetch {$key} {$branch}");
+		} catch(Exception $e) {
+			$out = false;
+		}
+		$this->revoke_marcel_remote();
+		return $out;
 	}
 
 	public function add_tag($tag, $message = null) {
@@ -344,6 +354,7 @@ class gitrepo {
 				case ' M':
 					 $type = 'modified';
 				break;
+				case 'D ':
 				case ' D':
 					 $type = 'deleted';
 				break;
@@ -378,11 +389,19 @@ class gitrepo {
 	}
 
 	public function submodule_add($source, $alias) {
-		$credentials = $this->build_credentials();
-		$remote = str_replace('https://', "https://{$credentials}", $source);
-		$this->establish_marcel_remote($remote);
-		$key = self::MARCEL_REMOTE_KEY;
+		$file = ROOT_DIR.'/.gitmodules';
+		$data = file_get_contents($file);
+		$data .= "[submodule \"vendor/{$alias}\"]\n";
+		$data .= "\tpath = vendor/{$alias}\n";
+		$data .= "\turl = git@github.com:". util::explode_pop('github.com/', $source);
+
+		file_put_contents($file, $data); // can't lock file? wtf
+
 		try {
+			$credentials = $this->build_credentials();
+			$remote = str_replace('https://', "https://{$credentials}", $source);
+			$this->establish_marcel_remote($remote);
+			$key = self::MARCEL_REMOTE_KEY;
 			$cmd = "submodule add {$source} vendor/{$alias}";
 			$out = $this->run($cmd);
 		} catch(Exception $e) {
@@ -392,7 +411,7 @@ class gitrepo {
 		return $out;
 	}
 
-	public function submodule_remove($submodule_path) {
+	public function submodule_delete($submodule_path) {
 		// LEGACY < 1.8.3 git
 		//$folder_name = util::explode_pop('/', $submodule_path);
 		//$submodule_file = ROOT_DIR.'/.gitmodules';
@@ -407,11 +426,21 @@ class gitrepo {
 		//system("rm -rf {$submodule_path}");
 
 		// MODERN 1.8.3 git
-		$this->run("submodule deinit {$submodule_path}");
-		$this->run("rm -r {$submodule_path}");
-		system('rm -rf '. ROOT_DIR ."/{$submodule_path}");
-
+		if (!util::starts_with($submodule_path, 'vendor/')) 
+			return false;
+		try {
+			$out = $this->run("submodule deinit {$submodule_path}");
+		} catch (Exception $e) { }
+		try {
+			$this->run("add -u {$submodule_path}");
+			shell_exec('rm -rf '. ROOT_DIR ."/{$submodule_path}/");
+			# remove [submodule "*/*"] and next two lines (path, url)
+			$submodule_file = ROOT_DIR ."/.gitmodules";
+			util::delete_line_with_match($submodule_file, $submodule_path, 2);
+		} catch (Exception $e) { }
+		return $out;
 	}
+
 	public function set_description($new) {
 		$file = "{$this->repo_path}/.git/description";
 		file_put_contents($file, $new);

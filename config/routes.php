@@ -161,6 +161,8 @@ route::$routes += [
 		=> [ 'c' => 'git', 'm' => 'push', 'name' => 'Git Push', 'section' => 'Git' ],
 	'/git/pull/(?P<branch>[a-zA-Z0-9_\-]+)'
 		=> [ 'c' => 'git', 'm' => 'pull', 'name' => 'Git Pull', 'section' => 'Git' ],
+	'/git/fetch/(?P<branch>[a-zA-Z0-9_\-]+)'
+		=> [ 'c' => 'git', 'm' => 'fetch', 'name' => 'Git Fetch', 'section' => 'Git' ],
 	'/git/submodule/add'
 		=> [ 'c' => 'git', 'm' => 'submodule_add', 'name' => 'Git Submodule Add', 'section' => 'Git' ],
 	'/git/submodule/delete/(?P<path>[a-zA-Z0-9/_\.\-,]+)'

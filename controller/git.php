@@ -28,7 +28,7 @@ class controller_git extends controller_base {
 
 	function status_deleted($o) {
 		$this->paths  = take($o, 'paths');
-		$this->status = 'staged';
+		$this->status = 'deleted';
 		$this->color_class = 'error';
 	}
 
@@ -48,6 +48,7 @@ class controller_git extends controller_base {
 		$this->ahead = $this->git->ahead_origin();
 		$this->push_url = route::get('Git Push', ['branch' => 'master']);
 		$this->pull_url = route::get('Git Pull', ['branch' => 'master']);
+		$this->fetch_url = route::get('Git Fetch', ['branch' => 'master']);
 	}
 
 	function push($o) {
@@ -71,6 +72,21 @@ class controller_git extends controller_base {
 			$this->redir();
 
 		$ok = $this->git->pull($branch);
+		if ($ok) {
+			# TODO: note
+			$this->redir();
+		}
+
+		# TODO: note
+		$this->redir();
+	}
+
+	function fetch($o) {
+		$branch = take($o['params'], 'branch');	
+		if (!$branch)
+			$this->redir();
+
+		$ok = $this->git->fetch($branch);
 		if ($ok) {
 			# TODO: note
 			$this->redir();
@@ -187,7 +203,7 @@ class controller_git extends controller_base {
 	}
 
 	function submodule_delete($o) {
-		$path = take($o, 'path');
+		$path = take($o['params'], 'path');
 		$ok = $this->git->submodule_delete($path);
 		if ($ok) {
 			# TODO: note

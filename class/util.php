@@ -174,7 +174,7 @@ class util {
 
 
 	# DELETE LINE with MATCH
-	static function delete_line_with_match($file, $string) {
+	static function delete_line_with_match($file, $string, $lines_after=0) {
 		$i = 0;
 		$temp = array();
 
@@ -186,8 +186,13 @@ class util {
 		fclose($read);
 
 		$write = fopen($file, "w") or die("can't open the file");
-		foreach($temp as $a)
-			if (!strstr($a,$string)) fwrite($write, $a);
+		$next = 0;
+		foreach($temp as $a) {
+			if (!$next && !strstr($a, $string))
+				fwrite($write, $a);
+			else
+				$next = $lines_after--;
+		}
 		fclose($write);
 	}
 

@@ -17,4 +17,7 @@
 	<li>
 		<?= html::a($pull_url, 'Pull from Master', 'arrow-down') ?>
 	</li>
+	<li>
+		<?= html::a($fetch_url, 'Fetch from Master', 'chevron-down') ?>
+	</li>
 </ul>

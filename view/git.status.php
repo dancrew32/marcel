@@ -5,7 +5,7 @@
 	<? endif ?>
 
 	<? if ($deleted): ?>
-		<h3>Staged</h3>
+		<h3>Deleted</h3>
 		<?= r('git', 'status_deleted', ['paths' => $deleted]) ?>
 	<? endif ?>
 
