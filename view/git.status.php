@@ -4,6 +4,11 @@
 		<?= r('git', 'status_staged', ['paths' => $staged]) ?>
 	<? endif ?>
 
+	<? if ($deleted): ?>
+		<h3>Staged</h3>
+		<?= r('git', 'status_deleted', ['paths' => $deleted]) ?>
+	<? endif ?>
+
 	<? if ($modified): ?>
 		<h3>Modified</h3>
 		<?= r('git', 'status_modified', ['paths' => $modified]) ?>

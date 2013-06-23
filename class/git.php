@@ -344,6 +344,9 @@ class gitrepo {
 				case ' M':
 					 $type = 'modified';
 				break;
+				case ' D':
+					 $type = 'deleted';
+				break;
 				case '??':
 					$type = 'untracked';
 				break;
@@ -376,16 +379,16 @@ class gitrepo {
 
 	public function submodule_add($source, $alias) {
 		$credentials = $this->build_credentials();
-		//$remote = str_replace('https://', "https://{$credentials}", $source);
-		//$this->establish_marcel_remote($remote);
-		//$key = self::MARCEL_REMOTE_KEY;
+		$remote = str_replace('https://', "https://{$credentials}", $source);
+		$this->establish_marcel_remote($remote);
+		$key = self::MARCEL_REMOTE_KEY;
 		try {
 			$cmd = "submodule add {$source} vendor/{$alias}";
 			$out = $this->run($cmd);
 		} catch(Exception $e) {
 			$out = false;
 		}
-		//$this->revoke_marcel_remote();
+		$this->revoke_marcel_remote();
 		return $out;
 	}
 

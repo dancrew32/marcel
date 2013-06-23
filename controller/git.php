@@ -15,6 +15,7 @@ class controller_git extends controller_base {
 	function status() {
 		$status = $this->git->status();
 		$this->staged    = take($status, 'staged');
+		$this->deleted   = take($status, 'deleted');
 		$this->modified  = take($status, 'modified');
 		$this->untracked = take($status, 'untracked');
 	}
@@ -23,6 +24,12 @@ class controller_git extends controller_base {
 		$this->paths  = take($o, 'paths');
 		$this->status = 'staged';
 		$this->color_class = 'success';
+	}
+
+	function status_deleted($o) {
+		$this->paths  = take($o, 'paths');
+		$this->status = 'staged';
+		$this->color_class = 'error';
 	}
 
 	function status_modified($o) {
@@ -34,7 +41,7 @@ class controller_git extends controller_base {
 	function status_untracked($o) {
 		$this->paths  = take($o, 'paths');
 		$this->status = 'untracked';
-		$this->color_class = 'error';
+		$this->color_class = 'info';
 	}
 
 	function origin() {
