@@ -161,6 +161,10 @@ route::$routes += [
 		=> [ 'c' => 'git', 'm' => 'push', 'name' => 'Git Push', 'section' => 'Git' ],
 	'/git/pull/(?P<branch>[a-zA-Z0-9_\-]+)'
 		=> [ 'c' => 'git', 'm' => 'pull', 'name' => 'Git Pull', 'section' => 'Git' ],
+	'/git/submodule/add'
+		=> [ 'c' => 'git', 'm' => 'submodule_add', 'name' => 'Git Submodule Add', 'section' => 'Git' ],
+	'/git/submodule/delete/(?P<path>[a-zA-Z0-9/_\.\-,]+)'
+		=> [ 'c' => 'git', 'm' => 'submodule_delete', 'name' => 'Git Submodule Delete', 'section' => 'Git' ],
 	# reset not working yet
 	//'/git/reset/(?P<files>[a-zA-Z0-9/_\.\-,]+)'
 		//=> [ 'c' => 'git', 'm' => 'reset', 'name' => 'Git Reset', 'section' => 'Git' ],

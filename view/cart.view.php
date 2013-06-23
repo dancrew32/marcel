@@ -29,8 +29,8 @@
 						$<?= number_format($item->product->price * $item->quantity, 2) ?>
 					</td>
 					<td>
-						<?= html::btn($item->product->add_url(), '', 'plus-sign') ?>
-						<?= html::btn($item->product->remove_url(), '', 'remove-sign') ?>
+						<?= html::btn($item->product->add_url(), '', 'plus-sign', 'mini') ?>
+						<?= html::btn($item->product->remove_url(), '', 'remove-sign', 'mini') ?>
 					</td>
 				</tr>
 			<? endforeach ?>

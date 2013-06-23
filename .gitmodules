@@ -31,9 +31,9 @@
 [submodule "vendor/email_templates"]
 	path = vendor/email_templates
 	url = git@github.com:mailchimp/email-blueprints.git
-[submodule "vendor/gitter"]
-	path = vendor/gitter
-	url = git@github.com:klaussilveira/gitter.git
 [submodule "vendor/diff"]
 	path = vendor/diff
 	url = git@github.com:chrisboulton/php-diff.git
+[submodule "vendor/filterus"]
+	path = vendor/filterus
+	url = https://github.com/ircmaxell/filterus.git

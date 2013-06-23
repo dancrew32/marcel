@@ -171,6 +171,46 @@ class util {
 		}
 		return $out;
 	}
+
+
+	# DELETE LINE with MATCH
+	static function delete_line_with_match($file, $string) {
+		$i = 0;
+		$temp = array();
+
+		$read = fopen($file, "r") or die("can't open the file");
+		while(!feof($read)) {
+			$temp[$i] = fgets($read);	
+			++$i;
+		}
+		fclose($read);
+
+		$write = fopen($file, "w") or die("can't open the file");
+		foreach($temp as $a)
+			if (!strstr($a,$string)) fwrite($write, $a);
+		fclose($write);
+	}
+
+	# REPLACE LINE with MATCH
+	static function replace_line_with_match($file, $string, $replacement='') {
+		$i = 0;
+		$temp = array();
+
+		$read = fopen($file, "r") or die("can't open the file");
+		while(!feof($read)) {
+			$temp[$i] = fgets($read);	
+			++$i;
+		}
+		fclose($read);
+
+		$write = fopen($file, "w") or die("can't open the file");
+		foreach($temp as $a)
+			if (!strstr($a,$string)) 
+				fwrite($write, $a);
+			else
+				fwrite($write, $replacement);
+		fclose($write);
+	}
 }
 
 

@@ -1,14 +1,16 @@
-<div class="commit">
-	<? if ($is_head || $after_head): ?>
-		<a href="<?= $hash_url ?>" target="_blank" class="label label-<?= $label_class ?> pull-right">
-			<?= $hash ?>
-		</a>
-	<? else: ?>
-		<span class="label label-<?= $label_class ?> pull-right">
-			<?= $hash ?>
-		</span>
-	<? endif ?>
+<td>
 	<span class="word-wrap">
-	<?= $message ?>
+		<?= $message ?>
 	</span>
-</div>
+</td>
+<td>
+<? if ($is_head || $after_head): ?>
+	<a href="<?= $hash_url ?>" target="_blank" class="label label-full label-<?= $label_class ?>">
+		<?= $hash ?>
+	</a>
+<? else: ?>
+	<span class="label label-full label-<?= $label_class ?>">
+		<?= $hash ?>
+	</span>
+<? endif ?>
+</td>

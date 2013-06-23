@@ -354,6 +354,61 @@ class gitrepo {
 		return $out;
 	}
 
+	public function submodules() {
+		$submodule_file = ROOT_DIR.'/.gitmodules';
+		$data = file_get_contents($submodule_file);
+		preg_match_all('/(?:path = )(?P<path>.*)/', $data, $path_matches);
+		preg_match_all('/(?:url = )(?P<url>.*)/', $data, $url_matches);
+		$out = [];
+
+		# hopefully these always are equal
+		if (count($path_matches) != count($url_matches)) return false;
+
+		$url_matches = array_map(function($url) {
+			$url_pre = preg_replace('#(://)(git)([@:]*)#', '$1', $this->github_url($url));
+			return preg_replace('/([\.com|git]+)(:+)/', '$1/', $url_pre);
+		}, take($url_matches, 'url'));
+		//pp($url_matches); // TODO: fix regex for taking out sequential .coms
+
+		$out = array_combine(take($path_matches, 'path'), $url_matches);
+		return $out;
+	}
+
+	public function submodule_add($source, $alias) {
+		$credentials = $this->build_credentials();
+		//$remote = str_replace('https://', "https://{$credentials}", $source);
+		//$this->establish_marcel_remote($remote);
+		//$key = self::MARCEL_REMOTE_KEY;
+		try {
+			$cmd = "submodule add {$source} vendor/{$alias}";
+			$out = $this->run($cmd);
+		} catch(Exception $e) {
+			$out = false;
+		}
+		//$this->revoke_marcel_remote();
+		return $out;
+	}
+
+	public function submodule_remove($submodule_path) {
+		// LEGACY < 1.8.3 git
+		//$folder_name = util::explode_pop('/', $submodule_path);
+		//$submodule_file = ROOT_DIR.'/.gitmodules';
+		//util::delete_line_with_match($submodule_file, $folder_name);
+		//$this->stage('.gitmodules');
+		//$git_config = ROOT_DIR.'/.gitconfig';
+		//util::delete_line_with_match($git_config, $folder_name);
+		//$this->run("rm --cached {$submodule_path}");
+		//$git_module_path = ROOT_DIR."/.git/modules/{$folder_name}";
+		//system("rm -rf {$git_module_path}");
+		//$this->commit("Removed {$submodule_path} submodule");
+		//system("rm -rf {$submodule_path}");
+
+		// MODERN 1.8.3 git
+		$this->run("submodule deinit {$submodule_path}");
+		$this->run("rm -r {$submodule_path}");
+		system('rm -rf '. ROOT_DIR ."/{$submodule_path}");
+
+	}
 	public function set_description($new) {
 		$file = "{$this->repo_path}/.git/description";
 		file_put_contents($file, $new);

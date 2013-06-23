@@ -9,6 +9,7 @@ class controller_authentication extends controller_base {
 		if (User::$logged_in) 
 			app::redir(route::get('Home'));
 		$this->version = route::$path == route::get('Join') ? 'join' : 'login';
+		app::title($this->version == 'join' ? 'Join' : 'Login');
    	}
 
 	# no view
@@ -76,6 +77,7 @@ class controller_authentication extends controller_base {
 
 	# no view
 	function create_user($o) {
+		auth::can(['user']);
 		$email = take_post('email');
 		$pass  = take_post('password');
 

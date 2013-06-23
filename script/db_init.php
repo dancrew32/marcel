@@ -21,10 +21,10 @@ if (!$ok) return red("FAIL");
 
 # UPDATE INDEX.PHP
 $index_file = PUBLIC_DIR.'/index.php';	
-replace_line_with_match($index_file, "define('DB_USER'", "define('DB_USER', '{$db_user}');\n");
-replace_line_with_match($index_file, "define('DB_PASS'", "define('DB_PASS', '{$db_pass}');\n");
-replace_line_with_match($index_file, "define('DB_HOST'", "define('DB_HOST', '{$db_host}');\n");
-replace_line_with_match($index_file, "define('DB_NAME'", "define('DB_NAME', '{$db_name}');\n");
+util::replace_line_with_match($index_file, "define('DB_USER'", "define('DB_USER', '{$db_user}');\n");
+util::replace_line_with_match($index_file, "define('DB_PASS'", "define('DB_PASS', '{$db_pass}');\n");
+util::replace_line_with_match($index_file, "define('DB_HOST'", "define('DB_HOST', '{$db_host}');\n");
+util::replace_line_with_match($index_file, "define('DB_NAME'", "define('DB_NAME', '{$db_name}');\n");
 green("DB Constants updated in {$index_file}.\n");
 
 

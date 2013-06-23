@@ -22,6 +22,10 @@
 		<h3>Log</h3>
 		<?= r('git', 'log_simple') ?>
 
+		<h3>Submodules</h3>
+		<?= r('git', 'submodules') ?>
+		<?= r('git', 'submodule_add_form') ?>
+
 	</div>
 	<div class="span4">
 

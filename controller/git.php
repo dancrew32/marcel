@@ -9,6 +9,7 @@ class controller_git extends controller_base {
 
 	function main() {
 		$this->count = $this->git->commit_count();
+		app::title('Git');
    	}
 
 	function status() {
@@ -105,8 +106,7 @@ class controller_git extends controller_base {
 				$this->stage = route::get('Git Stage', ['files' => $this->path]);
 				//$this->reset = route::get('Git Reset', ['files' => $this->path]);
 				$diff = $this->git->diff($this->path);
-				if ($diff)
-					$this->title = h($diff);
+				$this->title = $diff ? h($diff) : $this->path;
 				break;
 		}
 	}
@@ -156,6 +156,41 @@ class controller_git extends controller_base {
 		$this->redir();
 	}
 
+	function submodules() {
+		$this->submodules = $this->git->submodules();
+	}
+
+	function submodule($o) {
+		$this->path = take($o, 'path');
+		$this->url = take($o, 'url', '#');
+		$this->delete_url = route::get('Git Submodule Delete', ['path' => $this->path]);
+	}
+
+	function submodule_add() {
+		$source = take_post('source');
+		$alias  = take_post('alias');
+		$ok = $this->git->submodule_add($source, $alias);
+		if ($ok) {
+			# TODO: note
+			$this->redir();
+		}
+
+		# TODO: note
+		$this->redir();
+	}
+
+	function submodule_delete($o) {
+		$path = take($o, 'path');
+		$ok = $this->git->submodule_delete($path);
+		if ($ok) {
+			# TODO: note
+			$this->redir();
+		}
+
+		# TODO: note
+		$this->redir();
+	}
+
 	function commit() {
 		$commit = trim(take_post('commit'));
 		if (!$commit)
@@ -169,6 +204,22 @@ class controller_git extends controller_base {
 
 		# TODO: note
 		$this->redir();
+	}
+
+	# no view
+	function submodule_add_form($o) {
+		$this->form = new form;
+		$this->form->open(route::get('Git Submodule Add'), 'post', [
+			'class' => 'last', 
+		]);
+		$this->_build_submodule_add_form();
+		$submit_options = [
+			'text' => 'Add Submodule',
+			'icon' => 'plus',
+			'data-loading-text' => html::verb_icon('Adding Submodule', 'plus'),
+		];
+		$this->form->add(new field('submit', $submit_options));
+		echo $this->form;
 	}
 
 	# no view
@@ -209,5 +260,34 @@ class controller_git extends controller_base {
 		$this->form
 			->group($commit_group, $commit_field, $commit_help)
 			;
+
+	}
+
+	private function _build_submodule_add_form() {
+
+		# Source
+		$source_group = [ 'label' => 'Source', 'class' => null ];
+		$source_help  = new field('help', [ 'text' => null ]);
+		$source_field = new field('input', [
+			'name'         => 'source', 
+			'class'        => 'input-block-level required',
+			'placeholder'  => 'e.g. "https://github.com/ircmaxell/filterus.git"',
+		]);
+
+		# Alias
+		$alias_group = [ 'label' => 'Alias', 'class' => null ];
+		$alias_help  = new field('help', [ 'text' => null ]);
+		$alias_field = new field('input', [
+			'name'         => 'alias', 
+			'class'        => 'input-block-level required',
+			'placeholder'  => 'e.g. vendor/"<what-you-write-here>"',
+		]);
+
+		# Build Form
+		$this->form
+			->group($source_group, $source_field, $source_help)
+			->group($alias_group, $alias_field, $alias_help)
+			;
+
 	}
 }
