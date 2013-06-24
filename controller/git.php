@@ -14,30 +14,26 @@ class controller_git extends controller_base {
 
 	function notification() {
 		$notes = [
-			'staged', 
-			'unstaged',
+			'stage', 
+			'unstage',
 			'push',
 			'pull',
 			'fetch',
 			'branch_add',
 			'branch_delete',
+			'branch_checkout',
 			'submodule_add',
 			'submodule_delete',
-			'checkout',
 			'commit',
 		];
 
-		$out = [];
+		$this->notifications = [];
 		foreach ($notes as $note) {
-			$success = note::get("git:{$note}:success");
-			if ($success)
-				$out[] = html::alert($success, ['type' => 'success']);
-
-			$error = note::get("git:{$note}:failure");
-			if ($error)
-				$out[] = html::alert($error, ['type' => 'error']);
+			if ($success = note::get("git:{$note}:success"))
+				$this->notifications[] = html::alert($success, ['type' => 'success']);
+			if ($error = note::get("git:{$note}:failure"))
+				$this->notifications[] = html::alert($error, ['type' => 'error']);
 		}
-		$this->notifications = $out;
 	}
 
 	function status() {
@@ -94,7 +90,6 @@ class controller_git extends controller_base {
 		}
 	}
 
-
 	function origin() {
 		$this->ahead = $this->git->ahead_origin();
 		$this->push_url = route::get('Git Push', ['branch' => 'master']);
@@ -124,9 +119,9 @@ class controller_git extends controller_base {
 		$branch_name = take_post('branch_name');
 		try { 
 			$this->git->create_branch($branch_name);
-			note::set('git:branch_add:success', h("Added new branch: \"{$branch_name}\""));
+			note::set('git:'.__FUNCTION__.':success', h("Added new branch: \"{$branch_name}\""));
 		} catch (Exception $e) {
-			note::set('git:branch_add:failure', git::error($e));
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
 		$this->redir();
 	}
@@ -139,9 +134,9 @@ class controller_git extends controller_base {
 		try {
 			$force = false;
 			$ok = $this->git->delete_branch($branch, $force);
-			note::set('git:branch_delete:success', h("Deleted branch: \"{$branch}\""));
+			note::set('git:'.__FUNCTION__.':success', h("Deleted branch: \"{$branch}\""));
 		} catch (Exception $e) {
-			note::set('git:branch_delete:failure', git::error($e));
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
 		$this->redir();
 	}
@@ -151,13 +146,12 @@ class controller_git extends controller_base {
 		if (!$branch)
 			$this->redir();
 
-		$ok = $this->git->checkout($branch);
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		try {
+			$this->git->checkout($branch);
+			note::set('git:'.__FUNCTION__.':success', h("Checked out \"{$branch}\""));
+		} catch (Exception $e) {
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
@@ -166,13 +160,12 @@ class controller_git extends controller_base {
 		if (!$branch)
 			$this->redir();
 
-		$ok = $this->git->push($branch);
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		try {
+			$this->git->push($branch);
+			note::set('git:'.__FUNCTION__.':success', h("Successfully pushed {$branch} to origin/{$branch}"));
+		} catch (Exception $e) {
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
@@ -181,13 +174,12 @@ class controller_git extends controller_base {
 		if (!$branch)
 			$this->redir();
 
-		$ok = $this->git->pull($branch);
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		try {
+			$this->git->pull($branch);
+			note::set('git:'.__FUNCTION__.':success', h("Successfully pulled from origin/{$branch} into {$this->git->active_branch()}"));
+		} catch (Exception $e) {
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
@@ -196,13 +188,12 @@ class controller_git extends controller_base {
 		if (!$branch)
 			$this->redir();
 
-		$ok = $this->git->fetch($branch);
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		try {
+			$this->git->fetch($branch);
+			note::set('git:'.__FUNCTION__.':success', h("Successfully fetched from origin/{$branch}"));
+		} catch (Exception $e) {
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
@@ -229,13 +220,13 @@ class controller_git extends controller_base {
 		if (!$files)
 			$this->redir();
 
-		$ok = $this->git->stage(explode(',', $files));
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		$files = explode(',', $files);
+		try {
+			$this->git->stage($files);
+			note::set('git:'.__FUNCTION__.':success', h("Staged ". util::list_english($files)));
+		} catch (Exception $e) {
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
@@ -244,13 +235,13 @@ class controller_git extends controller_base {
 		if (!$files)
 			$this->redir();
 
-		$ok = $this->git->unstage(explode(',', $files));
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		$files = explode(',', $files);
+		try {
+			$this->git->unstage($files);
+			note::set('git:'.__FUNCTION__.':success', h("Unstaged ". util::list_english($files)));
+		} catch (Exception $e) {
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
@@ -259,13 +250,13 @@ class controller_git extends controller_base {
 		if (!$files)
 			$this->redir();
 
-		$ok = $this->git->reset(explode(',', $files));
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		$files = explode(',', $files);
+		try {
+			$this->git->reset($files);
+			note::set('git:'.__FUNCTION__.':success', h("Reset ". util::list_english($files)));
+		} catch (Exception $e) {
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
@@ -282,25 +273,24 @@ class controller_git extends controller_base {
 	function submodule_add() {
 		$source = take_post('source');
 		$alias  = take_post('alias');
-		$ok = $this->git->submodule_add($source, $alias);
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		try {
+			$this->git->submodule_add($source, $alias);
+			note::set('git:'.__FUNCTION__.':success', h("Added submodule \"{$alias}\" to vendor/{$alias}"));
+		} catch (Exception $e) {
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
 	function submodule_delete($o) {
 		$path = take($o['params'], 'path');
-		$ok = $this->git->submodule_delete($path);
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		try {
+			$this->git->submodule_delete($path);
+			$folder_name = util::explode_pop('/', $path);
+			note::set('git:'.__FUNCTION__.':success', h("Deleted submodule \"{$folder_name}\" from {$path}"));
+		} catch (Exception $e) {
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
@@ -309,13 +299,14 @@ class controller_git extends controller_base {
 		if (!$commit)
 			$this->redir();
 
-		$ok = $this->git->commit($commit);
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		try {
+			$hash = $this->git->commit($commit);
+			$url = $this->git->github_commit_url($hash);
+			$anchor = html::a($url, substr($hash, 0, 7));
+			note::set('git:'.__FUNCTION__.':success', "Created commit: {$anchor}");
+		} catch (Exception $e) {
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
