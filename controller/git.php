@@ -300,10 +300,10 @@ class controller_git extends controller_base {
 			$this->redir();
 
 		try {
-			$hash = $this->git->commit($commit);
-			$url = $this->git->github_commit_url($hash);
-			$anchor = html::a($url, substr($hash, 0, 7));
-			note::set('git:'.__FUNCTION__.':success', "Created commit: {$anchor}");
+			$response = preg_match("/(?P<hash>\b[0-9a-f]{5,40}\b)/", $this->git->commit($commit), $matches);
+			$hash = take($matches, 'hash');
+			$anchor = $hash ? ": ". html::a($this->git->github_commit_url($hash), substr($hash, 0, 7)) : '';
+			note::set('git:'.__FUNCTION__.':success', "Created commit{$anchor}");
 		} catch (Exception $e) {
 			note::set('git:'.__FUNCTION__.':failure', git::error($e));
 		}
