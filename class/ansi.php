@@ -4,8 +4,8 @@ class ansi {
 		$pre = VENDOR_DIR .'/ansi-to-html/SensioLabs/AnsiConverter';
 		$deps = [
 			'AnsiToHtmlConverter.php',
-			'/Theme/Theme.php',
-			'/Theme/SolarizedTheme.php',
+			'Theme/Theme.php',
+			'Theme/SolarizedTheme.php',
 		];
 		foreach ($deps as $d)
 			require_once "{$pre}/{$d}";
