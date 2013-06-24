@@ -138,7 +138,7 @@ class gitrepo {
 	public function stage($files = "*") {
 		if (is_array($files))
 			$files = '"'.implode('" "', $files).'"';
-		return $this->run("add -u $files -v");
+		return $this->run("add $files -v");
 	}
 
 	public function unstage($files = "*") {
@@ -169,6 +169,10 @@ class gitrepo {
 
 	public function create_branch($branch) {
 		return $this->run("branch $branch");
+	}
+
+	public function create_checkout_branch($branch) {
+		return $this->run("checkout -b $branch");
 	}
 
 	public function delete_branch($branch, $force = false) {

@@ -13,14 +13,18 @@
 			<p class="lead">Your origin/master is empty. Push some code!</p>
 		<? endif ?>
 
-		<h3>Commit</h3>
-		<?= r('git', 'commit_form') ?>
-
 		<h3>Origin</h3>
 		<?= r('git', 'origin') ?>
 
+		<h3>Commit</h3>
+		<?= r('git', 'commit_form') ?>
+
 		<h3>Log</h3>
-		<?= r('git', 'log_simple') ?>
+		<?= r('git', 'log_simple', ['count' => 5]) ?>
+
+		<h3>Branches</h3>
+		<?= r('git', 'branches') ?>
+		<?= r('git', 'branch_add_form') ?>
 
 		<h3>Submodules</h3>
 		<?= r('git', 'submodules') ?>

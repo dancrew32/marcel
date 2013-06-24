@@ -74,6 +74,67 @@ class controller_git extends controller_base {
 		$this->fetch_url = route::get('Git Fetch', ['branch' => 'master']);
 	}
 
+	function branches() {
+		$this->branches = $this->git->list_branches();
+		$this->current_branch = $this->git->active_branch();
+		if (AJAX)
+			json($this->branches);
+	}
+
+	function branch($o) {
+		$current_branch = take($o, 'current_branch', $this->git->active_branch());
+		$this->branch = take($o, 'branch');
+		$this->is_current = $current_branch == $this->branch;
+		$this->branch_url = "{$this->git->github_url()}/tree/{$this->branch}";
+		$this->delete_url = $this->branch != 'master' 
+			? route::get('Git Branch Delete', ['branch' => $this->branch]) 
+			: false;
+		$this->checkout_url = route::get('Git Branch Checkout', ['branch' => $this->branch]);
+	}
+
+	function branch_add() {
+		$branch_name = take_post('branch_name');
+		$ok = $this->git->create_branch($branch_name);
+		if ($ok) {
+			# TODO: note
+			$this->redir();
+		}
+
+		# TODO: note
+		$this->redir();
+	}
+
+	function branch_delete($o) {
+		$branch = take($o['params'], 'branch');	
+		if (!$branch)
+			$this->redir();
+
+		$force = false;
+		$ok = $this->git->delete_branch($branch, $force);
+		if ($ok) {
+			# TODO: note
+			$this->redir();
+		}
+
+		# TODO: note
+		$this->redir();
+	}
+
+	function branch_checkout($o) {
+		$branch = take($o['params'], 'branch');	
+		if (!$branch)
+			$this->redir();
+
+		$ok = $this->git->checkout($branch);
+		if ($ok) {
+			# TODO: note
+			$this->redir();
+		}
+
+		# TODO: note
+		$this->redir();
+	}
+
 	function push($o) {
 		$branch = take($o['params'], 'branch');	
 		if (!$branch)
@@ -119,8 +180,9 @@ class controller_git extends controller_base {
 		$this->redir();
 	}
 
-	function log_simple() {
-		$this->commits = $this->git->log_simple(20);
+	function log_simple($o) {
+		$count = take($o, 'count', 20);
+		$this->commits = $this->git->log_simple($count);
 		$this->after_head = false;
 	}
 
@@ -267,6 +329,23 @@ class controller_git extends controller_base {
 		echo $this->form;
 	}
 
+	# no view
+	function branch_add_form($o) {
+		$this->form = new form;
+		$this->form->open(route::get('Git Branch Add'), 'post', [
+			'class' => 'last', 
+		]);
+		$this->_build_branch_add_form();
+		$submit_options = [
+			'text' => 'Add Branch',
+			'icon' => 'plus',
+			'data-loading-text' => html::verb_icon('Adding Branch', 'plus'),
+		];
+		$this->form->add(new field('submit', $submit_options));
+		echo $this->form;
+	}
+
+
 	private function _build_commit_form($staged_count) {
 
 		# Commit Message
@@ -312,6 +391,24 @@ class controller_git extends controller_base {
 		$this->form
 			->group($source_group, $source_field, $source_help)
 			->group($alias_group, $alias_field, $alias_help)
+			;
+
+	}
+
+	private function _build_branch_add_form() {
+
+		# Source
+		$name_group = [ 'label' => 'Branch Name', 'class' => null ];
+		$name_help  = new field('help', [ 'text' => null ]);
+		$name_field = new field('input', [
+			'name'         => 'branch_name', 
+			'class'        => 'input-block-level required',
+			'placeholder'  => 'e.g. "my_branch"',
+		]);
+
+		# Build Form
+		$this->form
+			->group($name_group, $name_field, $name_help)
 			;
 
 	}

@@ -37,6 +37,7 @@
 * [Linode](#linode)
 
 ### Contents *unstable*
+* [Git](#git)
 * [Profiling](#profiling-with-xhprof)
 * [XDebug](#xdebug)
 
@@ -49,7 +50,6 @@
 * FFMPEG
 * Waveform Generation
 * Geometry
-* Git
 * Vimeo/Youtube
 * Instagram
 * Facebook
@@ -89,8 +89,8 @@ git clone git@github.com:dancrew32/marcel.git site
 cd site
 git submodule update --init
 php script/db_init.php
-chmod 777 -R tmp
-chmod 777 marcel
+chmod 777 -R tmp .git
+chmod 777 marcel vendor .gitmodules
 cat config/api.php.example > config/api.php 
 ```
 
@@ -1615,6 +1615,22 @@ $api_key     = linode::api_key(['username' => '...', 'password' => '...']);
 There are plenty more things you can do (just see `class/linode.php`) from
 creating/deleteing/booting/rebooting/shutting-down/resizing/cloning etc.
 See an example implementation of the methods in `controller/linode.php`.
+
+
+## Git
+Marcel loves [Git](http://git-scm.com/) and wants to do version control
+work for you. Marcel takes care of most `git`
+`fetch`, `pull`, `push`,
+`add`, `rm`, `commit`, 
+`checkout`, `branch`, 
+`submodule`,
+`log` and `diff` commands that you would normally have to do 
+on the command line.
+
+*Note* that you'll need to have run `chmod 777 -R .git && chmod 777 .gitmodules`
+to let the `apache` user run `git` commands without permission issues.
+
+Check out `controller/git.php` to see everything you can do.
 
 
 ## Profiling with XHProf
