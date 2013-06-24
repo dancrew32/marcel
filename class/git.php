@@ -138,7 +138,7 @@ class gitrepo {
 	public function stage($files = "*") {
 		if (is_array($files))
 			$files = '"'.implode('" "', $files).'"';
-		return $this->run("add $files -v");
+		return $this->run("add -u $files -v");
 	}
 
 	public function unstage($files = "*") {
@@ -349,12 +349,12 @@ class gitrepo {
 			switch ($s{0}.$s{1}) {
 				case 'M ':
 				case 'A ':
+				case 'D ':
 					$type = 'staged';
 				break;
 				case ' M':
 					 $type = 'modified';
 				break;
-				case 'D ':
 				case ' D':
 					 $type = 'deleted';
 				break;

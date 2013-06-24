@@ -57,6 +57,7 @@ class controller_git extends controller_base {
 				break;
 			case 'untracked':
 			case 'modified':
+			case 'deleted':
 				$this->stage = route::get('Git Stage', ['files' => $this->path]);
 				//$this->reset = route::get('Git Reset', ['files' => $this->path]);
 				$diff = $this->git->diff($this->path);
