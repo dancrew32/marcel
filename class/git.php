@@ -181,7 +181,7 @@ class gitrepo {
 
 	public function diff($file) {
 		try {
-			return $this->run("diff {$file}");
+			return $this->run("diff --color-words {$file}");
 		} catch(Exception $e) {
 			return null;
 		}

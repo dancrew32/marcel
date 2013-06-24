@@ -44,6 +44,28 @@ class controller_git extends controller_base {
 		$this->color_class = 'info';
 	}
 
+	function file($o) {
+		$this->path = take($o, 'path');
+		$this->path_trunc = util::truncate($this->path, 20);
+		$this->stage = $this->unstage = false;
+		$this->color_class = take($o, 'color_class', 'plain');
+
+		switch(take($o, 'status')) {
+			case 'staged':
+				$this->unstage = route::get('Git Unstage', ['files' => $this->path]);
+				$this->title = $this->path;
+				break;
+			case 'untracked':
+			case 'modified':
+				$this->stage = route::get('Git Stage', ['files' => $this->path]);
+				//$this->reset = route::get('Git Reset', ['files' => $this->path]);
+				$diff = $this->git->diff($this->path);
+				$this->title = $diff ? h(nl2br(ansi::to_html($diff))) : $this->path;
+				break;
+		}
+	}
+
+
 	function origin() {
 		$this->ahead = $this->git->ahead_origin();
 		$this->push_url = route::get('Git Push', ['branch' => 'master']);
@@ -111,27 +133,6 @@ class controller_git extends controller_base {
 		$this->label_class = $this->is_head 
 			? 'success' 
 			: ($this->after_head ? 'muted' : 'warning');
-	}
-
-	function file($o) {
-		$this->path = take($o, 'path');
-		$this->path_trunc = util::truncate($this->path, 20);
-
-		$this->stage = $this->unstage = false;
-
-		switch(take($o, 'status')) {
-			case 'staged':
-				$this->unstage = route::get('Git Unstage', ['files' => $this->path]);
-				$this->title = $this->path;
-				break;
-			case 'untracked':
-			case 'modified':
-				$this->stage = route::get('Git Stage', ['files' => $this->path]);
-				//$this->reset = route::get('Git Reset', ['files' => $this->path]);
-				$diff = $this->git->diff($this->path);
-				$this->title = $diff ? h($diff) : $this->path;
-				break;
-		}
 	}
 
 	function stage($o) {

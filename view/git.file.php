@@ -1,5 +1,10 @@
-<div class="git-file"<?= isset($title{0}) ? " title=\"{$title}\"" : '' ?>>
+<div class="git-file well well-small alert-<?= $color_class ?>"
+	data-toggle="popover" 
+	data-placement="bottom" 
+	<?= isset($title{0}) ? " data-content=\"{$title}>\"" : '' ?>>
+
 	<?= $path_trunc ?>
+
 	<? if ($stage): ?>
 		<? if (isset($reset)): ?>
 			<a href="<?= $reset ?>" class="btn pull-right" style="margin-top: -5px;">

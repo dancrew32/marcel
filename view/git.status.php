@@ -1,3 +1,4 @@
+<? app::asset('view/git.status', 'js') ?>
 <? if ($staged || $modified || $untracked): ?>
 	<? if ($staged): ?>
 		<h3>Staged</h3>
@@ -10,8 +11,10 @@
 	<? endif ?>
 
 	<? if ($modified): ?>
-		<h3>Modified</h3>
-		<?= r('git', 'status_modified', ['paths' => $modified]) ?>
+		<div id="git-status-modified">
+			<h3>Modified</h3>
+			<?= r('git', 'status_modified', ['paths' => $modified]) ?>
+		</div>
 	<? endif ?>
 
 	<? if ($untracked): ?>

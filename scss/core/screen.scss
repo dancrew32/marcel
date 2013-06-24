@@ -78,3 +78,24 @@ legend {
 	background-color: #fcf8e3;
 	border: 1px solid #fbeed5;
 }
+
+#git-status-modified {
+	$bg: #073642;
+	.git-file {
+		cursor: pointer;
+	}
+	.popover-content {
+		background-color: $bg;
+		font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+		font-size:.8em;
+		overflow: scroll;
+		max-height: 320px;
+		white-space: nowrap;
+	}
+	.popover {
+		/*background-color: lighten($bg, 20%);*/
+	}
+	/*.popover.bottom .arrow:after {*/
+		/*border-bottom-color: $bg;*/
+	/*}*/
+}

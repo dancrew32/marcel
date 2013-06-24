@@ -1,5 +1,7 @@
 <? foreach ($paths as $path): ?>
-	<div class="well well-small alert-<?= $color_class ?>">
-		<?= r('git', 'file', ['path' => $path, 'status' => $status]) ?>
-	</div>
+	<?= r('git', 'file', [
+		'path'        => $path,
+		'status'      => $status,
+		'color_class' => $color_class
+	]) ?>
 <? endforeach ?>
