@@ -12,6 +12,34 @@ class controller_git extends controller_base {
 		app::title('Git');
    	}
 
+	function notification() {
+		$notes = [
+			'staged', 
+			'unstaged',
+			'push',
+			'pull',
+			'fetch',
+			'branch_add',
+			'branch_delete',
+			'submodule_add',
+			'submodule_delete',
+			'checkout',
+			'commit',
+		];
+
+		$out = [];
+		foreach ($notes as $note) {
+			$success = note::get("git:{$note}:success");
+			if ($success)
+				$out[] = html::alert($success, ['type' => 'success']);
+
+			$error = note::get("git:{$note}:failure");
+			if ($error)
+				$out[] = html::alert($error, ['type' => 'error']);
+		}
+		$this->notifications = $out;
+	}
+
 	function status() {
 		$status = $this->git->status();
 		$this->staged    = take($status, 'staged');
@@ -94,29 +122,27 @@ class controller_git extends controller_base {
 
 	function branch_add() {
 		$branch_name = take_post('branch_name');
-		$ok = $this->git->create_branch($branch_name);
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		try { 
+			$this->git->create_branch($branch_name);
+			note::set('git:branch_add:success', h("Added new branch: \"{$branch_name}\""));
+		} catch (Exception $e) {
+			note::set('git:branch_add:failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
 	function branch_delete($o) {
 		$branch = take($o['params'], 'branch');	
-		if (!$branch)
+		if (!$branch || $branch == 'master')
 			$this->redir();
 
-		$force = false;
-		$ok = $this->git->delete_branch($branch, $force);
-		if ($ok) {
-			# TODO: note
-			$this->redir();
+		try {
+			$force = false;
+			$ok = $this->git->delete_branch($branch, $force);
+			note::set('git:branch_delete:success', h("Deleted branch: \"{$branch}\""));
+		} catch (Exception $e) {
+			note::set('git:branch_delete:failure', git::error($e));
 		}
-
-		# TODO: note
 		$this->redir();
 	}
 
@@ -389,6 +415,7 @@ class controller_git extends controller_base {
 
 		# Build Form
 		$this->form
+			->fieldset('Add A Submodule')
 			->group($source_group, $source_field, $source_help)
 			->group($alias_group, $alias_field, $alias_help)
 			;
@@ -408,6 +435,7 @@ class controller_git extends controller_base {
 
 		# Build Form
 		$this->form
+			->fieldset('Add A Branch')
 			->group($name_group, $name_field, $name_help)
 			;
 

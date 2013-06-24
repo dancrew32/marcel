@@ -1,3 +1,4 @@
+<?= r('git', 'notification') ?>
 <div class="row">
 	<div class="span8">
 		<h1>

@@ -21,6 +21,9 @@ class git {
 		return (get_class($var) == 'GitRepo');
 	}
 
+	static function error($exception) {
+		return h(ucfirst(preg_replace('/[error|fatal]+: /', '', $exception->getMessage())));
+	}	
 }
 
 class gitrepo {
