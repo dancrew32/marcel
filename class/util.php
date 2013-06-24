@@ -178,15 +178,15 @@ class util {
 		$i = 0;
 		$temp = array();
 
-		$read = fopen($file, "r") or die("can't open the file");
+		$read = fopen($file, "r") or die("can't open the file"); 
 		while(!feof($read)) {
 			$temp[$i] = fgets($read);	
 			++$i;
 		}
 		fclose($read);
 
-		$write = fopen($file, "w") or die("can't open the file");
 		$next = 0;
+		$write = fopen($file, "w") or die("can't open the file");
 		foreach($temp as $a) {
 			if (!$next && !strstr($a, $string))
 				fwrite($write, $a);

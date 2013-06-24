@@ -382,7 +382,6 @@ class gitrepo {
 			$url_pre = preg_replace('#(://)(git)([@:]*)#', '$1', $this->github_url($url));
 			return preg_replace('/([\.com|git]+)(:+)/', '$1/', $url_pre);
 		}, take($url_matches, 'url'));
-		//pp($url_matches); // TODO: fix regex for taking out sequential .coms
 
 		$out = array_combine(take($path_matches, 'path'), $url_matches);
 		return $out;
@@ -431,9 +430,13 @@ class gitrepo {
 		try {
 			$out = $this->run("submodule deinit {$submodule_path}");
 		} catch (Exception $e) { }
+
 		try {
 			$this->run("add -u {$submodule_path}");
-			shell_exec('rm -rf '. ROOT_DIR ."/{$submodule_path}/");
+		} catch (Exception $e) { }
+
+		try {
+			//shell_exec('rm -rf '. ROOT_DIR ."/{$submodule_path}/");
 			# remove [submodule "*/*"] and next two lines (path, url)
 			$submodule_file = ROOT_DIR ."/.gitmodules";
 			util::delete_line_with_match($submodule_file, $submodule_path, 2);

@@ -31,9 +31,6 @@
 [submodule "vendor/email_templates"]
 	path = vendor/email_templates
 	url = git@github.com:mailchimp/email-blueprints.git
-[submodule "vendor/diff"]
-	path = vendor/diff
-	url = git@github.com:chrisboulton/php-diff.git
 [submodule "vendor/ansi-to-html"]
 	path = vendor/ansi-to-html
 	url = https://github.com/sensiolabs/ansi-to-html
