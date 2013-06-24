@@ -436,7 +436,7 @@ class gitrepo {
 		} catch (Exception $e) { }
 
 		try {
-			//shell_exec('rm -rf '. ROOT_DIR ."/{$submodule_path}/");
+			shell_exec('rm -rf '. ROOT_DIR ."/{$submodule_path}/");
 			# remove [submodule "*/*"] and next two lines (path, url)
 			$submodule_file = ROOT_DIR ."/.gitmodules";
 			util::delete_line_with_match($submodule_file, $submodule_path, 2);
