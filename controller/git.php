@@ -36,6 +36,10 @@ class controller_git extends controller_base {
 		}
 	}
 
+
+/*
+ * STATUS
+ */
 	function status() {
 		$status = $this->git->status();
 		$this->staged    = take($status, 'staged');
@@ -68,6 +72,10 @@ class controller_git extends controller_base {
 		$this->color_class = 'info';
 	}
 
+
+/*
+ * FILE
+ */
 	function file($o) {
 		$this->path = take($o, 'path');
 		$this->path_trunc = util::truncate($this->path, 20);
@@ -90,6 +98,10 @@ class controller_git extends controller_base {
 		}
 	}
 
+
+/*
+ * ORIGIN
+ */
 	function origin() {
 		$this->ahead = $this->git->ahead_origin();
 		$this->push_url = route::get('Git Push', ['branch' => 'master']);
@@ -97,6 +109,10 @@ class controller_git extends controller_base {
 		$this->fetch_url = route::get('Git Fetch', ['branch' => 'master']);
 	}
 
+
+/*
+ * BRANCH
+ */
 	function branches() {
 		$this->branches = $this->git->list_branches();
 		$this->current_branch = $this->git->active_branch();
@@ -155,6 +171,26 @@ class controller_git extends controller_base {
 		$this->redir();
 	}
 
+	# no view
+	function branch_add_form($o) {
+		$this->form = new form;
+		$this->form->open(route::get('Git Branch Add'), 'post', [
+			'class' => 'last', 
+		]);
+		$this->_build_branch_add_form();
+		$submit_options = [
+			'text' => 'Add Branch',
+			'icon' => 'plus',
+			'data-loading-text' => html::verb_icon('Adding Branch', 'plus'),
+		];
+		$this->form->add(new field('submit', $submit_options));
+		echo $this->form;
+	}
+
+
+/*
+ * PUSH
+ */
 	function push($o) {
 		$branch = take($o['params'], 'branch');	
 		if (!$branch)
@@ -169,6 +205,10 @@ class controller_git extends controller_base {
 		$this->redir();
 	}
 
+
+/*
+ * PULL
+ */
 	function pull($o) {
 		$branch = take($o['params'], 'branch');	
 		if (!$branch)
@@ -183,6 +223,10 @@ class controller_git extends controller_base {
 		$this->redir();
 	}
 
+
+/*
+ * FETCH
+ */
 	function fetch($o) {
 		$branch = take($o['params'], 'branch');	
 		if (!$branch)
@@ -197,6 +241,10 @@ class controller_git extends controller_base {
 		$this->redir();
 	}
 
+
+/*
+ * LOG
+ */
 	function log_simple($o) {
 		$count = take($o, 'count', 20);
 		$this->commits = $this->git->log_simple($count);
@@ -215,6 +263,10 @@ class controller_git extends controller_base {
 			: ($this->after_head ? 'muted' : 'warning');
 	}
 
+
+/*
+ * ADD (STAGE)
+ */
 	function stage($o) {
 		$files = take($o['params'], 'files');
 		if (!$files)
@@ -230,6 +282,10 @@ class controller_git extends controller_base {
 		$this->redir();
 	}
 
+
+/*
+ * RM (UNSTAGE)
+ */
 	function unstage($o) {
 		$files = take($o['params'], 'files');
 		if (!$files)
@@ -245,6 +301,10 @@ class controller_git extends controller_base {
 		$this->redir();
 	}
 
+
+/*
+ * RESET
+ */
 	function reset($o) {
 		$files = take($o['params'], 'files');
 		if (!$files)
@@ -260,6 +320,10 @@ class controller_git extends controller_base {
 		$this->redir();
 	}
 
+
+/*
+ * SUBMODULE
+ */
 	function submodules() {
 		$this->submodules = $this->git->submodules();
 	}
@@ -294,21 +358,6 @@ class controller_git extends controller_base {
 		$this->redir();
 	}
 
-	function commit() {
-		$commit = trim(take_post('commit'));
-		if (!$commit)
-			$this->redir();
-
-		try {
-			preg_match("/(?P<hash>\b[0-9a-f]{5,40}\b)/", $this->git->commit($commit), $matches);
-			$hash = count($matches) ? ': '. take($matches, 'hash') : '';
-			note::set('git:'.__FUNCTION__.':success', "Created commit{$hash}");
-		} catch (Exception $e) {
-			note::set('git:'.__FUNCTION__.':failure', git::error($e));
-		}
-		$this->redir();
-	}
-
 	# no view
 	function submodule_add_form($o) {
 		$this->form = new form;
@@ -323,6 +372,25 @@ class controller_git extends controller_base {
 		];
 		$this->form->add(new field('submit', $submit_options));
 		echo $this->form;
+	}
+
+
+/*
+ * COMMIT
+ */
+	function commit() {
+		$commit = trim(take_post('commit'));
+		if (!$commit)
+			$this->redir();
+
+		try {
+			preg_match("/(?P<hash>\b[0-9a-f]{5,40}\b)/", $this->git->commit($commit), $matches);
+			$hash = count($matches) ? ': '. take($matches, 'hash') : '';
+			note::set('git:'.__FUNCTION__.':success', "Created commit{$hash}");
+		} catch (Exception $e) {
+			note::set('git:'.__FUNCTION__.':failure', git::error($e));
+		}
+		$this->redir();
 	}
 
 	# no view
@@ -345,23 +413,10 @@ class controller_git extends controller_base {
 		echo $this->form;
 	}
 
-	# no view
-	function branch_add_form($o) {
-		$this->form = new form;
-		$this->form->open(route::get('Git Branch Add'), 'post', [
-			'class' => 'last', 
-		]);
-		$this->_build_branch_add_form();
-		$submit_options = [
-			'text' => 'Add Branch',
-			'icon' => 'plus',
-			'data-loading-text' => html::verb_icon('Adding Branch', 'plus'),
-		];
-		$this->form->add(new field('submit', $submit_options));
-		echo $this->form;
-	}
 
-
+/*
+ * FORMS
+ */
 	private function _build_commit_form($staged_count) {
 
 		# Commit Message
