@@ -34,3 +34,6 @@
 [submodule "vendor/ansi-to-html"]
 	path = vendor/ansi-to-html
 	url = https://github.com/sensiolabs/ansi-to-html
+[submodule "vendor/filterus"]
+	path = vendor/filterus
+	url = git@github.com:ircmaxell/filterus.git
