@@ -216,6 +216,11 @@ class util {
 				fwrite($write, $replacement);
 		fclose($write);
 	}
+
+	static function filter($value, $filter) {
+		require_once VENDOR_DIR .'/filterus/vendor/autoload.php';
+		return \Filterus\Filter::factory($filter)->filter($value);
+	}
 }
 
 

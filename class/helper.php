@@ -56,6 +56,10 @@ function times($limit, $function) {
 			$function($i);	
 }
 
+function filter($value, $filter) {
+	return util::filter($value, $filter);
+}
+
 
 # Print
 function pr($data) {

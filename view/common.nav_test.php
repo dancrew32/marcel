@@ -15,6 +15,9 @@
 		<li>
 			<a href="<?= route::get('Markdown Home') ?>">Markdown</a>
 		</li>
+		<li>
+			<a href="<?= route::get('Filter Home') ?>">Filters</a>
+		</li>
 		<? if (auth::can(['phone'])): ?>
 			<li>
 				<a href="<?= route::get('Phone Home') ?>">Call Phone</a>
@@ -30,5 +33,6 @@
 				<a href="<?= route::get('Stock Home', ['symbols' => 'Z,AMD,ZNGA,SQNM']) ?>">Stocks</a>
 			</li>
 		<? endif ?>
+
 	</ul>
 </li>

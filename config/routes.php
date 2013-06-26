@@ -140,6 +140,9 @@ route::$routes += [
 	# OCR
 	'/ocr' => [ 'c' => 'ocr', 'm' => 'get', 'name' => 'OCR Home', 'section' => 'Test' ],
 
+	# Filter
+	'/filters' => [ 'c' => 'filter', 'm' => 'main', 'name' => 'Filter Home', 'section' => 'Test' ],
+
 	# Routes
 	//'/routes' => [ 'c' => 'common', 'm' => 'routes', 'nodb' => true ],
 
