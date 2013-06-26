@@ -397,7 +397,7 @@ class gitrepo {
 	public function submodule_add($source, $alias) {
 		$file = ROOT_DIR.'/.gitmodules';
 		$data = file_get_contents($file);
-		$data .= "[submodule \"vendor/{$alias}\"]\n";
+		$data .= "\n[submodule \"vendor/{$alias}\"]\n";
 		$data .= "\tpath = vendor/{$alias}\n";
 		$data .= "\turl = git@github.com:". util::explode_pop('github.com/', $source);
 
