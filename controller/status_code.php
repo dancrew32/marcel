@@ -7,34 +7,31 @@ class controller_status_code extends controller_base {
 	function forbidden() {
 		$code   = 403;
 		$status = 'Forbidden';
-		header("HTTP/1.1 {$code} {$status}");
 		json([
 			'status'   => $status,
 			'code'     => $code,
 			'redirect' => '/'
-		]);
+		], "HTTP/1.1 {$code} {$status}");
 	}
 
 	# 404
 	function not_found() {
 		$code   = 404;
 		$status = 'Not Found';
-		header("HTTP/1.1 {$code} {$status}");
 		json([
 			'status'   => $status,
 			'code'     => $code,
 			'redirect' => '/'
-		]);
+		], "HTTP/1.1 {$code} {$status}");
 	}	
 
 	# 500
 	function fatal_error() {
 		$code   = 500;
 		$status = 'Internal Server Error';
-		header("HTTP/1.1 {$code} {$status}");
 		json([
 			'status' =>	$status,
 			'code'   => $code,
-		]);
+		], "HTTP/1.1 {$code} {$status}");
 	}	
 }

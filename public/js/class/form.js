@@ -39,9 +39,11 @@
 	function handleForms() {
 		if (!NS.ELEMENT.forms.length) return;
 		
-		NS.ELEMENT.forms.each(function(n, form) {
-			$(form).validate(FORM_OPTIONS);
-		});
+		if ($.fn.validate) {
+			NS.ELEMENT.forms.each(function(n, form) {
+				$(form).validate(FORM_OPTIONS);
+			});
+		}
 	}
 
 	function addEventListeners() {

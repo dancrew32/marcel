@@ -40,3 +40,7 @@
 [submodule "vendor/multicurl"]
 	path = vendor/multicurl
 	url = git@github.com:jmathai/php-multi-curl.git
+
+[submodule "vendor/webdriver"]
+	path = vendor/webdriver
+	url = git@github.com:facebook/php-webdriver.git

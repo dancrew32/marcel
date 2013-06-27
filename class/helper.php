@@ -79,8 +79,10 @@ function pd($data) {
 }
 
 # Die (or echo) JSON
-function json($data, $exit=true) {
+function json($data, $header=null, $exit=true) {
 	ob_end_clean(); # ensure no debug data leaks
+	if ($header)
+		header($header);
 	header('Content-Type: application/json');	
 	if ($exit)
 		die(json_encode($data));

@@ -40,6 +40,7 @@
 * [Git](#git)
 * [Profiling](#profiling-with-xhprof)
 * [XDebug](#xdebug)
+* [Selenium & Webdriver](#selenium-webdriver)
 
 ### Contents *future*
 * USPS 
@@ -1659,4 +1660,9 @@ make
 sudo cp modules/xdebug.so /usr/lib/php5/20100525+lfs/
 # add to /etc/php5/apache2/php.ini:
 # zend_extension = /usr/lib/php5/20100525/xdebug.so
+```
+
+## Selenium & WebDriver
+```bash
+wget https://selenium.googlecode.com/files/selenium-server-standalone-2.33.0.jar
 ```

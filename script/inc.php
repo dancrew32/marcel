@@ -15,6 +15,12 @@ function red($text) {
 function green($text) {
 	echo clicolor::fg('green', $text);
 }
+function fail($text='FAIL') {
+	red("{$text}\n");
+}
+function ok($text='OK') {
+	green("{$text}\n");
+}
 function blue($text) {
 	echo clicolor::fg('blue', $text);
 }

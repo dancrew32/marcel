@@ -221,6 +221,10 @@ class util {
 		require_once VENDOR_DIR .'/filterus/vendor/autoload.php';
 		return \Filterus\Filter::factory($filter)->filter($value);
 	}
+
+	static function strclean($str) {
+		return trim(preg_replace('/\t+/', '', $str));
+	}
 }
 
 
