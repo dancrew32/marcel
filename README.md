@@ -443,7 +443,7 @@ class Stuff extends model {
 * `foo()` would pass variables to `view/yours.foo.php`
 * `bar()` would pass variables to `view/yours.bar.php`
 * `$o` contains optional parameters passed in the `3rd` argument of `r('controller', 'method', [ 'thing' => 'dorito' ])`
-   * if your [route](#routing) captures url parameters, they're available through `$o['params']`
+   * if your [route](#routing) captures url parameters, they're available through `$o`
 
 Get started with a new Controller using the `php script/gen_controller.php` [Script](#scripts).
 
@@ -461,7 +461,7 @@ class controller_yours extends controller_base {
 
 	function test($o) {
 		# Obtain captured page "id" from Routes example
-		$page_id = take($o['params'], 'id', 1);	
+		$page_id = take($o, 'id', 1);	
 	}
 }
 ```
@@ -512,7 +512,7 @@ in the view's [controller](#controllers-c) method.
 ```php
 class controller_yours extends controller_base {
 	function my_view($o) {
-		$required_id = take($o['params'], 'id', false);
+		$required_id = take($o, 'id', false);
 		if (!$required_id) 
 			return $this->skip(); # skips rendering views/yours.my_view.php
 
@@ -840,7 +840,7 @@ class controller_test extends controller_base {
 	}
 
 	function edit($o) {
-		$this->user = User::find_by_id(take($o['params'], 'id'));
+		$this->user = User::find_by_id(take($o, 'id'));
 		if (!$this->user) $this->redir();
 		if (!POST) return;
 
@@ -1663,6 +1663,62 @@ sudo cp modules/xdebug.so /usr/lib/php5/20100525+lfs/
 ```
 
 ## Selenium & WebDriver
+Use `class/browser`, [Selenium](http://docs.seleniumhq.org/) 
+and [WebDriver](https://github.com/Element-34/php-webdriver) 
+to automate actual browser interactions (for testing or scraping).
+
+
+### Install
 ```bash
-wget https://selenium.googlecode.com/files/selenium-server-standalone-2.33.0.jar
+sudo apt-get install xvfb firefox
+```
+
+### Start Server
+```bash
+sudo php script/selenium.start.php
+```
+
+### Example Usage
+This file could be `script/browser.test.php`
+
+```php
+<? require_once dirname(__FILE__).'/inc.php';
+
+# Start a new session
+$b = new browser();
+$s = $b->session();
+
+# Observe your browser capabilities
+pr($s->capabilities());
+
+# Resize the window
+$width  = 1024;
+$height = 1024;
+$s->window()->postSize(['width' => $width, 'height' => $height]);
+
+# Navigate to Google.com
+$site = 'http://google.com';
+$s->open($site);
+$s->implicitlyWait(3);
+similar_text($site, $s->url(), $percent);
+$percent > 50 ? ok() : fail();
+
+# Get Elements
+$h1 = $s->elements('tag name', 'h1');
+
+# Take a Screenshot
+$img  = $s->screenshot();
+$data = base64_decode($img);
+$file = IMAGE_DIR.'/browser.png';
+if (file_exists($file))
+	unlink($file);
+$success = file_put_contents($file, $data);
+
+# Exit
+$s->close();
+```
+
+### Stop Server
+```bash
+sudo php script/selenium.stop.php
 ```

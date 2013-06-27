@@ -6,7 +6,7 @@ class controller_user_verification extends controller_base {
    	}
 
 	function verify($o) {
-		$ok = User_Verification::verify(take($o, 'params'));	
+		$ok = User_Verification::verify($o);	
 		if ($ok)
 			note::set('user_verification:success', 1);
 		else 
@@ -21,7 +21,7 @@ class controller_user_verification extends controller_base {
 		$home = route::get('Home');
 
 		# Admin resend
-		$uid_param = take($o['params'], 'id', false);
+		$uid_param = take($o, 'id', false);
 		$admin_mode = $uid_param && auth::can(['user']);
 		if (!$admin_mode) {
 			# User Resend

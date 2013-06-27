@@ -26,8 +26,8 @@ class controller_{$name} extends controller_base {
 if (isset($model{0})) {
 $boilerplate .= " 
 	function all(\$o) {
-		\$this->page   = take(\$o['params'], 'page', 1); 
-		\$format = take(\$o['params'], 'format');
+		\$this->page   = take(\$o, 'page', 1); 
+		\$format = take(\$o, 'format');
 		switch (\$format) {
 			case '.table':
 				\$this->output_style = 'table';
@@ -80,7 +80,7 @@ $boilerplate .= "
 	}	
 
 	function edit(\$o) {
-		\$this->{$model_lower} = {$model}::find_by_id(take(\$o['params'], 'id'));
+		\$this->{$model_lower} = {$model}::find_by_id(take(\$o, 'id'));
 		if (!\$this->{$model_lower}) \$this->redir();
 		if (!POST) return;
 
@@ -98,7 +98,7 @@ $boilerplate .= "
 	}	
 
 	function delete(\$o) {
-		\$id = take(\$o['params'], 'id');
+		\$id = take(\$o, 'id');
 		if (!\$id) \$this->redir();
 
 		\${$model_lower} = {$model}::find_by_id(\$id);

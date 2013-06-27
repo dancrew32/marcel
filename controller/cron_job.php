@@ -8,7 +8,7 @@ class controller_cron_job extends controller_base {
    	}
 
 	function all($o) {
-		$page = take($o['params'], 'page', 1); 
+		$page = take($o, 'page', 1); 
 		$rpp = 5;
 		$this->total = Cron_Job::count();
 		$this->pager = r('common', 'pager', [
@@ -54,7 +54,7 @@ class controller_cron_job extends controller_base {
 	}
 
 	function edit($o) {
-		$this->cron = Cron_Job::find_by_id(take($o['params'], 'id'));
+		$this->cron = Cron_Job::find_by_id(take($o, 'id'));
 		if (!$this->cron) $this->redir();
 		if (!POST) return;
 
@@ -72,7 +72,7 @@ class controller_cron_job extends controller_base {
 	}
 
 	function delete($o) {
-		$id = take($o['params'], 'id');
+		$id = take($o, 'id');
 		if (!$id) $this->redir();
 
 		$cron = Cron_Job::find_by_id($id);

@@ -101,7 +101,7 @@ class app {
 			route::$section_name = take($o, 'section');
 
 			# Main render
-			$out = util::render($o, ['params' => $matches]);
+			$out = util::render($o, $matches);
 			echo AJAX ? $out : self::layout($o, $out);
 			break;
 		}

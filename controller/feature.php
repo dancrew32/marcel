@@ -7,8 +7,8 @@ class controller_feature extends controller_base {
    	}
  
 	function all($o) {
-		$this->page   = take($o['params'], 'page', 1); 
-		$format = take($o['params'], 'format');
+		$this->page   = take($o, 'page', 1); 
+		$format = take($o, 'format');
 		switch ($format) {
 			case '.table':
 				$this->output_style = 'table';
@@ -61,7 +61,7 @@ class controller_feature extends controller_base {
 	}	
 
 	function edit($o) {
-		$this->feature = Feature::find_by_id(take($o['params'], 'id'));
+		$this->feature = Feature::find_by_id(take($o, 'id'));
 		if (!$this->feature) $this->redir();
 		if (!POST) return;
 
@@ -76,7 +76,7 @@ class controller_feature extends controller_base {
 	}	
 
 	function delete($o) {
-		$id = take($o['params'], 'id');
+		$id = take($o, 'id');
 		if (!$id) $this->redir();
 
 		$feature = Feature::find_by_id($id);

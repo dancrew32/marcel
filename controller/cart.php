@@ -65,10 +65,10 @@ class controller_cart extends controller_base {
 	}
 
 	function add($o) {
-		$key = take($o['params'], 'key', false);
+		$key = take($o, 'key', false);
 		if (!$key) _404();
 
-		$amount = take($o['params'], 'amount', 1);
+		$amount = take($o, 'amount', 1);
 
 		$cart = Cart::get_type(Cart::MAIN);
 		$product = Product::find_by_id($key);
@@ -87,10 +87,10 @@ class controller_cart extends controller_base {
 
 
 	function remove($o) {
-		$key = take($o['params'], 'key', false);
+		$key = take($o, 'key', false);
 		if (!$key) _404();
 
-		$amount = take($o['params'], 'amount', 1);
+		$amount = take($o, 'amount', 1);
 		$cart = Cart::get_type(Cart::MAIN);
 		if ($amount == '*') {
 			$items = $cart->get_items();

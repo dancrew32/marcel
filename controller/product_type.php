@@ -8,7 +8,7 @@ class controller_product_type extends controller_base {
    	}
  
 	function all($o) {
-		$page   = take($o['params'], 'page', 1); 
+		$page   = take($o, 'page', 1); 
 		$this->total = Product_Type::count();
 		$rpp = 5;
 		$this->pager = r('common', 'pager', [
@@ -43,7 +43,7 @@ class controller_product_type extends controller_base {
 	}	
 
 	function edit($o) {
-		$this->product_type = Product_Type::find_by_id(take($o['params'], 'id'));
+		$this->product_type = Product_Type::find_by_id(take($o, 'id'));
 		if (!$this->product_type) $this->redir();
 		if (!POST) return;
 
@@ -58,7 +58,7 @@ class controller_product_type extends controller_base {
 	}	
 
 	function delete($o) {
-		$id = take($o['params'], 'id');
+		$id = take($o, 'id');
 		if (!$id) $this->redir();
 
 		$product_type = Product_Type::find_by_id($id);

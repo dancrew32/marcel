@@ -7,7 +7,7 @@ class controller_user_type extends controller_base {
    	}
  
 	function all($o) {
-		$page   = take($o['params'], 'page', 1); 
+		$page   = take($o, 'page', 1); 
 		$rpp    = 5;
 		$this->total = User_Type::count();
 		$this->pager = r('common', 'pager', [
@@ -44,7 +44,7 @@ class controller_user_type extends controller_base {
 	}	
 
 	function edit($o) {
-		$this->user_type = User_Type::find_by_id(take($o['params'], 'id'));
+		$this->user_type = User_Type::find_by_id(take($o, 'id'));
 		if (!$this->user_type) $this->redir();
 		if (!POST) return;
 
@@ -59,7 +59,7 @@ class controller_user_type extends controller_base {
 	}	
 
 	function delete($o) {
-		$id = take($o['params'], 'id');
+		$id = take($o, 'id');
 		if (!$id) $this->redir();
 
 		$user_type = User_Type::find_by_id($id);

@@ -7,8 +7,8 @@ class controller_user extends controller_base {
  
 	function all($o) {
 		auth::only(['user']);
-		$this->page = take($o['params'], 'page', 1); 
-		$format = take($o['params'], 'format');
+		$this->page = take($o, 'page', 1); 
+		$format = take($o, 'format');
 		switch ($format) {
 			case '.table':
 				$this->output_style = 'table';
@@ -66,7 +66,7 @@ class controller_user extends controller_base {
 
 	function edit($o) {
 		auth::only(['user']);
-		$this->user = User::find_by_id(take($o['params'], 'id'));
+		$this->user = User::find_by_id(take($o, 'id'));
 		if (!$this->user) $this->redir();
 		if (!POST) return;
 
@@ -90,7 +90,7 @@ class controller_user extends controller_base {
 
 	function delete($o) {
 		auth::only(['user']);
-		$id = take($o['params'], 'id');
+		$id = take($o, 'id');
 		if (!$id) $this->redir();
 
 		$user = User::find_by_id($id);
@@ -107,7 +107,7 @@ class controller_user extends controller_base {
  */
 	function masquerade_begin($o) {
 		auth::only(['user']);
-		$id = take($o['params'], 'id');
+		$id = take($o, 'id');
 		$_SESSION['masquerader'] = take(User::$user, 'id');
 		$_SESSION['id'] = $id;
 		$this->redir(route::get('Home'));

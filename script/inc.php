@@ -44,6 +44,10 @@ function prompt_silent($prompt = "Enter Password:") {
 	echo "\n";
 	return $password;
 }
+function root_plz() {
+	if (trim(shell_exec('whoami')) == 'root') return true;
+	die("sudo !!");
+}
 
 /**
  * Progress

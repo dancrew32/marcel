@@ -7,7 +7,7 @@ class controller_worker extends controller_base {
    	}
 
 	function all($o) {
-		$filter = take($o['params'], 'filter');
+		$filter = take($o, 'filter');
 		switch ($filter) {
 			case 'scheduled':	
 				$conditions = ['run_at is not null'];
@@ -62,7 +62,7 @@ class controller_worker extends controller_base {
 	}
 
 	function reset($o) {
-		$id = take($o['params'], 'id');
+		$id = take($o, 'id');
 		if (!$id) $this->redir();
 
 		$worker = Worker::find_by_id($id);
@@ -75,7 +75,7 @@ class controller_worker extends controller_base {
 	}
 
 	function delete($o) {
-		$id = take($o['params'], 'id');
+		$id = take($o, 'id');
 		if (!$id) $this->redir();
 
 		$worker = Worker::find_by_id($id);

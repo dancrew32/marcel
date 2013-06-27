@@ -7,7 +7,7 @@ class controller_stock extends controller_base {
    	}
 
 	function main($o) {
-		$symbols = explode(',', take($o['params'], 'symbols', 'Z'));
+		$symbols = explode(',', take($o, 'symbols', 'Z'));
 		$this->stocks = Stock::symbols($symbols);
 
 

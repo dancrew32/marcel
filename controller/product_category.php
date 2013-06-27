@@ -7,8 +7,8 @@ class controller_product_category extends controller_base {
    	}
  
 	function all($o) {
-		$page   = take($o['params'], 'page', 1); 
-		$format = take($o['params'], 'format');
+		$page   = take($o, 'page', 1); 
+		$format = take($o, 'format');
 		switch ($format) {
 			case '.table':
 				$this->output_style = 'table';
@@ -63,7 +63,7 @@ class controller_product_category extends controller_base {
 	}	
 
 	function edit($o) {
-		$this->product_category = Product_Category::find_by_id(take($o['params'], 'id'));
+		$this->product_category = Product_Category::find_by_id(take($o, 'id'));
 		if (!$this->product_category) $this->redir();
 		if (!POST) return;
 
@@ -78,7 +78,7 @@ class controller_product_category extends controller_base {
 	}	
 
 	function delete($o) {
-		$id = take($o['params'], 'id');
+		$id = take($o, 'id');
 		if (!$id) $this->redir();
 
 		$product_category = Product_Category::find_by_id($id);

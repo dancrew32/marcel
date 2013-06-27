@@ -143,7 +143,7 @@ class controller_git extends controller_base {
 	}
 
 	function branch_delete($o) {
-		$branch = take($o['params'], 'branch');	
+		$branch = take($o, 'branch');	
 		if (!$branch || $branch == 'master')
 			$this->redir();
 
@@ -158,7 +158,7 @@ class controller_git extends controller_base {
 	}
 
 	function branch_checkout($o) {
-		$branch = take($o['params'], 'branch');	
+		$branch = take($o, 'branch');	
 		if (!$branch)
 			$this->redir();
 
@@ -192,7 +192,7 @@ class controller_git extends controller_base {
  * PUSH
  */
 	function push($o) {
-		$branch = take($o['params'], 'branch');	
+		$branch = take($o, 'branch');	
 		if (!$branch)
 			$this->redir();
 
@@ -210,7 +210,7 @@ class controller_git extends controller_base {
  * PULL
  */
 	function pull($o) {
-		$branch = take($o['params'], 'branch');	
+		$branch = take($o, 'branch');	
 		if (!$branch)
 			$this->redir();
 
@@ -228,7 +228,7 @@ class controller_git extends controller_base {
  * FETCH
  */
 	function fetch($o) {
-		$branch = take($o['params'], 'branch');	
+		$branch = take($o, 'branch');	
 		if (!$branch)
 			$this->redir();
 
@@ -268,7 +268,7 @@ class controller_git extends controller_base {
  * ADD (STAGE)
  */
 	function stage($o) {
-		$files = take($o['params'], 'files');
+		$files = take($o, 'files');
 		if (!$files)
 			$this->redir();
 
@@ -287,7 +287,7 @@ class controller_git extends controller_base {
  * RM (UNSTAGE)
  */
 	function unstage($o) {
-		$files = take($o['params'], 'files');
+		$files = take($o, 'files');
 		if (!$files)
 			$this->redir();
 
@@ -306,7 +306,7 @@ class controller_git extends controller_base {
  * RESET
  */
 	function reset($o) {
-		$files = take($o['params'], 'files');
+		$files = take($o, 'files');
 		if (!$files)
 			$this->redir();
 
@@ -347,7 +347,7 @@ class controller_git extends controller_base {
 	}
 
 	function submodule_delete($o) {
-		$path = take($o['params'], 'path');
+		$path = take($o, 'path');
 		try {
 			$this->git->submodule_delete($path);
 			$folder_name = util::explode_pop('/', $path);

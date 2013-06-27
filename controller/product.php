@@ -6,8 +6,8 @@ class controller_product extends controller_base {
    	}
  
 	function all($o) {
-		$this->page   = take($o['params'], 'page', 1); 
-		$format = take($o['params'], 'format');
+		$this->page   = take($o, 'page', 1); 
+		$format = take($o, 'format');
 		switch ($format) {
 			case '.table':
 				$this->output_style = 'table';
@@ -83,7 +83,7 @@ class controller_product extends controller_base {
 
 	function edit($o) {
 		auth::only(['product']);
-		$this->product = Product::find_by_id(take($o['params'], 'id'));
+		$this->product = Product::find_by_id(take($o, 'id'));
 		if (!$this->product) $this->redir();
 		if (!POST) return;
 
@@ -102,7 +102,7 @@ class controller_product extends controller_base {
 
 	function delete($o) {
 		auth::only(['product']);
-		$id = take($o['params'], 'id');
+		$id = take($o, 'id');
 		if (!$id) $this->redir();
 
 		$product = Product::find_by_id($id);
