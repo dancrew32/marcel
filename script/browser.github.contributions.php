@@ -36,10 +36,9 @@ try {
 	return fail();
 }
 
+sleep(4); # let svg render
 
-sleep(4);
-
-
+/*
 try {
 	$js = 'var el = document.getElementsByClassName("contrib-info")[0]; el.parentNode.removeChild(el); return true;';
 	$out = $b->session->execute_async(['script' => $js, 'args' => []]);
@@ -49,6 +48,7 @@ try {
 	unset($b);
 	return fail();
 }
+ */
 
 # CAPTURE CONTRIBUTION GRAPH
 $contributions = $b->find('#contributions-calendar')[0];
