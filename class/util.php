@@ -225,6 +225,11 @@ class util {
 	static function strclean($str) {
 		return trim(preg_replace('/\t+/', '', $str));
 	}
+
+	static function unlink_if($file) {
+		if (file_exists($file))
+			unlink($file);
+	}
 }
 
 

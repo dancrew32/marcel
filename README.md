@@ -1684,38 +1684,32 @@ This file could be `script/browser.test.php`
 ```php
 <? require_once dirname(__FILE__).'/inc.php';
 
-# Start a new session
-$b = new browser();
-$s = $b->session();
+# Start a browser session
+$b = new browser('firefox');
 
-# Observe your browser capabilities
-pr($s->capabilities());
+# See what your browser can do
+pr($b->can_do());
 
-# Resize the window
-$width  = 1024;
-$height = 1024;
-$s->window()->postSize(['width' => $width, 'height' => $height]);
+# Set browser window size
+$b->set_size(1024, 720);
 
-# Navigate to Google.com
-$site = 'http://google.com';
-$s->open($site);
-$s->implicitlyWait(3);
-similar_text($site, $s->url(), $percent);
-$percent > 50 ? ok() : fail();
 
-# Get Elements
-$h1 = $s->elements('tag name', 'h1');
+# Navigate to website, capture all h1's
+$site = 'http://twitter.github.io/bootstrap';
+$h1s = $b->open($site)->wait_for('h1')->find('h1');
 
-# Take a Screenshot
-$img  = $s->screenshot();
-$data = base64_decode($img);
-$file = IMAGE_DIR.'/browser.png';
-if (file_exists($file))
-	unlink($file);
-$success = file_put_contents($file, $data);
+foreach ($h1s as $k => $h) {
+	# the <h1> text
+	echo "{$h->text()}\n";
 
-# Exit
-$s->close();
+	# Take a screenshot of each h1 with padding around each element
+	$b->screenshot_part($h, IMAGE_DIR."/h1-{$k}.png", ['padding' => 5]);
+
+	echo "http:". BASE_URL ."/img/h1-{$k}.png\n";
+}
+
+# Close up!
+$b->close(); # or unset($b);
 ```
 
 ### Stop Server

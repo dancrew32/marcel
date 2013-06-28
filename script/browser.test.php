@@ -1,40 +1,48 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
 
-//include_once SCRIPT_DIR.'/selenium.start.php';
-//sleep(4); # boot time
 yellow("Starting Session...\n");
-$b = new browser();
-$s = $b->session();
+$b = new browser('firefox');
 ok();
 
-#pr($s->capabilities());
+pr($b->can_do());
 
 $width  = 1024;
 $height = 1024;
 yellow("Resizing window to {$width}x{$height}...\n");
-$s->window()->postSize(['width' => $width, 'height' => $height]);
+$b->set_size($width, $height);
 ok();
 
-$site = 'http://google.com';
+/*
+$site = 'http://twitter.github.io/bootstrap';
 yellow("Navigating to {$site}...\n");
-$s->open($site);
-$s->implicitlyWait(3);
-similar_text($site, $s->url(), $percent);
-$percent > 50 ? ok("Loaded") : fail();
+$b->open($site)->wait(3)->url_ok($site) ? ok("Loaded") : fail();
 
 yellow("Capturing h1's\n");
-$h1 = $s->elements('tag name', 'h1');
+$h1 = $b->find('h1');
+foreach ($h1 as $k => $h) {
+	ok($h->text());
+	$b->screenshot_part($h, IMAGE_DIR."/h1-{$k}.png");
+	ok('http:'. BASE_URL ."/img/h1-{$k}.png");
+}
+*/
 
-yellow("Taking screenshot...\n");
-$img  = $s->screenshot();
-$data = base64_decode($img);
-$file = IMAGE_DIR.'/browser.png';
-if (file_exists($file))
-	unlink($file);
-$success = file_put_contents($file, $data);
-ok('http:'. BASE_URL .'/img/browser.png');
+/*
+# TAKE RESPONSIVE SNAPSHOTS
+yellow("Taking screenshots...\n");
+$sizes = [
+	'a' => ['width' => 1024, 'height' => 720],
+	'b' => ['width' => 720, 'height' => 600],
+	'c' => ['width' => 320, 'height' => 400],
+];
+foreach ($sizes as $k => $size) {
+	$b->set_size($size['width'], $size['height']);
+	$file = IMAGE_DIR."/browser-{$k}.png";
+	$b->screenshot($file);
+	ok('http:'. BASE_URL ."/img/browser-{$k}.png");
+}
+ */
 
 yellow("Exiting...\n");
-$s->close();
+$b->close();
 ok("DONE");

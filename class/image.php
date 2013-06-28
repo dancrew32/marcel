@@ -126,4 +126,10 @@ class image {
 	static function keygen($o) {
 		return md5(SALT.implode('', $o));
 	}
+
+	static function compare($a, $b) {
+		# TODO:
+		# http://www.intelliot.com/2008/03/sorted-directory-listing-image-resizing-comparison-and-similarity-in-php/
+		# http://www.phpied.com/image-diff/
+	}
 }

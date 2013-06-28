@@ -5,6 +5,6 @@ root_plz();
 
 $pid = browser::kill_selenium();
 if ($pid)
-	ok("Killed old selenium pid {$pid}");
+	ok("Killed selenium pid {$pid}");
 else 
 	fail("No selenium was found");
