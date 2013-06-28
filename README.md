@@ -1693,7 +1693,6 @@ pr($b->can_do());
 # Set browser window size
 $b->set_size(1024, 720);
 
-
 # Navigate to website, capture all h1's
 $site = 'http://twitter.github.io/bootstrap';
 $h1s = $b->open($site)->wait_for('h1')->find('h1');
