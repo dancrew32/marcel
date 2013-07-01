@@ -19,6 +19,8 @@ class form {
 	function open($action='#', $method='post', array $attrs=array()) {
 		app::asset('class/form', 'js');
 		$this->html .= '<form action="'. $action .'" method="'. strtoupper($method) .'"';
+		if ($method == 'post')
+			$this->html .= ' enctype="multipart/form-data"';
 		$this->html .= html::build_attributes($attrs) .'>';
 		if (field::has_class('form-horizontal', $attrs))
 			$this->control_groups = false;
@@ -51,8 +53,7 @@ class form {
 	}
 
 	function br() {
-		$this->html .= "<br>";
-		return $this;
+		return $this->custom('<br>');
 	}
 	
 	function custom($text) {

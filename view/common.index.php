@@ -6,8 +6,6 @@
 	<p><a href="https://github.com/dancrew32/marcel" 
 		class="btn btn-primary btn-large">Learn more &raquo;</a></p>
 
-	<?
-?>
 </div>
 
 

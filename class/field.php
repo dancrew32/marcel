@@ -49,10 +49,13 @@ class field {
 				$this->attrs['data-provide'] = 'typeahead';
 				$this->attrs['autocomplete'] = false;
 				return $this->input();
+			case 'file_simple':
+				return $this->file_simple();
+			case 'file':
+				return $this->file();
 			case 'date':
 			case 'datetime':
 			case 'datetime-local':
-			case 'file':
 			case 'hidden':
 			case 'password':
 			case 'email':
@@ -93,6 +96,43 @@ class field {
 		$this->html .= html::build_append($this->attrs);
 		return $this;
 	}
+
+	function file_simple() {
+		$this->html .= '<div class="fileupload fileupload-new" data-provides="fileupload">';
+		$this->html .= '<span class="btn btn-file">';
+		$this->html .= '<span class="fileupload-new">';
+		$icon = $this->pick('icon');
+		$icon = isset($icon{0}) ? html::icon($icon) : '';
+		$this->html .= "{$icon}{$this->pick('text')}";
+		$this->html .= '</span>';
+		$this->html .= '<span class="fileupload-exists">';
+		$this->html .= 'Change';
+		$this->html .= '</span>';
+		$this->attrs['type'] = 'file';
+		$this->input();
+		$this->html .= '</span>';
+		$this->html .= '<span class="fileupload-preview"></span>';
+		$this->html .= '<a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">x</a>';
+		$this->html .= '</div>';
+	}
+
+	function file() {
+		$this->html .= '<div class="fileupload fileupload-new" data-provides="fileupload">';
+		$this->html .= '<div class="input-append">';
+		$this->html .= '<div class="uneditable-input span3">';
+		$this->html .= '<i class="icon-file fileupload-exists"></i> ';
+		$this->html .= '<span class="fileupload-preview"></span>';
+		$this->html .= '</div>';
+		$this->html .= '<span class="btn btn-file">';
+		$this->html .= '<span class="fileupload-new">Select file</span>';
+		$this->html .= '<span class="fileupload-exists">Change</span>';
+		$this->html .= '<input type="file" />';
+		$this->html .= '</span>';
+		$this->html .= '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>';
+		$this->html .= '</div>';
+		$this->html .= '</div>';
+	}
+
 
 	function help() {
 		$text = take($this->attrs, 'text', false);

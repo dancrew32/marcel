@@ -1,4 +1,5 @@
 require 'compass_twitter_bootstrap'
+require 'animation'
 
 http_path = "public"
 css_dir = "public/css"

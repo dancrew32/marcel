@@ -57,6 +57,50 @@ class util {
 		return $files;
 	}
 
+	// TODO: fix me
+	//static function rrglob($file) {
+		//return array_map(function($file) {
+			//return preg_match('#'.ROOT_DIR.'.'.$
+		//}, new recursiveIteratorIterator(new recursivedirectoryiterator(ROOT_DIR)));
+	//}
+	//
+
+	static function find_files($search='', $fuzzy=25) {
+		$it = new RecursiveDirectoryIterator(ROOT_DIR);
+		$out = [];
+		$ignore = ['/tmp'];
+		foreach(new RecursiveIteratorIterator($it) as $file) {
+			$file = (str_replace(ROOT_DIR, '', (string) $file));
+			foreach ($ignore as $ig) {
+				if (self::starts_with($file, $ig)) {
+					continue 2;
+					break;
+				}
+			}
+			$name = self::explode_pop('/', $file);
+			if ($name == '.' || $name == '..') continue;
+			similar_text($search, $file, $match);
+			if ($match <= $fuzzy) continue;
+			$out[] = $file;
+		}
+		return $out;
+	}
+
+	static function directory_list($directory, $parent=false) {
+		$forbidden_files = '#(api\.php$|index\.php$)#';
+		$dir = rtrim(ROOT_DIR.$directory, '/');
+		$pattern = "{$dir}/{*,.*}";
+		$dir = glob($pattern, GLOB_BRACE|GLOB_NOSORT);
+		$count = $parent ? 1 : 2;
+		return array_filter($dir, function($hit) use($count, $forbidden_files) {
+			$end = util::explode_pop('/', $hit);
+			$out = !preg_match("#^\.{1,$count}$#", $end);
+			if (!$out) return $out;
+			$out = !preg_match($forbidden_files, $end);
+			return $out;
+		});
+	}
+
 	static function starts_with($string, $start) {
 		return substr($string, 0, strlen($start)) == $start;
 	}

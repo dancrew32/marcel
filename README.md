@@ -646,6 +646,7 @@ Write some [SCSS](http://sass-lang.com/) with [Compass](http://compass-style.org
 Changes in `scss` directory automatically reflect in `public/css` when you run:
 ```bash
 sudo gem install compass compass_twitter_bootstrap
+sudo gem install animation --pre
 php script/scss_watch.php
 ```
 

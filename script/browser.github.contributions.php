@@ -10,22 +10,19 @@ $github = [
 	'password' => prompt_silent("Password:"),
 ];
 
-$b = new browser('chrome');
+$b = new browser('firefox');
 
 try {
 	$login = $b->open("{$github['url']}/login")
-		->wait_for('#login')
-		->find('#login')[0];
+		->wait_for('#login');
 } catch (Exception $e) {
 	return fail();
 }
 
 # FILL IN LOGIN FORM
-$username = $b->find('#login_field')[0];
-$password = $b->find('#password')[0];
-$b->type($username, $github['username'])
-  ->type($password, $github['password'])
-  ->find('#login input.button')[0]->click();
+$b->find('#login_field')[0]->sendKeys($github['username']);
+$b->find('#password')[0]->sendKeys($github['password']);
+$b->find('#login input.button')[0]->click();
 
 # TEST IF LOGGED IN, NAVIGATE TO CONTRIBUTION GRAPH
 try {

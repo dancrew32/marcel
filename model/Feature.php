@@ -10,6 +10,7 @@ class Feature extends model {
 			'Audio'            => 'audio',
 			'Cart'             => 'cart',
 			'Cron Job'         => 'cron_job',
+			'File Manager'     => 'file_manager',
 			'Git'              => 'git',
 			'Join'             => 'join',
 			'Linode'           => 'linode',

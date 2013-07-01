@@ -45,3 +45,6 @@
 [submodule "vendor/webdriver"]
 	path = vendor/webdriver
 	url = git@github.com:Element-34/php-webdriver.git
+[submodule "vendor/codemirror"]
+	path = vendor/codemirror
+	url = http://marijnhaverbeke.nl/git/codemirror

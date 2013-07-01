@@ -35,6 +35,10 @@ class controller_common extends controller_base {
 				'text' => 'Features', 
 				'path' => 'Feature Home',
 			],
+			'file_manager' => [
+				'text' => 'File Manager', 
+				'path' => 'File Manager Home',
+			],
 			'git' => [
 				'text' => 'Git', 
 				'path' => 'Git Home',
@@ -79,6 +83,7 @@ class controller_common extends controller_base {
 		$this->in_section = route::in_sections([
 			'Cron', 
 			'Feature',
+			'File Manager',
 			'Git',
 			'Linode',
 			'Product Type', 

@@ -22,6 +22,4 @@ class controller_mustachetest extends controller_base {
 		if (AJAX)
 			json($this);
 	}
-
-
 }

@@ -22,7 +22,7 @@ yellow("Capturing h1's\n");
 $h1 = $b->find('h1');
 foreach ($h1 as $k => $h) {
 	ok($h->text());
-	$b->screenshot_part($h, IMAGE_DIR."/h1-{$k}.png");
+	$b->screenshot_element($h, IMAGE_DIR."/h1-{$k}.png");
 	ok('http:'. BASE_URL ."/img/h1-{$k}.png");
 }
 */

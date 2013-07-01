@@ -180,6 +180,16 @@ route::$routes += [
 	//'/git/reset/(?P<files>[a-zA-Z0-9/_\.\-,]+)'
 		//=> [ 'c' => 'git', 'm' => 'reset', 'name' => 'Git Reset', 'section' => 'Git' ],
 
+	# File Manager
+	'/files/upload' 
+		=> [ 'c' => 'file_manager', 'm' => 'upload', 'name' => 'File Manager Upload', 'section' => 'File Manager' ],
+	'/files/search' 
+		=> [ 'c' => 'file_manager', 'm' => 'search', 'name' => 'File Manager Search', 'section' => 'File Manager' ],
+	'/files(?:/*)(?P<path>[a-zA-Z0-9\.\-_ /]*).edit' 
+		=> [ 'c' => 'file_manager', 'm' => 'edit', 'name' => 'File Manager Edit', 'section' => 'File Manager' ],
+	'/files(?:/*)(?P<path>[a-zA-Z0-9\.\-_ /]*)' 
+		=> [ 'c' => 'file_manager', 'm' => 'main', 'name' => 'File Manager Home', 'section' => 'File Manager' ],
+
 	# Error
 	'/403' => [ 'c' => 'status_code', 'm' => 'forbidden', 'nodb' => true ],
 	'/404' => [ 'c' => 'status_code', 'm' => 'not_found', 'nodb' => true ],
