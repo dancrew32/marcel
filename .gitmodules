@@ -22,9 +22,6 @@
 [submodule "vendor/yahoo_finance"]
 	path = vendor/yahoo_finance
 	url = git://github.com/aygee/yahoo-finance-api
-[submodule "vendor/facebook"]
-	path = vendor/facebook
-	url = git@github.com:facebook/facebook-php-sdk.git
 [submodule "vendor/faker"]
 	path = vendor/faker
 	url = git@github.com:fzaninotto/Faker.git
@@ -40,8 +37,6 @@
 [submodule "vendor/multicurl"]
 	path = vendor/multicurl
 	url = git@github.com:jmathai/php-multi-curl.git
-
-
 [submodule "vendor/webdriver"]
 	path = vendor/webdriver
 	url = git@github.com:Element-34/php-webdriver.git
