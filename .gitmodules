@@ -40,3 +40,6 @@
 [submodule "vendor/codemirror"]
 	path = vendor/codemirror
 	url = http://marijnhaverbeke.nl/git/codemirror
+[submodule "vendor/filterus"]
+	path = vendor/filterus
+	url = git@github.com:ircmaxell/filterus.git
