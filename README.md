@@ -88,7 +88,7 @@ Clone and run the db init wizard:
 ```bash
 git clone git@github.com:dancrew32/marcel.git site
 cd site
-git submodule update --init
+git submodule update
 php script/db_init.php
 chmod 777 -R tmp .git
 chmod 777 marcel vendor .gitmodules
