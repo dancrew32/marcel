@@ -31,9 +31,6 @@
 [submodule "vendor/ansi-to-html"]
 	path = vendor/ansi-to-html
 	url = https://github.com/sensiolabs/ansi-to-html
-[submodule "vendor/filterus"]
-	path = vendor/filterus
-	url = git@github.com:ircmaxell/filterus.git
 [submodule "vendor/multicurl"]
 	path = vendor/multicurl
 	url = git@github.com:jmathai/php-multi-curl.git
