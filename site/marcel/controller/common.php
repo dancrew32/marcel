@@ -8,10 +8,7 @@ class controller_common extends controller_base {
 	# no view
 	function css() {
 		app::asset('core/screen', 'css');
-		$out = '';	
-		foreach (array_unique(app::$assets['css']) as $c)
-			$out .= '<link href="'. $c .'" rel="stylesheet" type="text/css">';
-		echo $out;
+		echo css::get_html();
 	}
 
 	# no view
