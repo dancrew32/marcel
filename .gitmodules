@@ -46,3 +46,6 @@
 [submodule "vendor/mobile_detect"]
 	path = vendor/mobile_detect
 	url = git@github.com:serbanghita/Mobile-Detect.git
+[submodule "vendor/color"]
+	path = vendor/color
+	url = git@github.com:mexitek/phpColors.git
