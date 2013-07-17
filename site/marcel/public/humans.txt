@@ -1,0 +1,6 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Dan Masquelier -- Developer/Maintainer -- http://www.twitter.com/danmasq

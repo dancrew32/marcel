@@ -57,14 +57,6 @@ class util {
 		return $files;
 	}
 
-	// TODO: fix me
-	//static function rrglob($file) {
-		//return array_map(function($file) {
-			//return preg_match('#'.ROOT_DIR.'.'.$
-		//}, new recursiveIteratorIterator(new recursivedirectoryiterator(ROOT_DIR)));
-	//}
-	//
-
 	static function find_files($search='', $fuzzy=25) {
 		$it = new RecursiveDirectoryIterator(ROOT_DIR);
 		$out = [];

@@ -120,36 +120,36 @@ and create your first user. You should also set your
 ## Scripts
 Marcel has a ton of scripts available to automate development.
 
-Just run `./marcel` from the root directory to get a menu
+Just run `./m <sitename>` (so maybe `./m marcel` for `site/marcel`) from the root directory to get a menu
 of scripts to run! 
 
 When you're comfortable with the
 list of scripts you have, use the search shortcut
-to immediately run that script `./marcel <search>` 
-(so maybe `./marcel dbdump` to run `php script/db_dump.php`).
+to immediately run that script `./m <site> <search>` 
+(so maybe `./m <site> dbdump` to run `php site/<site>/script/db_dump.php`).
 
 Every script is an easy to use interactive wizard:
 
 ### Wizards & Scripts
 Wizard | Script Description
 --- | ---
-`php script/gen_controller.php` | [Controller](#controllers-c)
-`php script/gen_model.php` | [Model](#models-m)
-`php script/gen_view.php` | [View](#views-v)
-`php script/gen_js_class.php` | JavaScript Module
-`php script/gen_script.php` | Script/[Cron](#cron)
-`php script/db_init.php` | DB initialization (see [Install](#install))
-`php script/db_create_mysql_user.php` | Create a new [MySQL](http://dev.mysql.com/doc/refman/5.1/en/adding-users.html) user with permissions to *only this* `DB_NAME`
-`php script/db_dump.php` | DB *dump* in `db/dump`	
-`php script/db_restore.php` | DB *restore* from `db/dump`
-`php script/db_schema_apply.php` | DB *apply* a schema in from `db/schema`
-`php script/db_schema_update.php` | DB *update* *all* schemas in from `db/schema`
-`php script/create_user.php` | Create `User`s (e.g. Create your first `User` with `role` of `admin`)
-`php script/cron.base.php` | Run each `Cron_Job` if `Cron_Job->frequency` matches `time()` and is `active`
-`php script/scss_watch.php` | Run `compass watch` as daemon to watch [SCSS](#scss-compass)
-`php script/worker.php` | Start a [Worker](#workers) server
-`php script/vim.php` | Start an [Interactive Vim](#vim-interactivity) `eval` session
-`php script/fake_users.php` | Create `250` fake `User`s with role of `user`
+`php site/marcel/script/gen_controller.php` | [Controller](#controllers-c)
+`php site/marcel/script/gen_model.php` | [Model](#models-m)
+`php site/marcel/script/gen_view.php` | [View](#views-v)
+`php site/marcel/script/gen_js_class.php` | JavaScript Module
+`php site/marcel/script/gen_script.php` | Script/[Cron](#cron)
+`php site/marcel/script/db_init.php` | DB initialization (see [Install](#install))
+`php site/marcel/script/db_create_mysql_user.php` | Create a new [MySQL](http://dev.mysql.com/doc/refman/5.1/en/adding-users.html) user with permissions to *only this* `DB_NAME`
+`php site/marcel/script/db_dump.php` | DB *dump* in `db/dump`	
+`php site/marcel/script/db_restore.php` | DB *restore* from `db/dump`
+`php site/marcel/script/db_schema_apply.php` | DB *apply* a schema in from `db/schema`
+`php site/marcel/script/db_schema_update.php` | DB *update* *all* schemas in from `db/schema`
+`php site/marcel/script/create_user.php` | Create `User`s (e.g. Create your first `User` with `role` of `admin`)
+`php site/marcel/script/cron.base.php` | Run each `Cron_Job` if `Cron_Job->frequency` matches `time()` and is `active`
+`php site/marcel/script/scss_watch.php` | Run `compass watch` as daemon to watch [SCSS](#scss-compass)
+`php site/marcel/script/worker.php` | Start a [Worker](#workers) server
+`php site/marcel/script/vim.php` | Start an [Interactive Vim](#vim-interactivity) `eval` session
+`php site/marcel/script/fake_users.php` | Create `250` fake `User`s with role of `user`
 
 ## Routing
 In `routes.php`, we send url `$_SERVER['REQUEST_URI']` 
@@ -647,12 +647,12 @@ Changes in `scss` directory automatically reflect in `public/css` when you run:
 ```bash
 sudo gem install compass compass_twitter_bootstrap
 sudo gem install animation --pre
-php script/scss_watch.php
+php site/marcel/script/scss_watch.php
 ```
 
 ### SCSS/Compass Example
 
-* Start `compass watch` with `./marcel scss` or `script/scss_watch.php`
+* Start `compass watch` with `./m marcel scss` or `php site/marcel/script/scss_watch.php`
 * Create a new `.scss` file in the `scss` directory
 
 ```scss
@@ -1049,7 +1049,7 @@ that have matching cron `frequency` entries.
 ## Workers
 Using the `Worker` [model](#models-m), you can add long-running
 processes to a "job queue" using `Worker::add`.
-To *start* a worker server, run `php script/worker.php <optional-thread-count>`.
+To *start* a worker server, run `php site/marcel/script/worker.php <optional-thread-count>`.
 
 ### Worker Example
 `example::long_running` takes 10 seconds to complete
@@ -1348,7 +1348,7 @@ sudo python setup.py install
 Then from the site root directory (`ROOT_DIR`) run:
 
 ```bash
-phpsh script/inc.php
+phpsh site/marcel/script/inc.php
 ```
 
 ## Vim Interactivity
@@ -1372,7 +1372,7 @@ the contents of `tmp/vim-output.php` will be evaluted.
 ### Vim usage example
 While in your current Vim session: 
 
-1. `:!./marcel vim` to run our `script/vim.php` 
+1. `:!./m marcel vim` to run our `script/vim.php` 
 2. New Vim session opens with `tmp/vim-output.php` buffer
 3. Write some code: **See example code below**
 4. Save buffer and exit Vim with `ZZ` or `:wq`
@@ -1394,7 +1394,7 @@ foreach ($users as $u)
 A usefil `~/.vimrc` addition might be:
 
 ```viml
-map <silent> <Leader>x :!./marcel vim<cr><cr>
+map <silent> <Leader>x :!./m marcel vim<cr><cr>
 ```
 So, if your [Leader](http://vimdoc.sourceforge.net/htmldoc/map.html#<Leader>) key 
 is `,` then `,x` will launch the Marcel Vim buffer.
@@ -1406,7 +1406,7 @@ You may create [scripts](#scripts) that run a WebSocket server using
 
 ### Example Chat Server
 In this example, we'll create a chat server called `script/chat_server.php` where
-`chat_server` will extend `socket_server`. Run it via `./marcel chat` or 
+`chat_server` will extend `socket_server`. Run it via `./m marcel chat` or 
 `php script/chat_server.php`.
 
 ```php
