@@ -26,7 +26,7 @@ define('AJAX', (
 # App Specific
 define('BASE_URL', "//site.com");
 define('ADMIN_EMAIL', "admin@example.com");
-define('APP_NAME', 'Marcel');
+define('APP_NAME', 'Empty');
 define('SALT', '<yourGreaterThan21CharacterSalt>'); # must be creater than 21 chars
 define('SESSION_NAME', 'session_name');
 $IP_WHITELIST = [ ];

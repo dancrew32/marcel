@@ -7,23 +7,20 @@
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
 <meta name="viewport" content="width=device-width">
 <meta name="referrer" content="always">
-<?= $css ?>
-<!--[if lt IE 9]><script src="/js/html.shiv.js"></script><![endif]-->
+<?= r('common', 'css') ?>
+<!--[if lt IE 9]><script src="<?= JS_DIR ?>/html.shiv.js"></script><![endif]-->
 </head>
 <body class="<?= implode(' ', $body_classes) ?>">
-
 <div class="container">
 	<?= r('common', 'nav') ?>
 </div>
-
 <div class="container alpha-container">
 	<?= $yield ?>
 </div>
-
 <hr>
 <div class="container">
 	<?= r('common', 'debug') ?>
 </div>
-<?= $js ?>
+<?= r('common', 'js') ?>
 </body>
 </html>

@@ -6,10 +6,9 @@ class app {
 	static $req_type; # e.g. "post"
 
 	# assets
-	const JQUERY_VERSION = '1.9.1';
 	static $assets = [
-		'js'    => ['/js/class/app.js'],
-		'css'   => ['/css/core/screen.css'],
+		'js'    => [],
+		'css'   => [],
 		'error' => [],
 		'debug' => [],
 	];
@@ -120,33 +119,10 @@ class app {
 		$lay = take($o, 'l', 'a');
 		if ($lay == 'none')
 			unset($lay);
-		$css = self::css();
-		$js = self::js();
 		$body_classes = [take($o, 'c'), take($o, 'm')];
 		ob_start();
 		include LAYOUT_DIR."/{$lay}.php";
 		return ob_get_clean();
-	}
-
-	static function css() {
-		$out = '';	
-		foreach (array_unique(self::$assets['css']) as $c)
-			$out .= '<link href="'. $c .'" rel="stylesheet" type="text/css">';
-		return $out;
-	}
-
-	static function js() {
-		$cdn = '//ajax.googleapis.com/ajax/libs';
-		$out = '<script src="'.JS_DIR.'/loader.js"></script>';
-		$out .= '<script>$LAB.script("'. $cdn .'/jquery/'.self::JQUERY_VERSION.'/jquery.min.js")
-			.script("/js/bootstrap.js").wait()';
-		foreach (array_unique(self::$assets['js']) as $j) {
-			$delim = strpos($j, '?') ? '&' : '?';
-			$j = CACHE_BUST ? $j.$delim.'d='.date('U') : $j;
-			$out .= '.script("'. $j .'")';
-		}
-		$out .= '</script>';
-		return $out;
 	}
 
 	static function asset($path, $type) {

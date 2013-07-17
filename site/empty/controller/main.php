@@ -6,6 +6,5 @@ class controller_main extends controller_base {
    	}
 
 	function index() {
-		echo "I live";
 	}
 }

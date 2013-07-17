@@ -5,6 +5,30 @@ class controller_common extends controller_base {
 		// see views/common.index.php
 	}
 
+	# no view
+	function css() {
+		app::asset('core/screen', 'css');
+		$out = '';	
+		foreach (array_unique(app::$assets['css']) as $c)
+			$out .= '<link href="'. $c .'" rel="stylesheet" type="text/css">';
+		echo $out;
+	}
+
+	# no view
+	function js() {
+		$jquery_version = '1.9.1';
+		$out  = '<script src="'. JS_DIR .'/loader.js"></script>';
+		$out .= "<script>\$LAB.script('//ajax.googleapis.com/ajax/libs/jquery/{$jquery_version}/jquery.min.js')";
+		$out .= ".script('". JS_DIR ."/bootstrap.js').wait()";
+		$out .= ".script('". JS_DIR ."/class/app.js')";
+		foreach (array_unique(app::$assets['js']) as $j) {
+			$delim = strpos($j, '?') ? '&' : '?';
+			$j = CACHE_BUST ? $j.$delim.'d='.date('U') : $j;
+			$out .= '.script("'. $j .'")';
+		}
+		echo $out . '</script>';
+	}
+
 	function nav() {
 		$this->is_masquerading = take($_SESSION, 'masquerader');
    	}
