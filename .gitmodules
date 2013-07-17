@@ -43,3 +43,6 @@
 [submodule "vendor/filterus"]
 	path = vendor/filterus
 	url = git@github.com:ircmaxell/filterus.git
+[submodule "vendor/mobile_detect"]
+	path = vendor/mobile_detect
+	url = git@github.com:serbanghita/Mobile-Detect.git

@@ -5,7 +5,9 @@
 	</p>
 	<p><a href="https://github.com/dancrew32/marcel" 
 		class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-
+	<? if (detect::is_mobile()): ?>
+		Looks like you're using a mobile device!
+	<? endif ?>
 </div>
 
 
