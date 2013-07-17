@@ -1,4 +1,5 @@
 .sass-cache
 tmp/*
 db/dump/* # Remove if you want to push dumps to the repo
-config/api.php
+*/*/config/api.php
+
