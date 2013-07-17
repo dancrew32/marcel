@@ -68,4 +68,14 @@ api::$keys = [
 			'key'      => '',
 		],
 	],
+	'goodreads' => [ # http://www.goodreads.com/api/keys
+		'DEV' => [
+			'key'    => '',
+			'secret' => '',
+		],
+		'LIVE' => [
+			'key'    => '',
+			'secret' => '',
+		],
+	],
 ];

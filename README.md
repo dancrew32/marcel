@@ -1671,7 +1671,13 @@ to automate actual browser interactions (for testing or scraping).
 
 ### Install
 ```bash
-sudo apt-get install xvfb firefox
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+sudo apt-get update
+sudo apt-get install xvfb firefox google-chrome-stable
+wget http://chromedriver.googlecode.com/files/chromedriver_linux64_23.0.1240.0.zip
+unzip chromedriver_linux64_23.0.1240.0.zip
+sudo cp chromedriver /usr/local/bin
 ```
 
 ### Start Server

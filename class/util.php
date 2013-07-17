@@ -274,6 +274,16 @@ class util {
 		if (file_exists($file))
 			unlink($file);
 	}
+
+	static function fix_word_quotes($str) {
+		$str = mb_convert_encoding($str, 'HTML-ENTITIES', 'UTF-8');
+		$chars = [
+			'&lsquo;' => "'", //Left single quote
+			'&rsquo;' => "'", //Right single quote
+			'&ldquo;' => '"', //Left double quote
+			'&rdquo;' => '"', //Right double quote
+			'&hellip;' => ' . . . ', //Ellipsis (three continuation dots...)
+		];
+		return trim(strtr($str, $chars));
+	}
 }
-
-

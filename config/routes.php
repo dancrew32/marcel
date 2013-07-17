@@ -190,6 +190,10 @@ route::$routes += [
 	'/files(?:/*)(?P<path>[a-zA-Z0-9\.\-_ /]*)' 
 		=> [ 'c' => 'file_manager', 'm' => 'main', 'name' => 'File Manager Home', 'section' => 'File Manager' ],
 
+	# Goodreads
+	'/goodreads' 
+		=> [ 'c' => 'test', 'm' => 'goodreads', 'name' => 'Goodreads Home', 'section' => 'Goodreads' ],
+
 	# Error
 	'/403' => [ 'c' => 'status_code', 'm' => 'forbidden', 'nodb' => true ],
 	'/404' => [ 'c' => 'status_code', 'm' => 'not_found', 'nodb' => true ],
