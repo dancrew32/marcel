@@ -4,11 +4,16 @@ class form {
 	private $html;
 	private $control_groups; 
 	private $field_head;
+	private $angular;
 
-	function __construct() {
+	function __construct(array $o=[]) {
+		$o = array_merge([
+			'angular' => false,
+		], $o);
 		$this->html = '';	
 		$this->has_head = false;
 		$this->control_groups = true;
+		$this->angular = $o['angular'];
 		return $this;
 	}
 
@@ -18,9 +23,12 @@ class form {
 
 	function open($action='#', $method='post', array $attrs=array()) {
 		app::asset('class/form', 'js');
-		$this->html .= '<form action="'. $action .'" method="'. strtoupper($method) .'"';
-		if ($method == 'post')
-			$this->html .= ' enctype="multipart/form-data"';
+		$this->html .= '<form ';
+		if (!$this->angular) {
+			$this->html .= 'action="'. $action .'" method="'. strtoupper($method) .'"';
+			if ($method == 'post')
+				$this->html .= ' enctype="multipart/form-data"';
+		}
 		$this->html .= html::build_attributes($attrs) .'>';
 		if (field::has_class('form-horizontal', $attrs))
 			$this->control_groups = false;

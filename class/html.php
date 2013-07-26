@@ -155,6 +155,18 @@ class html {
 		return $html;
 	}
 
+	static function inline_convert($html, $options=[]) {
+		$options = [
+			'css_remote' => [],
+		];
+		require_once VENDOR_DIR .'/html_inline/vendor/autoload.php';	
+		$html_doc = new \InlineStyle\InlineStyle($html);
+		$html_doc->applyStylesheet($html_doc->extractStylesheets());
+		foreach ($options['css_remote'] as $css_remote)
+			$html_doc->applyStylesheet(file_get_contents($css_remote));
+		return $html_doc->getHTML();
+	}
+
 	private static function _list(array $data, string $type) {
 		$html = '';
 		$count = 0;
@@ -169,5 +181,6 @@ class html {
 		}
 		return $html;
 	}
+
 
 }

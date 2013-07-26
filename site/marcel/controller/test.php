@@ -5,6 +5,12 @@ class controller_test extends controller_base {
 		parent::__construct($o);
    	}
 
+	function craigslist() {
+		$c = new craigslist(file_get_contents('https://gist.github.com/dancrew32/87d4e2a4eed4a8aae932/raw/ebedd30e9d4758e69c0ac155d6349e58d7bed010/gistfile1.txt'));
+		die($c->get_inline_attributed());
+		//pd(craigslist::get_restricted_html());		
+	}
+
 	function goodreads() {
 
 		//$g = gmap::geocode('1 san francisco');

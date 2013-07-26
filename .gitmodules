@@ -49,3 +49,6 @@
 [submodule "vendor/color"]
 	path = vendor/color
 	url = git@github.com:mexitek/phpColors.git
+[submodule "vendor/html_inline"]
+	path = vendor/html_inline
+	url = https://github.com/christiaan/InlineStyle

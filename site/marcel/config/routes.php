@@ -194,6 +194,10 @@ route::$routes += [
 	'/goodreads' 
 		=> [ 'c' => 'test', 'm' => 'goodreads', 'name' => 'Goodreads Home', 'section' => 'Goodreads' ],
 
+	# Craigslist
+	'/craigslist' 
+		=> [ 'c' => 'test', 'm' => 'craigslist' ],
+
 	# Error
 	'/403' => [ 'c' => 'status_code', 'm' => 'forbidden', 'nodb' => true ],
 	'/404' => [ 'c' => 'status_code', 'm' => 'not_found', 'nodb' => true ],
