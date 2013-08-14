@@ -55,25 +55,25 @@
 </div>
 
 <? if (note::get('login:success')): ?>
-	<div class="container">
+	<div class="container main-alert">
 		<?= html::alert("You're now logged in.", ['type'=>'success']) ?>
 	</div>
 <? endif ?>
 
 <? if (note::get('logout:success')): ?>
-	<div class="container">
+	<div class="container main-alert">
 		<?= html::alert("You're now logged out.", ['type'=>'success']) ?>
 	</div>
 <? endif ?>
 
 <? if (note::get('user_verification:success')): ?>
-	<div class="container">
+	<div class="container main-alert">
 		<?= html::alert("Thanks for verifiying your email address!", ['type'=>'success']) ?>
 	</div>
 <? endif ?>
 
 <? if (note::get('user_verification:sent')): ?>
-	<div class="container">
+	<div class="container main-alert">
 		<?= html::alert(
 			"We just sent you a verfication email. ".
 			html::btn('https://'.User::$user->email_domain(), 'Go to '. User::$user->email_domain(), 'globe'),
@@ -83,7 +83,7 @@
 <? endif ?>
 
 <? if (note::get('user_verification:failure')): ?>
-	<div class="container">
+	<div class="container main-alert">
 		<?= html::alert(
 			"We were unable to verify your email address. ". 
 			html::btn(

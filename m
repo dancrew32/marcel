@@ -2,6 +2,8 @@
 <? 
 array_shift($argv);
 $site = array_shift($argv);
+if (!$site)
+	die("Must have a <site> parameter!\ne.g. \"./m <site> <command>\n\"");
 require_once(dirname(__FILE__)."/site/{$site}/script/inc.php");
 $search = implode('', $argv);
 $is_search = isset($search{0});

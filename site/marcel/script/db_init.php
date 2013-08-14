@@ -1,80 +1,161 @@
 <?
-require_once(dirname(__FILE__).'/inc.php');
+require_once dirname(__FILE__).'/inc.php';
 
-$ok = true;
-$db_name = gets("Enter database name:");
-$db_user = gets("Enter database user:");
-$db_host = gets("Enter database host: (localhost)");
-if (!isset($db_host{0}))
-	$db_host = 'localhost';
-$db_pass = prompt_silent("Enter database password:");
+
+
+# INITIALIZE PROGRAM
+$p = new program;
+
+# Name (Name of your future controller)
+$p->option([
+	'short' => 'n',
+	'long'  => 'name',
+	'value' => true,
+	'help'  => "Controller name (of the controller you're about to make)",
+]);
+
+# Index File
+$p->option([
+	'short'   => 'i',
+	'long'    => 'index',
+	'value'   => true,
+	'help'    => 'Site index file (referenced by .htaccess)',
+	'default' => PUBLIC_DIR.'/index.php',
+]);
+
+# Database Name
+$p->option([
+	'short'   => 'D',
+	'long'    => 'db_name',
+	'value'   => true,
+	'help'    => 'Name of your database',
+]);
+
+//# Database User
+$p->option([
+	'short'   => 'U',
+	'long'    => 'db_user',
+	'value'   => true,
+	'help'    => 'User for your database',
+]);
+
+# Database Host
+$p->option([
+	'short'   => 'H',
+	'long'    => 'db_host',
+	'value'   => true,
+	'type'    => 'text',
+	'help'    => 'Host for your database',
+]);
+
+
+# HELP MENU ABORT
+if ($p->get('h')) die($p->help());
+
+
+yellow(ascii::marcel().'
+------------
+| DB INIT! |
+------------
+');
+
+
+# GET DB CREDENTIALS
+$db = [
+	'name' => $p->getif('D', "Enter your database name:"),
+	'user' => $p->getif('U', "Enter your database user:"),
+	'host' => $p->getif('H', "Enter your database host: (blank for localhost)"),
+];
+if (!isset($db['host']))
+	$db['host'] = 'localhost';
+$db['pass'] = prompt_silent("Enter your database password:");
+
 
 
 # CREATE DATABASE
-$create = strtolower(gets("Shall I create database `{$db_name}`? [y/N]"));
-if ($create != 'y')
+$create = gets("Shall I create database `{$db['name']}`? [Y/n]", ['lower']);
+if ($create == 'n')
 	return red("Creation cancelled. Now Exiting.");
-$pdo = new PDO('mysql:host=localhost', $db_user, $db_pass);
-$ok = $pdo->exec("CREATE DATABASE IF NOT EXISTS {$db_name}");
-if (!$ok) return red("FAIL");
+try {
+	$pdo = new PDO('mysql:host=localhost', $db['user'], $db['pass']);
+} catch (Exception $e) {
+	return fail('MySQL connect failure. Wrong user/password/host?');
+}
+$p->check($pdo->exec("CREATE DATABASE IF NOT EXISTS {$db['name']}"));
+if (!$p->ok()) 
+	return fail("MySQL table create failure. Does {$db['user']} have the correct permissions?");
 
 
-# UPDATE INDEX.PHP
-$index_file = PUBLIC_DIR.'/index.php';	
-util::replace_line_with_match($index_file, "define('DB_USER'", "define('DB_USER', '{$db_user}');\n");
-util::replace_line_with_match($index_file, "define('DB_PASS'", "define('DB_PASS', '{$db_pass}');\n");
-util::replace_line_with_match($index_file, "define('DB_HOST'", "define('DB_HOST', '{$db_host}');\n");
-util::replace_line_with_match($index_file, "define('DB_NAME'", "define('DB_NAME', '{$db_name}');\n");
-green("DB Constants updated in {$index_file}.\n");
+
+# UPDATE INDEX FILE WITH CONSTANTS
+$index_file = $p->get('i'); # default 
+foreach ($db as $k => $v) {
+	$mysql_key = strtoupper($k);
+	util::replace_line_with_match(
+		$index_file, "define('DB_{$mysql_key}'", "define('DB_{$mysql_key}', '{$v}');\n"
+	);
+}
+ok("DB Constants updated in {$index_file}.");
+
 
 
 # APPLY SCHEMAS
-$apply_schemas = strtolower(gets("Apply schemas? [Y/n]"));
+$apply_schemas = gets("Apply schemas? [Y/n]", ['lower']);
 if ($apply_schemas != 'n') {
 	$schemas = glob(SCHEMA_DIR.'/*.sql');
-	green("Applying Schemas:\n");
-	$pdo = new PDO("mysql:host=localhost;dbname={$db_name}", $db_user, $db_pass);
+	ok("Applying Schemas:");
+	$pdo = new PDO("mysql:host=localhost;dbname={$db['name']}", $db['user'], $db['pass']);
 	foreach ($schemas as $sch) {
 		$file = util::explode_pop('/', $sch);
 		echo " Applying {$file}\n";
 		$sql = file_get_contents($sch);	
 		$pdo->exec($sql);
 	}
-	green("Done applying schemas.\n");
+	ok("Done applying schemas.");
 	$pdo = null;
 }
 
 
-ActiveRecord\Config::initialize(function($cfg) {
+# ESTABLISH ACTIVE RECORD CONNECTION
+ActiveRecord\Config::initialize(function($cfg) use ($db) {
+	$default_key = 'default'; # TODO: make this key an option
+	$connections = [
+		$default_key => "mysql://{$db['user']}:{$db['pass']}@{$db['host']}/{$db['name']}",
+	];
 	$cfg->set_model_directory(MODEL_DIR);
-	$cfg->set_connections([
-		'default' => "mysql://{$GLOBALS['db_user']}:{$GLOBALS['db_pass']}@{$GLOBALS['db_host']}/{$GLOBALS['db_name']}",
-	]);
-	$cfg->set_default_connection('default');
+	$cfg->set_connections($connections);
+	$cfg->set_default_connection($default_key);
 });
 
-$seed = strtolower(gets("Seed database with defaults? [Y/n]"));
+
+
+# ATTEMPT TO SEED DATABASE WITH Model::seed()
+$seed = $p->getif('s', "Seed database with defaults? [Y/n]", ['lower']);
 if ($seed != 'n') {
 	$seed_models = [
 		'User_Type',
 		'Feature',
 		'User_Permission',
 	];
-	green("Now Seeding...\n");
+	ok("Now Seeding...");
 	foreach ($seed_models as $sm) {
 		echo " seeding {$sm}...";
 		try {
 			$sm::seed();
-			green(" Done.\n");
+			ok(" Done.");
 		} catch (Exception $e) {
-			red(" FAIL.\n");	
+			fail(" Unable to seed.\n {$e->getMessage()}\n");	
 		}
 	}
-	green("Seeding Complete.\n");
+	ok("Seeding Complete.");
 }
 
-$user_create = strtolower(gets("Create first user? [Y/n]"));
+
+# CREATE FIRST USER
+$user_create = gets("Create first user? [Y/n]", ['lower']);
 if ($user_create != 'n')
 	include_once SCRIPT_DIR.'/create_user.php';
 
-green("DB INIT Complete.\n");
+
+
+ok("DB INIT Complete.");

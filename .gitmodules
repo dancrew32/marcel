@@ -52,3 +52,6 @@
 [submodule "vendor/html_inline"]
 	path = vendor/html_inline
 	url = https://github.com/christiaan/InlineStyle
+[submodule "vendor/clipclop"]
+	path = vendor/clipclop
+	url = https://github.com/pete-otaqui/ClipClop.git

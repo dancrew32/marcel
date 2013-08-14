@@ -1,15 +1,41 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
 
+$p = new program;
+$p->option([
+	'short' => 'n',
+	'long'  => 'name',
+	'value' => true,
+	'help'  => 'Controller name',
+]);
+$p->option([
+	'short' => 'c',
+	'long'  => 'crud',
+	'help'  => 'Is the controller a CRUD controller?',
+]);
+$p->option([
+	'short' => 'm',
+	'long'  => 'model',
+	'value' => true,
+	'help'  => 'What model is this CRUD model associated with?',
+]);
+$p->option([
+	'short' => 'f',
+	'long'  => 'feature',
+	'help'  => 'Will this controller need a Feature?',
+]);
+if ($p->get('h')) die($p->help());
+
+
 $ok = true;
-$name = preg_replace('/[^a-zA-Z0-9_]*/', '', strtolower(gets("Enter Controller name:")));
+$name = preg_replace('/[^a-zA-Z0-9_]*/', '', $p->get('n') ? $p->get('n') : strtolower(gets("Enter Controller name:")));
 if (!isset($name{0})) return red("Must have a name!\n");
 
-$crud = strtolower(gets("CRUD? [N/y]"));
+$crud = $p->get('c') ? $p->get('c') : strtolower(gets("CRUD? [N/y]"));
 $model = false;
 $model_lower = '';
 if ($crud == 'y') {
-	$model = gets("What model? e.g. Cron_Job");
+	$model = $p->get('m') ? $p->get('m') : gets("What model? e.g. Cron_Job");
 	$model_lower = strtolower($model);
 }
 
@@ -166,7 +192,7 @@ else
 	red("WRITE FAIL\n");
 
 
-$feature = strtolower(gets("Add Feature? [N/y]"));
+$feature = $p->get('f') ? 'y' : strtolower(gets("Add Feature? [N/y]"));
 if ($feature != 'y') return green("No feature will be added. Now Exiting.\n");
 
 $feature = Feature::create([
