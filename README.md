@@ -1006,7 +1006,7 @@ Key | Description
 `s` | Sharpen: *default `null`*
 `cc` | Canvas Hex Color: *default `null`* (e.g. `'#ffffff'`)
 `ct` | Canvas Transparency: *default `false`* (ignores `cc`)
-`r` | Revielable *default `0` if off* uses `js/class/unveil.js` to fade images in as they enter the viewport
+`r` | Reveilable *default `0` if off* uses `js/class/unveil.js` to fade images in as they enter the viewport
 
 ## Utilities
 In `class/util.php`, `class/html.php`, `class/size.php`, and `class/time.php`

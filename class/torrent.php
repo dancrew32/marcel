@@ -10,6 +10,7 @@ class torrent {
 	function __construct(array $options = []) {
 		require_once VENDOR_DIR .'/transmission/class/TransmissionRPC.class.php';
 		$this->options = array_merge([
+			'mode'             => 'transmission',
 			'rpc_url'          => 'localhost:9091/transmission/rpc',
 			'target'           => TMP_DIR."/torrent",
 			'rss'              => null, # e.g. http://rss.thepiratebay.sx/205 (http://thepiratebay.sx/rss)
