@@ -98,7 +98,7 @@ cat config/api.php.example > config/api.php
 
 After install, it will prompt you to seed the database with defaults
 and create your first user. You should also set your 
-`public/index.php` `BASE_URL`.
+`public/index.php` and `BASE_URL`.
 
 ## VirtualHost Setup
 ```htaccess
@@ -1712,7 +1712,7 @@ foreach ($h1s as $k => $h) {
 	# Take a screenshot of each h1 with padding around each element
 	$b->screenshot_part($h, IMAGE_DIR."/h1-{$k}.png", ['padding' => 5]);
 
-	echo "http:". BASE_URL ."/img/h1-{$k}.png\n";
+	echo "http://". BASE_URL ."/img/h1-{$k}.png\n";
 }
 
 # Close up!
