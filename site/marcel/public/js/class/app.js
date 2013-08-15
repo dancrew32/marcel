@@ -18,7 +18,9 @@
 		$('#my-tip').tooltip({ selector: 'a' });
 		$('#popit button').popover();
 		if ($.fn.unveil)
-			$('img').unveil(100);
+			$('img.unveilable').unveil(100, function(img) {
+				$(img).addClass('unveiled');
+			});
 		if (FastClick)
 			FastClick.attach(document.body);
 	}

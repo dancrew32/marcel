@@ -59,6 +59,6 @@ $b->screenshot_element($account_overview, $file);
 
 //$b->screenshot($file);
 
-ok('http:'.BASE_URL.'/img/etrade.png');
+ok('http://'.BASE_URL.'/img/etrade.png');
 
 $b->close();

@@ -216,7 +216,8 @@ class upload {
 	}
 	
 	protected function create_new_filename() {
-		$this->filename = sha1(mt_rand(1, 9999) . $this->destination . uniqid()) . time();
+		$this->file['extension'] = pathinfo($this->file['original_filename'], PATHINFO_EXTENSION);
+		$this->filename = sha1(mt_rand(1, 9999) . $this->destination . uniqid()) . time() . '.' . $this->file['extension'];
 	}
 	
 	protected function bytes_to_mb($bytes) {

@@ -63,7 +63,7 @@ class image {
 		// Directory where images are cached. 
 		// Left blank it will use the system temporary directory (which is better for security)
 		if (!defined('FILE_CACHE_DIRECTORY'))
-			define ('FILE_CACHE_DIRECTORY', IMAGECACHE_DIR);	
+			define('FILE_CACHE_DIRECTORY', IMAGECACHE_DIR);	
 
 		//Browser caching
 		// Time to cache in the browser
@@ -100,6 +100,7 @@ class image {
 			's'   => null, # sharpen
 			'cc'  => null, # canvas colour (e.g. #ffffff)
 			'ct'  => null, # canvas transparency (ignores cc)
+			'r'   => 0, # revealable? see unveil.js for images that fade in when they show up in the viewport
 		], $o);
 
 		if (!isset($o['src']{0}))
@@ -111,16 +112,21 @@ class image {
 		$path .= '&amp;sig='.self::keygen($o);
 
 		if (!$html) return $path;
-		app::asset('class/unveil', 'js');
 		$attrs = '';
 		# always needs alt
-		$alt = isset($alt{0}) ? $alt : $o['src'];
+		$alt = h(isset($alt{0}) ? $alt : $o['src']);
 		$attrs .= " alt=\"{$alt}\"";
 		if ($o['w'])
 			$attrs .= " width=\"{$o['w']}\"";
 		if ($o['h'])
 			$attrs .= " height=\"{$o['h']}\"";
-		return '<img src='. self::BLANK .' data-src="'. $path .'"'. $attrs .'>';
+		if ($o['r']) { // reveal mode
+			app::asset('class/unveil', 'js');
+			$out = "<img class=\"unveilable\" src=\"". self::BLANK ."\" data-src=\"{$path}\"";
+		} else {
+			$out = "<img src=\"{$path}\"";
+		}
+		return $out ." {$attrs}>";
 	}
 
 	static function keygen($o) {

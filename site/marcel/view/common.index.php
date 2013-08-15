@@ -3,8 +3,12 @@
 	<p>
 	The MVC with shoes on!
 	</p>
-	<p><a href="https://github.com/dancrew32/marcel" 
-		class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+	<p>
+		<a href="https://github.com/dancrew32/marcel" class="btn btn-primary btn-large">Learn more &raquo;</a>
+		<a href="https://github.com/dancrew32/marcel#contents-stable" class="btn btn-large">Docs  &raquo;</a>
+		<a href="https://github.com/dancrew32/marcel/find/master" class="btn btn-large">Search Repo &raquo;</a>
+		<a href="https://github.com/dancrew32/marcel/issues/new" class="btn btn-large">New Issue &raquo;</a>
+	</p>
 	<? if (detect::is_mobile()): ?>
 		Looks like you're using a mobile device!
 	<? endif ?>
@@ -25,6 +29,7 @@ view/common.index.php
 			'src' => '/img/drwho.jpg',
 			'w'   => 300,
 			'h'   => 200,
+			'r'   => 1, # revealable
 		], true) ?>
 	</div>
 	<div class="span4 scrolling">
@@ -91,6 +96,7 @@ view/common.index.php
 					'src' => '/img/drwho.jpg',
 					'w' => 65,
 					'h' => 65,
+					'r' => 1, # revealable
 				]) ?>" alt="" class="media-object" />
 			</a>
 			<div class="media-body">
@@ -106,6 +112,7 @@ view/common.index.php
 					'src' => '/img/drwho.jpg',
 					'w' => 65,
 					'h' => 65,
+					'r' => 1, # revealable
 				]) ?>" alt="" class="media-object" />
 			</a>
 			<div class="media-body">
@@ -127,6 +134,7 @@ view/common.index.php
 							'src' => '/img/drwho.jpg',
 							'w'   => 50,
 							'h'   => 50,
+							'r'   => 1,
 						], true) ?>
 					</a>
 				</li>
@@ -140,6 +148,7 @@ view/common.index.php
 							'src' => '/img/drwho.jpg',
 							'w'   => 150,
 							'h'   => 120,
+							'r'   => 1,
 						], true) ?>
 						<h4>Thumb <?= $i+1 ?></h4>
 						<p>Content for thumb <?= $i+1 ?></p>
@@ -567,24 +576,26 @@ view/common.index.php
 		<h2>Circles</h2>
 		<ul class="thumbnails">
 			<li class="span2">
-			<div>
-			<img src="<?= image::get([
-			'src' => '/img/drwho.jpg',
-			'w'   => 200,
-			'h'   => 200,
-			]) ?>" class="img-circle"/>
-			</div>
+				<div>
+				<img src="<?= image::get([
+					'src' => '/img/drwho.jpg',
+					'w'   => 200,
+					'h'   => 200,
+					'r'   => 1,
+				]) ?>" class="img-circle"/>
+				</div>
 			</li>
 			<? for ($i = 0; $i < 4; $i++): ?>
-			<li class="span1">
-			<div>
-			<img src="<?= image::get([
-			'src' => '/img/drwho.jpg',
-			'w'   => 200,
-			'h'   => 200,
-			]) ?>" class="img-circle"/>
-			</div>
-			</li>
+				<li class="span1">
+					<div>
+						<img src="<?= image::get([
+						'src' => '/img/drwho.jpg',
+						'w'   => 200,
+						'h'   => 200,
+						'r'   => 1,
+						]) ?>" class="img-circle"/>
+					</div>
+				</li>
 			<? endfor ?>
 		</ul>
 	</div>

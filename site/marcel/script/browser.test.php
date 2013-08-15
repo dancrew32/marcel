@@ -23,7 +23,7 @@ $h1 = $b->find('h1');
 foreach ($h1 as $k => $h) {
 	ok($h->text());
 	$b->screenshot_element($h, IMAGE_DIR."/h1-{$k}.png");
-	ok('http:'. BASE_URL ."/img/h1-{$k}.png");
+	ok('http://'. BASE_URL ."/img/h1-{$k}.png");
 }
 */
 
@@ -39,7 +39,7 @@ foreach ($sizes as $k => $size) {
 	$b->set_size($size['width'], $size['height']);
 	$file = IMAGE_DIR."/browser-{$k}.png";
 	$b->screenshot($file);
-	ok('http:'. BASE_URL ."/img/browser-{$k}.png");
+	ok('http://'. BASE_URL ."/img/browser-{$k}.png");
 }
  */
 

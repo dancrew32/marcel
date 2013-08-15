@@ -1,7 +1,7 @@
 <?
 class controller_file_manager extends controller_base {
 	function __construct($o) {
-		$this->root_path = route::get('Filemanager Home');
+		$this->root_path = route::get('File Manager Home');
 		auth::only(['file_manager']);
 		parent::__construct($o);
    	}
@@ -35,7 +35,7 @@ class controller_file_manager extends controller_base {
 
 		$image = mime::is($this->ext, 'image');
 		if ($image) {
-			ob_end_clean(); ob_end_clean(); # TODO: recursive clean?
+			times(2, function() { ob_end_clean(); });
 			header("Content-Type: {$image}");
 			die($content);
 		} else {
@@ -101,10 +101,16 @@ class controller_file_manager extends controller_base {
 	}
 
 	function upload($o) {
-		$upload = upload::factory(TMP_DIR);
+		$redir = take_post('r');
+		if (!count($_FILES)) 
+			$this->redir($redir);
+		$upload = upload::factory(TMP_DIR.'/upload');
 		$upload->file(take($_FILES, 'file'));
 		$results = $upload->upload();
-		pd($results);
+		if (mime::in($results['mime'], 'image')) {
+			//pd($results);
+		}
+		$this->redir($redir);
 	}
 
 	# no view
@@ -114,6 +120,7 @@ class controller_file_manager extends controller_base {
 			'class' => 'last', 
 		]);
 		$this->_build_upload_form();
+		
 		echo $this->form;
 	}
 
@@ -141,10 +148,16 @@ class controller_file_manager extends controller_base {
 			'icon'         => 'upload',
 		]);
 
+		$redirect_field = new field('hidden', [
+			'name'  => 'r',
+			'value' => route::$path,
+		]);
+
 		# Build Form
 		$this->form
 			->group($file_group, $file_field, $file_help)
 			->group($file2_group, $file2_field, $file2_help)
+			->group($redirect_field)
 			;
 
 	}

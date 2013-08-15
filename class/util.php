@@ -278,4 +278,5 @@ class util {
 		];
 		return trim(strtr($str, $chars));
 	}
+
 }

@@ -310,6 +310,10 @@ class mime {
 		return self::$other;
 	}
 
+	static function in($extension, $type) {
+		return in_array($extension, self::$type());
+	}
+
 	static function is($extension, $type=null) {
 		if ($type) {
 			foreach (self::$type() as $k => $v) {

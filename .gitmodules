@@ -55,3 +55,6 @@
 [submodule "vendor/clipclop"]
 	path = vendor/clipclop
 	url = https://github.com/pete-otaqui/ClipClop.git
+[submodule "vendor/transmission"]
+	path = vendor/transmission
+	url = git@github.com:brycied00d/PHP-Transmission-Class.git

@@ -41,6 +41,7 @@
 * [Profiling](#profiling-with-xhprof)
 * [XDebug](#xdebug)
 * [Selenium & Webdriver](#selenium--webdriver)
+* [BitTorrent](#bittorrent)
 
 ### Contents *future*
 * USPS 
@@ -1722,3 +1723,58 @@ $b->close(); # or unset($b);
 ```bash
 sudo php script/selenium.stop.php
 ```
+
+
+## BitTorrent
+BitTorrent is a brilliant protocol for distributed P2P file sharing.
+Using 
+[Transmission](http://www.transmissionbt.com/)'s
+[Tranmission Daemon](ttp://linux.die.net/man/1/transmission-daemon)
+as a backend, over [RPC](http://en.wikipedia.org/wiki/Remote_procedure_call),
+we can send `tranmission-daemon` a list of torrents to download to `tmp/torrent/<category>`.
+
+### Setting up `transmission-daemon`
+```bash
+sudo apt-get install transmission-daemon
+```
+
+Once installed, you should make sure the daemon will be secure 
+(especially if you want to use Transmission's native web GUI) by
+auditing `/etc/transmission-daemon/settings.json`. Make sure to
+set things like `rpc-whitelist-enabled` (true), `rpc-whitelist`
+(to allow only localhost and maybe your trusted IP's),
+`rpc-port` (to something non-standard), and `rpc-password` 
+(to something super complex) to name a few.
+
+Setting your password is slightly complex.
+Make sure you [follow these steps](http://superuser.com/a/113652).
+
+If you get stuck setting it up, see [Transmission Help](https://trac.transmissionbt.com/).
+
+Find some Torrent RSS Feeds [here](http://thepiratebay.sx/rss).
+
+Forwarding 9091 default port to Apache with mod_proxy: http://www.linuxplained.com/transmission-apache-proxy-setup/
+
+More on tunneling transmission through SOCKv5 proxy: http://askubuntu.com/questions/63150/transmission-tracker-and-or-torrent-traffic-through-proxy
+https://code.google.com/p/torsocks/
+
+### Example Torrent Queue
+```php
+$t = new torrent([
+	'rpc_url'         => 'http://localhost:9091/transmission/rpc',
+	'formats_allowed' => ['iso'], # only allow .iso	
+	'rss'             => 'http://rss.thepiratebay.sx/303', # UNIX RSS Feed
+	'username'        => 'user',     # if you have a user
+	'password'        => 'password', # if you have a password
+]);
+
+# Find Ubuntu .iso files and start downloading!
+$t->find_in_rss('Ubuntu')->start();
+
+# $t->stop();
+```
+
+
+
+
+

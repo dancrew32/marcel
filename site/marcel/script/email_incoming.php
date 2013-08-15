@@ -27,7 +27,7 @@ Email_Thread::create($mail_data);
 
 //print_r($mp->parts());
 
-$domain     = preg_replace('#\/\/#', '', BASE_URL);
+$domain     = BASE_URL;
 $to_address = $thread ? $thread->from : ADMIN_EMAIL;
 $to_name    = $thread ? $thread->from_name : 'Marcel the Shell';
 

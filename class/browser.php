@@ -21,7 +21,7 @@ class browser {
 
 	function __construct($browser='firefox') {
 		require_once VENDOR_DIR.'/webdriver/PHPWebDriver/__init__.php';
-		$wd_host = 'http:'.BASE_URL.':'.self::SELENIUM_PORT.'/wd/hub';
+		$wd_host = 'http://'.BASE_URL.':'.self::SELENIUM_PORT.'/wd/hub';
 		$this->instance = new PHPWebDriver_WebDriver($wd_host);
 		$this->session($browser);
 		return $this;

@@ -139,6 +139,15 @@ legend {
 		@include opacity(0);
 	}
 }
+
+img.unveilable {
+	background-color: #000;
+	@include opacity(0);
+	@include transition(opacity .2s ease-in-out);
+	&.unveiled {
+		@include opacity(1);
+	}
+}
 .fileupload {
 	margin-bottom: 9px;
 	.uneditable-input {

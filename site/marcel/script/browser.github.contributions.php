@@ -51,4 +51,4 @@ try {
 $contributions = $b->find('#contributions-calendar')[0];
 $image_name = "github-{$github['username']}-contributions.png";
 $b->screenshot_element($contributions, IMAGE_DIR."/{$image_name}");
-ok('http:'. BASE_URL ."/img/{$image_name}");
+ok('http://'. BASE_URL ."/img/{$image_name}");

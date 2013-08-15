@@ -464,7 +464,7 @@ class image_manip {
 		}
 
 		$tempfile4 = tempnam($this->cacheDirectory, 'imgcache_tmpimg_');
-		$context = stream_context_create ();
+		$context = stream_context_create();
 		$fp = fopen($tempfile,'r',0,$context);
 		file_put_contents($tempfile4, $this->filePrependSecurityBlock . $imgType . ' ?' . '>'); //6 extra bytes, first 3 being image type 
 		file_put_contents($tempfile4, $fp, FILE_APPEND);

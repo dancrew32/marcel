@@ -2369,6 +2369,7 @@
       } else {
         this.$preview.text(file.name)
         this.$element.addClass('fileupload-exists').removeClass('fileupload-new')
+	  	this.$element.closest('form').submit();
       }
     },
 
@@ -2383,7 +2384,7 @@
           this.$input.after(inputClone);
           this.$input.remove();
           this.$input = inputClone;
-      }else{
+      } else {
           this.$input.val('')
       }
 

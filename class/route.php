@@ -64,7 +64,7 @@ class route {
 		return $found;
 	}
 
-	static function get_absolute($name=null, $protocol='http:', array $params=[]) {
+	static function get_absolute($name=null, $protocol='http://', array $params=[]) {
 		return $protocol.BASE_URL.self::get($name, $params);
 	}
 

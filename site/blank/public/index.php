@@ -24,7 +24,7 @@ define('AJAX', (
 	&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'));
 
 # App Specific
-define('BASE_URL', "//site.com");
+define('BASE_URL', "site.com");
 define('ADMIN_EMAIL', "admin@example.com");
 define('APP_NAME', 'Empty');
 define('SALT', '<yourGreaterThan21CharacterSalt>'); # must be creater than 21 chars

@@ -9,10 +9,10 @@ require_once(dirname(__FILE__).'/inc.php');
 
 # Cookie
 $cook = tempnam(TMP_DIR.'/cookie', uniqid('cookie_'));
-$browser = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36';
+$browser = useragent::GOOGLE_CHROME;
 
 # POST TO /login
-$a = remote::post('http:'.BASE_URL.'/login', [
+$a = remote::post('http://'.BASE_URL.'/login', [
 	'user'       => 'test_user',
 	'pass'       => 'password',
 ], [
@@ -30,7 +30,7 @@ if (!$a->ok()) {
 unset($a);
 
 # GET TO /workers
-$a = remote::get('http:'.BASE_URL.'/workers', [], [
+$a = remote::get('http://'.BASE_URL.'/workers', [], [
 	'cookie_file' => $cook,
 	'user_agent'  => $browser,
 ]);
