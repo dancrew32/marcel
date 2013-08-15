@@ -1043,7 +1043,7 @@ To register new cron jobs, add entries through `model/Cron_Job.php`
 or use the gui for `controller/cron_job.php`
 and add this to your system's crontab: (to edit your crontab, `sudo crontab -e`)
 ```crontab
-* * * * * /usr/bin/php /var/www/site/script/cron.base.php > /dev/null 2>&1
+* * * * * /usr/bin/php /var/www/site/marcel/script/cron.base.php > /dev/null 2>&1
 ```
 `script/cron.base.php` will be hit every minute running any `script`s
 that have matching cron `frequency` entries.
