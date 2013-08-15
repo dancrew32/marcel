@@ -1729,7 +1729,7 @@ sudo php script/selenium.stop.php
 BitTorrent is a brilliant protocol for distributed P2P file sharing.
 Using 
 [Transmission](http://www.transmissionbt.com/)'s
-[Tranmission Daemon](ttp://linux.die.net/man/1/transmission-daemon)
+[Tranmission Daemon](http://linux.die.net/man/1/transmission-daemon)
 as a backend, over [RPC](http://en.wikipedia.org/wiki/Remote_procedure_call),
 we can send `tranmission-daemon` a list of torrents to download to `tmp/torrent/<category>`.
 
@@ -1747,31 +1747,64 @@ set things like `rpc-whitelist-enabled` (true), `rpc-whitelist`
 (to something super complex) to name a few.
 
 Setting your password is slightly complex.
-Make sure you [follow these steps](http://superuser.com/a/113652).
-
+Make sure you [follow these steps](http://superuser.com/a/113652). 
 If you get stuck setting it up, see [Transmission Help](https://trac.transmissionbt.com/).
 
-Find some Torrent RSS Feeds [here](http://thepiratebay.sx/rss).
 
-Forwarding 9091 default port to Apache with mod_proxy: http://www.linuxplained.com/transmission-apache-proxy-setup/
+### Proxy Setup
 
-More on tunneling transmission through SOCKv5 proxy: http://askubuntu.com/questions/63150/transmission-tracker-and-or-torrent-traffic-through-proxy
-https://code.google.com/p/torsocks/
+`TODO`: Forwarding `9091` default port to Apache with mod_proxy: http://www.linuxplained.com/transmission-apache-proxy-setup/
+
+More on tunneling transmission through 
+[SOCKv5 proxy](http://askubuntu.com/questions/63150/transmission-tracker-and-or-torrent-traffic-through-proxy).
+Also need to investigate [TorSocks](https://code.google.com/p/torsocks/)
 
 ### Example Torrent Queue
+
+Let's find some Torrent RSS Feeds [here](http://thepiratebay.sx/rss)
+like the [UNIX feed](http://rss.thepiratebay.sx/303).
+
 ```php
+# TRANMISSION SETTINGS
+$transmission = [
+	'host' => 'http://'. BASE_URL,	
+	'port' => 9091,
+	'path' => '/transmission/rpc',
+];
+
+# CURRENT MODE
+$selected_feed = 'ubuntu';
+
+# LIBRARY OF TORRENT FEEDS
+$feeds = [
+	'ubuntu' => [
+		'rss'     => 'http://rss.thepiratebay.sx/303', # UNIX channel
+		'search'  => ['12.04'], # version of ubuntu we want to capture
+		'formats' => [], # could be ['iso']
+	],
+];
+
+# ESTABLISH RPC CONNECTION
 $t = new torrent([
-	'rpc_url'         => 'http://localhost:9091/transmission/rpc',
-	'formats_allowed' => ['iso'], # only allow .iso	
-	'rss'             => 'http://rss.thepiratebay.sx/303', # UNIX RSS Feed
-	'username'        => 'user',     # if you have a user
-	'password'        => 'password', # if you have a password
+	'rpc_url'          => "{$transmission['host']}:{$transmission['port']}{$tranmission['path']}",
+	'formats_allowed'  => $feeds[$selected_feed]['formats'],
+	'total_per_search' => 1, # get a maximum of 1 ubuntu 12.04 iso
+	'rss'              => $feeds[$selected_feed]['rss'],
+	'username'         => '<transmission username>',
+	'password'         => '<transmission password>', 
 ]);
 
-# Find Ubuntu .iso files and start downloading!
-$t->find_in_rss('Ubuntu')->start();
+# START DOWNLOADING
+$t->find_in_rss($feeds[$selected_feed]['search'])->init();
 
-# $t->stop();
+# DISPLAY FOUND & STARTED
+foreach ($t->get() as $tor)
+	echo "{$tor->id}. {$tor->name}\n";
+
+#pr($t->stats());   # show download stats
+#pr($t->session()); # show session stats
+
+# $t->stop(); # stop all downloads
 ```
 
 
