@@ -25,7 +25,7 @@ class socket_user {
 		$session_id = false;
 		foreach ($cookies as $c) {
 			$cparts = explode('=', trim($c));	
-			if ($cparts[0] == SESSION_NAME)
+			if ($cparts[0] == config::$setting['session_name'])
 				$session_id = $cparts[1];
 		}
 		return $session_id;

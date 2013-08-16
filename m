@@ -7,7 +7,7 @@ if (!$site)
 require_once(dirname(__FILE__)."/site/{$site}/script/inc.php");
 $search = implode('', $argv);
 $is_search = isset($search{0});
-$scripts = glob(SCRIPT_DIR.'/*.php');
+$scripts = glob(config::$setting['script_dir'].'/*.php');
 $use = false;
 
 foreach ($scripts as $k => $s) {

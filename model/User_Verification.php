@@ -32,10 +32,10 @@ class User_Verification extends model {
  * STATIC
  */
 	static function generate_hash($user) {
-		require_once VENDOR_DIR.'/password_compat/lib/password.php';
+		require_once config::$setting['vendor_dir'].'/password_compat/lib/password.php';
 		$hash = password_hash($user->email, PASSWORD_BCRYPT, [
 			'cost' => self::BCRYPT_COST,
-			'salt' => md5(SALT.time()),
+			'salt' => md5(config::$setting['salt'].time()),
 		]);
 		return str_replace('/', '-', $hash); # for simple route regexp
 	}

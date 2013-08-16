@@ -4,7 +4,7 @@ class stock_market {
 
 	static function init() {
 		if (self::$instance) return true;
-		require_once VENDOR_DIR.'/yahoo_finance/lib/YahooFinance/YahooFinance.php';
+		require_once config::$setting['vendor_dir'].'/yahoo_finance/lib/YahooFinance/YahooFinance.php';
 		self::$instance = new YahooFinance;
 	}
 

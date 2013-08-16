@@ -376,7 +376,7 @@ class gitrepo {
 	}
 
 	public function submodules() {
-		$submodule_file = ROOT_DIR.'/.gitmodules';
+		$submodule_file = config::$setting['root_dir'].'/.gitmodules';
 		$data = file_get_contents($submodule_file);
 		preg_match_all('/(?:path = )(?P<path>.*)/', $data, $path_matches);
 		preg_match_all('/(?:url = )(?P<url>.*)/', $data, $url_matches);
@@ -395,7 +395,7 @@ class gitrepo {
 	}
 
 	public function submodule_add($source, $alias) {
-		$file = ROOT_DIR.'/.gitmodules';
+		$file = config::$setting['root_dir'].'/.gitmodules';
 		$data = file_get_contents($file);
 		$data .= "\n[submodule \"vendor/{$alias}\"]\n";
 		$data .= "\tpath = vendor/{$alias}\n";
@@ -420,13 +420,13 @@ class gitrepo {
 	public function submodule_delete($submodule_path) {
 		// LEGACY < 1.8.3 git
 		//$folder_name = util::explode_pop('/', $submodule_path);
-		//$submodule_file = ROOT_DIR.'/.gitmodules';
+		//$submodule_file = config::$setting['root_dir'].'/.gitmodules';
 		//util::delete_line_with_match($submodule_file, $folder_name);
 		//$this->stage('.gitmodules');
-		//$git_config = ROOT_DIR.'/.gitconfig';
+		//$git_config = config::$setting['root_dir'].'/.gitconfig';
 		//util::delete_line_with_match($git_config, $folder_name);
 		//$this->run("rm --cached {$submodule_path}");
-		//$git_module_path = ROOT_DIR."/.git/modules/{$folder_name}";
+		//$git_module_path = config::$setting['root_dir']."/.git/modules/{$folder_name}";
 		//system("rm -rf {$git_module_path}");
 		//$this->commit("Removed {$submodule_path} submodule");
 		//system("rm -rf {$submodule_path}");
@@ -443,9 +443,9 @@ class gitrepo {
 		} catch (Exception $e) { }
 
 		try {
-			shell_exec('rm -rf '. ROOT_DIR ."/{$submodule_path}/");
+			shell_exec('rm -rf '. config::$setting['root_dir'] ."/{$submodule_path}/");
 			# remove [submodule "*/*"] and next two lines (path, url)
-			$submodule_file = ROOT_DIR ."/.gitmodules";
+			$submodule_file = config::$setting['root_dir'] ."/.gitmodules";
 			util::delete_line_with_match($submodule_file, $submodule_path, 2);
 		} catch (Exception $e) { }
 		return $out;

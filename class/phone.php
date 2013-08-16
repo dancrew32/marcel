@@ -40,7 +40,7 @@ class phone {
 	static function text($to, $text) {
 		if (!isset($text{0})) return false;
 
-		require_once VENDOR_DIR.'/twilio/Services/Twilio.php';
+		require_once config::$setting['vendor_dir'].'/twilio/Services/Twilio.php';
 		$api = api::get_key('twilio');
 		$client = new Services_Twilio($api['key'], $api['secret']);
 
@@ -74,7 +74,7 @@ class phone {
  * TwiML builder
  */
 	static function program() {
-		require_once VENDOR_DIR.'/twilio/Services/Twilio.php';
+		require_once config::$setting['vendor_dir'].'/twilio/Services/Twilio.php';
 		return new Services_Twilio_Twiml();
 	}
 
@@ -83,7 +83,7 @@ class phone {
  */
 	static function call($to, $program, array $params=[]) {
 		if (!$program) return false;
-		require_once VENDOR_DIR.'/twilio/Services/Twilio.php';
+		require_once config::$setting['vendor_dir'].'/twilio/Services/Twilio.php';
 		$api = api::get_key('twilio');
 		$client = new Services_Twilio($api['key'], $api['secret']);
 

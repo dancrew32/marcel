@@ -14,7 +14,7 @@ class detect {
 
 	static function get_instance() {
 		if (is_null(self::$instance)) {
-			require_once VENDOR_DIR .'/mobile_detect/Mobile_Detect.php';
+			require_once config::$setting['vendor_dir'] .'/mobile_detect/Mobile_Detect.php';
 			self::$instance = new Mobile_Detect;
 		}
 		return self::$instance;	

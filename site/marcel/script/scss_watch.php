@@ -7,4 +7,4 @@ if (!isset($compass_exists{0})) {
 	return red("sudo gem install compass\n");
 }
 green("Watching scss for changes\n");
-return system('compass watch '. SITE_DIR);
+return system('compass watch '. config::$setting['site_dir']);

@@ -2,11 +2,12 @@
 $GLOBALS['_db_queries'] = [];
 class db {
 	static function init() {
-		require_once VENDOR_DIR.'/activerecord/ActiveRecord.php';
-		ActiveRecord\Config::initialize(function($cfg) {
-			$cfg->set_model_directory(MODEL_DIR);
+		$config = config::$setting;
+		require_once "{$config['vendor_dir']}/activerecord/ActiveRecord.php";
+		ActiveRecord\Config::initialize(function($cfg) use ($config) {
+			$cfg->set_model_directory($config['model_dir']);
 			$cfg->set_connections([
-				'default' => 'mysql://'. DB_USER .':'. DB_PASS .'@'. DB_HOST .'/'. DB_NAME,
+				'default' => "mysql://{$config['db_user']}:{$config['db_pass']}@{$config['db_host']}/{$config['db_name']}",
 			]);
 			$cfg->set_default_connection('default');
 		});
@@ -14,8 +15,9 @@ class db {
 
 	# Don't use this.
 	static function get_array($query) {
-		$pdo = new PDO('mysql:host='. DB_HOST .';dbname='.DB_NAME, DB_USER, DB_PASS);
-		$prep = $pdo->prepare($query);
+		$config = config::$setting;
+		$pdo    = new PDO("mysql:host={$config['db_host']};dbname={$config['db_name']}", $config['db_user'], $config['db_pass']);
+		$prep   = $pdo->prepare($query);
 		$prep->execute();
 		return $prep->fetchAll(PDO::FETCH_ASSOC);
 	}

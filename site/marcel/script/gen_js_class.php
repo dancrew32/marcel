@@ -1,6 +1,8 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
 
+$config = config::$setting;
+
 $ok = true;
 $module_name = strtolower(gets("Enter Module Name: (e.g. Module_Name)"));
 
@@ -23,7 +25,7 @@ $boilerplate =';(function(NS, MODULE_NAME) {
 }(APP, \''. $module_name .'\'));';
 
 $script_name = "{$module_name}.js";
-$full_script_path = PUBLIC_DIR.JS_DIR."/class/{$script_name}";
+$full_script_path = "{$config['public_dir']}{$config['js_dir']}/class/{$script_name}";
 
 $exists = is_file($full_script_path);
 if ($exists)

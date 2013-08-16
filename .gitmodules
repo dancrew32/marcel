@@ -58,3 +58,9 @@
 [submodule "vendor/transmission"]
 	path = vendor/transmission
 	url = git@github.com:brycied00d/PHP-Transmission-Class.git
+[submodule "vendor/rtorrent"]
+	path = vendor/rtorrent
+	url = git@github.com:lbr88/php-rtorrent.git
+[submodule "vendor/hybridauth"]
+	path = vendor/hybridauth
+	url = git@github.com:hybridauth/hybridauth.git

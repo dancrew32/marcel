@@ -4,12 +4,13 @@ class captcha {
 	const KEY = '_CAPTCHA_CODE';
 
 	static function generate(array $o=[]) {
+		$config = config::$setting;
 		$o = array_merge([
 			'code'            => '',
 			'min_length'      => 5,
 			'max_length'      => 5,
-			'png_backgrounds' => [ IMAGE_DIR.'/captcha/default.png' ],
-			'fonts'           => [ FONT_DIR.'/times_new_yorker.ttf' ],
+			'png_backgrounds' => [ "{$config['image_dir']}/captcha/default.png" ],
+			'fonts'           => [ "{$config['font_dir']}/times_new_yorker.ttf" ],
 			'characters'      => 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
 			'min_font_size'   => 24,
 			'max_font_size'   => 30,

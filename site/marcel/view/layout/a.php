@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width">
 <meta name="referrer" content="always">
 <?= r('common', 'css') ?>
-<!--[if lt IE 9]><script src="<?= JS_DIR ?>/html.shiv.js"></script><![endif]-->
+<!--[if lt IE 9]><script src="<?= config::$setting['js_dir'] ?>/html.shiv.js"></script><![endif]-->
 </head>
 <body class="<?= implode(' ', $body_classes) ?>">
 <div class="container">

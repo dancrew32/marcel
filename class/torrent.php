@@ -1,24 +1,37 @@
 <?
 class torrent {
 
-	# apt-get install transmission-daemon
+	# TRANSMISSION INSTALL
+	# apt-get install rtorrent transmission-daemon
+
+	# RTORRENT INSTALL
 
 	private $options = [];
 	private $rpc;
 	public $results  = [];
 
 	function __construct(array $options = []) {
-		require_once VENDOR_DIR .'/transmission/class/TransmissionRPC.class.php';
+		$options['mode'] = isset($options['mode']{0}) ? $options['mode'] : 'transmission';
+		$config = config::$setting;
 		$this->options = array_merge([
-			'mode'             => 'transmission',
-			'rpc_url'          => 'localhost:9091/transmission/rpc',
-			'target'           => TMP_DIR."/torrent",
+			'mode'             => null, # 'transmission' (default) or 'rtorrent'
+			'rpc_url'          => "http://{$config['base_url']}:9091/transmission/rpc", #rtorrent looks like ":5000/RPC2"
+			'target'           => "{$config['tmp_dir']}/torrent",
 			'rss'              => null, # e.g. http://rss.thepiratebay.sx/205 (http://thepiratebay.sx/rss)
 			'formats_allowed'  => [],   # e.g. ['xvid', 'mkv', 'mp3']
 			'total_per_search' => null,
 			'username'         => null,
 			'password'         => null,
 		], $options);
+
+		switch ($this->options['mode']) {
+			case 'rtorrent':
+				require_once "{$config['vendor_dir']}/rtorrent/rtorrent.class.php";
+				break;
+			default: # transmission
+				require_once "{$config['vendor_dir']}/transmission/class/TransmissionRPC.class.php";
+		}
+
 		return $this;
 	}
 
@@ -71,14 +84,38 @@ class torrent {
 		return $this;
 	}
 
+	function add($torrent_url, $target_path) {
+		switch ($this->options['mode']) {
+			case 'rtorrent':
+				return $this->rpc->addTorrent($torrent_url);
+			default: // transmission
+				return $this->rpc->add((string) $torrent_url, $target); 
+		}
+	}
+
+	function connect() {
+		$username = $this->options['username'];
+		$password = $this->options['password'];
+		switch ($this->options['mode']) {
+			case 'rtorrent':
+				$server = $this->options['rpc_url'];
+				if (isset($username{0}) && isset($password{0}))
+					$server = str_replace('//', "//{$username}@{$password}", $server);
+				$this->rpc = new rTorrent($server);
+				break;
+			default: // transmission
+				$this->rpc = new TransmissionRPC(
+					$this->options['rpc_url'],
+					$this->options['username'],
+					$this->options['password']
+				);
+		}
+	}
+
 	function init() {
 		if (!count($this->results)) return false;
 
-		$this->rpc = new TransmissionRPC(
-			$this->options['rpc_url'],
-			$this->options['username'],
-			$this->options['password']
-		);
+		$this->connect();
 
 		$added = [];
 		foreach ($this->results as $category => $items) {
@@ -87,7 +124,7 @@ class torrent {
 				try {
 					# transmission client takes over
 					echo "trying: {$item->link}\n";
-					$result = $this->rpc->add((string) $item->link, $target); 
+					$result = $this->add($item->link, $target); 
 					$added[] = $result->result;
 				} catch (Exception $e) {
 					throw new Exception('torrent_error: ' . $e->getMessage());
@@ -120,12 +157,18 @@ class torrent {
 
 	function get(array $options = []) {
 		if (!$this->rpc) return [];
-		$options = array_merge([
-			'ids'    => [],
-			'fields' => [],
-		], $options);
-		$args = $this->rpc->get($options['ids'], $options['fields'])->arguments;
-		return take($args, 'torrents', []);
+		switch ($this->options['mode']) {
+			case 'rtorrent':
+				return $this->rpc->getDownloads();
+				break;
+			default: // transmission
+				$options = array_merge([
+					'ids'    => [],
+					'fields' => [],
+				], $options);
+				$args = $this->rpc->get($options['ids'], $options['fields'])->arguments;
+				return take($args, 'torrents', []);
+		}
 	}
 
 	# self::tv_season_range(5, 12) will yeild [s05e01, s05e02, .... s05e12]

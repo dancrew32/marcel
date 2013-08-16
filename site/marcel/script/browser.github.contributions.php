@@ -1,6 +1,8 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
 
+$config = config::$setting;
+
 # SCRAPE GITHUB CONTRIBUTION GRAPH
 yellow("Github Contribution Graph Scraper\n");
 
@@ -50,5 +52,5 @@ try {
 # CAPTURE CONTRIBUTION GRAPH
 $contributions = $b->find('#contributions-calendar')[0];
 $image_name = "github-{$github['username']}-contributions.png";
-$b->screenshot_element($contributions, IMAGE_DIR."/{$image_name}");
-ok('http://'. BASE_URL ."/img/{$image_name}");
+$b->screenshot_element($contributions, "{$config['image_dir']}/{$image_name}");
+ok("http://{$config['base_url']}/img/{$image_name}");

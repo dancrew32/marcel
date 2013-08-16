@@ -19,7 +19,7 @@ $boilerplate ='<div class="row">
 ';
 
 $script_name = "{$controller}.{$method}.php";
-$full_script_path = VIEW_DIR."/{$script_name}";
+$full_script_path = config::$setting['view_dir']."/{$script_name}";
 
 $exists = is_file($full_script_path);
 if ($exists)

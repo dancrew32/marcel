@@ -55,8 +55,8 @@ class User_Type extends model {
 		foreach ($data as $k => $v) {
 			$ut = self::create(['name' => $k, 'slug' => $v ]);
 			if ($v == 'anonymous') {
-				$auth_file = CLASS_DIR.'/auth.php';	
-				util::replace_line_with_match(
+				$auth_file = config::$setting['class_dir'].'/auth.php';	
+				util::replace_line_with_match( // TODO: make this less fragile
 					$auth_file, 
 					"const ANONYMOUS_USER_TYPE_ID", 
 					"\tconst ANONYMOUS_USER_TYPE_ID = {$ut->id};\n"

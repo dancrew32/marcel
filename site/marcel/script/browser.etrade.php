@@ -1,6 +1,8 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
 
+$config = config::$setting;
+
 # SCRAPE ETRADE
 yellow("eTrade Scraper\n");
 
@@ -28,7 +30,7 @@ sleep(1);
 
 $b->wait_for('#etContent');
 
-$file = IMAGE_DIR.'/etrade.png';
+$file = "{$config['image_dir']}/etrade.png";
 
 $etContent = $b->find('#etContent')[0];
 $account_overview = $etContent->elements('css selector', 'table')[1]
@@ -59,6 +61,6 @@ $b->screenshot_element($account_overview, $file);
 
 //$b->screenshot($file);
 
-ok('http://'.BASE_URL.'/img/etrade.png');
+ok("http://{$config['base_url']}/img/etrade.png");
 
 $b->close();

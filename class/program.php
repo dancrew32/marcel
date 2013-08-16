@@ -6,7 +6,7 @@ class program {
 	private $opt_groups = [];
 
 	function __construct() {
-		require_once VENDOR_DIR.'/clipclop/ClipClop.php';
+		require_once config::$setting['vendor_dir'].'/clipclop/ClipClop.php';
 		$this->instance	= new ClipClop;
 		$this->option([
 			'short' => 'h',

@@ -23,7 +23,7 @@ class image {
 	}
 
 	static function process() {
-		require_once VENDOR_DIR.'/image_manip.php';
+		require_once config::$setting['vendor_dir'].'/image_manip.php';
 		self::config();	
 		image_manip::start();
 	}
@@ -63,7 +63,7 @@ class image {
 		// Directory where images are cached. 
 		// Left blank it will use the system temporary directory (which is better for security)
 		if (!defined('FILE_CACHE_DIRECTORY'))
-			define('FILE_CACHE_DIRECTORY', IMAGECACHE_DIR);	
+			define('FILE_CACHE_DIRECTORY', config::$setting['imagecache_dir']);	
 
 		//Browser caching
 		// Time to cache in the browser
@@ -130,7 +130,7 @@ class image {
 	}
 
 	static function keygen($o) {
-		return md5(SALT.implode('', $o));
+		return md5(config::$setting['salt'].implode('', $o));
 	}
 
 	static function compare($a, $b) {

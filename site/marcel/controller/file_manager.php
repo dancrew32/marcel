@@ -1,6 +1,7 @@
 <?
 class controller_file_manager extends controller_base {
 	function __construct($o) {
+		$this->root_dir = config::$setting['root_dir'];
 		$this->root_path = route::get('File Manager Home');
 		auth::only(['file_manager']);
 		parent::__construct($o);
@@ -8,7 +9,7 @@ class controller_file_manager extends controller_base {
 
 	function main($o) {
 		$this->path = take($o, 'path');
-		$this->tree = is_dir(ROOT_DIR."/{$this->path}");
+		$this->tree = is_dir("{$this->root_dir}/{$this->path}");
 	}
 
 	function explorer($o) {
@@ -18,7 +19,7 @@ class controller_file_manager extends controller_base {
 
 	function explorer_file($o) {
 		$this->file_path = take($o, 'file_path');
-		$this->file_name = util::explode_pop(ROOT_DIR, $this->file_path);
+		$this->file_name = util::explode_pop($this->root_dir, $this->file_path);
 		$this->is_file   = is_file($this->file_path);
 		$this->is_folder = is_dir($this->file_path);
 		$safe_name = ltrim($this->file_name, '/');
@@ -27,7 +28,7 @@ class controller_file_manager extends controller_base {
 
 	function view($o) {
 		$this->path = take($o, 'path');
-		$full_path = ROOT_DIR."/{$this->path}";
+		$full_path = "{$this->root_dir}/{$this->path}";
 		if (!is_file($full_path)) $this->skip();
 
 		$this->ext = h(pathinfo($full_path, PATHINFO_EXTENSION));
@@ -62,7 +63,7 @@ class controller_file_manager extends controller_base {
 
 	function edit($o) {
 		$this->path = take($o, 'path');
-		$full_path = ROOT_DIR."/{$this->path}";
+		$full_path = config::$setting['root_dir']."/{$this->path}";
 		if (!is_file($full_path)) $this->skip();
 
 		if (POST) {
@@ -104,7 +105,7 @@ class controller_file_manager extends controller_base {
 		$redir = take_post('r');
 		if (!count($_FILES)) 
 			$this->redir($redir);
-		$upload = upload::factory(TMP_DIR.'/upload');
+		$upload = upload::factory(config::$setting['tmp_dir'].'/upload');
 		$upload->file(take($_FILES, 'file'));
 		$results = $upload->upload();
 		if (mime::in($results['mime'], 'image')) {

@@ -212,7 +212,7 @@ class upload {
 	}
 	
 	protected function create_destination() {
-		return mkdir(ROOT_DIR . $this->destination, self::DEFAULT_DIR_PERMISSIONS, true);
+		return mkdir(config::$setting['root_dir'] . $this->destination, self::DEFAULT_DIR_PERMISSIONS, true);
 	}
 	
 	protected function create_new_filename() {

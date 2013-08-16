@@ -179,7 +179,7 @@ $boilerplate .= "
 $boilerplate .= "}";
 
 $script_name = "{$name}.php";
-$full_script_path = CONTROLLER_DIR."/{$script_name}";
+$full_script_path = config::$setting['controller_dir']."/{$script_name}";
 
 $exists = is_file($full_script_path);
 if ($exists)

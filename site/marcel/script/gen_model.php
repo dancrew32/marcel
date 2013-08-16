@@ -97,7 +97,7 @@ class {$name} extends model {
 }";
 
 $script_name = "{$name}.php";
-$full_script_path = MODEL_DIR."/{$script_name}";
+$full_script_path = config::$setting['model_dir']."/{$script_name}";
 
 $exists = is_file($full_script_path);
 if ($exists)

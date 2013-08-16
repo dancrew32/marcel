@@ -34,7 +34,7 @@ class route {
 		$key = self::cache_key();
 		self::$routes = json_decode(cache::get($key, $found), true);
 		if (!$found) {
-			require_once CONFIG_DIR.'/routes.php'; # Routes
+			require_once config::$setting['config_dir'].'/routes.php'; # Routes
 			cache::set($key, json_encode(self::$routes), time::ONE_HOUR);
 		}
 	}
@@ -65,7 +65,7 @@ class route {
 	}
 
 	static function get_absolute($name=null, $protocol='http://', array $params=[]) {
-		return $protocol.BASE_URL.self::get($name, $params);
+		return $protocol.config::$setting['base_url'].self::get($name, $params);
 	}
 
 	static function in_section($section) {

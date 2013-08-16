@@ -1734,7 +1734,7 @@ Using
 as a backend, over [RPC](http://en.wikipedia.org/wiki/Remote_procedure_call),
 we can send `tranmission-daemon` a list of torrents to download to `tmp/torrent/<category>`.
 
-### Setting up `transmission-daemon`
+### Setting up `transmission-daemon` (default)
 ```bash
 sudo apt-get install transmission-daemon
 ```
@@ -1750,6 +1750,12 @@ set things like `rpc-whitelist-enabled` (true), `rpc-whitelist`
 Setting your password is slightly complex.
 Make sure you [follow these steps](http://superuser.com/a/113652). 
 If you get stuck setting it up, see [Transmission Help](https://trac.transmissionbt.com/).
+
+### Setting up `rtorrent`
+```bash
+sudo apt-get install libxmlrpc-c3-dev rtorrent php5-xmlrpc
+# restart web server
+```
 
 
 ### Proxy Setup

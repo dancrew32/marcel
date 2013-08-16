@@ -1,6 +1,8 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
 
+$config = setting::$config;
+
 /*
  * LOGIN TO OUR SITE
  * VISIT WORKER PAGE
@@ -8,11 +10,11 @@ require_once(dirname(__FILE__).'/inc.php');
  */
 
 # Cookie
-$cook = tempnam(TMP_DIR.'/cookie', uniqid('cookie_'));
+$cook = tempnam(config::$setting['tmp_dir'].'/cookie', uniqid('cookie_'));
 $browser = useragent::GOOGLE_CHROME;
 
 # POST TO /login
-$a = remote::post('http://'.BASE_URL.'/login', [
+$a = remote::post("http://{$config['base_url']}/login", [
 	'user'       => 'test_user',
 	'pass'       => 'password',
 ], [
@@ -30,7 +32,7 @@ if (!$a->ok()) {
 unset($a);
 
 # GET TO /workers
-$a = remote::get('http://'.BASE_URL.'/workers', [], [
+$a = remote::get("http://{$config['base_url']}/workers", [], [
 	'cookie_file' => $cook,
 	'user_agent'  => $browser,
 ]);

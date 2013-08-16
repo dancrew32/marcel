@@ -7,7 +7,7 @@ class color {
 	private $instance;
 
 	static function init() {
-		require_once VENDOR_DIR .'/color/src/color.php';
+		require_once config::$setting['vendor_dir'] .'/color/src/color.php';
 	}
 
 	function __construct($color) {

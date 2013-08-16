@@ -1,10 +1,20 @@
 <?
 require_once dirname(__FILE__).'/inc.php';
 
+$config = config::$setting;
 
 
 # INITIALIZE PROGRAM
 $p = new program;
+
+# Site (which site to apply this to)
+$p->option([
+	'short'    => 's',
+	'long'     => 'site',
+	'value'    => true,
+	'help'     => "Site (/site/<site> folder name to apply db_init to)",
+	'required' => true,
+]);
 
 # Name (Name of your future controller)
 $p->option([
@@ -20,7 +30,7 @@ $p->option([
 	'long'    => 'index',
 	'value'   => true,
 	'help'    => 'Site index file (referenced by .htaccess)',
-	'default' => PUBLIC_DIR.'/index.php',
+	'default' => "{$config['public_dir']}/index.php",
 ]);
 
 # Database Name
@@ -90,9 +100,8 @@ if (!$p->ok())
 # UPDATE INDEX FILE WITH CONSTANTS
 $index_file = $p->get('i'); # default 
 foreach ($db as $k => $v) {
-	$mysql_key = strtoupper($k);
 	util::replace_line_with_match(
-		$index_file, "define('DB_{$mysql_key}'", "define('DB_{$mysql_key}', '{$v}');\n"
+		$index_file, "'db_{$k}'", "\'db_{$k}' => '{$v}'),\n"
 	);
 }
 ok("DB Constants updated in {$index_file}.");
@@ -102,7 +111,7 @@ ok("DB Constants updated in {$index_file}.");
 # APPLY SCHEMAS
 $apply_schemas = gets("Apply schemas? [Y/n]", ['lower']);
 if ($apply_schemas != 'n') {
-	$schemas = glob(SCHEMA_DIR.'/*.sql');
+	$schemas = glob("{$config['schema_dir']}/*.sql");
 	ok("Applying Schemas:");
 	$pdo = new PDO("mysql:host=localhost;dbname={$db['name']}", $db['user'], $db['pass']);
 	foreach ($schemas as $sch) {
@@ -122,7 +131,7 @@ ActiveRecord\Config::initialize(function($cfg) use ($db) {
 	$connections = [
 		$default_key => "mysql://{$db['user']}:{$db['pass']}@{$db['host']}/{$db['name']}",
 	];
-	$cfg->set_model_directory(MODEL_DIR);
+	$cfg->set_model_directory(config::$setting['model_dir']);
 	$cfg->set_connections($connections);
 	$cfg->set_default_connection($default_key);
 });
@@ -154,7 +163,7 @@ if ($seed != 'n') {
 # CREATE FIRST USER
 $user_create = gets("Create first user? [Y/n]", ['lower']);
 if ($user_create != 'n')
-	include_once SCRIPT_DIR.'/create_user.php';
+	include_once "{$config['script_dir']}/create_user.php";
 
 
 

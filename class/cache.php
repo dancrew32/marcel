@@ -52,7 +52,7 @@ class cache {
 
 	// $key = cache::keygen(__CLASS__, __FUNCTION__, $id);
 	static function keygen($class, $method, $unique_id='') {
-		return APP_NAME.$class.$method.$unique_id;
+		return config::$setting['app_name'].$class.$method.$unique_id;
 	}
 
 

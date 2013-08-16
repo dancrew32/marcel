@@ -1,6 +1,8 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
 
+$config = config::$setting;
+
 yellow("Starting Session...\n");
 $b = new browser('firefox');
 ok();
@@ -22,8 +24,8 @@ yellow("Capturing h1's\n");
 $h1 = $b->find('h1');
 foreach ($h1 as $k => $h) {
 	ok($h->text());
-	$b->screenshot_element($h, IMAGE_DIR."/h1-{$k}.png");
-	ok('http://'. BASE_URL ."/img/h1-{$k}.png");
+	$b->screenshot_element($h, "{$config['image_dir']}/h1-{$k}.png");
+	ok("http://{$config['base_url']}/img/h1-{$k}.png");
 }
 */
 
@@ -37,9 +39,9 @@ $sizes = [
 ];
 foreach ($sizes as $k => $size) {
 	$b->set_size($size['width'], $size['height']);
-	$file = IMAGE_DIR."/browser-{$k}.png";
+	$file = "{$config['image_dir']}/browser-{$k}.png";
 	$b->screenshot($file);
-	ok('http://'. BASE_URL ."/img/browser-{$k}.png");
+	ok("http://{$config['base_url']}/img/browser-{$k}.png");
 }
  */
 

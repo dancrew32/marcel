@@ -2,7 +2,7 @@
 class app {
 
 	# layout title
-	static $title = APP_NAME;
+	static $title; # default to app_name
 	static $req_type; # e.g. "post"
 
 	# assets
@@ -14,6 +14,8 @@ class app {
 	];
 
 	static function run() {
+		self::$title = config::$setting['app_name'];
+
 		if (DEBUG && !AJAX) {
 			# HTML Output Errors
 			ini_set('html_errors', 1);
@@ -24,7 +26,7 @@ class app {
 			ini_set('xdebug.var_display_max_depth', 10);
 
 			# xhprof
-			ini_set('xhprof.output_dir', TMP_DIR.'/xhprof'); 
+			ini_set('xhprof.output_dir', config::$setting['tmp_dir'].'/xhprof'); 
 			profile::start();
 		}
 
@@ -49,7 +51,7 @@ class app {
 		# Route
 		$found = false;
 		route::init();
-		require_once CONTROLLER_DIR.'/base.php';
+		require_once config::$setting['controller_dir'].'/base.php';
 
 		foreach (route::$routes as $regex => $o) {
 			$regex = str_replace('/', '\/', $regex);
@@ -121,7 +123,7 @@ class app {
 			unset($lay);
 		$body_classes = [take($o, 'c'), take($o, 'm')];
 		ob_start();
-		include LAYOUT_DIR."/{$lay}.php";
+		include config::$setting['layout_dir']."/{$lay}.php";
 		return ob_get_clean();
 	}
 
@@ -130,9 +132,9 @@ class app {
 		if ($remote)
 			return self::$assets[$type][]= $path;
 		$local = "{$path}.{$type}";
-		$test = $type == 'css' ? CSS_DIR : JS_DIR;
+		$test = $type == 'css' ? config::$setting['css_dir'] : config::$setting['js_dir'];
 		$path = "{$test}/{$local}";
-		if (!is_file(PUBLIC_DIR."/{$path}")) return;
+		if (!is_file(config::$setting['public_dir']."/{$path}")) return;
 		self::$assets[$type][]= $path;
 	}
 
@@ -146,7 +148,7 @@ class app {
 	}
 
 	static function title($title) {
-		self::$title = h($title) .' - '. APP_NAME;
+		self::$title = h($title) .' - '. config::$setting['app_name'];
 	}
 
 }

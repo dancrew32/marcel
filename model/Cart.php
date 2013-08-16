@@ -44,7 +44,8 @@ class Cart extends model {
 		} 
 
 		if (!isset($cart) || !$cart) {
-			$hash = md5(SALT.time::now().SALT);
+			$salt = config::$setting['salt'];
+			$hash = md5($salt.time::now().$salt);
 
 			$cart = new Cart;	
 			$cart->hash = $hash;

@@ -1,21 +1,23 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
 
+$config = config::$setting;
 
 
-# TRANMISSION SETTINGS
-$transmission = [
-	'host' => 'http://'. BASE_URL,	
-	'port' => 3333,
-	'path' => '/_transmission/rpc',
+$clients = [
+	# TRANSMISSION SETTINGS
+	'transmission' => [
+		'host' => "http://{$config['base_url']}",
+		'port' => 3333,
+		'path' => '/_transmission/rpc',
+	],
+	# RTORRENT SETTINGS
+	'rtorrent' => [
+		'host' => "http://{$config['base_url']}",
+		'port' => 5000,
+		'path' => '',
+	],
 ];
-
-
-
-# CURRENT MODE
-$selected_feed = 'ubuntu';
-
-
 
 # LIBRARY OF TORRENT FEEDS
 $feeds = [
@@ -32,15 +34,20 @@ $feeds = [
 ];
 
 
+# CURRENT MODE
+$selected_feed = 'ubuntu';
+$selected_mode = 'rtorrent';
+
 
 # ESTABLISH RPC CONNECTION
 $t = new torrent([
-	'rpc_url'          => "{$transmission['host']}:{$transmission['port']}{$tranmission['path']}",
+	'mode'             => $selected_mode,
+	'rpc_url'          => "{$clients[$selected_mode]['host']}:{$clients[$selected_mode]['port']}{$clients[$selected_mode]['path']}",
 	'formats_allowed'  => $feeds[$selected_feed]['formats'],
 	'total_per_search' => 1,
 	'rss'              => $feeds[$selected_feed]['rss'],
-	'username'         => gets('Enter Transmission username'),
-	'password'         => prompt_silent('Enter Transmission password'), 
+	'username'         => gets("Enter {$selected_mode} username"),
+	'password'         => prompt_silent("Enter {$selected_mode} password"), 
 ]);
 
 

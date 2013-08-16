@@ -237,7 +237,7 @@ class User extends model {
 	}
 
 	static function spass($password) {
-		require_once VENDOR_DIR.'/password_compat/lib/password.php';
+		require_once config::$setting['vendor_dir'].'/password_compat/lib/password.php';
 		return password_hash($password, PASSWORD_BCRYPT, [
 			'cost' => self::BCRYPT_COST,
 			'salt' => self::make_salt($password),
@@ -245,14 +245,15 @@ class User extends model {
 	}
 
 	static function make_salt($password) {
+		$salt = config::$setting['salt'];
 		return password_hash($password, PASSWORD_BCRYPT, [
 			'cost' => self::BCRYPT_COST, 
-			'salt' => md5(SALT.$password.SALT)
+			'salt' => md5($salt.$password.$salt)
 		]);
 	}
 
 	static function rehash($password, $hash) {
-		require_once VENDOR_DIR.'/password_compat/lib/password.php';
+		require_once config::$setting['vendor_dir'].'/password_compat/lib/password.php';
 		if (!password_verify($password, $hash)) return false;
 		if (!password_needs_rehash($hash, PASSWORD_BCRYPT, [
 			'cost' => self::BCRYPT_COST,

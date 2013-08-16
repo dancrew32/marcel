@@ -12,7 +12,7 @@ class Session extends model {
 			"{$cls}::destroy",
 			"{$cls}::gc"
 		);
-		session_name(SESSION_NAME);
+		session_name(config::$setting['session_name']);
 		session_start();
 		register_shutdown_function('session_write_close');	
 	}

@@ -249,7 +249,7 @@ class controller_cart extends controller_base {
 
 			//$mail = new mail;
 			//$mail->from  = 'admin@site.com';
-			//$mail->from_name = APP_NAME;
+			//$mail->from_name = config::$setting['app_name'];
 			//$mail->add_address($email, 'Example User');
 			//$mail->subject  = "Thanks for your purchase!";
 			//$mail->body     = "Thanks for your purchase of X. \${$total} was charged to your {$card->type}!.";

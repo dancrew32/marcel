@@ -1,7 +1,7 @@
 <?
 class credit {
 	static function get_instance() {
-		require_once VENDOR_DIR.'/stripe/lib/Stripe.php';
+		require_once config::$setting['vendor_dir'].'/stripe/lib/Stripe.php';
 		$key = api::get_key('stripe')['secret'];
 		Stripe::setApiKey($key);
 	}	

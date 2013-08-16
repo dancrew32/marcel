@@ -1,10 +1,10 @@
 <?
 class crypt {
 	static function set($str) {
-		return self::mencrypt($str, SALT);	
+		return self::mencrypt($str, config::$setting['salt']);	
 	}
 	static function get($str) {
-		return self::mdecrypt($str, SALT);
+		return self::mdecrypt($str, config::$setting['salt']);
 	}
 
 	static function mencrypt($input, $key){

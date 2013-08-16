@@ -17,7 +17,7 @@ class controller_message extends controller_base {
 		$this->form = new form;
 		$this->form->open('#', 'post', [
 			'id' => 'chat-form',
-			'data-chat-api' => 'ws://'.BASE_URL.':7334',
+			'data-chat-api' => 'ws://'.config::$setting['base_url'].':7334',
 		]);
 		$this->_build_chat_form();
 		$this->form->add(new field('submit', [

@@ -20,8 +20,9 @@ class browser {
 	];
 
 	function __construct($browser='firefox') {
-		require_once VENDOR_DIR.'/webdriver/PHPWebDriver/__init__.php';
-		$wd_host = 'http://'.BASE_URL.':'.self::SELENIUM_PORT.'/wd/hub';
+		$config = config::$setting;
+		require_once "{$config['vendor_dir']}/webdriver/PHPWebDriver/__init__.php";
+		$wd_host = "http://{$config['base_url']}:".self::SELENIUM_PORT.'/wd/hub';
 		$this->instance = new PHPWebDriver_WebDriver($wd_host);
 		$this->session($browser);
 		return $this;
@@ -179,7 +180,7 @@ class browser {
 	}
 
 	static function find_selenium_pid() {
-		$dir = VENDOR_DIR;
+		$dir = config::$setting['vendor_dir'];
 		$process = shell_exec("ps aux | grep '{$dir}/selenium'");
 		preg_match('#(?P<process>.*java -jar.*)#', $process, $matches);
 		preg_match('#(\S+)[ ]+(?P<pid>\S+)#', take($matches, 'process'), $matches);
@@ -200,7 +201,7 @@ class browser {
 	static function start_selenium() {
 		if (strlen(self::find_selenium_pid())) return false;
 		$version = self::SELENIUM_VERSION;
-		$selenium = VENDOR_DIR."/selenium/selenium-server-standalone-{$version}.jar";
+		$selenium = config::$setting['vendor_dir']."/selenium/selenium-server-standalone-{$version}.jar";
 		$cmd = "sudo /usr/bin/xvfb-run /usr/bin/java -jar {$selenium} > /dev/null 2>&1 &";
 		shell_exec($cmd);
 		sleep(15);

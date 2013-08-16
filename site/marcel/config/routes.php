@@ -24,6 +24,7 @@ route::$routes = [
 		], 'name' => 'Join',
 	],
 	'/logout' => [ 'c' => 'authentication', 'm' => 'logout', 'name' => 'Logout' ],
+	'/hybrid' => [ 'c' => 'authentication', 'm' => 'hybrid' ],
 
 ];
 

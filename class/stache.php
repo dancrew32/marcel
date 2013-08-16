@@ -3,7 +3,7 @@ class stache {
 	static $loaded = false;
 	static $templates = [];
 	static function render($view, $vars) {
-		require_once VENDOR_DIR."/mustache/src/Mustache/Autoloader.php";
+		require_once config::$setting['vendor_dir']."/mustache/src/Mustache/Autoloader.php";
 		Mustache_Autoloader::register();
 		$view_hash = md5($view);
 		$script = '';
@@ -18,7 +18,7 @@ class stache {
 		}
 
 		$m = new Mustache_Engine([
-			'cache' => TMP_DIR.'/mustachecache'
+			'cache' => config::$setting['tmp_dir'].'/mustachecache'
 		]);	
 		$out = $m->render($template, $vars);
 		return $out.$script;

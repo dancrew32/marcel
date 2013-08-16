@@ -112,7 +112,7 @@ class remote {
 	}
 
 	static function multi_init() {
-		require_once VENDOR_DIR .'/multicurl/EpiCurl.php';
+		require_once config::$setting['vendor_dir'] .'/multicurl/EpiCurl.php';
 		return EpiCurl::getInstance();
 	}
 

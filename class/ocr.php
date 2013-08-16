@@ -33,7 +33,7 @@ class ocr {
 			'method' => self::FULL_AUTO_NO_OSD,
 		], $o);
 
-		$ocr_dir = TMP_DIR.'/ocr'; 
+		$ocr_dir = config::$setting['tmp_dir'].'/ocr'; 
 		$rand = rand();
 
 		# Whitelist

@@ -10,7 +10,7 @@ class mail_parse {
 	public $parsed;
 
 	function __construct($data) {
-		require_once VENDOR_DIR.'/mail_parse/MimeMailParser.class.php';
+		require_once config::$setting['vendor_dir'].'/mail_parse/MimeMailParser.class.php';
 		$this->parsed = new MimeMailParser;
 		$this->parsed->setText($data);
 	}

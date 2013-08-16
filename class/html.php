@@ -159,7 +159,7 @@ class html {
 		$options = [
 			'css_remote' => [],
 		];
-		require_once VENDOR_DIR .'/html_inline/vendor/autoload.php';	
+		require_once config::$setting['vendor_dir'] .'/html_inline/vendor/autoload.php';	
 		$html_doc = new \InlineStyle\InlineStyle($html);
 		$html_doc->applyStylesheet($html_doc->extractStylesheets());
 		foreach ($options['css_remote'] as $css_remote)

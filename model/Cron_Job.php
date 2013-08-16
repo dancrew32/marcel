@@ -59,7 +59,7 @@ class Cron_Job extends model {
  * STATIC
  */
 	static function seed() {
-		$scripts = glob(SCRIPT_DIR.'/cron.*.php');
+		$scripts = glob(config::$setting['script_dir'].'/cron.*.php');
 		$data = [
 			'MySQL Optimize Database' => [
 				'active'      => 0,
@@ -104,7 +104,7 @@ class Cron_Job extends model {
 	}
 
 	static function scripts() {
-		$scripts = glob(SCRIPT_DIR.'/cron.*.php');
+		$scripts = glob(config::$setting['script_dir']."/cron.*.php");
 		$remove = preg_grep('/base/', $scripts);
 		foreach ($scripts as $k => $s) {
 			if (!in_array($s, $remove)) continue;

@@ -140,10 +140,10 @@ class chat_server extends socket_server {
 
 }
 
-$echo = new chat_server(BASE_URL, '7334');
+$echo = new chat_server(config::$setting['base_url'], '7334');
 register_shutdown_function(function() {
 	db::init();
-	$echo = new chat_server(BASE_URL, '7334');
+	$echo = new chat_server(config::$setting['base_url'], '7334');
 });
 
 

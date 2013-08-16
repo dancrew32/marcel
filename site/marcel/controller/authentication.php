@@ -101,6 +101,43 @@ class controller_authentication extends controller_base {
 		app::redir(route::get('Login'));
 	}
 
+	function hybrid() {
+		die('not yet');
+		// TODO: link this shit up with API
+		$config = array(
+			"base_url" => "http://".config::$setting['base_url'],
+
+			"providers" => array ( 
+				"Twitter" => array ( 
+					"enabled" => false,
+					"keys"    => array ( "key" => "", "secret" => "" ) 
+				),
+			),
+
+			// if you want to enable logging, set 'debug_mode' to true  then provide a writable file by the web server on "debug_file"
+			"debug_mode" => false,
+
+			"debug_file" => "",
+		);
+		require_once config::$setting['vendor_dir'] .'/hybridauth/hybridauth/Hybrid/Auth.php';
+		try {
+			$k = take($_GET, 'hauth.start');
+			if ($k) {
+				pd($k);	
+			}
+			$ha = new Hybrid_Auth($config);
+
+			$li = $ha->authenticate('LinkedIn');
+			pd($li);
+			pd($_REQUEST);
+
+		} catch (Exception $e) {
+
+				pp($e);
+
+		}
+	}
+
 
 /*
  * FORMS

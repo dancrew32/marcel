@@ -1,7 +1,7 @@
 <?
-require_once VENDOR_DIR.'/mailer/class.phpmailer.php';
-//require_once VENDOR_DIR.'/mailer/class.smtp.php';
-//require_once VENDOR_DIR.'/mailer/class.pop3.php';
+require_once config::$setting['vendor_dir'].'/mailer/class.phpmailer.php';
+//require_once config::$setting['vendor_dir'].'/mailer/class.smtp.php';
+//require_once config::$setting['vendor_dir'].'/mailer/class.pop3.php';
 class mail extends PHPMailer {
 	function __construct() {
 		//$this->IsSMTP();                                      // Set mailer to use SMTP

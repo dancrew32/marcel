@@ -1,6 +1,6 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
-$output_file = TMP_DIR.'/vim-output.php';
+$output_file = config::$setting['tmp_dir'].'/vim-output.php';
 system("vim {$output_file} > `tty`"); 
 $data = file_get_contents($output_file);
 $data = preg_replace('/^.+\n/', '', $data); # remove <? 

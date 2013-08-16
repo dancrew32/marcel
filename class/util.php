@@ -2,13 +2,14 @@
 class util {
 
 	static function render($o, $p) {
-		require_once CONTROLLER_DIR.'/'.$o['c'].'.php';
+		$config = config::$setting;
+		require_once "{$config['controller_dir']}/{$o['c']}.php";
 		$c = "controller_{$o['c']}";
 		$obj = new $c($p);
 		$obj->$o['m']($p);
 		if ($obj->skip) return $obj->skip = false;
 
-		$path = VIEW_DIR."/{$o['c']}.{$o['m']}";
+		$path = "{$config['view_dir']}/{$o['c']}.{$o['m']}";
 
 		# PHP
 		$_view = "{$path}.php";
@@ -33,7 +34,6 @@ class util {
 	}
 
 	static function file_up($file, $dir=false) {
-		$dir = $dir ? $dir : UP_DIR;	
 		$path = $dir .'/'. basename($file['name']);		
 		return move_uploaded_file($file['tmp_name'], $path);
 	}
@@ -58,11 +58,12 @@ class util {
 	}
 
 	static function find_files($search='', $fuzzy=25) {
-		$it = new RecursiveDirectoryIterator(ROOT_DIR);
+		$root_dir = config::$setting['root_dir'];
+		$it = new RecursiveDirectoryIterator($root_dir);
 		$out = [];
 		$ignore = ['/tmp'];
 		foreach(new RecursiveIteratorIterator($it) as $file) {
-			$file = (str_replace(ROOT_DIR, '', (string) $file));
+			$file = (str_replace($root_dir, '', (string) $file));
 			foreach ($ignore as $ig) {
 				if (self::starts_with($file, $ig)) {
 					continue 2;
@@ -79,8 +80,9 @@ class util {
 	}
 
 	static function directory_list($directory, $parent=false) {
+		$root_dir = config::$setting['root_dir'];
 		$forbidden_files = '#(api\.php$|index\.php$)#';
-		$dir = rtrim(ROOT_DIR.$directory, '/');
+		$dir = rtrim($root_dir.$directory, '/');
 		$pattern = "{$dir}/{*,.*}";
 		$dir = glob($pattern, GLOB_BRACE|GLOB_NOSORT);
 		$count = $parent ? 1 : 2;
@@ -254,7 +256,7 @@ class util {
 	}
 
 	static function filter($value, $filter) {
-		require_once VENDOR_DIR .'/filterus/vendor/autoload.php';
+		require_once config::$setting['vendor_dir'] .'/filterus/vendor/autoload.php';
 		return \Filterus\Filter::factory($filter)->filter($value);
 	}
 

@@ -6,7 +6,7 @@ class markdown {
 			'MarkdownExtra',
 		];
 		foreach ($deps as $dep)
-			require_once VENDOR_DIR."/markdown/Michelf/{$dep}.php";
+			require_once config::$setting['vendor_dir']."/markdown/Michelf/{$dep}.php";
 	}
 
 	static function render($file) {

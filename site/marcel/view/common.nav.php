@@ -5,7 +5,7 @@
 			<?= r('common', 'nav_collapse') ?>
 
 			<a class="brand" href="/">
-				<?= APP_NAME ?>
+				<?= config::$setting['app_name'] ?>
 			</a>
 
 			<div class="nav-collapse collapse">

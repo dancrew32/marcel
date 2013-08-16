@@ -1,7 +1,7 @@
 <?
 class ansi {
 	static function to_html($ansi_text) {
-		$pre = VENDOR_DIR .'/ansi-to-html/SensioLabs/AnsiConverter';
+		$pre = config::$setting['vendor_dir'] .'/ansi-to-html/SensioLabs/AnsiConverter';
 		$deps = [
 			'AnsiToHtmlConverter.php',
 			'Theme/Theme.php',

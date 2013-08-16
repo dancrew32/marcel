@@ -29,7 +29,7 @@ class linode {
 	}
 
 	static function init() {
-		//require_once VENDOR_DIR.'/linode/Linode.php';
+		//require_once config::$setting['vendor_dir'config::$setting['vendor_dir']linode/Linode.php';
 		require_once 'Services/Linode.php';
 		$api = api::get_key('linode');
 		$key = take($api, 'key', null);

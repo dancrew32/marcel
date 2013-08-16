@@ -14,10 +14,11 @@ class controller_common extends controller_base {
 	# no view
 	function js() {
 		$jquery_version = '1.9.1';
-		$out  = '<script src="'. JS_DIR .'/loader.js"></script>';
+		$js_dir = config::$setting['js_dir'];
+		$out  = "<script src=\"{$js_dir}/loader.js\"></script>";
 		$out .= "<script>\$LAB.script('//ajax.googleapis.com/ajax/libs/jquery/{$jquery_version}/jquery.min.js')";
-		$out .= ".script('". JS_DIR ."/bootstrap.js').wait()";
-		$out .= ".script('". JS_DIR ."/class/app.js')";
+		$out .= ".script('{$js_dir}/bootstrap.js').wait()";
+		$out .= ".script('{$js_dir}/class/app.js')";
 		foreach (array_unique(app::$assets['js']) as $j) {
 			$delim = strpos($j, '?') ? '&' : '?';
 			$j = CACHE_BUST ? $j.$delim.'d='.date('U') : $j;
@@ -123,7 +124,7 @@ class controller_common extends controller_base {
 		$this->unit = "Kb";
 		$this->runtime = (round(microtime(true) - START_TIME, 4)).'s';
 		if (auth::can(['git'])) {
-			$this->git = git::open(ROOT_DIR);
+			$this->git = git::open(config::$setting['root_dir']);
 			$this->branch = $this->git->active_branch();
 			$this->branch_url = "{$this->git->github_url()}/tree/{$this->branch}";
 			$this->diff_stat = $this->git->diff_stat();

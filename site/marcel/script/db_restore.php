@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__).'/inc.php');
 
 # Find db dumps
-$databases = glob(DUMP_DIR.'/*.sql');
+$databases = glob(config::$setting['dump_dir'].'/*.sql');
 $db_count = count($databases);
 if (!$db_count)
 	return red("No databases to restore. Exiting.\n");
@@ -31,8 +31,8 @@ $restore = strtolower(gets("Are you sure you want to restore {$db_to_restore_nam
 if ($restore != 'y')
 	return yellow("Exiting. Database not restored.\n");
 
-green("Restoring ". DB_NAME ." to {$db_to_restore_name}.\n");
-$cmd = "mysql --user=". DB_USER ." --password=". DB_PASS; 
-$cmd .= " --host=". DB_HOST ." ". DB_NAME ." < '{$db_to_restore}'";
+green("Restoring ". config::$setting['db_name'] ." to {$db_to_restore_name}.\n");
+$cmd = "mysql --user=". config::$setting['db_user'] ." --password=". config::$setting['db_pass'];
+$cmd .= " --host=". config::$setting['db_host'] ." ". config::$setting['db_name'] ." < '{$db_to_restore}'";
 shell_exec($cmd);
 green("Dump Restored: {$db_to_restore_name}\n");

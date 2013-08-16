@@ -27,13 +27,13 @@ Email_Thread::create($mail_data);
 
 //print_r($mp->parts());
 
-$domain     = BASE_URL;
+$domain     = config::$setting['base_url'];
 $to_address = $thread ? $thread->from : ADMIN_EMAIL;
 $to_name    = $thread ? $thread->from_name : 'Marcel the Shell';
 
 $m = new mail;
 $m->from      = "hit-reply@{$domain}";
-$m->from_name = APP_NAME;
+$m->from_name = config::$setting['app_name'];
 $m->subject   = "Inbound message: \"{$subject}\"";
 $m->body      = r('email', 'incoming_test', $mail_data);
 

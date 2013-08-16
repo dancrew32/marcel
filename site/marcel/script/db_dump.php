@@ -1,10 +1,12 @@
 <?
 require_once(dirname(__FILE__).'/inc.php');
 
-yellow("Dumping ". DB_NAME ."\n");
-$dt = date('Y-m-d H:i:s');
-$file = DB_NAME.".{$dt}.sql";
-$cmd = "mysqldump --single-transaction --user=". DB_USER ." --password=". DB_PASS; 
-$cmd .= " --host=". DB_HOST ." ". DB_NAME ." > '". DUMP_DIR ."/{$file}'";
+$config = config::$setting;
+
+yellow("Dumping {$config['db_name']}\n");
+$dt   = date('Y-m-d H:i:s');
+$file = "{$config['db_name']}{$dt}.sql";
+$cmd  = "mysqldump --single-transaction --user={$config['db_user']} --password={$config['db_pass']}";
+$cmd .= " --host={$config['db_host']} {$config['db_name']} > '{$config['dump_dir']}/{$file}'";
 shell_exec($cmd);
-green("Dump Complete: {$file}\n");
+ok("Dump Complete: {$file}");
