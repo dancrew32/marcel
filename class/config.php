@@ -88,14 +88,16 @@ class config {
 			define('ENV', (getenv('ENV') ? getenv('ENV') : 'DEV'));
 		define('DEBUG', ENV == 'DEV');
 
+		require_once self::$setting['class_dir'].'/helper.php';
+		define('CLI', PHP_SAPI == 'cli');
+		if (CLI) 
+			require_once "{$settings['class_dir']}/cli_helper.php";
 		define('CACHE_BUST', true);
 		define('START_TIME', microtime(true));
-		define('CLI', PHP_SAPI == 'cli');
 		define('AJAX', (
 			isset($_SERVER['HTTP_X_REQUESTED_WITH']{0}) 
 			&& strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest'));
 
-		require_once self::$setting['class_dir'].'/helper.php';
 
 		# App Autoload
 		spl_autoload_register(function($class_name) {

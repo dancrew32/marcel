@@ -1,23 +1,25 @@
 <? 
-require_once "../../../class/config.php";
+$site = dirname(dirname(__FILE__));
+$root = realpath(dirname(dirname($site)));
+require_once "{$root}/class/config.php";
 
-$settings = [
+$settings = [ 
 
-	'root_dir' => realpath(dirname(dirname(dirname(dirname(__FILE__))))),
-	'site_dir' => realpath(dirname(dirname(__FILE__))),
+    'root_dir' => $root,
+    'site_dir' => realpath($site),
 
-	# APP
-	'base_url'      => "site.com",
-	'admin_email'   => "admin@example.com",
-	'app_name'      => "Marcel",
-	'salt'          => '<yourGreaterThan21CharacterSalt>',
-	'session_name'  => 'session_name',
+    # APP
+    'base_url'      => "site.com",
+    'admin_email'   => "admin@example.com",
+    'app_name'      => "Marcel",
+    'salt'          => '<yourGreaterThan21CharacterSalt>',
+    'session_name'  => 'session_name',
 
-	# DB
-	'db_user' => 'user',
-	'db_pass' => 'pass',
-	'db_host' => 'host',
-	'db_name' => 'name',
+    # DB
+    'db_user' => 'user',
+    'db_pass' => 'pass',
+    'db_host' => 'host',
+    'db_name' => 'name',
 
 ];
 

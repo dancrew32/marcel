@@ -1,10 +1,12 @@
 <? 
-require_once "../../../class/config.php";
+$site = dirname(dirname(__FILE__));
+$root = realpath(dirname(dirname($site)));
+require_once "{$root}/class/config.php";
 
 $settings = [ 
 
-    'root_dir' => realpath(dirname(dirname(dirname(dirname(__FILE__))))),
-    'site_dir' => realpath(dirname(dirname(__FILE__))),
+    'root_dir' => $root,
+    'site_dir' => realpath($site),
 
     # APP
     'base_url'      => "site.com",
